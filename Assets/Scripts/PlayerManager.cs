@@ -23,10 +23,10 @@ namespace LiteMore
 
         public static bool Startup()
         {
-            Hp = MaxHp = 1000;
+            Hp = MaxHp = 500;
             Mp = MaxMp = 100;
             Gem = 0;
-            HpAdd_ = 50;
+            HpAdd_ = 20;
             MpAdd_ = 10;
 
             GemText_ = GameObject.Find("Gem").GetComponent<Text>();
@@ -83,7 +83,7 @@ namespace LiteMore
             {
                 PlayerManager.Hp = PlayerManager.MaxHp;
             }
-            HpText_.text = $"Hp:{(int)PlayerManager.Hp}/{(int)PlayerManager.MaxHp}";
+            HpText_.text = $"Hp:{(int)PlayerManager.Hp}/{(int)PlayerManager.MaxHp}(+{HpAdd_}/s)";
             HpBar_.value = PlayerManager.Hp;
 
             if (PlayerManager.Hp < 0)
@@ -99,7 +99,7 @@ namespace LiteMore
             {
                 PlayerManager.Mp = PlayerManager.MaxMp;
             }
-            MpText_.text = $"Mp:{(int)PlayerManager.Mp}/{(int)PlayerManager.MaxMp}";
+            MpText_.text = $"Mp:{(int)PlayerManager.Mp}/{(int)PlayerManager.MaxMp}(+{MpAdd_}/s)";
             MpBar_.value = PlayerManager.Mp;
         }
     }

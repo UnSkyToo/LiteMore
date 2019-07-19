@@ -177,12 +177,12 @@ namespace LiteMore
 
         private static void CreateSkill()
         {
-            SkillManager.AddSkill("Textures/skill1", 5, 40).OnClick += () =>
+            SkillManager.AddSkill("Textures/skill1", "镭射激光", 5, 40).OnClick += () =>
             {
-                BulletManager.AddLaserBullet(new Vector2(Screen.width / 2 - 100, 0));
+                BulletManager.AddLaserBullet(MapManager.BuildPosition);
             };
 
-            SkillManager.AddSkill("Textures/skill2", 8, 30).OnClick += () =>
+            SkillManager.AddSkill("Textures/skill2", "自动弹幕", 8, 30).OnClick += () =>
             {
                 /*for (var Index = 0; Index < 200; ++Index)
                 {
@@ -211,13 +211,22 @@ namespace LiteMore
                 });
             };
 
-            SkillManager.AddSkill("Textures/skill3", 3, 10).OnClick += () =>
+            SkillManager.AddSkill("Textures/skill3", "放马过来", 3, 10).OnClick += () =>
             {
                 for (var Index = 0; Index < 100; ++Index)
                 {
                     var npc = NpcManager.AddNpc(new Vector2(Random.Range(-Screen.width / 2.0f, -100), Random.Range(-Screen.height / 2, Screen.height / 2)));
                     npc.Speed = Random.Range(80, 180);
                     npc.MoveTo(new Vector2(Screen.width / 2.0f - 100, Random.Range(-100, 100)));
+                }
+            };
+
+            SkillManager.AddSkill("Textures/bossair1", "天降正义", 5, 30).OnClick += () =>
+            {
+                var Target = NpcManager.GetRandomNpc();
+                if (Target != null)
+                {
+                    BulletManager.AddBombBullet(Target.Position + new Vector2(0, 300));
                 }
             };
         }

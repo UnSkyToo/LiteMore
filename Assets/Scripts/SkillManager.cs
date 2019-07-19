@@ -11,6 +11,7 @@ namespace LiteMore
         private readonly Transform Transform_;
         private Image Mask_;
         private GameObject BG_;
+        private Text NameText_;
         private Text CDText_;
         private Text CostText_;
 
@@ -20,7 +21,7 @@ namespace LiteMore
 
         private readonly int Cost_;
 
-        public Skill(Transform Trans, int CD, int Cost)
+        public Skill(Transform Trans, string Name, int CD, int Cost)
         {
             Transform_ = Trans;
             MaxTime_ = CD;
@@ -32,6 +33,8 @@ namespace LiteMore
             BG_ = Transform_.Find("BG").gameObject;
             BG_.SetActive(false);
             Mask_ = Transform_.Find("Mask").GetComponent<Image>();
+            NameText_ = Transform_.Find("Name").GetComponent<Text>();
+            NameText_.text = Name;
             CDText_ = Transform_.Find("CD").GetComponent<Text>();
             CostText_ = Transform_.Find("Cost").GetComponent<Text>();
             CostText_.text = $"Cost:{Cost}";
@@ -151,14 +154,14 @@ namespace LiteMore
             }
         }
 
-        public static Skill AddSkill(string ResName, int CD, int Cost)
+        public static Skill AddSkill(string ResName, string Name, int CD, int Cost)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
             Obj.transform.SetParent(SkillRoot_, false);
             Obj.GetComponent<Image>().sprite = Resources.Load<Sprite>(ResName);
             Obj.transform.Find("Mask").GetComponent<Image>().sprite = Resources.Load<Sprite>(ResName);
 
-            var Entity = new Skill(Obj.transform, CD, Cost);
+            var Entity = new Skill(Obj.transform, Name, CD, Cost);
             SkillList_.Add(Entity);
 
             return Entity;

@@ -40,6 +40,8 @@ namespace LiteMore
 
         public override void Tick(float DeltaTime)
         {
+            base.Tick(DeltaTime);
+
             PreAngle_ = CurAngle_;
             CurAngle_ += StepAngle_ * DeltaTime;
             if (CurAngle_ >= EndAngle_)
@@ -52,7 +54,7 @@ namespace LiteMore
             var Y = Mathf.Cos(Mathf.Deg2Rad * CurAngle_) * Radius_;
 
             var TargetPos = new Vector2(X, Y);
-            LineCaller_.DrawLine(new LineCallerPoint(Vector2.zero, Color.green, 1), new LineCallerPoint(TargetPos, Color.green, 10));
+            LineCaller_.DrawLine(new LineCallerPoint(Vector2.zero, Color.green, 3), new LineCallerPoint(TargetPos, Color.green, 10));
 
             CheckHit();
         }
@@ -77,6 +79,76 @@ namespace LiteMore
                 {
                     Entity.OnBulletHit(this);
                 }
+            }
+        }
+    }
+
+    public class BombBullet : BulletBase
+    {
+        private float Distance_;
+        private float MaxDistance_;
+        private float Speed_;
+        private Sfx BombSfx_;
+        private Vector2 OriginPos_;
+        private bool IsBomb_;
+        private float Radius_;
+
+        public BombBullet(Transform Trans)
+            : base(Trans)
+        {
+            Damage = 10;
+
+            MaxDistance_ = 300;
+            Distance_ = 0;
+            Speed_ = 200;
+            OriginPos_ = Trans.localPosition;
+            IsBomb_ = false;
+
+            Radius_ = 250;
+        }
+
+        public override void Tick(float DeltaTime)
+        {
+            base.Tick(DeltaTime);
+
+            if (IsBomb_)
+            {
+                if (BombSfx_.IsEnd())
+                {
+                    IsAlive = false;
+                }
+                return;
+            }
+
+            Distance_ += Speed_ * DeltaTime;
+            if (Distance_ >= MaxDistance_)
+            {
+                Distance_ = MaxDistance_;
+                Bomb();
+            }
+
+            Position = OriginPos_ - new Vector2(0, Distance_);
+        }
+
+        private void Bomb()
+        {
+            IsBomb_ = true;
+            BombSfx_ = SfxManager.AddSfx("Prefabs/BombSfx", Position);
+
+            foreach (var Entity in NpcManager.GetNpcList())
+            {
+                if (Entity.Hp <= 0 || Entity.ForecastHp <= 0)
+                {
+                    continue;
+                }
+
+                var TargetPos = Entity.Position;
+                if (Vector2.Distance(TargetPos, Position) > Radius_)
+                {
+                    continue;
+                }
+
+                Entity.OnBulletHit(this);
             }
         }
     }
@@ -225,6 +297,20 @@ namespace LiteMore
             Obj.transform.localPosition = Position;
 
             var Entity = new LaserBullet(Obj.transform);
+            Entity.Create();
+            BulletList_.Add(Entity);
+            Entity.Position = Position;
+
+            return Entity;
+        }
+
+        public static BombBullet AddBombBullet(Vector2 Position)
+        {
+            var Obj = Object.Instantiate(Resources.Load<GameObject>("Prefabs/bossair1"));
+            Obj.transform.SetParent(BulletRoot_, false);
+            Obj.transform.localPosition = Position;
+
+            var Entity = new BombBullet(Obj.transform);
             Entity.Create();
             BulletList_.Add(Entity);
             Entity.Position = Position;
