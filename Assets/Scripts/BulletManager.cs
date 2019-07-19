@@ -163,7 +163,7 @@ namespace LiteMore
     {
         private static Transform BulletRoot_;
         private static GameObject ModelPrefab_;
-        private static List<BulletBase> BulletList_;
+        private static readonly List<BulletBase> BulletList_ = new List<BulletBase>();
 
         public static bool Startup()
         {
@@ -176,7 +176,7 @@ namespace LiteMore
                 return false;
             }
 
-            BulletList_ = new List<BulletBase>();
+            BulletList_.Clear();
 
             return true;
         }

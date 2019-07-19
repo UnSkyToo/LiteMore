@@ -116,7 +116,7 @@ namespace LiteMore
     {
         private static Transform SkillRoot_;
         private static GameObject ModelPrefab_;
-        private static List<Skill> SkillList_;
+        private static readonly List<Skill> SkillList_ = new List<Skill>();
 
         public static bool Startup()
         {
@@ -129,7 +129,7 @@ namespace LiteMore
                 return false;
             }
 
-            SkillList_ = new List<Skill>();
+            SkillList_.Clear();
 
             return true;
         }

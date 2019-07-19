@@ -15,7 +15,7 @@ namespace LiteMore
 
             try
             {
-                Debug.Assert(GameManager.Startup());
+                GameManager.Startup();
             }
             catch (Exception Ex)
             {

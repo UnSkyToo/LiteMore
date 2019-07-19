@@ -412,7 +412,7 @@ namespace LiteMore
     {
         private static Transform NpcRoot_;
         private static GameObject ModelPrefab_;
-        private static List<Npc> NpcList_;
+        private static readonly List<Npc> NpcList_ = new List<Npc>();
 
         public static bool Startup()
         {
@@ -425,7 +425,7 @@ namespace LiteMore
                 return false;
             }
 
-            NpcList_ = new List<Npc>();
+            NpcList_.Clear();
 
             return true;
         }

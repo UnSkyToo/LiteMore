@@ -198,11 +198,11 @@ namespace LiteMore
 
     public static class EmitterManager
     {
-        private static List<EmitterBase> EmitterList_;
+        private static readonly List<EmitterBase> EmitterList_ = new List<EmitterBase>();
 
         public static bool Startup()
         {
-            EmitterList_ = new List<EmitterBase>();
+            EmitterList_.Clear();
 
             return true;
         }

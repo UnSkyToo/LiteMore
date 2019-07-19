@@ -57,12 +57,12 @@ namespace LiteMore
     public static class SfxManager
     {
         private static Transform SfxRoot_;
-        private static List<Sfx> SfxList_;
+        private static readonly List<Sfx> SfxList_ = new List<Sfx>();
 
         public static bool Startup()
         {
             SfxRoot_ = GameObject.Find("Sfx").transform;
-            SfxList_ = new List<Sfx>();
+            SfxList_.Clear();
 
             return true;
         }
