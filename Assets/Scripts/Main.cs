@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiteMore.Combat.Bullet;
+using LiteMore.Combat.Emitter;
+using LiteMore.Combat.Npc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,9 +17,12 @@ namespace LiteMore
 
             try
             {
-                GameManager.Startup();
+                if (!GameManager.Startup())
+                {
+                    Debug.LogError("GameManager Startup Failed");
+                }
             }
-            catch (Exception Ex)
+            catch (System.Exception Ex)
             {
                 Debug.LogError($"{Ex.Message}\n{Ex.StackTrace}");
             }
@@ -29,7 +34,7 @@ namespace LiteMore
             {
                 GameManager.Tick(Time.deltaTime);
             }
-            catch (Exception Ex)
+            catch (System.Exception Ex)
             {
                 Debug.LogError($"{Ex.Message}\n{Ex.StackTrace}");
             }
@@ -53,7 +58,7 @@ namespace LiteMore
             {
                 GameManager.Shutdown();
             }
-            catch (Exception Ex)
+            catch (System.Exception Ex)
             {
                 Debug.LogError($"{Ex.Message}\n{Ex.StackTrace}");
             }

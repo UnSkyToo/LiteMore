@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace LiteMore.Extend
@@ -13,7 +14,8 @@ namespace LiteMore.Extend
 
     public class UIEventTriggerListener : EventTrigger
     {
-        private readonly Action<UnityEngine.GameObject>[] EventCallback_ = new Action<UnityEngine.GameObject>[(int)UIEventType.Count];
+        private readonly Action<UnityEngine.GameObject, Vector2>[] EventCallback_ = new Action<UnityEngine.GameObject, Vector2>[(int)UIEventType.Count];
+        private static readonly RectTransform RootCanvas_ = GameObject.Find("Canvas").GetComponent<RectTransform>();
 
         public static UIEventTriggerListener Get(UnityEngine.Transform Obj)
         {
@@ -22,6 +24,8 @@ namespace LiteMore.Extend
             {
                 Listener = Obj.gameObject.AddComponent<UIEventTriggerListener>();
             }
+
+            Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = true;
             return Listener;
         }
 
@@ -30,16 +34,17 @@ namespace LiteMore.Extend
             var Listener = Obj.GetComponent<UIEventTriggerListener>();
             if (Listener != null)
             {
+                Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = false;
                 UnityEngine.Object.DestroyImmediate(Listener);
             }
         }
 
-        public void AddCallback(UIEventType Type, Action<UnityEngine.GameObject> Callback)
+        public void AddCallback(UIEventType Type, Action<UnityEngine.GameObject, Vector2> Callback)
         {
             EventCallback_[(int)Type] += Callback;
         }
 
-        public void RemoveCallback(UIEventType Type, Action<UnityEngine.GameObject> Callback)
+        public void RemoveCallback(UIEventType Type, Action<UnityEngine.GameObject, Vector2> Callback)
         {
             if (Callback == null)
             {
@@ -53,18 +58,20 @@ namespace LiteMore.Extend
 
         public override void OnPointerClick(PointerEventData EventData)
         {
-            EventCallback_[(int)UIEventType.Click]?.Invoke(EventData.pointerPress);
-
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, EventData.position, Camera.main, out Vector2 Pos);
+            EventCallback_[(int)UIEventType.Click]?.Invoke(EventData.pointerPress, Pos);
         }
 
         public override void OnPointerDown(PointerEventData EventData)
         {
-            EventCallback_[(int)UIEventType.Down]?.Invoke(EventData.pointerPress);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, EventData.position, Camera.main, out Vector2 Pos);
+            EventCallback_[(int)UIEventType.Down]?.Invoke(EventData.pointerPress, Pos);
         }
 
         public override void OnPointerUp(PointerEventData EventData)
         {
-            EventCallback_[(int)UIEventType.Up]?.Invoke(EventData.pointerPress);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, EventData.position, Camera.main, out Vector2 Pos);
+            EventCallback_[(int)UIEventType.Up]?.Invoke(EventData.pointerPress, Pos);
         }
     }
 }

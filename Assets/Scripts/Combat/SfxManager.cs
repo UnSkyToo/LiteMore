@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace LiteMore
+namespace LiteMore.Combat
 {
     public class Sfx : EntityBase
     {

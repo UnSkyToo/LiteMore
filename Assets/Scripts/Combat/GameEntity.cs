@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LiteMore
+namespace LiteMore.Combat
 {
     public abstract class EntityBase
     {
@@ -49,7 +49,6 @@ namespace LiteMore
         }
 
         private Transform Transform_;
-        protected Animator Animator_;
 
         protected GameEntity(Transform Trans)
             : base()
@@ -59,8 +58,6 @@ namespace LiteMore
 
             Scale = Vector2.one;
             Rotation = Quaternion.identity;
-
-            Animator_ = Trans.GetComponent<Animator>();
         }
 
         public override void Tick(float DeltaTime)

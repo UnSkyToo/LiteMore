@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using LiteMore.Extend;
+using LiteMore.Helper;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace LiteMore
+namespace LiteMore.Combat
 {
     public class Skill
     {
         public event System.Action OnClick;
+
+        public string Tips { get; set; }
 
         private readonly Transform Transform_;
         private Image Mask_;
@@ -28,6 +31,7 @@ namespace LiteMore
             MaxTime_ = CD;
             Time_ = MaxTime_;
             IsCD_ = false;
+            Tips = string.Empty;
 
             Cost_ = Cost;
 
@@ -42,10 +46,12 @@ namespace LiteMore
 
             ClearCD();
 
-            UIEventTriggerListener.Get(Transform_).AddCallback(UIEventType.Click, (Obj) =>
+            UIEventTriggerListener.Get(Transform_).AddCallback(UIEventType.Click, (Obj, Pos) =>
             {
                 Use();
             });
+
+            UIHelper.AddTips(Transform_, () => Tips);
         }
 
         public void Destroy()
@@ -129,7 +135,7 @@ namespace LiteMore
             ModelPrefab_ = Resources.Load<GameObject>("Prefabs/SkillIcon");
             if (ModelPrefab_ == null)
             {
-                Debug.Log("SkillManager : null model prefab");
+                Debug.LogError("SkillManager : null model prefab");
                 return false;
             }
 

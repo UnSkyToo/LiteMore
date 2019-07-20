@@ -1,4 +1,11 @@
-﻿using LiteMore.Extend;
+﻿using LiteMore.Combat;
+using LiteMore.Combat.Bullet;
+using LiteMore.Combat.Emitter;
+using LiteMore.Combat.Npc;
+using LiteMore.Helper;
+using LiteMore.Motion;
+using LiteMore.UI;
+using LiteMore.UI.Logic;
 using UnityEngine;
 
 namespace LiteMore
@@ -7,46 +14,35 @@ namespace LiteMore
     {
         public static bool IsPause { get; set; } = false;
 
-        private static GameObject GameOverObj_;
+        private static float EnterBackgroundTime_ = 0.0f;
 
         public static bool Startup()
         {
-            EventManager.Startup();
-            SfxManager.Startup();
-            MapManager.Startup();
-            NpcManager.Startup();
-            BulletManager.Startup();
-            EmitterManager.Startup();
-            SkillManager.Startup();
-            PlayerManager.Startup();
+            IsPause = true;
 
-            GameOverObj_ = GameObject.Find("UI").transform.Find("GameOver").gameObject;
-            GameOverObj_.SetActive(false);
-
-            UIEventTriggerListener.Get(GameOverObj_.transform.Find("BtnRestart")).AddCallback(UIEventType.Click,
-                (Obj) =>
-                {
-                    Restart();
-                });
+            if (!EventManager.Startup()
+                || !MotionManager.Startup()
+                || !UIManager.Startup()
+                || !CombatManager.Startup()
+                || !PlayerManager.Startup())
+            {
+                return false;
+            }
 
             CreateEmitter();
             CreateSkill();
 
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
             return true;
         }
 
         public static void Shutdown()
         {
-            UIEventTriggerListener.Remove(GameOverObj_.transform.Find("BtnRestart"));
-
             PlayerManager.Shutdown();
-            SkillManager.Shutdown();
-            EmitterManager.Shutdown();
-            BulletManager.Shutdown();
-            NpcManager.Shutdown();
-            MapManager.Shutdown();
-            SfxManager.Shutdown();
+            CombatManager.Shutdown();
+            UIManager.Shutdown();
+            MotionManager.Shutdown();
             EventManager.Shutdown();
 
             Resources.UnloadUnusedAssets();
@@ -61,36 +57,41 @@ namespace LiteMore
                 return;
             }
 
-            SfxManager.Tick(DeltaTime);
-            MapManager.Tick(DeltaTime);
-            NpcManager.Tick(DeltaTime);
-            BulletManager.Tick(DeltaTime);
-            EmitterManager.Tick(DeltaTime);
-            SkillManager.Tick(DeltaTime);
+            MotionManager.Tick(DeltaTime);
+            UIManager.Tick(DeltaTime);
+            CombatManager.Tick(DeltaTime);
             PlayerManager.Tick(DeltaTime);
         }
 
         public static void Restart()
         {
+            UnityHelper.ClearLog();
             Shutdown();
-            Startup();
+            IsPause = !Startup();
         }
 
         public static void OnEnterBackground()
         {
+            EnterBackgroundTime_ = Time.realtimeSinceStartup;
             IsPause = true;
         }
 
         public static void OnEnterForeground()
         {
+            if (Time.realtimeSinceStartup - EnterBackgroundTime_ >= Configure.EnterBackgroundMaxTime)
+            {
+                Restart();
+                return;
+            }
+
+            EnterBackgroundTime_ = Time.realtimeSinceStartup;
             IsPause = false;
         }
 
         public static void GameOver()
         {
             IsPause = true;
-            GameOverObj_.SetActive(true);
-            GameOverObj_.transform.SetAsLastSibling();
+            UIManager.OpenUI<GameOverUI>();
         }
 
         private static void CreateEmitter()
@@ -177,25 +178,16 @@ namespace LiteMore
 
         private static void CreateSkill()
         {
-            SkillManager.AddSkill("Textures/skill1", "镭射激光", 5, 40).OnClick += () =>
+            var Skill1 = SkillManager.AddSkill("Textures/skill1", "镭射激光", 5, 40);
+            Skill1.OnClick += () =>
             {
                 BulletManager.AddLaserBullet(MapManager.BuildPosition);
             };
+            Skill1.Tips = "<color=#ffffff><size=30>围绕核心旋转激光180°,伤害100</size></color>";
 
-            SkillManager.AddSkill("Textures/skill2", "自动弹幕", 8, 30).OnClick += () =>
+            var Skill2 = SkillManager.AddSkill("Textures/skill2", "自动弹幕", 8, 30);
+            Skill2.OnClick += () =>
             {
-                /*for (var Index = 0; Index < 200; ++Index)
-                {
-                    var Target = NpcManager.GetRandomNpc();
-                    if (Target != null)
-                    {
-                        var bullet = BulletManager.AddBullet("Blue", new Vector2(Screen.width / 2 - 100, 0));
-                        bullet.Speed = Random.Range(1000, 2000);
-                        bullet.Damage = 1;
-                        bullet.Attack(Target);
-                    }
-                }*/
-
                 EmitterManager.AddEmitter(new BulletNormalEmitter
                 {
                     TriggerCount = 10,
@@ -210,8 +202,10 @@ namespace LiteMore
                     ResName = "Blue",
                 });
             };
+            Skill2.Tips = "<color=#ffffff><size=30>布置一个自动发射的弹幕\n持续5秒,每次发射100个伤害\n为3-5点的子弹</size></color>";
 
-            SkillManager.AddSkill("Textures/skill3", "放马过来", 3, 10).OnClick += () =>
+            var Skill3 = SkillManager.AddSkill("Textures/skill3", "放马过来", 3, 10);
+            Skill3.OnClick += () =>
             {
                 for (var Index = 0; Index < 100; ++Index)
                 {
@@ -220,15 +214,18 @@ namespace LiteMore
                     npc.MoveTo(new Vector2(Screen.width / 2.0f - 100, Random.Range(-100, 100)));
                 }
             };
+            Skill3.Tips = "<color=#ffffff><size=30>召唤100个敌方</size></color>";
 
-            SkillManager.AddSkill("Textures/bossair1", "天降正义", 5, 30).OnClick += () =>
+            var Skill4 = SkillManager.AddSkill("Textures/skill4", "天降正义", 5, 30);
+            Skill4.OnClick += () =>
             {
                 var Target = NpcManager.GetRandomNpc();
                 if (Target != null)
                 {
-                    BulletManager.AddBombBullet(Target.Position + new Vector2(0, 300));
+                    BulletManager.AddBombBullet(Target.Position);
                 }
             };
+            Skill4.Tips = "<color=#ffffff><size=30>召唤一颗从天而降的核弹\n速度较慢但伤害很高(500)\n伤害半径250</size></color>";
         }
     }
 }

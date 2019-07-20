@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LiteMore
+namespace LiteMore.Combat
 {
     public static class MapManager
     {
