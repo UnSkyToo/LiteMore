@@ -24,9 +24,11 @@ namespace LiteMore.Helper
         public static void ClearLog()
         {
 #if UNITY_EDITOR
-            var LogEntries = Type.GetType("UnityEditorInternal.LogEntries,UnityEditor.dll");
+            /*var LogEntries = Type.GetType("UnityEditorInternal.LogEntries,UnityEditor.dll");
             var ClearMethod = LogEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-            ClearMethod.Invoke(null, null);
+            ClearMethod.Invoke(null, null);*/
+
+            Debug.ClearDeveloperConsole();
 #endif
         }
 

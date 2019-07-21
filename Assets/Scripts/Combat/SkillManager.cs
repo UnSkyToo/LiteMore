@@ -6,6 +6,20 @@ using UnityEngine.UI;
 
 namespace LiteMore.Combat
 {
+    public struct SkillDescriptor
+    {
+        public string Name { get; }
+        public float CD { get; }
+        public int Cost { get; }
+
+        public SkillDescriptor(string Name, float CD, int Cost)
+        {
+            this.Name = Name;
+            this.CD = CD;
+            this.Cost = Cost;
+        }
+    }
+
     public class Skill
     {
         public event System.Action OnClick;
@@ -15,34 +29,26 @@ namespace LiteMore.Combat
         private readonly Transform Transform_;
         private Image Mask_;
         private GameObject BG_;
-        private Text NameText_;
         private Text CDText_;
-        private Text CostText_;
 
         private float Time_;
-        private readonly float MaxTime_;
         private bool IsCD_;
 
-        private readonly int Cost_;
+        private readonly SkillDescriptor Desc_;
 
-        public Skill(Transform Trans, string Name, int CD, int Cost)
+        public Skill(Transform Trans, SkillDescriptor Desc)
         {
             Transform_ = Trans;
-            MaxTime_ = CD;
-            Time_ = MaxTime_;
+            Time_ = Desc_.CD;
             IsCD_ = false;
-            Tips = string.Empty;
+            Tips = TipsHelper.Skill(Desc);
 
-            Cost_ = Cost;
+            Desc_ = Desc;
 
             BG_ = Transform_.Find("BG").gameObject;
             BG_.SetActive(false);
             Mask_ = Transform_.Find("Mask").GetComponent<Image>();
-            NameText_ = Transform_.Find("Name").GetComponent<Text>();
-            NameText_.text = Name;
             CDText_ = Transform_.Find("CD").GetComponent<Text>();
-            CostText_ = Transform_.Find("Cost").GetComponent<Text>();
-            CostText_.text = $"Cost:{Cost}";
 
             ClearCD();
 
@@ -62,7 +68,7 @@ namespace LiteMore.Combat
 
         public void Tick(float DeltaTime)
         {
-            if (PlayerManager.Mp < Cost_)
+            if (PlayerManager.Mp < Desc_.Cost)
             {
                 BG_.SetActive(true);
             }
@@ -83,14 +89,14 @@ namespace LiteMore.Combat
                 ClearCD();
             }
 
-            Mask_.fillAmount = (1 - Time_ / MaxTime_);
+            Mask_.fillAmount = (1 - Time_ / Desc_.CD);
             CDText_.text = $"{Time_:0.0}s";
         }
 
         public void StartCD()
         {
             IsCD_ = true;
-            Time_ = MaxTime_;
+            Time_ = Desc_.CD;
             CDText_.gameObject.SetActive(true);
             CDText_.text = $"{Time_:0.0}s";
             Mask_.fillAmount = 0;
@@ -110,13 +116,13 @@ namespace LiteMore.Combat
                 return;
             }
 
-            if (PlayerManager.Mp < Cost_)
+            if (PlayerManager.Mp < Desc_.Cost)
             {
                 return;
             }
 
             StartCD();
-            PlayerManager.AddMp(-Cost_);
+            PlayerManager.AddMp(-Desc_.Cost);
             OnClick?.Invoke();
         }
     }
@@ -161,14 +167,14 @@ namespace LiteMore.Combat
             }
         }
 
-        public static Skill AddSkill(string ResName, string Name, int CD, int Cost)
+        public static Skill AddSkill(string ResName, SkillDescriptor Desc)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
             Obj.transform.SetParent(SkillRoot_, false);
             Obj.GetComponent<Image>().sprite = Resources.Load<Sprite>(ResName);
             Obj.transform.Find("Mask").GetComponent<Image>().sprite = Resources.Load<Sprite>(ResName);
 
-            var Entity = new Skill(Obj.transform, Name, CD, Cost);
+            var Entity = new Skill(Obj.transform, Desc);
             SkillList_.Add(Entity);
 
             return Entity;

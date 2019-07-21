@@ -20,18 +20,19 @@ namespace LiteMore.UI.Logic
             Text_ = FindComponent<Text>("Text");
             Text_.text = string.Empty;
 
-            TextRectTransform_ = Text_.GetComponent<RectTransform>();
+            TextRectTransform_ = Text_.gameObject.GetComponent<RectTransform>();
 
             FlushData((string)Params[0], (Vector2)Params[1]);
         }
 
         private void FlushData(string Msg, Vector2 Position)
         {
-            // TODO: 第二次复制无法计算正确的size
+            // TODO: 第二次赋值无法计算正确的size，采用不缓存UI的方案
 
             Text_.text = Msg;
             LayoutRebuilder.ForceRebuildLayoutImmediate(TextRectTransform_);
-            UIRectTransform.sizeDelta = new Vector2(8 * 2 + Text_.preferredWidth, 5 * 2 + Text_.preferredHeight);
+            UIRectTransform.sizeDelta = new Vector2(8 * 2 + Text_.preferredWidth, 8 * 2 + Text_.preferredHeight);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(UIRectTransform);
 
             Position -= (UIRectTransform.sizeDelta / 2 + new Vector2(5, 5));
 

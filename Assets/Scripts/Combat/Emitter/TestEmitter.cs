@@ -56,7 +56,7 @@ namespace LiteMore.Combat.Emitter
             var Entity = NpcManager.AddNpc(Pos);
             Entity.Speed = SpeedAttr.Get();
             Entity.SetHp(HpAttr.Get());
-            Entity.MoveTo(new Vector2(Screen.width / 2.0f - 100, Random.Range(-100, 100)));
+            Entity.MoveTo(new Vector2(Configure.WindowRight - 100, Random.Range(-100, 100)));
         }
     }
 

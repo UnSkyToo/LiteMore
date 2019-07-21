@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using LiteMore.UI.Logic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LiteMore
 {
@@ -15,5 +12,7 @@ namespace LiteMore
         public const int WindowBottom = -320;
         public static readonly Vector2 WindowSize = new Vector2(WindowWidth, WindowHeight);
         public const float EnterBackgroundMaxTime = 90.0f;
+
+        public const float TipsHoldTime = 0.3f;
     }
 }

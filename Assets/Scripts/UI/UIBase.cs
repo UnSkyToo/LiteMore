@@ -18,6 +18,7 @@ namespace LiteMore.UI
         public uint ID { get; }
         public string Name { get; set; }
         public string Path { get; set; }
+        public bool Cached { get; set; }
         public Transform UITransform { get; set; }
         public RectTransform UIRectTransform { get; set; }
         public int DepthIndex { get; protected set; }
@@ -29,6 +30,7 @@ namespace LiteMore.UI
         {
             ID = IDGenerator.Get();
             Name = GetType().Name;
+            Cached = true;
             UITransform = null;
             UIRectTransform = null;
             DepthIndex = 0;

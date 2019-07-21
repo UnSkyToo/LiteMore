@@ -10,9 +10,9 @@ namespace LiteMore.Combat
         {
             var Map = GameObject.Find("Map");
             var Tex = Resources.Load<Sprite>("Textures/m");
-            for (var Y = -5; Y < 5; ++Y)
+            for (var Y = -2; Y <= 2; ++Y)
             {
-                for (var X = -5; X < 5; ++X)
+                for (var X = -3; X <= 3; ++X)
                 {
                     var Obj = new GameObject($"m({X},{Y})");
                     Obj.layer = LayerMask.NameToLayer("UI");
@@ -23,7 +23,7 @@ namespace LiteMore.Combat
                 }
             }
 
-            BuildPosition = new Vector2(Screen.width / 2.0f - 262.0f / 2.0f, 233.0f / 2.0f - 20);
+            BuildPosition = new Vector2(Configure.WindowRight - 262.0f / 2.0f, 233.0f / 2.0f - 20);
 
             var Build = new GameObject("build");
             Build.layer = LayerMask.NameToLayer("UI");
@@ -31,7 +31,7 @@ namespace LiteMore.Combat
             Build.GetComponent<SpriteRenderer>().sortingOrder = -5;
             Build.GetComponent<SpriteRenderer>().flipX = true;
             Build.transform.SetParent(Map.transform, false);
-            Build.transform.localPosition = new Vector3(Screen.width / 2.0f - 262.0f / 2.0f, 0);
+            Build.transform.localPosition = new Vector3(Configure.WindowRight - 262.0f / 2.0f, 0);
 
             return true;
         }

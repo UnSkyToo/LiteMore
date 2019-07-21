@@ -78,12 +78,17 @@ namespace LiteMore
 
         public static void AddHp(float Value)
         {
-            if (Hp >= MaxHp)
+            if (Hp + Value > MaxHp)
+            {
+                Value = MaxHp - Hp;
+            }
+
+            if (Mathf.Approximately(Value, 0))
             {
                 return;
             }
 
-            Hp = Mathf.Clamp(Hp + Value, 0, MaxHp);
+            Hp += Value;
             HpBar_.value = Hp;
             EventManager.Send<PlayerHpChangeEvent>();
 
@@ -95,12 +100,17 @@ namespace LiteMore
 
         public static void AddMp(float Value)
         {
-            if (Mp >= MaxMp)
+            if (Mp + Value > MaxMp)
+            {
+                Value = MaxMp - Mp;
+            }
+
+            if (Mathf.Approximately(Value, 0))
             {
                 return;
             }
 
-            Mp = Mathf.Clamp(Mp + Value, 0, MaxMp);
+            Mp += Value;
             MpBar_.value = Mp;
             EventManager.Send<PlayerMpChangeEvent>();
         }

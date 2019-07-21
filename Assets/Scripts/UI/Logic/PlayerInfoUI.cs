@@ -22,7 +22,13 @@ namespace LiteMore.UI.Logic
             MpText_ = FindComponent<Text>("BG/Mp");
             GemText_ = FindComponent<Text>("BG/Gem");
 
-            var TipsMsg = "<color=#ff0000><size=30>生命值归零游戏结束</size></color>\n" +
+            OnPlayerHpChangeEvent(null);
+            OnPlayerMpChangeEvent(null);
+            OnPlayerGemChangeEvent(null);
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(UIRectTransform);
+
+            var TipsMsg = $"<color=#ff0000><size=30>生命值归零游戏结束</size></color>\n" +
                           "<color=#00ff00><size=30>魔法值用于释放技能</size></color>\n" +
                           "<color=#ffff00><size=30>宝石是通用货币</size></color>";
 
@@ -42,17 +48,17 @@ namespace LiteMore.UI.Logic
 
         private void OnPlayerHpChangeEvent(PlayerHpChangeEvent Event)
         {
-            HpText_.text = $"Hp:{(int)PlayerManager.Hp}/{(int)PlayerManager.MaxHp}(+{PlayerManager.HpAdd}/s)";
+            HpText_.text = $"{"Hp".Localize()}:{(int)PlayerManager.Hp}/{(int)PlayerManager.MaxHp}(+{PlayerManager.HpAdd}/s)";
         }
 
         private void OnPlayerMpChangeEvent(PlayerMpChangeEvent Event)
         {
-            MpText_.text = $"Mp:{(int)PlayerManager.Mp}/{(int)PlayerManager.MaxMp}(+{PlayerManager.MpAdd}/s)";
+            MpText_.text = $"{"Mp".Localize()}:{(int)PlayerManager.Mp}/{(int)PlayerManager.MaxMp}(+{PlayerManager.MpAdd}/s)";
         }
 
         private void OnPlayerGemChangeEvent(PlayerGemChangeEvent Event)
         {
-            GemText_.text = $"Gem:{PlayerManager.Gem}";
+            GemText_.text = $"{"Gem".Localize()}:{PlayerManager.Gem}";
         }
     }
 }

@@ -78,9 +78,9 @@ namespace LiteMore
 
         void OnGUI()
         {
-            GUI.Label(new Rect(5, 100, 0, 40), $"Npc Count : {NpcManager.GetCount()}", Style_);
+            /*GUI.Label(new Rect(5, 100, 0, 40), $"Npc Count : {NpcManager.GetCount()}", Style_);
             GUI.Label(new Rect(5, 150, 0, 40), $"Bullet Count : {BulletManager.GetCount()}", Style_);
-            GUI.Label(new Rect(5, 200, 0, 40), $"Emitter Count : {EmitterManager.GetCount()}", Style_);
+            GUI.Label(new Rect(5, 200, 0, 40), $"Emitter Count : {EmitterManager.GetCount()}", Style_);*/
         }
 
 #if UNITY_EDITOR

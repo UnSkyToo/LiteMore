@@ -185,6 +185,7 @@ namespace LiteMore.Helper
 
         public static void AddTips(Transform Obj, Func<string> GetFunc)
         {
+            var TimerID = 0u;
             AddEvent(Obj, (_, Pos) =>
             {
                 var Msg = GetFunc?.Invoke() ?? string.Empty;
@@ -192,12 +193,12 @@ namespace LiteMore.Helper
                 {
                     return;
                 }
-
-                UIManager.OpenUI<TipsUI>(Msg, Pos);
+                TimerID = TimerManager.AddTimer(Configure.TipsHoldTime, () => { UIManager.OpenUI<TipsUI>(Msg, Pos); }, 1);
             }, UIEventType.Down);
 
             AddEvent(Obj, (_, Pos) =>
             {
+                TimerManager.StopTimer(TimerID);
                 UIManager.CloseUI<TipsUI>();
             }, UIEventType.Up);
         }

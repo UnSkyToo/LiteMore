@@ -14,6 +14,8 @@ namespace LiteMore.Combat.Bullet
         private bool IsBomb_;
         private float Radius_;
 
+        private GameObject RadiusObj_;
+
         public BombBullet(Transform Trans, Vector2 TargetPos)
             : base(BulletType.Bomb, Trans)
         {
@@ -27,6 +29,20 @@ namespace LiteMore.Combat.Bullet
             IsBomb_ = false;
 
             Radius_ = 250;
+
+            RadiusObj_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/bv0"));
+            RadiusObj_.transform.SetParent(GameObject.Find("Sfx").transform, false);
+            RadiusObj_.transform.localPosition = TargetPos;
+            var SR = RadiusObj_.GetComponent<SpriteRenderer>();
+            SR.color = Color.red;
+            SR.size = new Vector2(Radius_ * 2, Radius_ * 2);
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+
+            Object.Destroy(RadiusObj_);
         }
 
         public override void Tick(float DeltaTime)

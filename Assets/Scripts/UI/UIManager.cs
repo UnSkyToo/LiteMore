@@ -78,9 +78,13 @@ namespace LiteMore.UI
                 {
                     UIList_.Remove(UI.ID);
 
-                    if (!CacheList_.ContainsKey(UI.Path))
+                    if (UI.Cached && !CacheList_.ContainsKey(UI.Path))
                     {
                         CacheList_.Add(UI.Path, UI.UITransform);
+                    }
+                    else
+                    {
+                        UnityEngine.Object.Destroy(UI.UITransform.gameObject);
                     }
                 }
 
@@ -248,6 +252,7 @@ namespace LiteMore.UI
             Obj.SetParent(CanvasNormalTransform, false);
 
             Script.Path = Desc.PrefabName;
+            Script.Cached = Desc.Cached;
             Script.UITransform = Obj;
             Script.UIRectTransform = Obj.GetComponent<RectTransform>();
             Script.UIRectTransform.SetSiblingIndex(Script.SortOrder + UIList_.Count + CacheList_.Count);
