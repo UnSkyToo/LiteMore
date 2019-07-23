@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace LiteMore.UI.Logic
 {
-    public class TipsUI : UIBase
+    public class TipsUI : BaseUI
     {
         private Text Text_;
         private RectTransform TextRectTransform_;

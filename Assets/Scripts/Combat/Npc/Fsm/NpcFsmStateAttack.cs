@@ -11,13 +11,13 @@
         {
             Fsm.Master.PlayAnimation("Idle", true);
 
-            PlayerManager.AddHp(-Fsm.Master.Damage);
-            Fsm.ChangeToState(NpcFsmStateName.Die, new DieEvent(Fsm.Master.ID));
+            PlayerManager.AddHp(-(Fsm.Master.CalcFinalAttr(NpcAttrIndex.Damage)));
+            Fsm.ChangeToState(NpcFsmStateName.Die, new NpcDieEvent(Fsm.Master.ID));
         }
 
         public override void OnEvent(NpcEvent Event)
         {
-            if (Event is DieEvent)
+            if (Event is NpcDieEvent)
             {
                 Fsm.ChangeToState(NpcFsmStateName.Die, Event);
             }

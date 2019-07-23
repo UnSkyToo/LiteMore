@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LiteMore
 {
-    public abstract class EventBase
+    public abstract class BaseEvent
     {
     }
 
@@ -11,14 +11,14 @@ namespace LiteMore
     {
         private abstract class EventListener
         {
-            public abstract void Trigger(EventBase Msg);
+            public abstract void Trigger(BaseEvent Msg);
         }
 
-        private class EventListenerImpl<T> : EventListener where T : EventBase
+        private class EventListenerImpl<T> : EventListener where T : BaseEvent
         {
             public event Action<T> OnEvent = null;
 
-            public override void Trigger(EventBase Msg)
+            public override void Trigger(BaseEvent Msg)
             {
                 OnEvent?.Invoke((T)Msg);
             }
@@ -36,7 +36,7 @@ namespace LiteMore
         {
         }
 
-        public static void Send<T>(T Event) where T : EventBase
+        public static void Send<T>(T Event) where T : BaseEvent
         {
             var EventName = typeof(T).FullName;
             if (EventList_.ContainsKey(EventName))
@@ -45,13 +45,13 @@ namespace LiteMore
             }
         }
 
-        public static void Send<T>() where T : EventBase, new()
+        public static void Send<T>() where T : BaseEvent, new()
         {
             var Event = new T();
             Send(Event);
         }
 
-        public static void Register<T>(Action<T> Callback) where T : EventBase
+        public static void Register<T>(Action<T> Callback) where T : BaseEvent
         {
             var EventName = typeof(T).FullName;
             if (!EventList_.ContainsKey(EventName))
@@ -62,7 +62,7 @@ namespace LiteMore
             ((EventListenerImpl<T>)EventList_[EventName]).OnEvent += Callback;
         }
 
-        public static void UnRegister<T>(Action<T> Callback) where T : EventBase
+        public static void UnRegister<T>(Action<T> Callback) where T : BaseEvent
         {
             var EventName = typeof(T).FullName;
             if (EventList_.ContainsKey(EventName))

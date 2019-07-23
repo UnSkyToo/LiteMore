@@ -19,10 +19,10 @@ namespace LiteMore.UI
             }
         }
 
-        private static readonly Dictionary<uint, UIBase> UIList_ = new Dictionary<uint, UIBase>();
+        private static readonly Dictionary<uint, BaseUI> UIList_ = new Dictionary<uint, BaseUI>();
         private static readonly Dictionary<string, Transform> CacheList_ = new Dictionary<string, Transform>();
-        private static readonly List<UIBase> OpenList_ = new List<UIBase>();
-        private static readonly List<UIBase> CloseList_ = new List<UIBase>();
+        private static readonly List<BaseUI> OpenList_ = new List<BaseUI>();
+        private static readonly List<BaseUI> CloseList_ = new List<BaseUI>();
 
         public static bool Startup()
         {
@@ -92,7 +92,7 @@ namespace LiteMore.UI
             }
         }
 
-        public static T OpenUI<T>(params object[] Params) where T : UIBase, new()
+        public static T OpenUI<T>(params object[] Params) where T : BaseUI, new()
         {
             var ScriptType = typeof(T);
             if (!UIConfigure.UIList.ContainsKey(ScriptType))
@@ -111,17 +111,17 @@ namespace LiteMore.UI
             return FindUI<T>() ?? CreateUI<T>(Desc, Params);
         }
 
-        public static T OpenUI<T>(UIDescriptor Desc, params object[] Params) where T : UIBase, new()
+        public static T OpenUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
             return CreateUI<T>(Desc, Params);
         }
 
-        public static T OpenUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : UIBase
+        public static T OpenUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
             return CreateUI<T>(Script, Desc, Params);
         }
 
-        public static void CloseUI<T>() where T : UIBase
+        public static void CloseUI<T>() where T : BaseUI
         {
             var UI = FindUI<T>();
             if (UI != null)
@@ -130,8 +130,13 @@ namespace LiteMore.UI
             }
         }
 
-        public static void CloseUI(UIBase UI)
+        public static void CloseUI(BaseUI UI)
         {
+            if (UI == null || UI.IsClosed)
+            {
+                return;
+            }
+
             UI.Close();
             CloseList_.Add(UI);
         }
@@ -169,7 +174,7 @@ namespace LiteMore.UI
             CacheList_.Clear();
         }
 
-        public static T FindUI<T>() where T : UIBase
+        public static T FindUI<T>() where T : BaseUI
         {
             var ScriptType = typeof(T);
 
@@ -192,7 +197,7 @@ namespace LiteMore.UI
             return null;
         }
 
-        public static bool IsClosed<T>() where T : UIBase
+        public static bool IsClosed<T>() where T : BaseUI
         {
             var UI = FindUI<T>();
             if (UI == null)
@@ -228,25 +233,25 @@ namespace LiteMore.UI
             return UIObj;
         }
 
-        public static T CreateUI<T>(UIDescriptor Desc, params object[] Params) where T : UIBase, new()
+        public static T CreateUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
             var Obj = GetOrCreateGameObject(Desc);
             return CreateUI<T>(Obj, Desc, Params);
         }
 
-        public static T CreateUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : UIBase
+        public static T CreateUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
             var Obj = GetOrCreateGameObject(Desc);
             return CreateUI<T>(Obj, Script, Desc, Params);
         }
 
-        public static T CreateUI<T>(Transform Obj, UIDescriptor Desc, params object[] Params) where T : UIBase, new()
+        public static T CreateUI<T>(Transform Obj, UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
             var Script = new T();
             return CreateUI<T>(Obj, Script, Desc, Params);
         }
 
-        public static T CreateUI<T>(Transform Obj, T Script, UIDescriptor Desc, params object[] Params) where T : UIBase
+        public static T CreateUI<T>(Transform Obj, T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
             Obj.name = $"{Desc.PrefabName}<{Script.ID}>";
             Obj.SetParent(CanvasNormalTransform, false);
@@ -312,7 +317,7 @@ namespace LiteMore.UI
 
         private static void RebuildUIList()
         {
-            var NewList = new List<UIBase>(UIList_.Values);
+            var NewList = new List<BaseUI>(UIList_.Values);
             NewList.Sort((X, Y) =>
             {
                 if (X.UIRectTransform.GetSiblingIndex() + X.SortOrder < Y.UIRectTransform.GetSiblingIndex() + Y.SortOrder)

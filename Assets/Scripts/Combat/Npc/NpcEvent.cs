@@ -2,7 +2,7 @@
 
 namespace LiteMore.Combat.Npc
 {
-    public abstract class NpcEvent : EventBase
+    public abstract class NpcEvent : BaseEvent
     {
         public uint ID { get; }
 
@@ -12,38 +12,51 @@ namespace LiteMore.Combat.Npc
         }
     }
 
-    public class IdleEvent : NpcEvent
+    public class NpcIdleEvent : NpcEvent
     {
-        public IdleEvent(uint ID)
+        public NpcIdleEvent(uint ID)
             : base(ID)
         {
         }
     }
 
-    public class MoveEvent : NpcEvent
+    public class NpcMoveEvent : NpcEvent
     {
         public Vector2 TargetPos { get; }
 
-        public MoveEvent(uint ID, Vector2 TargetPos)
+        public NpcMoveEvent(uint ID, Vector2 TargetPos)
             : base(ID)
         {
             this.TargetPos = TargetPos;
         }
     }
 
-    public class AttackEvent : NpcEvent
+    public class NpcAttackEvent : NpcEvent
     {
-        public AttackEvent(uint ID)
+        public NpcAttackEvent(uint ID)
             : base(ID)
         {
         }
     }
 
-    public class DieEvent : NpcEvent
+    public class NpcDieEvent : NpcEvent
     {
-        public DieEvent(uint ID)
+        public NpcDieEvent(uint ID)
             : base(ID)
         {
+        }
+    }
+
+    public class NpcBackEvent : NpcEvent
+    {
+        public Vector2 BackPos { get; }
+        public float BackTime { get; }
+
+        public NpcBackEvent(uint ID, Vector2 BackPos, float BackTime)
+            : base(ID)
+        {
+            this.BackPos = BackPos;
+            this.BackTime = BackTime;
         }
     }
 }

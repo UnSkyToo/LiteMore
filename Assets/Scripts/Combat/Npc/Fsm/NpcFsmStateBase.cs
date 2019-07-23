@@ -5,7 +5,8 @@
         Idle,
         Walk,
         Attack,
-        Die
+        Die,
+        Back,
     }
 
     public abstract class NpcFsmStateBase

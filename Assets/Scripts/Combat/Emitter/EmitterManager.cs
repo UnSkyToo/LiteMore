@@ -4,7 +4,7 @@ namespace LiteMore.Combat.Emitter
 {
     public static class EmitterManager
     {
-        private static readonly List<EmitterBase> EmitterList_ = new List<EmitterBase>();
+        private static readonly List<BaseEmitter> EmitterList_ = new List<BaseEmitter>();
 
         public static bool Startup()
         {
@@ -37,7 +37,7 @@ namespace LiteMore.Combat.Emitter
             }
         }
 
-        public static EmitterBase AddEmitter(EmitterBase Emitter)
+        public static BaseEmitter AddEmitter(BaseEmitter Emitter)
         {
             EmitterList_.Add(Emitter);
             Emitter.Create();

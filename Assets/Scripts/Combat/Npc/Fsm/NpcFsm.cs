@@ -4,12 +4,12 @@ namespace LiteMore.Combat.Npc.Fsm
 {
     public class NpcFsm
     {
-        public NpcBase Master { get; }
+        public BaseNpc Master { get; }
 
         private readonly Dictionary<NpcFsmStateName, NpcFsmStateBase> StateList_;
         private NpcFsmStateBase CurrentState_;
 
-        public NpcFsm(NpcBase Master)
+        public NpcFsm(BaseNpc Master)
         {
             this.Master = Master;
             this.StateList_ = new Dictionary<NpcFsmStateName, NpcFsmStateBase>
@@ -18,6 +18,7 @@ namespace LiteMore.Combat.Npc.Fsm
                 {NpcFsmStateName.Walk, new NpcFsmStateWalk(this)},
                 {NpcFsmStateName.Attack, new NpcFsmStateAttack(this)},
                 {NpcFsmStateName.Die, new NpcFsmStateDie(this)},
+                {NpcFsmStateName.Back, new NpcFsmStateBack(this)},
             };
 
         }
@@ -30,6 +31,11 @@ namespace LiteMore.Combat.Npc.Fsm
         public void OnEvent(NpcEvent Event)
         {
             CurrentState_?.OnEvent(Event);
+        }
+
+        public NpcFsmStateName GetStateName()
+        {
+            return CurrentState_?.StateName ?? NpcFsmStateName.Idle;
         }
 
         public void ChangeToState(NpcFsmStateName StateName, NpcEvent Event)

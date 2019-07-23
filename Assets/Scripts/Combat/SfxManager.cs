@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace LiteMore.Combat
 {
-    public class Sfx : EntityBase
+    public class BaseSfx : BaseEntity
     {
         private Transform Transform_;
         protected Animator Animator_;
 
-        public Sfx(Transform Trans)
+        public BaseSfx(Transform Trans)
             : base()
         {
             Transform_ = Trans;
@@ -56,12 +56,10 @@ namespace LiteMore.Combat
 
     public static class SfxManager
     {
-        private static Transform SfxRoot_;
-        private static readonly List<Sfx> SfxList_ = new List<Sfx>();
+        private static readonly List<BaseSfx> SfxList_ = new List<BaseSfx>();
 
         public static bool Startup()
         {
-            SfxRoot_ = GameObject.Find("Sfx").transform;
             SfxList_.Clear();
 
             return true;
@@ -90,13 +88,13 @@ namespace LiteMore.Combat
             }
         }
 
-        public static Sfx AddSfx(string ResName, Vector2 Position)
+        public static BaseSfx AddSfx(string ResName, Vector2 Position)
         {
             var Obj = Object.Instantiate(Resources.Load<GameObject>(ResName));
-            Obj.transform.SetParent(SfxRoot_, false);
+            Obj.transform.SetParent(Configure.SfxRoot, false);
             Obj.transform.localPosition = Position;
 
-            var Entity = new Sfx(Obj.transform);
+            var Entity = new BaseSfx(Obj.transform);
             Entity.Create();
             SfxList_.Add(Entity);
             Entity.Position = Position;

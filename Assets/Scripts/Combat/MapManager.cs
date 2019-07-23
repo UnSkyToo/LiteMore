@@ -8,7 +8,6 @@ namespace LiteMore.Combat
 
         public static bool Startup()
         {
-            var Map = GameObject.Find("Map");
             var Tex = Resources.Load<Sprite>("Textures/m");
             for (var Y = -2; Y <= 2; ++Y)
             {
@@ -18,7 +17,7 @@ namespace LiteMore.Combat
                     Obj.layer = LayerMask.NameToLayer("UI");
                     Obj.AddComponent<SpriteRenderer>().sprite = Tex;
                     Obj.GetComponent<SpriteRenderer>().sortingOrder = -10;
-                    Obj.transform.SetParent(Map.transform, false);
+                    Obj.transform.SetParent(Configure.MapRoot, false);
                     Obj.transform.localPosition = new Vector3(X * Tex.texture.width, Y * Tex.texture.height, 0);
                 }
             }
@@ -30,7 +29,7 @@ namespace LiteMore.Combat
             Build.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/build");
             Build.GetComponent<SpriteRenderer>().sortingOrder = -5;
             Build.GetComponent<SpriteRenderer>().flipX = true;
-            Build.transform.SetParent(Map.transform, false);
+            Build.transform.SetParent(Configure.MapRoot, false);
             Build.transform.localPosition = new Vector3(Configure.WindowRight - 262.0f / 2.0f, 0);
 
             return true;

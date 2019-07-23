@@ -51,5 +51,12 @@ namespace LiteMore.Helper
             UpdateZoomAreaAndParentFunc.Invoke(GameView, null);
 #endif
         }
+
+        private static readonly RectTransform RootCanvas_ = Configure.CanvasRoot.GetComponent<RectTransform>();
+        public static Vector2 ScreenPosToCanvasPos(Vector2 ScreenPos)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, ScreenPos, Camera.main, out Vector2 Pos);
+            return Pos;
+        }
     }
 }

@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Emitter
 {
-    public class NpcNormalEmitter : EmitterBase
+    public class NpcNormalEmitter : BaseEmitter
     {
         public EmitterRandFloat RadiusAttr { get; set; }
         public EmitterRandFloat SpeedAttr { get; set; }
         public EmitterRandInt HpAttr { get; set; }
+        public EmitterRandInt DamageAttr { get; set; }
 
         private Transform ObjInner_;
         private LineCaller CallerInner_;
@@ -26,7 +27,7 @@ namespace LiteMore.Combat.Emitter
         {
             ObjInner_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
             ObjInner_.name = $"NpcNormalInner<{ID}>";
-            ObjInner_.SetParent(GameObject.Find("Emitter").transform, false);
+            ObjInner_.SetParent(Configure.EmitterRoot, false);
             ObjInner_.localPosition = Vector3.zero;
 
             CallerInner_ = new LineCaller(ObjInner_.GetComponent<LineRenderer>());
@@ -34,7 +35,7 @@ namespace LiteMore.Combat.Emitter
 
             ObjOuter_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
             ObjOuter_.name = $"NpcNormalOuter<{ID}>";
-            ObjOuter_.SetParent(GameObject.Find("Emitter").transform, false);
+            ObjOuter_.SetParent(Configure.EmitterRoot, false);
             ObjOuter_.localPosition = Vector3.zero;
 
             CallerOuter_ = new LineCaller(ObjOuter_.GetComponent<LineRenderer>());
@@ -53,14 +54,13 @@ namespace LiteMore.Combat.Emitter
             var Angle = Random.Range(0, Mathf.PI * 2);
             var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
-            var Entity = NpcManager.AddNpc(Pos);
-            Entity.Speed = SpeedAttr.Get();
-            Entity.SetHp(HpAttr.Get());
+            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), DamageAttr.Get(), 1);
+            var Entity = NpcManager.AddNpc(Pos, InitAttr);
             Entity.MoveTo(new Vector2(Configure.WindowRight - 100, Random.Range(-100, 100)));
         }
     }
 
-    public class BulletNormalEmitter : EmitterBase
+    public class BulletNormalEmitter : BaseEmitter
     {
         public EmitterRandFloat RadiusAttr { get; set; }
         public EmitterRandFloat SpeedAttr { get; set; }
@@ -81,10 +81,11 @@ namespace LiteMore.Combat.Emitter
                 var Angle = Random.Range(0, Mathf.PI * 2);
                 var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
-                var Entity = BulletManager.AddTrackBullet(ResName, Pos);
-                Entity.Speed = SpeedAttr.Get();
-                Entity.Damage = DamageAttr.Get();
-                Entity.Attack(Target);
+                var Desc = new TrackBulletDescriptor(
+                    new BaseBulletDescriptor(Pos, DamageAttr.Get()),
+                    ResName, Target, SpeedAttr.Get());
+
+                BulletManager.AddTrackBullet(Desc);
             }
         }
     }

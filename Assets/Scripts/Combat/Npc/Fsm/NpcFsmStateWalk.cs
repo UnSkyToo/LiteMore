@@ -18,9 +18,9 @@ namespace LiteMore.Combat.Npc.Fsm
         public override void OnEnter(NpcEvent Event)
         {
             BeginPos_ = Fsm.Master.Position;
-            EndPos_ = (Event as MoveEvent).TargetPos;
+            EndPos_ = (Event as NpcMoveEvent).TargetPos;
             MoveTime_ = 0;
-            MoveTotalTime_ = (EndPos_ - BeginPos_).magnitude / Fsm.Master.Speed;
+            MoveTotalTime_ = (EndPos_ - BeginPos_).magnitude / Fsm.Master.CalcFinalAttr(NpcAttrIndex.Speed);
             IsMove_ = true;
 
             Fsm.Master.PlayAnimation("Walk", true);
@@ -47,17 +47,21 @@ namespace LiteMore.Combat.Npc.Fsm
 
         public override void OnEvent(NpcEvent Event)
         {
-            if (Event is MoveEvent)
+            if (Event is NpcMoveEvent)
             {
                 Fsm.ChangeToState(NpcFsmStateName.Walk, Event);
             }
-            else if (Event is IdleEvent)
+            else if (Event is NpcIdleEvent)
             {
                 Fsm.ChangeToIdleState();
             }
-            else if (Event is DieEvent)
+            else if (Event is NpcDieEvent)
             {
                 Fsm.ChangeToState(NpcFsmStateName.Die, Event);
+            }
+            else if (Event is NpcBackEvent)
+            {
+                Fsm.ChangeToState(NpcFsmStateName.Back, Event);
             }
         }
     }

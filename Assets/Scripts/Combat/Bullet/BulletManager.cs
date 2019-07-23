@@ -5,18 +5,17 @@ namespace LiteMore.Combat.Bullet
 {
     public static class BulletManager
     {
-        private static Transform BulletRoot_;
         private static readonly Dictionary<BulletType, GameObject> BulletPrefab_ = new Dictionary<BulletType, GameObject>();
-        private static readonly List<BulletBase> BulletList_ = new List<BulletBase>();
+        private static readonly List<BaseBullet> BulletList_ = new List<BaseBullet>();
 
         public static bool Startup()
         {
-            BulletRoot_ = GameObject.Find("Bullet").transform;
-
             BulletPrefab_.Clear();
             BulletPrefab_.Add(BulletType.Track, Resources.Load<GameObject>("Prefabs/Bullet/Bullet"));
             BulletPrefab_.Add(BulletType.Laser, Resources.Load<GameObject>("Prefabs/Bullet/BulletLaser"));
             BulletPrefab_.Add(BulletType.Bomb, Resources.Load<GameObject>("Prefabs/Bullet/BulletBomb"));
+            BulletPrefab_.Add(BulletType.Back, Resources.Load<GameObject>("Prefabs/Bullet/BulletBack"));
+            BulletPrefab_.Add(BulletType.Trigger, Resources.Load<GameObject>("Prefabs/Bullet/BulletTrigger"));
 
             foreach (var Checker in BulletPrefab_)
             {
@@ -60,43 +59,62 @@ namespace LiteMore.Combat.Bullet
         private static GameObject CreateBullet(BulletType Type, Vector2 Position)
         {
             var Obj = Object.Instantiate(BulletPrefab_[Type]);
-            Obj.transform.SetParent(BulletRoot_, false);
+            Obj.transform.SetParent(Configure.BulletRoot, false);
             Obj.transform.localPosition = Position;
             return Obj;
         }
 
-        public static TrackBullet AddTrackBullet(string ResName, Vector2 Position)
+        public static TrackBullet AddTrackBullet(TrackBulletDescriptor Desc)
         {
-            var Obj = CreateBullet(BulletType.Track, Position);
+            var Obj = CreateBullet(BulletType.Track, Desc.BaseBulletDesc.Position);
 
-            var Entity = new TrackBullet(Obj.transform, ResName);
+            var Entity = new TrackBullet(Obj.transform, Desc);
             Entity.Create();
             BulletList_.Add(Entity);
-            Entity.Position = Position;
 
             return Entity;
         }
 
-        public static LaserBullet AddLaserBullet(Vector2 Position)
+        public static LaserBullet AddLaserBullet(LaserBulletDescriptor Desc)
         {
-            var Obj = CreateBullet(BulletType.Laser, Position);
+            var Obj = CreateBullet(BulletType.Laser, Desc.BaseBulletDesc.Position);
 
-            var Entity = new LaserBullet(Obj.transform);
+            var Entity = new LaserBullet(Obj.transform, Desc);
             Entity.Create();
             BulletList_.Add(Entity);
-            Entity.Position = Position;
 
             return Entity;
         }
 
-        public static BombBullet AddBombBullet(Vector2 TargetPosition)
+        public static BombBullet AddBombBullet(BombBulletDescriptor Desc)
         {
-            var Obj = CreateBullet(BulletType.Bomb, new Vector2(TargetPosition.x, 400));
+            var Obj = CreateBullet(BulletType.Bomb, Desc.BaseBulletDesc.Position);
 
-            var Entity = new BombBullet(Obj.transform, TargetPosition);
+            var Entity = new BombBullet(Obj.transform, Desc);
             Entity.Create();
             BulletList_.Add(Entity);
-            Entity.Position = Obj.transform.localPosition;
+
+            return Entity;
+        }
+
+        public static BackBullet AddBackBullet(BackBulletDescriptor Desc)
+        {
+            var Obj = CreateBullet(BulletType.Back, Desc.BaseBulletDesc.Position);
+
+            var Entity = new BackBullet(Obj.transform, Desc);
+            Entity.Create();
+            BulletList_.Add(Entity);
+
+            return Entity;
+        }
+
+        public static AttrTriggerBullet AddAttrTriggerBullet(AttrTriggerBulletDescriptor Desc)
+        {
+            var Obj = CreateBullet(BulletType.Trigger, Desc.BaseTriggerDesc.BaseBulletDesc.Position);
+
+            var Entity = new AttrTriggerBullet(Obj.transform, Desc);
+            Entity.Create();
+            BulletList_.Add(Entity);
 
             return Entity;
         }

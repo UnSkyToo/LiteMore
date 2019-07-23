@@ -16,6 +16,22 @@ namespace LiteMore.Helper
             return ((Angle / Mathf.PI * 180.0f) + 360.0f) % 360.0f;
         }
 
+        /// <summary>
+        /// GetAngle是顺时针0-360，GetUnityAngle是逆时针0-360
+        /// </summary>
+        public static float GetUnityAngle(Vector3 From, Vector3 To)
+        {
+            return -GetAngle(From, To);
+        }
+
+        /// <summary>
+        /// GetAngle是顺时针0-360，GetUnityAngle是逆时针0-360
+        /// </summary>
+        public static float GetUnityAngle(Vector3 Offset)
+        {
+            return -GetAngle(Offset);
+        }
+
         public static float CalcYaw(Vector3 Direction)
         {
             Direction.Normalize();

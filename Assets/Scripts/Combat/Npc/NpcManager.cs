@@ -5,14 +5,11 @@ namespace LiteMore.Combat.Npc
 {
     public static class NpcManager
     {
-        private static Transform NpcRoot_;
         private static GameObject ModelPrefab_;
-        private static readonly List<NpcBase> NpcList_ = new List<NpcBase>();
+        private static readonly List<BaseNpc> NpcList_ = new List<BaseNpc>();
 
         public static bool Startup()
         {
-            NpcRoot_ = GameObject.Find("Npc").transform;
-
             ModelPrefab_ = Resources.Load<GameObject>("Prefabs/R2");
             if (ModelPrefab_ == null)
             {
@@ -48,13 +45,31 @@ namespace LiteMore.Combat.Npc
             }
         }
 
-        public static NpcBase AddNpc(Vector2 Position)
+        // copy form NpcAttrIndex enum in NpcAttribute.cs
+        // Speed = 0,      // 移动速度
+        // Hp,             // 当前生命值
+        // MaxHp,          // 最大生命值
+        // Damage,         // 伤害
+        // Gem,            // 死亡奖励宝石
+        public static float[] GenerateInitAttr(float Speed, float MaxHp, float Damage, float Gem)
+        {
+            return new float[]
+            {
+                Speed,
+                MaxHp,
+                MaxHp,
+                Damage,
+                Gem
+            };
+        }
+
+        public static BaseNpc AddNpc(Vector2 Position, float[] InitAttr)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
-            Obj.transform.SetParent(NpcRoot_, false);
+            Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
-            
-            var Entity = new NpcBase(Obj.transform);
+
+            var Entity = new BaseNpc(Obj.transform, InitAttr);
             Entity.Create();
             NpcList_.Add(Entity);
             Entity.Position = Position;
@@ -67,12 +82,12 @@ namespace LiteMore.Combat.Npc
             return NpcList_.Count;
         }
 
-        public static List<NpcBase> GetNpcList()
+        public static List<BaseNpc> GetNpcList()
         {
             return NpcList_;
         }
 
-        public static NpcBase FindNpc(uint ID)
+        public static BaseNpc FindNpc(uint ID)
         {
             foreach (var Entity in NpcList_)
             {
@@ -85,7 +100,7 @@ namespace LiteMore.Combat.Npc
             return null;
         }
 
-        public static NpcBase GetRandomNpc()
+        public static BaseNpc GetRandomNpc()
         {
             if (GetCount() == 0)
             {

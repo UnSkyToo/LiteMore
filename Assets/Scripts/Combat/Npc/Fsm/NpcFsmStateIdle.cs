@@ -14,13 +14,17 @@
 
         public override void OnEvent(NpcEvent Event)
         {
-            if (Event is MoveEvent)
+            if (Event is NpcMoveEvent)
             {
                 Fsm.ChangeToState(NpcFsmStateName.Walk, Event);
             }
-            else if (Event is DieEvent)
+            else if (Event is NpcDieEvent)
             {
                 Fsm.ChangeToState(NpcFsmStateName.Die, Event);
+            }
+            else if (Event is NpcBackEvent)
+            {
+                Fsm.ChangeToState(NpcFsmStateName.Back, Event);
             }
         }
     }

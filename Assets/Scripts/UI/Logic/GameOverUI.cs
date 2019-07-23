@@ -1,6 +1,6 @@
 ﻿namespace LiteMore.UI.Logic
 {
-    public class GameOverUI : UIBase
+    public class GameOverUI : BaseUI
     {
         public GameOverUI()
             : base()

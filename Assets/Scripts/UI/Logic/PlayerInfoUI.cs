@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace LiteMore.UI.Logic
 {
-    public class PlayerInfoUI : UIBase
+    public class PlayerInfoUI : BaseUI
     {
         private Text HpText_;
         private Text MpText_;

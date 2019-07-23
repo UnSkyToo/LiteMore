@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteMore.Helper;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,13 +10,17 @@ namespace LiteMore.Extend
         Click = 0,
         Down = 1,
         Up = 2,
-        Count = 3,
+        Enter = 3,
+        Exit = 4,
+        Drag = 5,
+        BeginDrag = 6,
+        EndDrag = 7,
+        Count = 8,
     }
 
     public class UIEventTriggerListener : EventTrigger
     {
         private readonly Action<UnityEngine.GameObject, Vector2>[] EventCallback_ = new Action<UnityEngine.GameObject, Vector2>[(int)UIEventType.Count];
-        private static readonly RectTransform RootCanvas_ = GameObject.Find("Canvas").GetComponent<RectTransform>();
 
         public static UIEventTriggerListener Get(UnityEngine.Transform Obj)
         {
@@ -58,20 +63,42 @@ namespace LiteMore.Extend
 
         public override void OnPointerClick(PointerEventData EventData)
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, EventData.position, Camera.main, out Vector2 Pos);
-            EventCallback_[(int)UIEventType.Click]?.Invoke(EventData.pointerPress, Pos);
+            EventCallback_[(int)UIEventType.Click]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
         }
 
         public override void OnPointerDown(PointerEventData EventData)
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, EventData.position, Camera.main, out Vector2 Pos);
-            EventCallback_[(int)UIEventType.Down]?.Invoke(EventData.pointerPress, Pos);
+            EventCallback_[(int)UIEventType.Down]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
         }
 
         public override void OnPointerUp(PointerEventData EventData)
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, EventData.position, Camera.main, out Vector2 Pos);
-            EventCallback_[(int)UIEventType.Up]?.Invoke(EventData.pointerPress, Pos);
+            EventCallback_[(int)UIEventType.Up]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
+        }
+
+        public override void OnPointerEnter(PointerEventData EventData)
+        {
+            EventCallback_[(int)UIEventType.Enter]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
+        }
+
+        public override void OnPointerExit(PointerEventData EventData)
+        {
+            EventCallback_[(int)UIEventType.Exit]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
+        }
+
+        public override void OnBeginDrag(PointerEventData EventData)
+        {
+            EventCallback_[(int)UIEventType.BeginDrag]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
+        }
+
+        public override void OnDrag(PointerEventData EventData)
+        {
+            EventCallback_[(int)UIEventType.Drag]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
+        }
+
+        public override void OnEndDrag(PointerEventData EventData)
+        {
+            EventCallback_[(int)UIEventType.EndDrag]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
         }
     }
 }

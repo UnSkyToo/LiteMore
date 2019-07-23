@@ -1,27 +1,45 @@
-﻿using LiteMore.Combat.Npc;
+﻿using LiteMore.Combat.Label;
+using LiteMore.Combat.Npc;
 using LiteMore.Helper;
 using UnityEngine;
 
 namespace LiteMore.Combat.Bullet
 {
-    public class TrackBullet : BulletBase
+    public struct TrackBulletDescriptor
     {
-        public float Speed { get; set; }
+        public BaseBulletDescriptor BaseBulletDesc { get; }
+        public string ResName { get; }
+        public BaseNpc Target { get; }
+        public float Speed { get; }
+
+        public TrackBulletDescriptor(BaseBulletDescriptor BaseBulletDesc, string ResName, BaseNpc Target, float Speed)
+        {
+            this.BaseBulletDesc = BaseBulletDesc;
+            this.ResName = ResName;
+            this.Target = Target;
+            this.Speed = Speed;
+        }
+    }
+
+    public class TrackBullet : BaseBullet
+    {
         public bool IsMove { get; private set; }
+        public float Speed { get; private set; }
 
-        protected Vector2 BeginPos_;
-        protected Vector2 EndPos_;
-        protected float MoveTime_;
-        protected float MoveTotalTime_;
+        private BaseNpc Target_;
+        private Vector2 BeginPos_;
+        private Vector2 EndPos_;
+        private float MoveTime_;
+        private float MoveTotalTime_;
 
-        private NpcBase Target_;
-
-        public TrackBullet(Transform Trans, string ResName)
-            : base(BulletType.Track, Trans)
+        public TrackBullet(Transform Trans, TrackBulletDescriptor Desc)
+            : base(Trans, BulletType.Track, Desc.BaseBulletDesc)
         {
             IsMove = false;
-            Speed = 100;
-            Trans.GetComponent<Animator>().SetTrigger(ResName);
+            Speed = Desc.Speed;
+            Trans.GetComponent<Animator>().SetTrigger(Desc.ResName);
+
+            Attack(Desc.Target);
         }
 
         public override void Tick(float DeltaTime)
@@ -42,6 +60,7 @@ namespace LiteMore.Combat.Bullet
                 {
                     Position = Target_.Position;
                     Target_.OnBulletHit(this);
+                    LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
                     IsAlive = false;
                 }
             }
@@ -63,14 +82,14 @@ namespace LiteMore.Combat.Bullet
             base.Tick(DeltaTime);
         }
 
-        public void Attack(NpcBase Target)
+        private void Attack(BaseNpc Target)
         {
             Target_ = Target;
             Target_.OnLocking(this);
             MoveTo(Target_.Position);
         }
 
-        public void MoveTo(Vector2 TargetPos)
+        private void MoveTo(Vector2 TargetPos)
         {
             IsMove = true;
             MoveTime_ = 0;

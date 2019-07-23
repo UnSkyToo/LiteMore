@@ -1,4 +1,4 @@
-﻿using LiteMore.Combat;
+﻿using LiteMore.Combat.Skill;
 using LiteMore.Extend;
 using UnityEngine;
 
@@ -12,8 +12,14 @@ namespace LiteMore.Helper
             Builder
                 .Chunk($"{Desc.Name}\n", Color.red)
                 .Msg("------------------\n")
-                .Chunk($"CD:{Desc.CD}s\n", Color.green)
-                .Chunk($"Cost:{Desc.Cost}\n", Color.blue);
+                .Chunk($"冷却:{Desc.CD}s\n", Color.green)
+                .Chunk($"消耗:{Desc.Cost}\n", Color.blue);
+
+            if (Desc.Radius > 0)
+            {
+                Builder.Chunk($"半径:{Desc.Radius}\n", Color.blue);
+            }
+
             return Builder.GetRichText();
         }
     }

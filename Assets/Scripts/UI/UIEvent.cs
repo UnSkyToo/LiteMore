@@ -1,14 +1,14 @@
 ﻿namespace LiteMore.UI
 {
-    public class PlayerHpChangeEvent : EventBase
+    public class PlayerHpChangeEvent : BaseEvent
     {
     }
 
-    public class PlayerMpChangeEvent : EventBase
+    public class PlayerMpChangeEvent : BaseEvent
     {
     }
 
-    public class PlayerGemChangeEvent : EventBase
+    public class PlayerGemChangeEvent : BaseEvent
     {
 
     }

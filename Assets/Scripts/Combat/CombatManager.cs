@@ -1,6 +1,8 @@
 ﻿using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
+using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Skill;
 
 namespace LiteMore.Combat
 {
@@ -38,11 +40,17 @@ namespace LiteMore.Combat
                 return false;
             }
 
+            if (!LabelManager.Startup())
+            {
+                return false;
+            }
+
             return true;
         }
 
         public static void Shutdown()
         {
+            LabelManager.Shutdown();
             SkillManager.Shutdown();
             EmitterManager.Shutdown();
             BulletManager.Shutdown();
@@ -59,6 +67,7 @@ namespace LiteMore.Combat
             BulletManager.Tick(DeltaTime);
             EmitterManager.Tick(DeltaTime);
             SkillManager.Tick(DeltaTime);
+            LabelManager.Tick(DeltaTime);
         }
     }
 }
