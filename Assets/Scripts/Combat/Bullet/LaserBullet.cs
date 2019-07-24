@@ -76,7 +76,7 @@ namespace LiteMore.Combat.Bullet
         {
             Shape_.Center = Position;
 
-            foreach (var Entity in NpcManager.GetNpcList())
+            foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
             {
                 if (!Entity.CanLocked())
                 {

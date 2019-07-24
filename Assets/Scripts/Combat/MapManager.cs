@@ -4,8 +4,6 @@ namespace LiteMore.Combat
 {
     public static class MapManager
     {
-        public static Vector2 BuildPosition { get; private set; }
-
         public static bool Startup()
         {
             var Tex = Resources.Load<Sprite>("Textures/m");
@@ -22,15 +20,13 @@ namespace LiteMore.Combat
                 }
             }
 
-            BuildPosition = new Vector2(Configure.WindowRight - 262.0f / 2.0f, 233.0f / 2.0f - 20);
-
             var Build = new GameObject("build");
             Build.layer = LayerMask.NameToLayer("UI");
             Build.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/build");
             Build.GetComponent<SpriteRenderer>().sortingOrder = -5;
             Build.GetComponent<SpriteRenderer>().flipX = true;
             Build.transform.SetParent(Configure.MapRoot, false);
-            Build.transform.localPosition = new Vector3(Configure.WindowRight - 262.0f / 2.0f, 0);
+            Build.transform.localPosition = Configure.CoreBasePosition;
 
             return true;
         }

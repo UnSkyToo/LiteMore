@@ -103,75 +103,86 @@ namespace LiteMore
 
         private static void CreateEmitter()
         {
-            /*EmitterManager.AddEmitter(new NpcNormalEmitter
-            {
-                TriggerCount = 1,
-                EmittedCount = 1,
-                Interval = 1.0f / 60.0f,
-                IsAlive = true,
-                IsPause = false,
-                Position = new Vector2(Configure.WindowLeft + 200, 0),
-                RadiusAttr = new EmitterRandFloat(40, 100),
-                SpeedAttr = new EmitterRandFloat(50, 50),
-                HpAttr = new EmitterRandInt(50, 50),
-                DamageAttr = new EmitterRandInt(1, 1),
-            });*/
+            var flag = false;
 
-            EmitterManager.AddEmitter(new NpcNormalEmitter
+            if (flag)
             {
-                TriggerCount = -1,
-                EmittedCount = 10,
-                Interval = 120.0f / 60.0f,
-                IsAlive = true,
-                IsPause = false,
-                Position = new Vector2(Configure.WindowLeft + 200, 0),
-                RadiusAttr = new EmitterRandFloat(40, 100),
-                SpeedAttr = new EmitterRandFloat(50, 100),
-                HpAttr = new EmitterRandInt(20, 40),
-                DamageAttr = new EmitterRandInt(1, 1),
-            });
+                EmitterManager.AddEmitter(new NpcNormalEmitter
+                {
+                    TriggerCount = 1,
+                    EmittedCount = 1,
+                    Interval = 1.0f / 60.0f,
+                    IsAlive = true,
+                    IsPause = false,
+                    Position = new Vector2(Configure.WindowLeft + 200, 0),
+                    RadiusAttr = new EmitterRandFloat(40, 100),
+                    SpeedAttr = new EmitterRandFloat(500, 500),
+                    HpAttr = new EmitterRandInt(50, 50),
+                    DamageAttr = new EmitterRandInt(1, 1),
+                });
+            }
+            else
+            {
+                EmitterManager.AddEmitter(new NpcNormalEmitter
+                {
+                    Team = CombatTeam.B,
+                    TriggerCount = -1,
+                    EmittedCount = 10,
+                    Interval = 120.0f / 60.0f,
+                    IsAlive = true,
+                    IsPause = false,
+                    Position = new Vector2(Configure.WindowLeft + 200, 0),
+                    RadiusAttr = new EmitterRandFloat(40, 100),
+                    SpeedAttr = new EmitterRandFloat(50, 100),
+                    HpAttr = new EmitterRandInt(20, 40),
+                    DamageAttr = new EmitterRandInt(1, 1),
+                });
 
-            EmitterManager.AddEmitter(new NpcNormalEmitter
-            {
-                TriggerCount = -1,
-                EmittedCount = 3,
-                Interval = 15.0f / 60.0f,
-                IsAlive = true,
-                IsPause = false,
-                Position = new Vector2(Configure.WindowLeft + 200, -Configure.WindowHeight / 3.0f),
-                RadiusAttr = new EmitterRandFloat(40, 100),
-                SpeedAttr = new EmitterRandFloat(100, 200),
-                HpAttr = new EmitterRandInt(1, 5),
-                DamageAttr = new EmitterRandInt(1, 1),
-            });
+                EmitterManager.AddEmitter(new NpcNormalEmitter
+                {
+                    Team = CombatTeam.B,
+                    TriggerCount = -1,
+                    EmittedCount = 3,
+                    Interval = 15.0f / 60.0f,
+                    IsAlive = true,
+                    IsPause = false,
+                    Position = new Vector2(Configure.WindowLeft + 200, -Configure.WindowHeight / 3.0f),
+                    RadiusAttr = new EmitterRandFloat(40, 100),
+                    SpeedAttr = new EmitterRandFloat(100, 200),
+                    HpAttr = new EmitterRandInt(1, 5),
+                    DamageAttr = new EmitterRandInt(1, 1),
+                });
 
-            EmitterManager.AddEmitter(new NpcNormalEmitter
-            {
-                TriggerCount = -1,
-                EmittedCount = 3,
-                Interval = 15.0f / 60.0f,
-                IsAlive = true,
-                IsPause = false,
-                Position = new Vector2(Configure.WindowLeft + 200, Configure.WindowHeight / 3.0f),
-                RadiusAttr = new EmitterRandFloat(40, 100),
-                SpeedAttr = new EmitterRandFloat(100, 200),
-                HpAttr = new EmitterRandInt(1, 5),
-                DamageAttr = new EmitterRandInt(1, 1),
-            });
+                EmitterManager.AddEmitter(new NpcNormalEmitter
+                {
+                    Team = CombatTeam.B,
+                    TriggerCount = -1,
+                    EmittedCount = 3,
+                    Interval = 15.0f / 60.0f,
+                    IsAlive = true,
+                    IsPause = false,
+                    Position = new Vector2(Configure.WindowLeft + 200, Configure.WindowHeight / 3.0f),
+                    RadiusAttr = new EmitterRandFloat(40, 100),
+                    SpeedAttr = new EmitterRandFloat(100, 200),
+                    HpAttr = new EmitterRandInt(1, 5),
+                    DamageAttr = new EmitterRandInt(1, 1),
+                });
 
-            EmitterManager.AddEmitter(new BulletNormalEmitter
-            {
-                TriggerCount = -1,
-                EmittedCount = 5,
-                Interval = 5.0f / 60.0f,
-                IsAlive = true,
-                IsPause = false,
-                Position = MapManager.BuildPosition,
-                RadiusAttr = new EmitterRandFloat(0, 0),
-                SpeedAttr = new EmitterRandFloat(1000, 2000),
-                DamageAttr = new EmitterRandInt(1, 3),
-                ResName = "Red",
-            });
+                EmitterManager.AddEmitter(new BulletNormalEmitter
+                {
+                    Team = CombatTeam.A,
+                    TriggerCount = -1,
+                    EmittedCount = 5,
+                    Interval = 5.0f / 60.0f,
+                    IsAlive = true,
+                    IsPause = false,
+                    Position = Configure.CoreTopPosition,
+                    RadiusAttr = new EmitterRandFloat(0, 0),
+                    SpeedAttr = new EmitterRandFloat(1000, 2000),
+                    DamageAttr = new EmitterRandInt(1, 3),
+                    ResName = "Red",
+                });
+            }
         }
 
         private static void CreateSkill()
@@ -180,36 +191,36 @@ namespace LiteMore
             Skill1.OnUsed += (Desc) =>
             {
                 var BulletDesc = new LaserBulletDescriptor(
-                    new BaseBulletDescriptor(MapManager.BuildPosition, 100),
+                    new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 100),
                     180, 360, 300, 500);
                 BulletManager.AddLaserBullet(BulletDesc);
             };
-            //Skill1.Tips = "<color=#ffffff><size=30>围绕核心旋转激光180°,伤害100</size></color>";
 
             var Skill2 = SkillManager.AddClickSkill("Textures/skill2", new SkillDescriptor("自动弹幕", 8, 30));
             Skill2.OnUsed += (Desc) =>
             {
                 EmitterManager.AddEmitter(new BulletNormalEmitter
                 {
+                    Team = CombatTeam.A,
                     TriggerCount = 10,
                     EmittedCount = 100,
                     Interval = 30.0f / 60.0f,
                     IsAlive = true,
                     IsPause = false,
-                    Position = MapManager.BuildPosition,
+                    Position = Configure.CoreTopPosition,
                     RadiusAttr = new EmitterRandFloat(0, 0),
                     SpeedAttr = new EmitterRandFloat(1000, 2000),
                     DamageAttr = new EmitterRandInt(3, 5),
                     ResName = "Blue",
                 });
             };
-            //Skill2.Tips = "<color=#ffffff><size=30>布置一个自动发射的弹幕\n持续5秒,每次发射100个伤害\n为3-5点的子弹</size></color>";
 
             var Skill3 = SkillManager.AddClickSkill("Textures/skill3", new SkillDescriptor("放马过来", 3, 10));
             Skill3.OnUsed += (Desc) =>
             {
                 EmitterManager.AddEmitter(new NpcNormalEmitter
                 {
+                    Team = CombatTeam.B,
                     TriggerCount = 1,
                     EmittedCount = 100,
                     Interval = 1.0f / 60.0f,
@@ -222,24 +233,22 @@ namespace LiteMore
                     DamageAttr = new EmitterRandInt(1, 1),
                 });
             };
-            //Skill3.Tips = "<color=#ffffff><size=30>召唤100个敌方</size></color>";
 
             var Skill4 = SkillManager.AddDragPositionSkill("Textures/skill4", new SkillDescriptor("天降正义", 5, 30, 250));
             Skill4.OnUsed += (Desc, Pos) =>
             {
                 var BulletDesc = new BombBulletDescriptor(
-                    new BaseBulletDescriptor(new Vector2(Pos.x, 400), 500),
+                    new BaseBulletDescriptor(new Vector2(Pos.x, 400), CombatTeam.A, 500),
                     Pos, 200, Desc.Radius);
 
                 BulletManager.AddBombBullet(BulletDesc);
             };
-            //Skill4.Tips = "<color=#ffffff><size=30>召唤一颗从天而降的核弹\n速度较慢但伤害很高(500)\n伤害半径250</size></color>";
 
-            var Skill5 = SkillManager.AddDragDirectionSkill("Textures/skill5", new SkillDescriptor("速速退散", 1, 1), new Vector2(MapManager.BuildPosition.x - 50, 0));
+            var Skill5 = SkillManager.AddDragDirectionSkill("Textures/skill5", new SkillDescriptor("速速退散", 1, 1), new Vector2(Configure.CoreTopPosition.x - 50, 0));
             Skill5.OnUsed += (Desc, Dir) =>
             {
                 var BulletDesc = new BackBulletDescriptor(
-                    new BaseBulletDescriptor(new Vector2(MapManager.BuildPosition.x - 50, 0), 1),
+                    new BaseBulletDescriptor(new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
                     Dir, Configure.WindowWidth,
                     new Vector2(400, 82),
                     200);
@@ -252,7 +261,7 @@ namespace LiteMore
             {
                 var BulletDesc = new AttrTriggerBulletDescriptor(
                     new BaseTriggerBulletDescriptor(
-                        new BaseBulletDescriptor(Pos, 1),
+                        new BaseBulletDescriptor(Pos, CombatTeam.A, 1),
                         Desc.Radius,
                         0.5f,
                         20,
@@ -263,6 +272,15 @@ namespace LiteMore
                     });
 
                 BulletManager.AddAttrTriggerBullet(BulletDesc);
+            };
+
+            var Skill7 = SkillManager.AddClickSkill("Textures/skill7", new SkillDescriptor("召唤援军", 10, 50));
+            Skill7.OnUsed += (Desc) =>
+            {
+                var Npc = NpcManager.AddNpc(Configure.CoreBasePosition, CombatTeam.A,
+                    NpcManager.GenerateInitAttr(200, 500, 0, 1, 0, 50, 50),
+                    true);
+                Npc.Scale = new Vector2(3, 3);
             };
         }
     }

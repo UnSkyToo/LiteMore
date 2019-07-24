@@ -1,5 +1,4 @@
-﻿using LiteMore.Combat.Shape;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LiteMore.Combat.Bullet
 {
@@ -16,17 +15,20 @@ namespace LiteMore.Combat.Bullet
     {
         public Vector2 Position { get; }
         public int Damage { get; }
+        public CombatTeam Team { get; }
 
-        public BaseBulletDescriptor(Vector2 Position, int Damage)
+        public BaseBulletDescriptor(Vector2 Position, CombatTeam Team, int Damage)
         {
             this.Position = Position;
             this.Damage = Damage;
+            this.Team = Team;
         }
     }
 
     public abstract class BaseBullet : GameEntity
     {
         public BulletType Type { get; }
+        public CombatTeam Team { get; }
         public int Damage { get; }
 
         protected BaseBullet(Transform Trans, BulletType Type, BaseBulletDescriptor Desc)
@@ -35,6 +37,7 @@ namespace LiteMore.Combat.Bullet
             this.Type = Type;
             this.Position = Desc.Position;
             this.Damage = Desc.Damage;
+            this.Team = Desc.Team;
         }
     }
 }

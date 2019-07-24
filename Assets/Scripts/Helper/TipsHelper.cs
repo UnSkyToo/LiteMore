@@ -20,6 +20,12 @@ namespace LiteMore.Helper
                 Builder.Chunk($"半径:{Desc.Radius}\n", Color.blue);
             }
 
+            if (!string.IsNullOrWhiteSpace(Desc.About))
+            {
+                Builder.Msg("------------------\n")
+                .Chunk(Desc.About, Color.white, 20);
+            }
+
             return Builder.GetRichText();
         }
     }

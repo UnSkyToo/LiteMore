@@ -54,9 +54,9 @@ namespace LiteMore.Combat.Emitter
             var Angle = Random.Range(0, Mathf.PI * 2);
             var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
-            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), DamageAttr.Get(), 1);
-            var Entity = NpcManager.AddNpc(Pos, InitAttr);
-            Entity.MoveTo(new Vector2(Configure.WindowRight - 100, Random.Range(-100, 100)));
+            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), 1, 5, 5);
+            var Entity = NpcManager.AddNpc(Pos, Team, InitAttr);
+            //Entity.MoveTo(Configure.CoreBasePosition);
         }
     }
 
@@ -74,7 +74,7 @@ namespace LiteMore.Combat.Emitter
 
         protected override void OnEmitted(uint Cur, uint Max)
         {
-            var Target = NpcManager.GetRandomNpc();
+            var Target = NpcManager.GetRandomNpc(Team.Opposite());
             if (Target != null)
             {
                 var Radius = RadiusAttr.Get();
@@ -82,7 +82,7 @@ namespace LiteMore.Combat.Emitter
                 var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
                 var Desc = new TrackBulletDescriptor(
-                    new BaseBulletDescriptor(Pos, DamageAttr.Get()),
+                    new BaseBulletDescriptor(Pos, Team, DamageAttr.Get()),
                     ResName, Target, SpeedAttr.Get());
 
                 BulletManager.AddTrackBullet(Desc);

@@ -2,6 +2,7 @@
 {
     public abstract class BaseEmitter : BaseEntity
     {
+        public CombatTeam Team { get; set; }
         public bool IsPause { get; set; }
         public float Interval { get; set; }
         public uint EmittedCount { get; set; }
@@ -12,6 +13,7 @@
         protected BaseEmitter()
             : base()
         {
+            Team = CombatTeam.B;
             IsPause = false;
             Interval = 1;
             Time_ = 0;

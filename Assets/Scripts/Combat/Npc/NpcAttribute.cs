@@ -2,16 +2,6 @@
 
 namespace LiteMore.Combat.Npc
 {
-    public enum NpcAttrIndex : byte
-    {
-        Speed = 0,      // 移动速度
-        Hp,             // 当前生命值
-        MaxHp,          // 最大生命值
-        Damage,         // 伤害
-        Gem,            // 死亡奖励宝石
-        Count
-    }
-
     public struct NpcAttrModifyInfo
     {
         public NpcAttrIndex Index { get; set; }

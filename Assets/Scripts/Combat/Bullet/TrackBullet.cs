@@ -29,6 +29,7 @@ namespace LiteMore.Combat.Bullet
         private BaseNpc Target_;
         private Vector2 BeginPos_;
         private Vector2 EndPos_;
+        private float Distance_;
         private float MoveTime_;
         private float MoveTotalTime_;
 
@@ -56,9 +57,9 @@ namespace LiteMore.Combat.Bullet
             else
             {
                 MoveTo(Target_.Position);
-                if (MoveTotalTime_ < 0.016f)
+                if (Distance_ <= Target_.CalcFinalAttr(NpcAttrIndex.Radius))
                 {
-                    Position = Target_.Position;
+                    //Position = Target_.Position;
                     Target_.OnBulletHit(this);
                     LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
                     IsAlive = false;
@@ -95,7 +96,8 @@ namespace LiteMore.Combat.Bullet
             MoveTime_ = 0;
             BeginPos_ = Position;
             EndPos_ = TargetPos;
-            MoveTotalTime_ = Vector2.Distance(BeginPos_, EndPos_) / Speed;
+            Distance_ = Vector2.Distance(BeginPos_, EndPos_);
+            MoveTotalTime_ = Distance_ / Speed;
 
             Rotation = Quaternion.AngleAxis(90 - MathHelper.GetAngle(Position, TargetPos), Vector3.forward);
         }
