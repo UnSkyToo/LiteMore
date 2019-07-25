@@ -27,7 +27,8 @@ namespace LiteMore.Combat.Bullet
     public abstract class BaseTriggerBullet : BaseBullet
     {
         protected readonly CircleShape Shape_;
-        protected readonly List<BaseNpc> NpcList_;
+        protected readonly Dictionary<BaseNpc, uint> NpcList_;
+        protected readonly List<BaseNpc> NpcExitList_;
 
         private readonly float Interval_;
         private float Time_;
@@ -46,7 +47,8 @@ namespace LiteMore.Combat.Bullet
             Time_ = 0;
             Count_ = Desc.Count;
 
-            NpcList_ = new List<BaseNpc>();
+            NpcList_ = new Dictionary<BaseNpc, uint>();
+            NpcExitList_ = new List<BaseNpc>();
         }
 
         public override void Tick(float DeltaTime)
@@ -75,14 +77,23 @@ namespace LiteMore.Combat.Bullet
 
         private void Trigger()
         {
-            for (var Index = NpcList_.Count - 1; Index >= 0; --Index)
+            foreach (var Entity in NpcList_)
             {
-                if (!NpcList_[Index].IsAlive)
+                if (!Entity.Key.IsAlive)
                 {
-                    OnNpcExit(NpcList_[Index]);
-                    OnNpcDie(NpcList_[Index]);
-                    NpcList_.RemoveAt(Index);
+                    NpcExitList_.Add(Entity.Key);
                 }
+            }
+
+            if (NpcExitList_.Count > 0)
+            {
+                foreach (var Entity in NpcExitList_)
+                {
+                    OnNpcExit(Entity, NpcList_[Entity]);
+                    OnNpcDie(Entity, NpcList_[Entity]);
+                    NpcList_.Remove(Entity);
+                }
+                NpcExitList_.Clear();
             }
 
             foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
@@ -94,31 +105,31 @@ namespace LiteMore.Combat.Bullet
 
                 if (IsAlive && Shape_.Contains(Entity.Position))
                 {
-                    if (!NpcList_.Contains(Entity))
+                    if (!NpcList_.ContainsKey(Entity))
                     {
-                        NpcList_.Add(Entity);
-                        OnNpcEnter(Entity);
+                        NpcList_.Add(Entity, 1);
+                        OnNpcEnter(Entity, 1);
                     }
                     else
                     {
-                        OnNpcStay(Entity);
+                        OnNpcStay(Entity, NpcList_[Entity]);
                     }
                 }
                 else
                 {
-                    if (NpcList_.Contains(Entity))
+                    if (NpcList_.ContainsKey(Entity))
                     {
+                        OnNpcExit(Entity, NpcList_[Entity]);
                         NpcList_.Remove(Entity);
-                        OnNpcExit(Entity);
                     }
                 }
             }
         }
 
-        protected abstract void OnNpcEnter(BaseNpc Target);
-        protected abstract void OnNpcStay(BaseNpc Target);
-        protected abstract void OnNpcExit(BaseNpc Target);
-        protected abstract void OnNpcDie(BaseNpc Target);
+        protected abstract void OnNpcEnter(BaseNpc Target, uint TotalApplyCount);
+        protected abstract void OnNpcStay(BaseNpc Target, uint TotalApplyCount);
+        protected abstract void OnNpcExit(BaseNpc Target, uint TotalApplyCount);
+        protected abstract void OnNpcDie(BaseNpc Target, uint TotalApplyCount);
     }
 
     public class DamageTriggerBullet : BaseTriggerBullet
@@ -128,21 +139,21 @@ namespace LiteMore.Combat.Bullet
         {
         }
 
-        protected override void OnNpcEnter(BaseNpc Target)
+        protected override void OnNpcEnter(BaseNpc Target, uint TotalApplyCount)
         {
             Target.OnBulletHit(this);
             LabelManager.AddNumberLabel(Target.Position, NumberLabelType.Bomb, Damage);
         }
 
-        protected override void OnNpcStay(BaseNpc Target)
+        protected override void OnNpcStay(BaseNpc Target, uint TotalApplyCount)
         {
         }
 
-        protected override void OnNpcExit(BaseNpc Target)
+        protected override void OnNpcExit(BaseNpc Target, uint TotalApplyCount)
         {
         }
 
-        protected override void OnNpcDie(BaseNpc Target)
+        protected override void OnNpcDie(BaseNpc Target, uint TotalApplyCount)
         {
         }
     }
@@ -162,32 +173,28 @@ namespace LiteMore.Combat.Bullet
     public class AttrTriggerBullet : BaseTriggerBullet
     {
         private readonly List<NpcAttrModifyInfo> ModifyList_;
-        private int ApplyCount_;
 
         public AttrTriggerBullet(Transform Trans, AttrTriggerBulletDescriptor Desc)
             : base(Trans, Desc.BaseTriggerDesc)
         {
             ModifyList_ = Desc.ModifyList;
-            ApplyCount_ = 0;
         }
 
-        protected override void OnNpcEnter(BaseNpc Target)
+        protected override void OnNpcEnter(BaseNpc Target, uint TotalApplyCount)
         {
             foreach (var Modify in ModifyList_)
             {
                 Target.Attr.ApplyModify(Modify);
             }
-
-            ApplyCount_++;
         }
 
-        protected override void OnNpcStay(BaseNpc Target)
+        protected override void OnNpcStay(BaseNpc Target, uint TotalApplyCount)
         {
         }
 
-        protected override void OnNpcExit(BaseNpc Target)
+        protected override void OnNpcExit(BaseNpc Target, uint TotalApplyCount)
         {
-            for (var Index = 0; Index < ApplyCount_; ++Index)
+            for (var Index = 0u; Index < TotalApplyCount; ++Index)
             {
                 foreach (var Modify in ModifyList_)
                 {
@@ -196,7 +203,7 @@ namespace LiteMore.Combat.Bullet
             }
         }
 
-        protected override void OnNpcDie(BaseNpc Target)
+        protected override void OnNpcDie(BaseNpc Target, uint TotalApplyCount)
         {
         }
     }

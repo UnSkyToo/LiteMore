@@ -4,6 +4,7 @@ using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
+using LiteMore.Combat.Skill.Selector;
 using LiteMore.Helper;
 using LiteMore.Motion;
 using LiteMore.UI;
@@ -35,7 +36,7 @@ namespace LiteMore
             }
 
             CreateEmitter();
-            CreateSkill();
+            CreateMainSkill();
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
@@ -185,10 +186,11 @@ namespace LiteMore
             }
         }
 
-        private static void CreateSkill()
+        private static void CreateMainSkill()
         {
-            var Skill1 = SkillManager.AddClickSkill("Textures/skill1", new SkillDescriptor("镭射激光", 5, 40));
-            Skill1.OnUsed += (Desc) =>
+            var Skill1 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill1", "镭射激光", 5, 40));
+            var Skill1Selector = new ClickSelector(Skill1);
+            Skill1Selector.OnUsed += (S) =>
             {
                 var BulletDesc = new LaserBulletDescriptor(
                     new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 100),
@@ -196,8 +198,9 @@ namespace LiteMore
                 BulletManager.AddLaserBullet(BulletDesc);
             };
 
-            var Skill2 = SkillManager.AddClickSkill("Textures/skill2", new SkillDescriptor("自动弹幕", 8, 30));
-            Skill2.OnUsed += (Desc) =>
+            var Skill2 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill2", "自动弹幕", 8, 30));
+            var Skill2Selector = new ClickSelector(Skill2);
+            Skill2Selector.OnUsed += (S) =>
             {
                 EmitterManager.AddEmitter(new BulletNormalEmitter
                 {
@@ -215,8 +218,9 @@ namespace LiteMore
                 });
             };
 
-            var Skill3 = SkillManager.AddClickSkill("Textures/skill3", new SkillDescriptor("放马过来", 3, 10));
-            Skill3.OnUsed += (Desc) =>
+            var Skill3 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill3", "放马过来", 3, 10));
+            var Skill3Selector = new ClickSelector(Skill3);
+            Skill3Selector.OnUsed += (S) =>
             {
                 EmitterManager.AddEmitter(new NpcNormalEmitter
                 {
@@ -234,18 +238,20 @@ namespace LiteMore
                 });
             };
 
-            var Skill4 = SkillManager.AddDragPositionSkill("Textures/skill4", new SkillDescriptor("天降正义", 5, 30, 250));
-            Skill4.OnUsed += (Desc, Pos) =>
+            var Skill4 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill4", "天降正义", 5, 30, 250));
+            var Skill4Selector = new DragPositionSelector(new DragSelectorDescriptor(Skill4, "Prefabs/bv0"));
+            Skill4Selector.OnUsed += (Desc, Pos) =>
             {
                 var BulletDesc = new BombBulletDescriptor(
                     new BaseBulletDescriptor(new Vector2(Pos.x, 400), CombatTeam.A, 500),
-                    Pos, 200, Desc.Radius);
+                    Pos, 200, Desc.Skill.Radius);
 
                 BulletManager.AddBombBullet(BulletDesc);
             };
 
-            var Skill5 = SkillManager.AddDragDirectionSkill("Textures/skill5", new SkillDescriptor("速速退散", 1, 1), new Vector2(Configure.CoreTopPosition.x - 50, 0));
-            Skill5.OnUsed += (Desc, Dir) =>
+            var Skill5 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill5", "速速退散", 1, 1, 128));
+            var Skill5Selector = new DragDirectionSelector(new DragSelectorDescriptor(Skill5, "Prefabs/bv1"), new Vector2(Configure.CoreTopPosition.x - 50, 0));
+            Skill5Selector.OnUsed += (Desc, Dir) =>
             {
                 var BulletDesc = new BackBulletDescriptor(
                     new BaseBulletDescriptor(new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
@@ -256,13 +262,14 @@ namespace LiteMore
                 BulletManager.AddBackBullet(BulletDesc);
             };
 
-            var Skill6 = SkillManager.AddDragPositionSkill("Textures/skill6", new SkillDescriptor("减速陷阱", 1, 1, 100));
-            Skill6.OnUsed += (Desc, Pos) =>
+            var Skill6 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill6", "减速陷阱", 1, 1, 100));
+            var Skill6Selector = new DragPositionSelector(new DragSelectorDescriptor(Skill6, "Prefabs/bv0"));
+            Skill6Selector.OnUsed += (Desc, Pos) =>
             {
                 var BulletDesc = new AttrTriggerBulletDescriptor(
                     new BaseTriggerBulletDescriptor(
                         new BaseBulletDescriptor(Pos, CombatTeam.A, 1),
-                        Desc.Radius,
+                        Desc.Skill.Radius,
                         0.5f,
                         20,
                         new Color(90.0f / 255.0f, 220.0f / 255.0f, 1.0f)),
@@ -274,13 +281,29 @@ namespace LiteMore
                 BulletManager.AddAttrTriggerBullet(BulletDesc);
             };
 
-            var Skill7 = SkillManager.AddClickSkill("Textures/skill7", new SkillDescriptor("召唤援军", 10, 50));
-            Skill7.OnUsed += (Desc) =>
+            var Skill7 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill7", "召唤援军", 10, 50));
+            var Skill7Selector = new ClickSelector(Skill7);
+            Skill7Selector.OnUsed += (S) =>
             {
                 var Npc = NpcManager.AddNpc(Configure.CoreBasePosition, CombatTeam.A,
                     NpcManager.GenerateInitAttr(200, 500, 0, 1, 0, 50, 50),
                     true);
                 Npc.Scale = new Vector2(3, 3);
+            };
+
+            var Skill8 = SkillManager.AddMainSkill(new BaseSkillDescriptor("Textures/Icon/skill8", "持续子弹", 0, 2));
+            var Skill8Selector = new PressedSelector(Skill8, 0.1f);
+            Skill8Selector.OnUsed += (S) =>
+            {
+                var Target = NpcManager.GetRandomNpc(CombatTeam.B);
+                if (Target != null)
+                {
+                    BulletManager.AddTrackBullet(new TrackBulletDescriptor(
+                        new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 1),
+                        "Blue",
+                        Target,
+                        1500));
+                }
             };
         }
     }

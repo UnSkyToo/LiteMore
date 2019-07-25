@@ -72,19 +72,9 @@ namespace LiteMore.Combat.Npc
             return Animation_.IsEnd();
         }
 
-        public bool IsIdleState()
+        public bool IsFsmState(FsmStateName StateName)
         {
-            return Fsm_.GetStateName() == FsmStateName.Idle;
-        }
-
-        public bool IsWalkState()
-        {
-            return Fsm_.GetStateName() == FsmStateName.Walk;
-        }
-
-        public bool IsAttackState()
-        {
-            return Fsm_.GetStateName() == FsmStateName.Attack;
+            return Fsm_.GetStateName() == StateName;
         }
 
         public void OnCombatEvent(CombatEvent Event)

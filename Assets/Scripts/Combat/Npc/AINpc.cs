@@ -13,7 +13,7 @@ namespace LiteMore.Combat.Npc
         {
             base.Tick(DeltaTime);
 
-            if (IsIdleState())
+            if (IsFsmState(FsmStateName.Idle))
             {
                 if (!IsValidTarget())
                 {
@@ -22,7 +22,7 @@ namespace LiteMore.Combat.Npc
 
                 MoveToTarget();
             }
-            else if (IsWalkState())
+            else if (IsFsmState(FsmStateName.Walk))
             {
                 if (!IsValidTarget())
                 {
@@ -37,7 +37,7 @@ namespace LiteMore.Combat.Npc
                     }
                 }
             }
-            else if (IsAttackState())
+            else if (IsFsmState(FsmStateName.Attack))
             {
                 if (!IsValidTarget())
                 {

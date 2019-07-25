@@ -6,7 +6,7 @@ namespace LiteMore.Helper
 {
     public static class TipsHelper
     {
-        public static string Skill(SkillDescriptor Desc)
+        public static string Skill(BaseSkillDescriptor Desc)
         {
             var Builder = new RichTextBuilder();
             Builder

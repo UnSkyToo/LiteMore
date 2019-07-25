@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Combat.Npc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +44,7 @@ namespace LiteMore.Combat.Skill
             }
         }
 
-        private static Transform CreateSkillObject(string ResName)
+        private static Transform CreateMainSkillObject(string ResName)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
             Obj.transform.SetParent(SkillRoot_, false);
@@ -53,33 +54,20 @@ namespace LiteMore.Combat.Skill
             return Obj.transform;
         }
 
-        public static ClickSkill AddClickSkill(string ResName, SkillDescriptor Desc)
+        public static MainSkill AddMainSkill(BaseSkillDescriptor Desc)
         {
-            var Obj = CreateSkillObject(ResName);
+            var Obj = CreateMainSkillObject(Desc.Icon);
 
-            var Entity = new ClickSkill(Obj, Desc);
+            var Entity = new MainSkill(Obj, Desc);
             SkillList_.Add(Entity);
 
             return Entity;
         }
 
-        public static DragPositionSkill AddDragPositionSkill(string ResName, SkillDescriptor Desc)
+        public static NpcSkill AddNpcSkill(BaseSkillDescriptor Desc, BaseNpc Master)
         {
-            var Obj = CreateSkillObject(ResName);
-
-            var Entity = new DragPositionSkill(Obj, Desc);
+            var Entity = new NpcSkill(Desc, Master);
             SkillList_.Add(Entity);
-
-            return Entity;
-        }
-
-        public static DragDirectionSkill AddDragDirectionSkill(string ResName, SkillDescriptor Desc, Vector2 OriginPos)
-        {
-            var Obj = CreateSkillObject(ResName);
-
-            var Entity = new DragDirectionSkill(Obj, Desc, OriginPos);
-            SkillList_.Add(Entity);
-
             return Entity;
         }
     }
