@@ -44,18 +44,32 @@ namespace LiteMore
             if (Input.GetKeyDown(KeyCode.F1))
             {
                 TimeScale_ = 0.5f;
+                Debug.LogWarning($"TimeScale = {TimeScale_}");
             }
             else if (Input.GetKeyDown(KeyCode.F2))
             {
                 TimeScale_ = 1.0f;
+                Debug.LogWarning($"TimeScale = {TimeScale_}");
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
                 TimeScale_ = 3.0f;
+                Debug.LogWarning($"TimeScale = {TimeScale_}");
             }
             else if (Input.GetKeyDown(KeyCode.F4))
             {
                 TimeScale_ = 5.0f;
+                Debug.LogWarning($"TimeScale = {TimeScale_}");
+            }
+            else if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                TimeScale_--;
+                Debug.LogWarning($"TimeScale = {TimeScale_}");
+            }
+            else if (Input.GetKeyDown(KeyCode.PageDown))
+            {
+                TimeScale_++;
+                Debug.LogWarning($"TimeScale = {TimeScale_}");
             }
 
             if (Input.GetKeyDown(KeyCode.F5))

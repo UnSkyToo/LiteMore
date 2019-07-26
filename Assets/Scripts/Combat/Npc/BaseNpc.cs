@@ -207,6 +207,11 @@ namespace LiteMore.Combat.Npc
 
         private void OnHitDamage(float Damage)
         {
+            if (IsFsmState(FsmStateName.Die))
+            {
+                return;
+            }
+
             Attr.AddValue(NpcAttrIndex.Hp, -Damage);
 
             if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)

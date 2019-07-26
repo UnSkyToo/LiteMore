@@ -20,17 +20,21 @@ namespace LiteMore
         public static float MpAdd { get; private set; }
 
         public static int Gem { get; private set; }
+        
+        public static int MainBulletDamage { get; private set; }
 
         private static CoreNpc CoreNpc_;
-        private static BulletCircleEmitter MainEmitter_;
+        private static BaseEmitter MainEmitter_;
 
         public static bool Startup()
         {
             Hp = MaxHp = 10;
-            Mp = MaxMp = 100;
-            Gem = 0;
             HpAdd = 20;
+            Mp = MaxMp = 100;
             MpAdd = 10;
+            Gem = 0;
+
+            MainBulletDamage = 1;
 
             UIManager.OpenUI<PlayerInfoUI>();
 
@@ -61,7 +65,8 @@ namespace LiteMore
 
         public static void CreateMainEmitter()
         {
-            EmitterManager.AddEmitter(new BulletCircleEmitter
+            EmitterManager.RemoveEmitter(MainEmitter_);
+            MainEmitter_ = EmitterManager.AddEmitter(new BulletCircleEmitter
             {
                 Team = CombatTeam.A,
                 TriggerCount = -1,
@@ -72,7 +77,7 @@ namespace LiteMore
                 Position = Configure.CoreTopPosition,
                 RadiusAttr = new EmitterRandFloat(0, 0),
                 SpeedAttr = new EmitterRandFloat(1000, 2000),
-                DamageAttr = new EmitterRandInt(1, 3),
+                DamageAttr = new EmitterRandInt(MainBulletDamage, MainBulletDamage),
                 ResName = "Red",
             });
 
@@ -138,6 +143,11 @@ namespace LiteMore
         public static void AddMp(float Value)
         {
             CoreNpc_.Attr.AddValue(NpcAttrIndex.Mp, Value);
+        }
+
+        public static void AddMainBulletDamage()
+        {
+            MainBulletDamage++;
         }
     }
 }

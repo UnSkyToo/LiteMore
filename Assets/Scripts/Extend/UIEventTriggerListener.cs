@@ -81,8 +81,8 @@ namespace LiteMore.Extend
 
         public override void OnPointerClick(PointerEventData EventData)
         {
-            // todo 穿透问题
-            if (EventData.pointerPress != EventData.rawPointerPress)
+            // 穿透问题
+            if (gameObject != EventData.rawPointerPress)
             {
                 return;
             }
@@ -93,30 +93,60 @@ namespace LiteMore.Extend
 
         public override void OnPointerDown(PointerEventData EventData)
         {
+            // 穿透问题
+            if (gameObject != EventData.rawPointerPress)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.Down]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.Down]?.Invoke();
         }
 
         public override void OnPointerUp(PointerEventData EventData)
         {
+            // 穿透问题
+            if (gameObject != EventData.rawPointerPress)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.Up]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.Up]?.Invoke();
         }
 
         public override void OnPointerEnter(PointerEventData EventData)
         {
+            // 穿透问题
+            if (gameObject != EventData.pointerEnter)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.Enter]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.Enter]?.Invoke();
         }
 
         public override void OnPointerExit(PointerEventData EventData)
         {
+            // 穿透问题
+            if (gameObject != EventData.pointerEnter)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.Exit]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.Exit]?.Invoke();
         }
 
         public override void OnBeginDrag(PointerEventData EventData)
         {
+            // 穿透问题
+            if (gameObject != EventData.rawPointerPress)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.BeginDrag]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.BeginDrag]?.Invoke();
         }
