@@ -58,6 +58,21 @@
             }
         }
 
+        public void AtOnce()
+        {
+            Time_ = Interval;
+        }
+
+        public uint GetRemainingCount()
+        {
+            if (TriggerCount > 0)
+            {
+                return (uint)(TriggerCount * EmittedCount);
+            }
+
+            return 0;
+        }
+
         protected abstract void OnEmitted(uint Cur, uint Max);
     }
 }

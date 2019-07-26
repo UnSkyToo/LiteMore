@@ -44,6 +44,13 @@ namespace LiteMore.Combat.Emitter
             return Emitter;
         }
 
+        public static void RemoveEmitter(BaseEmitter Emitter)
+        {
+            Emitter.IsAlive = false;
+            Emitter.Destroy();
+            EmitterList_.Remove(Emitter);
+        }
+
         public static int GetCount()
         {
             return EmitterList_.Count;

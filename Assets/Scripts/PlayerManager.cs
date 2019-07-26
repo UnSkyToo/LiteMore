@@ -1,7 +1,11 @@
 ﻿using LiteMore.Combat;
+using LiteMore.Combat.Bullet;
+using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
+using LiteMore.Extend;
 using LiteMore.UI;
 using LiteMore.UI.Logic;
+using UnityEngine;
 
 namespace LiteMore
 {
@@ -18,6 +22,7 @@ namespace LiteMore
         public static int Gem { get; private set; }
 
         private static CoreNpc CoreNpc_;
+        private static BulletCircleEmitter MainEmitter_;
 
         public static bool Startup()
         {
@@ -36,6 +41,8 @@ namespace LiteMore
             AddHp(0);
             AddMp(0);
 
+            CreateMainEmitter();
+
             return true;
         }
 
@@ -50,6 +57,38 @@ namespace LiteMore
             {
                 GameManager.GameOver();
             }
+        }
+
+        public static void CreateMainEmitter()
+        {
+            EmitterManager.AddEmitter(new BulletCircleEmitter
+            {
+                Team = CombatTeam.A,
+                TriggerCount = -1,
+                EmittedCount = 1,
+                Interval = 10.0f / 60.0f,
+                IsAlive = true,
+                IsPause = false,
+                Position = Configure.CoreTopPosition,
+                RadiusAttr = new EmitterRandFloat(0, 0),
+                SpeedAttr = new EmitterRandFloat(1000, 2000),
+                DamageAttr = new EmitterRandInt(1, 3),
+                ResName = "Red",
+            });
+
+            UIEventTriggerListener.Remove(GameObject.Find("Touch").transform);
+            UIEventTriggerListener.Get(GameObject.Find("Touch").transform).AddCallback(UIEventType.Click, () =>
+            {
+                var Target = NpcManager.GetRandomNpc(CombatTeam.B);
+                if (Target != null)
+                {
+                    var Desc = new TrackBulletDescriptor(
+                        new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 5),
+                        "Blue", Target, 1500);
+
+                    BulletManager.AddTrackBullet(Desc);
+                }
+            });
         }
 
         private static void OnCoreAttrChanged(NpcAttrIndex Index)

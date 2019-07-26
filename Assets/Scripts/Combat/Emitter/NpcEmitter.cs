@@ -1,16 +1,64 @@
-﻿using LiteMore.Combat.Bullet;
-using LiteMore.Combat.Npc;
+﻿using LiteMore.Combat.Npc;
 using LiteMore.Extend;
 using UnityEngine;
 
 namespace LiteMore.Combat.Emitter
 {
-    public class NpcNormalEmitter : BaseEmitter
+    public abstract class NpcEmitter : BaseEmitter
     {
-        public EmitterRandFloat RadiusAttr { get; set; }
         public EmitterRandFloat SpeedAttr { get; set; }
         public EmitterRandInt HpAttr { get; set; }
         public EmitterRandInt DamageAttr { get; set; }
+        public EmitterRandInt GemAttr { get; set; }
+
+        protected NpcEmitter()
+            : base()
+        {
+        }
+    }
+
+    public class NpcRectEmitter : NpcEmitter
+    {
+        public EmitterRandVector2 OffsetAttr { get; set; }
+
+        private Transform ObjOuter_;
+        private LineCaller CallerOuter_;
+
+        public NpcRectEmitter()
+            : base()
+        {
+        }
+
+        public override void Create()
+        {
+            ObjOuter_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
+            ObjOuter_.name = $"NpcRectOuter<{ID}>";
+            ObjOuter_.SetParent(Configure.EmitterRoot, false);
+            ObjOuter_.localPosition = Vector3.zero;
+
+            CallerOuter_ = new LineCaller(ObjOuter_.GetComponent<LineRenderer>());
+            CallerOuter_.DrawRect(
+                new LineCallerPoint(Position + OffsetAttr.Min, Color.blue),
+                new LineCallerPoint(Position + OffsetAttr.Max, Color.blue));
+        }
+
+        public override void Destroy()
+        {
+            Object.Destroy(ObjOuter_.gameObject);
+        }
+
+        protected override void OnEmitted(uint Cur, uint Max)
+        {
+            var Pos = Position + OffsetAttr.Get();
+            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 5, 5);
+            var Entity = NpcManager.AddNpc(Pos, Team, InitAttr);
+            //Entity.MoveTo(Configure.CoreBasePosition);
+        }
+    }
+
+    public class NpcCircleEmitter : NpcEmitter
+    {
+        public EmitterRandFloat RadiusAttr { get; set; }
 
         private Transform ObjInner_;
         private LineCaller CallerInner_;
@@ -18,7 +66,7 @@ namespace LiteMore.Combat.Emitter
         private Transform ObjOuter_;
         private LineCaller CallerOuter_;
 
-        public NpcNormalEmitter()
+        public NpcCircleEmitter()
             : base()
         {
         }
@@ -54,39 +102,9 @@ namespace LiteMore.Combat.Emitter
             var Angle = Random.Range(0, Mathf.PI * 2);
             var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
-            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), 1, 5, 5);
+            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 5, 5);
             var Entity = NpcManager.AddNpc(Pos, Team, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
-        }
-    }
-
-    public class BulletNormalEmitter : BaseEmitter
-    {
-        public EmitterRandFloat RadiusAttr { get; set; }
-        public EmitterRandFloat SpeedAttr { get; set; }
-        public EmitterRandInt DamageAttr { get; set; }
-        public string ResName { get; set; }
-
-        public BulletNormalEmitter()
-            : base()
-        {
-        }
-
-        protected override void OnEmitted(uint Cur, uint Max)
-        {
-            var Target = NpcManager.GetRandomNpc(Team.Opposite());
-            if (Target != null)
-            {
-                var Radius = RadiusAttr.Get();
-                var Angle = Random.Range(0, Mathf.PI * 2);
-                var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
-
-                var Desc = new TrackBulletDescriptor(
-                    new BaseBulletDescriptor(Pos, Team, DamageAttr.Get()),
-                    ResName, Target, SpeedAttr.Get());
-
-                BulletManager.AddTrackBullet(Desc);
-            }
         }
     }
 }

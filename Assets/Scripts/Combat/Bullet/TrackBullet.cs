@@ -54,7 +54,7 @@ namespace LiteMore.Combat.Bullet
             {
                 IsAlive = false;
             }
-            else
+            /*else
             {
                 MoveTo(Target_.Position);
                 if (Distance_ <= Target_.CalcFinalAttr(NpcAttrIndex.Radius))
@@ -64,7 +64,7 @@ namespace LiteMore.Combat.Bullet
                     LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
                     IsAlive = false;
                 }
-            }
+            }*/
 
             if (!IsAlive)
             {
@@ -77,9 +77,13 @@ namespace LiteMore.Combat.Bullet
             {
                 T = 1.0f;
                 IsMove = false;
+
+                Target_.OnBulletHit(this);
+                LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
+                IsAlive = false;
             }
 
-            Position = Vector2.Lerp(BeginPos_, EndPos_, T);
+            Position = Vector2.Lerp(BeginPos_, Target_.Position, T);
             base.Tick(DeltaTime);
         }
 

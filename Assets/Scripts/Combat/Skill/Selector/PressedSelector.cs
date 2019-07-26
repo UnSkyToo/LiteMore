@@ -15,8 +15,8 @@ namespace LiteMore.Combat.Skill.Selector
             Interval_ = Interval;
             Time_ = 0;
             IsPressed_ = false;
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Down, (Obj, Pos) => { IsPressed_ = true; Time_ = 0;});
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Up, (Obj, Pos) => { IsPressed_ = false; Time_ = 0;});
+            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Down, () => { IsPressed_ = true; Time_ = 0;});
+            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Up, () => { IsPressed_ = false; Time_ = 0;});
         }
 
         public override void Destroy()

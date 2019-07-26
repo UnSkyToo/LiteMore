@@ -214,7 +214,7 @@ namespace LiteMore.Combat.Npc
                 Attr.SetValue(NpcAttrIndex.Hp, 0);
                 PlayerManager.AddGem((int)CalcFinalAttr(NpcAttrIndex.Gem));
                 SfxManager.AddSfx("Prefabs/Sfx/GoldSfx", Position);
-                Fsm_.OnCombatEvent(new NpcDieEvent(ID));
+                EventManager.Send(new NpcDieEvent(this));
             }
 
             TryToPlayHitSfx();
@@ -237,7 +237,7 @@ namespace LiteMore.Combat.Npc
             }
 
             TargetPos_ = TargetPos;
-            Fsm_.OnCombatEvent(new NpcWalkEvent(ID, TargetPos_));
+            EventManager.Send(new NpcWalkEvent(this, TargetPos));
         }
 
         public void SetDead()
@@ -258,7 +258,7 @@ namespace LiteMore.Combat.Npc
             }
 
             var BackPos = Position + Offset;
-            Fsm_.OnCombatEvent(new NpcBackEvent(ID, BackPos, Offset.magnitude / Speed));
+            EventManager.Send(new NpcBackEvent(this, BackPos, Offset.magnitude / Speed));
         }
     }
 }

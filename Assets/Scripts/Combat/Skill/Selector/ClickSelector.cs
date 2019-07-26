@@ -18,7 +18,7 @@ namespace LiteMore.Combat.Skill.Selector
             UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.Click, OnClick);
         }
 
-        private void OnClick(GameObject Sender, Vector2 Position)
+        private void OnClick()
         {
             Use();
         }

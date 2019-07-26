@@ -30,6 +30,8 @@ namespace LiteMore.UI
             {typeof(TipsUI), new UIDescriptor("TipsUI", false, false)},
             {typeof(GameOverUI), new UIDescriptor("GameOverUI", false, true)},
             {typeof(PlayerInfoUI), new UIDescriptor("PlayerInfoUI", false, true)},
+            {typeof(WaveInfoUI), new UIDescriptor("WaveInfoUI", false, true)},
+            {typeof(CoreUpUI), new UIDescriptor("CoreUpUI", false, true)},
         };
     }
 }

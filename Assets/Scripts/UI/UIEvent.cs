@@ -10,6 +10,13 @@
 
     public class PlayerGemChangeEvent : BaseEvent
     {
+    }
 
+    public class NewWaveEvent : BaseEvent
+    {
+    }
+
+    public class WaveChangeEvent : BaseEvent
+    {
     }
 }

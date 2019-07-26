@@ -102,7 +102,17 @@ namespace LiteMore.UI
             UIHelper.AddEvent(UITransform, Callback, Type);
         }
 
+        public void AddEvent(Action Callback, UIEventType Type = UIEventType.Click)
+        {
+            UIHelper.AddEvent(UITransform, Callback, Type);
+        }
+
         public void RemoveEvent(Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        {
+            UIHelper.RemoveEvent(UITransform, Callback, Type);
+        }
+
+        public void RemoveEvent(Action Callback, UIEventType Type = UIEventType.Click)
         {
             UIHelper.RemoveEvent(UITransform, Callback, Type);
         }
@@ -112,7 +122,17 @@ namespace LiteMore.UI
             UIHelper.AddEventToChild(UITransform, ChildPath, Callback, Type);
         }
 
+        public void AddEventToChild(string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
+        {
+            UIHelper.AddEventToChild(UITransform, ChildPath, Callback, Type);
+        }
+
         public void RemoveEventFromChild(string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        {
+            UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
+        }
+
+        public void RemoveEventFromChild(string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
         {
             UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
         }
@@ -137,7 +157,7 @@ namespace LiteMore.UI
             UIHelper.EnableTouched(UITransform, ChildPath, Enabled);
         }
 
-        /*public BaseMotion ExecuteMotion(BaseMotion Motion)
+        public BaseMotion ExecuteMotion(BaseMotion Motion)
         {
             return MotionManager.Execute(UITransform, Motion);
         }
@@ -145,7 +165,7 @@ namespace LiteMore.UI
         public void AbandonMotion(BaseMotion Motion)
         {
             MotionManager.Abandon(Motion);
-        }*/
+        }
 
         protected virtual void OnOpen(params object[] Params)
         {

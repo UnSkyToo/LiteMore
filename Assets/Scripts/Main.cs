@@ -9,6 +9,7 @@ namespace LiteMore
     public class Main : MonoBehaviour
     {
         private GUIStyle Style_;
+        private float TimeScale_ = 1.0f;
 
         void Awake()
         {
@@ -32,7 +33,7 @@ namespace LiteMore
         {
             try
             {
-                GameManager.Tick(Time.deltaTime);
+                GameManager.Tick(Time.deltaTime * TimeScale_);
             }
             catch (System.Exception Ex)
             {
@@ -40,9 +41,31 @@ namespace LiteMore
             }
 
 #if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                TimeScale_ = 0.5f;
+            }
+            else if (Input.GetKeyDown(KeyCode.F2))
+            {
+                TimeScale_ = 1.0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.F3))
+            {
+                TimeScale_ = 3.0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.F4))
+            {
+                TimeScale_ = 5.0f;
+            }
+
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 GameManager.Restart();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                GameManager.Shutdown();
             }
 
             if (Input.GetKeyDown(KeyCode.F9))

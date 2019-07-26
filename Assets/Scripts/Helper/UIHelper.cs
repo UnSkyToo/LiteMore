@@ -53,7 +53,27 @@ namespace LiteMore.Helper
             UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
         }
 
+        public static void AddEvent(Transform Obj, Action Callback, UIEventType Type = UIEventType.Click)
+        {
+            if (Obj == null)
+            {
+                return;
+            }
+
+            UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
+        }
+
         public static void RemoveEvent(Transform Obj, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        {
+            if (Obj == null)
+            {
+                return;
+            }
+
+            UIEventTriggerListener.Get(Obj).RemoveCallback(Type, Callback);
+        }
+
+        public static void RemoveEvent(Transform Obj, Action Callback, UIEventType Type = UIEventType.Click)
         {
             if (Obj == null)
             {
@@ -72,7 +92,25 @@ namespace LiteMore.Helper
             }
         }
 
+        public static void AddEventToChild(Transform Parent, string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
+        {
+            var Obj = FindChild(Parent, ChildPath);
+            if (Obj != null)
+            {
+                UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
+            }
+        }
+
         public static void RemoveEventFromChild(Transform Parent, string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        {
+            var Obj = FindChild(Parent, ChildPath);
+            if (Obj != null)
+            {
+                UIEventTriggerListener.Get(Obj).RemoveCallback(Type, Callback);
+            }
+        }
+
+        public static void RemoveEventFromChild(Transform Parent, string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
         {
             var Obj = FindChild(Parent, ChildPath);
             if (Obj != null)

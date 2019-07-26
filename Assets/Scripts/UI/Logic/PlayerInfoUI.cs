@@ -37,6 +37,8 @@ namespace LiteMore.UI.Logic
             EventManager.Register<PlayerHpChangeEvent>(OnPlayerHpChangeEvent);
             EventManager.Register<PlayerMpChangeEvent>(OnPlayerMpChangeEvent);
             EventManager.Register<PlayerGemChangeEvent>(OnPlayerGemChangeEvent);
+
+            AddEventToChild("BtnCoreUp", () => { UIManager.OpenUI<CoreUpUI>(); });
         }
 
         protected override void OnClose()

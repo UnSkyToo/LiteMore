@@ -1,21 +1,22 @@
-﻿using UnityEngine;
+﻿using LiteMore.Combat.Npc;
+using UnityEngine;
 
 namespace LiteMore.Combat
 {
     public abstract class CombatEvent : BaseEvent
     {
-        public uint ID { get; }
+        public BaseNpc Master { get; }
 
-        protected CombatEvent(uint ID)
+        protected CombatEvent(BaseNpc Master)
         {
-            this.ID = ID;
+            this.Master = Master;
         }
     }
 
     public class NpcIdleEvent : CombatEvent
     {
-        public NpcIdleEvent(uint ID)
-            : base(ID)
+        public NpcIdleEvent(BaseNpc Master)
+            : base(Master)
         {
         }
     }
@@ -24,8 +25,8 @@ namespace LiteMore.Combat
     {
         public Vector2 TargetPos { get; }
 
-        public NpcWalkEvent(uint ID, Vector2 TargetPos)
-            : base(ID)
+        public NpcWalkEvent(BaseNpc Master, Vector2 TargetPos)
+            : base(Master)
         {
             this.TargetPos = TargetPos;
         }
@@ -33,16 +34,16 @@ namespace LiteMore.Combat
 
     public class NpcAttackEvent : CombatEvent
     {
-        public NpcAttackEvent(uint ID)
-            : base(ID)
+        public NpcAttackEvent(BaseNpc Master)
+            : base(Master)
         {
         }
     }
 
     public class NpcDieEvent : CombatEvent
     {
-        public NpcDieEvent(uint ID)
-            : base(ID)
+        public NpcDieEvent(BaseNpc Master)
+            : base(Master)
         {
         }
     }
@@ -52,8 +53,8 @@ namespace LiteMore.Combat
         public Vector2 BackPos { get; }
         public float BackTime { get; }
 
-        public NpcBackEvent(uint ID, Vector2 BackPos, float BackTime)
-            : base(ID)
+        public NpcBackEvent(BaseNpc Master, Vector2 BackPos, float BackTime)
+            : base(Master)
         {
             this.BackPos = BackPos;
             this.BackTime = BackTime;
@@ -64,8 +65,8 @@ namespace LiteMore.Combat
     {
         public int Damage { get; }
 
-        public NpcHitTargetEvent(uint ID, int Damage)
-            : base(ID)
+        public NpcHitTargetEvent(BaseNpc Master, int Damage)
+            : base(Master)
         {
             this.Damage = Damage;
         }

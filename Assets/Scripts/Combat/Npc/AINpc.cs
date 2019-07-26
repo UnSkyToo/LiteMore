@@ -33,7 +33,7 @@ namespace LiteMore.Combat.Npc
                     var Distance = Vector2.Distance(Position, TargetNpc.Position);
                     if (Distance <= CalcFinalAttr(NpcAttrIndex.Range) + TargetNpc.CalcFinalAttr(NpcAttrIndex.Radius))
                     {
-                        Fsm_.ChangeToState(FsmStateName.Attack, new NpcAttackEvent(TargetNpc.ID));
+                        EventManager.Send(new NpcAttackEvent(this));
                     }
                 }
             }

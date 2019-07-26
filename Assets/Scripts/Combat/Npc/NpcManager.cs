@@ -214,12 +214,6 @@ namespace LiteMore.Combat.Npc
             return null;
         }
 
-        public static void OnCombatEvent(CombatEvent Event)
-        {
-            var Entity = FindNpc(Event.ID);
-            Entity?.OnCombatEvent(Event);
-        }
-
         public static int GetCount()
         {
             return NpcList_[(int)CombatTeam.A].Count + NpcList_[(int)CombatTeam.B].Count;

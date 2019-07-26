@@ -32,6 +32,8 @@ namespace LiteMore
             Text_["Hp"] = "防御值";
             Text_["Mp"] = "能量值";
             Text_["Gem"] = "宝石";
+            Text_["Wave"] = "波数";
+            Text_["RemainNum"] = "剩余数量";
         }
 
         private static void LoadEN()
