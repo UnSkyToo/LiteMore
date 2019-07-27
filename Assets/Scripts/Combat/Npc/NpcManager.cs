@@ -44,7 +44,7 @@ namespace LiteMore.Combat.Npc
             {
                 foreach (var Entity in NpcList_[Team])
                 {
-                    Entity.Destroy();
+                    Entity.Dispose();
                 }
                 NpcList_[Team].Clear();
             }
@@ -60,7 +60,7 @@ namespace LiteMore.Combat.Npc
 
                     if (!NpcList_[Team][Index].IsAlive)
                     {
-                        NpcList_[Team][Index].Destroy();
+                        NpcList_[Team][Index].Dispose();
                         NpcList_[Team].RemoveAt(Index);
                     }
                 }
@@ -122,7 +122,6 @@ namespace LiteMore.Combat.Npc
             Obj.transform.localPosition = Position;
 
             var Entity = new AINpc(Obj.transform, Team, InitAttr);
-            Entity.Create();
             if (ForceFirst)
             {
                 NpcList_[(int)Team].Insert(0, Entity);
@@ -149,7 +148,6 @@ namespace LiteMore.Combat.Npc
             Obj.transform.localPosition = Position;
 
             CoreNpc_ = new CoreNpc(Obj.transform, InitAttr);
-            CoreNpc_.Create();
             NpcList_[(int)CombatTeam.A].Add(CoreNpc_);
             CoreNpc_.Position = Position;
             CoreNpc_.IsStatic = true;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteMore.UI.Core;
 using LiteMore.UI.Logic;
 
 namespace LiteMore.UI
@@ -27,10 +28,10 @@ namespace LiteMore.UI
     {
         public static readonly Dictionary<Type, UIDescriptor> UIList = new Dictionary<Type, UIDescriptor>
         {
+            {typeof(ToastUI), new UIDescriptor("ToastUI", true, false)},
             {typeof(TipsUI), new UIDescriptor("TipsUI", false, false)},
             {typeof(GameOverUI), new UIDescriptor("GameOverUI", false, true)},
-            {typeof(PlayerInfoUI), new UIDescriptor("PlayerInfoUI", false, true)},
-            {typeof(WaveInfoUI), new UIDescriptor("WaveInfoUI", false, true)},
+            {typeof(MainUI), new UIDescriptor("MainUI", false, true)},
             {typeof(CoreUpUI), new UIDescriptor("CoreUpUI", false, true)},
         };
     }

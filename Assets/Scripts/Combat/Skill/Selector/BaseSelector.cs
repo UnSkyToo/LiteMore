@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using LiteMore.Core;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -10,21 +10,24 @@ namespace LiteMore.Combat.Skill.Selector
         DragDirection, // 拖动选择方向释放
     }
 
-    public abstract class BaseSelector
+    public abstract class BaseSelector : BaseEntity
     {
         public SelectorMode Mode { get; }
         protected readonly MainSkill Skill_;
 
         protected BaseSelector(SelectorMode Mode, MainSkill Skill)
+            : base()
         {
             this.Mode = Mode;
             this.Skill_ = Skill;
             this.Skill_.SetSelector(this);
         }
 
-        public abstract void Destroy();
+        public override void Dispose()
+        {
+        }
 
-        public virtual void Tick(float DeltaTime)
+        public override void Tick(float DeltaTime)
         {
         }
     }

@@ -4,21 +4,20 @@ namespace LiteMore.Motion
 {
     public class FadeMotion : BaseMotion
     {
-        private readonly bool IsRelative_;
         private readonly float TotalTime_;
+        private readonly float BeginAlpha_;
+        private readonly float EndAlpha_;
         private float CurrentTime_;
-        private float BeginAlpha_;
-        private float EndAlpha_;
 
         private CanvasGroup Group_;
 
-        public FadeMotion(float Time, float Alpha, bool IsRelative)
+        public FadeMotion(float Time, float BeginAlpha, float EndAlpha)
             : base()
         {
-            IsRelative_ = IsRelative;
             TotalTime_ = Time;
-            BeginAlpha_ = Alpha;
-            EndAlpha_ = Alpha;
+            BeginAlpha_ = BeginAlpha;
+            EndAlpha_ = EndAlpha;
+            CurrentTime_ = 0;
         }
 
         public override void Enter()
@@ -31,12 +30,7 @@ namespace LiteMore.Motion
                 Group_ = Master.gameObject.AddComponent<CanvasGroup>();
             }
 
-            BeginAlpha_ = Group_.alpha;
-
-            if (IsRelative_)
-            {
-                EndAlpha_ += BeginAlpha_;
-            }
+            Group_.alpha = BeginAlpha_;
         }
 
         public override void Exit()
@@ -60,7 +54,7 @@ namespace LiteMore.Motion
     public class FadeInMotion : FadeMotion
     {
         public FadeInMotion(float Time)
-            : base(Time, 1.0f, false)
+            : base(Time, 0, 1)
         {
         }
     }
@@ -68,7 +62,7 @@ namespace LiteMore.Motion
     public class FadeOutMotion : FadeMotion
     {
         public FadeOutMotion(float Time)
-            : base(Time, 0.0f, false)
+            : base(Time, 1, 0)
         {
         }
     }

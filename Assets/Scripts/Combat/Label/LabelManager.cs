@@ -18,7 +18,7 @@ namespace LiteMore.Combat.Label
         {
             foreach (var Entity in LabelList_)
             {
-                Entity.Destroy();
+                Entity.Dispose();
             }
             LabelList_.Clear();
         }
@@ -31,7 +31,7 @@ namespace LiteMore.Combat.Label
 
                 if (!LabelList_[Index].IsAlive)
                 {
-                    LabelList_[Index].Destroy();
+                    LabelList_[Index].Dispose();
                     LabelList_.RemoveAt(Index);
                 }
             }
@@ -46,7 +46,6 @@ namespace LiteMore.Combat.Label
             Obj.transform.localPosition = Position;
 
             var Entity = new NumberLabel(Obj.transform, Type, Value);
-            Entity.Create();
             LabelList_.Add(Entity);
             Entity.Position = Position;
 

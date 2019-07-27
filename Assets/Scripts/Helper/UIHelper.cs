@@ -1,7 +1,6 @@
 ﻿using System;
 using LiteMore.Extend;
 using LiteMore.UI;
-using LiteMore.UI.Logic;
 using UnityEngine;
 
 namespace LiteMore.Helper
@@ -208,63 +207,6 @@ namespace LiteMore.Helper
             {
                 Parent.GetChild(Index)?.gameObject.SetActive(false);
             }
-        }
-
-        public static void AddTips(Transform Parent, string ChildPath, Func<string> GetFunc)
-        {
-            var Child = FindChild(Parent, ChildPath);
-            if (Child == null)
-            {
-                return;
-            }
-
-            AddTips(Child, GetFunc);
-        }
-
-        public static void AddTips(Transform Obj, Func<string> GetFunc)
-        {
-            var TimerID = 0u;
-            var BeginPos = Vector2.zero;
-            BaseUI Tips = null;
-
-            AddEvent(Obj, (_, Pos) =>
-            {
-                var Msg = GetFunc?.Invoke() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(Msg))
-                {
-                    return;
-                }
-
-                BeginPos = Pos;
-                TimerID = TimerManager.AddTimer(Configure.TipsHoldTime, () => { Tips = UIManager.OpenUI<TipsUI>(Msg, Pos); }, 1);
-            }, UIEventType.Down);
-
-            AddEvent(Obj, (_, Pos) =>
-            {
-                if (TimerID == 0)
-                {
-                    return;
-                }
-
-                if (Vector2.Distance(Pos, BeginPos) > 10)
-                {
-                    TimerManager.StopTimer(TimerID);
-                    TimerID = 0;
-                }
-            }, UIEventType.Drag);
-
-            AddEvent(Obj, (_, Pos) =>
-            {
-                TimerManager.StopTimer(TimerID);
-                TimerID = 0;
-                UIManager.CloseUI(Tips);
-            }, UIEventType.Up);
-
-            AddEvent(Obj, (_, Pos) =>
-            {
-                TimerManager.StopTimer(TimerID);
-                TimerID = 0;
-            }, UIEventType.Exit);
         }
     }
 }

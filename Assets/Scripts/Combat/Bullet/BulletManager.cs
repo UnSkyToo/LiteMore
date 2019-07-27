@@ -35,7 +35,7 @@ namespace LiteMore.Combat.Bullet
         {
             foreach (var Entity in BulletList_)
             {
-                Entity.Destroy();
+                Entity.Dispose();
             }
 
             BulletList_.Clear();
@@ -50,7 +50,7 @@ namespace LiteMore.Combat.Bullet
 
                 if (!BulletList_[Index].IsAlive)
                 {
-                    BulletList_[Index].Destroy();
+                    BulletList_[Index].Dispose();
                     BulletList_.RemoveAt(Index);
                 }
             }
@@ -69,7 +69,6 @@ namespace LiteMore.Combat.Bullet
             var Obj = CreateBullet(BulletType.Track, Desc.BaseBulletDesc.Position);
 
             var Entity = new TrackBullet(Obj.transform, Desc);
-            Entity.Create();
             BulletList_.Add(Entity);
 
             return Entity;
@@ -80,7 +79,6 @@ namespace LiteMore.Combat.Bullet
             var Obj = CreateBullet(BulletType.Laser, Desc.BaseBulletDesc.Position);
 
             var Entity = new LaserBullet(Obj.transform, Desc);
-            Entity.Create();
             BulletList_.Add(Entity);
 
             return Entity;
@@ -91,7 +89,6 @@ namespace LiteMore.Combat.Bullet
             var Obj = CreateBullet(BulletType.Bomb, Desc.BaseBulletDesc.Position);
 
             var Entity = new BombBullet(Obj.transform, Desc);
-            Entity.Create();
             BulletList_.Add(Entity);
 
             return Entity;
@@ -102,7 +99,6 @@ namespace LiteMore.Combat.Bullet
             var Obj = CreateBullet(BulletType.Back, Desc.BaseBulletDesc.Position);
 
             var Entity = new BackBullet(Obj.transform, Desc);
-            Entity.Create();
             BulletList_.Add(Entity);
 
             return Entity;
@@ -113,7 +109,6 @@ namespace LiteMore.Combat.Bullet
             var Obj = CreateBullet(BulletType.Trigger, Desc.BaseTriggerDesc.BaseBulletDesc.Position);
 
             var Entity = new AttrTriggerBullet(Obj.transform, Desc);
-            Entity.Create();
             BulletList_.Add(Entity);
 
             return Entity;

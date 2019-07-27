@@ -1,35 +1,17 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Core;
 using UnityEngine;
 
 namespace LiteMore.Combat
 {
-    public class BaseSfx : BaseEntity
+    public class BaseSfx : GameEntity
     {
-        private Transform Transform_;
         protected Animator Animator_;
 
         public BaseSfx(Transform Trans)
-            : base()
+            : base(Trans)
         {
-            Transform_ = Trans;
-            Transform_.name = $"<{ID}>";
-
-            Animator_ = Trans.GetComponentInChildren<Animator>();
-        }
-
-        public override void Create()
-        {
-        }
-
-        public override void Destroy()
-        {
-            IsAlive = false;
-
-            if (Transform_ != null)
-            {
-                Object.Destroy(Transform_.gameObject);
-                Transform_ = null;
-            }
+            Animator_ = Transform_.GetComponentInChildren<Animator>();
         }
 
         public override void Tick(float DeltaTime)
@@ -38,8 +20,6 @@ namespace LiteMore.Combat
             {
                 return;
             }
-
-            Transform_.localPosition = Position;
 
             if (IsEnd())
             {
@@ -69,7 +49,7 @@ namespace LiteMore.Combat
         {
             foreach (var Entity in SfxList_)
             {
-                Entity.Destroy();
+                Entity.Dispose();
             }
             SfxList_.Clear();
         }
@@ -82,7 +62,7 @@ namespace LiteMore.Combat
 
                 if (!SfxList_[Index].IsAlive)
                 {
-                    SfxList_[Index].Destroy();
+                    SfxList_[Index].Dispose();
                     SfxList_.RemoveAt(Index);
                 }
             }
@@ -95,7 +75,6 @@ namespace LiteMore.Combat
             Obj.transform.localPosition = Position;
 
             var Entity = new BaseSfx(Obj.transform);
-            Entity.Create();
             SfxList_.Add(Entity);
             Entity.Position = Position;
 

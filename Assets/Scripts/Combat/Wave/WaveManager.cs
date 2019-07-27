@@ -1,5 +1,4 @@
 ﻿using LiteMore.UI;
-using LiteMore.UI.Logic;
 
 namespace LiteMore.Combat.Wave
 {
@@ -9,8 +8,6 @@ namespace LiteMore.Combat.Wave
 
         public static bool Startup()
         {
-            UIManager.OpenUI<WaveInfoUI>();
-
             LoadWave(1);
 
             return true;
@@ -18,8 +15,7 @@ namespace LiteMore.Combat.Wave
 
         public static void Shutdown()
         {
-            UIManager.CloseUI<WaveInfoUI>();
-            CurrentWave_?.Destroy();
+            CurrentWave_?.Dispose();
         }
 
         public static void Tick(float DeltaTime)
@@ -28,7 +24,7 @@ namespace LiteMore.Combat.Wave
             {
                 CurrentWave_.Tick(DeltaTime);
 
-                if (CurrentWave_.IsEnd)
+                if (!CurrentWave_.IsAlive)
                 {
                     LoadWave(CurrentWave_.Wave + 1);
                 }
@@ -37,7 +33,7 @@ namespace LiteMore.Combat.Wave
 
         public static void LoadWave(uint Wave)
         {
-            CurrentWave_?.Destroy();
+            CurrentWave_?.Dispose();
             CurrentWave_ = new BaseWave(Wave);
 
             EventManager.Send<WaveChangeEvent>();

@@ -15,7 +15,8 @@ namespace LiteMore.Extend
         Drag = 5,
         BeginDrag = 6,
         EndDrag = 7,
-        Count = 8,
+        Cancel = 8,
+        Count = 9,
     }
 
     public class UIEventTriggerListener : EventTrigger
@@ -161,6 +162,12 @@ namespace LiteMore.Extend
         {
             EventCallback_[(int)UIEventType.EndDrag]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.EndDrag]?.Invoke();
+        }
+
+        public override void OnCancel(BaseEventData EventData)
+        {
+            EventCallback_[(int)UIEventType.Cancel]?.Invoke(gameObject, Vector2.zero);
+            EventCallbackEx_[(int)UIEventType.Cancel]?.Invoke();
         }
     }
 }

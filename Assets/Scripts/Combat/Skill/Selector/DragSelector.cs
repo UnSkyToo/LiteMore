@@ -34,7 +34,7 @@ namespace LiteMore.Combat.Skill.Selector
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.EndDrag, EndDrag);
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.BeginDrag, BeginDrag);
             UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.Drag, Drag);

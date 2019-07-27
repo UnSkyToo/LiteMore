@@ -1,13 +1,13 @@
 ﻿using LiteMore.Combat.Emitter;
+using LiteMore.Core;
 using LiteMore.UI;
 using UnityEngine;
 
 namespace LiteMore.Combat.Wave
 {
-    public class BaseWave
+    public class BaseWave : BaseEntity
     {
         public uint Wave { get; }
-        public bool IsEnd { get; protected set; }
 
         protected BaseEmitter Emitter_;
         protected uint RemainingCount_;
@@ -15,7 +15,6 @@ namespace LiteMore.Combat.Wave
         public BaseWave(uint Wave)
         {
             this.Wave = Wave;
-            this.IsEnd = false;
 
             Emitter_ = EmitterManager.AddEmitter(new NpcRectEmitter
             {
@@ -34,27 +33,34 @@ namespace LiteMore.Combat.Wave
                     new Vector2(-100, -Configure.WindowHeight / 2 + 100),
                     new Vector2(100, Configure.WindowHeight / 2 - 100)),
             });
-            RemainingCount_ = Emitter_.GetRemainingCount();
             //Emitter_.AtOnce();
+            RemainingCount_ = Emitter_.GetRemainingCount();
 
             EventManager.Register<NpcDieEvent>(OnNpcDieEvent);
         }
 
-        public void Destroy()
+        public override void Dispose()
         {
             EventManager.UnRegister<NpcDieEvent>(OnNpcDieEvent);
         }
 
-        public void Tick(float DeltaTime)
+        public override void Tick(float DeltaTime)
         {
-            IsEnd = (RemainingCount_ == 0);
         }
 
         private void OnNpcDieEvent(NpcDieEvent Event)
         {
             if (Event.Master.Team == CombatTeam.B)
             {
-                RemainingCount_--;
+                if (RemainingCount_ > 0)
+                {
+                    RemainingCount_--;
+
+                    if (RemainingCount_ == 0)
+                    {
+                        IsAlive = false;
+                    }
+                }
 
                 EventManager.Send<WaveChangeEvent>();
             }

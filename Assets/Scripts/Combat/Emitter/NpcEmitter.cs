@@ -29,7 +29,7 @@ namespace LiteMore.Combat.Emitter
         {
         }
 
-        public override void Create()
+        public override void CreateDebugLine()
         {
             ObjOuter_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
             ObjOuter_.name = $"NpcRectOuter<{ID}>";
@@ -42,7 +42,7 @@ namespace LiteMore.Combat.Emitter
                 new LineCallerPoint(Position + OffsetAttr.Max, Color.blue));
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Object.Destroy(ObjOuter_.gameObject);
         }
@@ -71,7 +71,7 @@ namespace LiteMore.Combat.Emitter
         {
         }
 
-        public override void Create()
+        public override void CreateDebugLine()
         {
             ObjInner_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
             ObjInner_.name = $"NpcNormalInner<{ID}>";
@@ -90,7 +90,7 @@ namespace LiteMore.Combat.Emitter
             CallerOuter_.DrawCircle(new LineCallerPoint(Position, Color.blue), RadiusAttr.Max);
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Object.Destroy(ObjInner_.gameObject);
             Object.Destroy(ObjOuter_.gameObject);

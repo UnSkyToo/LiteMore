@@ -57,10 +57,10 @@ namespace LiteMore.Combat.Bullet
             Shape_ = new CircleShape(Position, Radius_);
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Object.Destroy(RadiusObj_);
-            base.Destroy();
+            base.Dispose();
         }
 
         public override void Tick(float DeltaTime)

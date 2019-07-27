@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteMore.Core;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc

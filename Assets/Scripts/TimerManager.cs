@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteMore.Core;
 
 namespace LiteMore
 {
-    public class Timer
+    public class Timer : BaseObject
     {
         public event Action OnTick;
         public event Action OnEnd;
 
-        public uint ID { get; }
         public bool IsEnd => Count_ == 0;
 
         private float Interval_;
@@ -17,8 +17,8 @@ namespace LiteMore
         private bool IsPause_;
 
         public Timer(float Interval, int Count)
+            : base()
         {
-            ID = IDGenerator.Get();
             Interval_ = Interval;
             Time_ = 0.0f;
             Count_ = Count;

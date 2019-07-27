@@ -76,7 +76,6 @@ namespace LiteMore
             {
                 GameManager.Restart();
             }
-
             if (Input.GetKeyDown(KeyCode.F6))
             {
                 GameManager.Shutdown();

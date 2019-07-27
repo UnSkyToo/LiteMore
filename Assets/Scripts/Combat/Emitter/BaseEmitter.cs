@@ -1,7 +1,11 @@
-﻿namespace LiteMore.Combat.Emitter
+﻿using LiteMore.Core;
+using UnityEngine;
+
+namespace LiteMore.Combat.Emitter
 {
     public abstract class BaseEmitter : BaseEntity
     {
+        public Vector2 Position { get; set; }
         public CombatTeam Team { get; set; }
         public bool IsPause { get; set; }
         public float Interval { get; set; }
@@ -13,6 +17,7 @@
         protected BaseEmitter()
             : base()
         {
+            Position = Vector2.zero;
             Team = CombatTeam.B;
             IsPause = false;
             Interval = 1;
@@ -21,11 +26,7 @@
             TriggerCount = -1;
         }
 
-        public override void Create()
-        {
-        }
-
-        public override void Destroy()
+        public override void Dispose()
         {
         }
 
@@ -72,6 +73,8 @@
 
             return 0;
         }
+
+        public abstract void CreateDebugLine();
 
         protected abstract void OnEmitted(uint Cur, uint Max);
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Fsm;
+using LiteMore.Core;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc

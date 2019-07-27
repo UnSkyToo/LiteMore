@@ -17,7 +17,7 @@ namespace LiteMore.Combat.Emitter
         {
             foreach (var Entity in EmitterList_)
             {
-                Entity.Destroy();
+                Entity.Dispose();
             }
 
             EmitterList_.Clear();
@@ -31,7 +31,7 @@ namespace LiteMore.Combat.Emitter
 
                 if (!EmitterList_[Index].IsAlive)
                 {
-                    EmitterList_[Index].Destroy();
+                    EmitterList_[Index].Dispose();
                     EmitterList_.RemoveAt(Index);
                 }
             }
@@ -40,7 +40,7 @@ namespace LiteMore.Combat.Emitter
         public static BaseEmitter AddEmitter(BaseEmitter Emitter)
         {
             EmitterList_.Add(Emitter);
-            Emitter.Create();
+            Emitter.CreateDebugLine();
             return Emitter;
         }
 
@@ -52,7 +52,7 @@ namespace LiteMore.Combat.Emitter
             }
 
             Emitter.IsAlive = false;
-            Emitter.Destroy();
+            Emitter.Dispose();
             EmitterList_.Remove(Emitter);
         }
 

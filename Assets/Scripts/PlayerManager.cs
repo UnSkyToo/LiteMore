@@ -36,15 +36,12 @@ namespace LiteMore
 
             MainBulletDamage = 1;
 
-            UIManager.OpenUI<PlayerInfoUI>();
+            UIManager.OpenUI<MainUI>();
 
             CoreNpc_ = NpcManager.AddCoreNpc(Configure.CoreBasePosition, NpcManager.GenerateCoreNpcAttr());
             CoreNpc_.Attr.AttrChanged += OnCoreAttrChanged;
 
-            AddGem(0);
-            AddHp(0);
-            AddMp(0);
-
+            EventManager.Send<CoreInfoChangeEvent>();
             CreateMainEmitter();
 
             return true;
@@ -52,7 +49,7 @@ namespace LiteMore
 
         public static void Shutdown()
         {
-            UIManager.CloseUI<PlayerInfoUI>();
+            UIManager.CloseUI<MainUI>();
         }
 
         public static void Tick(float DeltaTime)
@@ -102,27 +99,27 @@ namespace LiteMore
             {
                 case NpcAttrIndex.Hp:
                     Hp = CoreNpc_.CalcFinalAttr(Index);
-                    EventManager.Send<PlayerHpChangeEvent>();
+                    EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.MaxHp:
                     MaxHp = CoreNpc_.CalcFinalAttr(Index);
-                    EventManager.Send<PlayerHpChangeEvent>();
+                    EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.HpAdd:
                     HpAdd = CoreNpc_.CalcFinalAttr(Index);
-                    EventManager.Send<PlayerHpChangeEvent>();
+                    EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.Mp:
                     Mp = CoreNpc_.CalcFinalAttr(Index);
-                    EventManager.Send<PlayerMpChangeEvent>();
+                    EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.MaxMp:
                     MaxMp = CoreNpc_.CalcFinalAttr(Index);
-                    EventManager.Send<PlayerMpChangeEvent>();
+                    EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.MpAdd:
                     MpAdd = CoreNpc_.CalcFinalAttr(Index);
-                    EventManager.Send<PlayerMpChangeEvent>();
+                    EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 default:
                     break;
@@ -132,7 +129,7 @@ namespace LiteMore
         public static void AddGem(int Value)
         {
             Gem += Value;
-            EventManager.Send<PlayerGemChangeEvent>();
+            EventManager.Send<CoreInfoChangeEvent>();
         }
 
         public static void AddHp(float Value)

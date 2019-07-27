@@ -30,14 +30,14 @@ namespace LiteMore.Combat.Skill
             CDText_ = IconTransform.Find("CD").GetComponent<Text>();
             CDText_.gameObject.SetActive(false);
 
-            UIHelper.AddTips(IconTransform, () => Tips);
+            TipsHelper.AddTips(IconTransform, () => Tips);
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
-            Selector_?.Destroy();
+            Selector_?.Dispose();
             Object.Destroy(IconTransform.gameObject);
-            base.Destroy();
+            base.Dispose();
         }
 
         public override void Tick(float DeltaTime)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteMore.Core;
+using UnityEngine;
 
 namespace LiteMore.Combat.Label
 {

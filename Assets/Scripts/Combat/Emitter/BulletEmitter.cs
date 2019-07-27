@@ -25,6 +25,10 @@ namespace LiteMore.Combat.Emitter
         {
         }
 
+        public override void CreateDebugLine()
+        {
+        }
+
         protected override void OnEmitted(uint Cur, uint Max)
         {
             var Target = NpcManager.GetRandomNpc(Team.Opposite());

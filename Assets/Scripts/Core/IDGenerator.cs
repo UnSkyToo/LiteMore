@@ -1,4 +1,4 @@
-﻿namespace LiteMore
+﻿namespace LiteMore.Core
 {
     public static class IDGenerator
     {
@@ -6,8 +6,7 @@
 
         public static uint Get()
         {
-            ID_++;
-            return ID_;
+            return ID_++;
         }
     }
 }

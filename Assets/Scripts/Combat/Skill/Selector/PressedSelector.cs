@@ -19,7 +19,7 @@ namespace LiteMore.Combat.Skill.Selector
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Up, () => { IsPressed_ = false; Time_ = 0;});
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             UIEventTriggerListener.Remove(Skill_.IconTransform);
         }

@@ -1,16 +1,16 @@
-﻿using UnityEngine;
+﻿using LiteMore.Core;
+using UnityEngine;
 
 namespace LiteMore.Motion
 {
-    public abstract class BaseMotion
+    public abstract class BaseMotion : BaseObject
     {
-        public uint ID { get; }
         public Transform Master { get; set; }
         public bool IsEnd { get; protected set; }
 
         protected BaseMotion()
+            : base()
         {
-            ID = IDGenerator.Get();
             IsEnd = true;
         }
 

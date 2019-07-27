@@ -31,7 +31,7 @@ namespace LiteMore.Combat.Skill
         {
             foreach (var Entity in SkillList_)
             {
-                Entity.Destroy();
+                Entity.Dispose();
             }
             SkillList_.Clear();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteMore.Core;
 using LiteMore.Extend;
 using LiteMore.Helper;
 using LiteMore.Motion;
@@ -13,9 +14,8 @@ namespace LiteMore.UI
         Top = 10000
     }
 
-    public class BaseUI
+    public class BaseUI : BaseObject
     {
-        public uint ID { get; }
         public string Name { get; set; }
         public string Path { get; set; }
         public bool Cached { get; set; }
@@ -29,7 +29,6 @@ namespace LiteMore.UI
 
         public BaseUI()
         {
-            ID = IDGenerator.Get();
             Name = GetType().Name;
             Cached = true;
             UITransform = null;

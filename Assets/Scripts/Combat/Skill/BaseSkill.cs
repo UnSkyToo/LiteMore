@@ -1,4 +1,6 @@
-﻿namespace LiteMore.Combat.Skill
+﻿using LiteMore.Core;
+
+namespace LiteMore.Combat.Skill
 {
     public struct BaseSkillDescriptor
     {
@@ -30,7 +32,7 @@
         }
     }
 
-    public class BaseSkill
+    public class BaseSkill : BaseEntity
     {
         public string Icon { get; }
         public string Name { get; }
@@ -53,11 +55,11 @@
             this.IsCD = false;
         }
 
-        public virtual void Destroy()
+        public override void Dispose()
         {
         }
 
-        public virtual void Tick(float DeltaTime)
+        public override void Tick(float DeltaTime)
         {
             if (!IsCD)
             {

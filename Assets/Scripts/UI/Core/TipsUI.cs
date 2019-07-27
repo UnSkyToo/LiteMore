@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace LiteMore.UI.Logic
+namespace LiteMore.UI.Core
 {
     public class TipsUI : BaseUI
     {

@@ -1,5 +1,4 @@
 ﻿using LiteMore.Extend;
-using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -13,7 +12,7 @@ namespace LiteMore.Combat.Skill.Selector
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Click, OnClick);
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.Click, OnClick);
         }
