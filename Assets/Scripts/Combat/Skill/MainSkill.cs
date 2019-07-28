@@ -1,5 +1,6 @@
 ﻿using LiteMore.Combat.Skill.Selector;
 using LiteMore.Helper;
+using LiteMore.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,7 +46,7 @@ namespace LiteMore.Combat.Skill
             base.Tick(DeltaTime);
             Selector_?.Tick(DeltaTime);
 
-            if (PlayerManager.Mp < Cost)
+            if (PlayerManager.Player.Mp < Cost)
             {
                 BG_.SetActive(true);
             }

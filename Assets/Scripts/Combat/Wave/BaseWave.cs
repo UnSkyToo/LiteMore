@@ -1,5 +1,6 @@
 ﻿using LiteMore.Combat.Emitter;
 using LiteMore.Core;
+using LiteMore.Data;
 using LiteMore.UI;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace LiteMore.Combat.Wave
     public class BaseWave : BaseEntity
     {
         public uint Wave { get; }
+        public WaveData Data { get; }
 
         protected BaseEmitter Emitter_;
         protected uint RemainingCount_;
@@ -16,19 +18,20 @@ namespace LiteMore.Combat.Wave
         {
             this.Wave = Wave;
 
+            Data = LocalData.WaveList[Wave];
             Emitter_ = EmitterManager.AddEmitter(new NpcRectEmitter
             {
                 Team = CombatTeam.B,
-                TriggerCount = CalcTriggerCount(),
-                EmittedCount = CalcEmittedCount(),
-                Interval = 240.0f / 60.0f,
+                TriggerCount = Data.TriggerCount,
+                EmittedCount = Data.EmiiterCount,
+                Interval = Data.Interval,
                 IsAlive = true,
                 IsPause = false,
                 Position = new Vector2(Configure.WindowLeft + 200, 0),
                 SpeedAttr = new EmitterRandFloat(50, 100),
-                HpAttr = new EmitterRandInt(5, 10),
-                DamageAttr = new EmitterRandInt(1, 1),
-                GemAttr = new EmitterRandInt(1, 1),
+                HpAttr = new EmitterRandInt(Data.Hp, Data.Hp),
+                DamageAttr = new EmitterRandInt(Data.Damage, Data.Damage),
+                GemAttr = new EmitterRandInt(Data.Gem, Data.Gem),
                 OffsetAttr = new EmitterRandVector2(
                     new Vector2(-100, -Configure.WindowHeight / 2 + 100),
                     new Vector2(100, Configure.WindowHeight / 2 - 100)),
@@ -69,21 +72,6 @@ namespace LiteMore.Combat.Wave
         public uint GetRemainingCount()
         {
             return RemainingCount_;
-        }
-
-        private int CalcTriggerCount()
-        {
-            return (int)(4 + (Wave / 3));
-        }
-
-        private uint CalcEmittedCount()
-        {
-            return 4 + Wave;
-        }
-
-        private float CalcInterval()
-        {
-            return 4;
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Cache;
 using LiteMore.Combat;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 using LiteMore.Combat.Skill.Selector;
-using LiteMore.Extend;
+using LiteMore.Data;
 using LiteMore.Helper;
 using LiteMore.Motion;
+using LiteMore.Player;
 using LiteMore.UI;
 using LiteMore.UI.Logic;
 using UnityEngine;
@@ -24,6 +26,8 @@ namespace LiteMore
         {
             IsPause = true;
 
+            LocalCache.LoadCache();
+            LocalData.Generate();
             Lang.Load();
 
             if (!EventManager.Startup()
@@ -51,6 +55,8 @@ namespace LiteMore
             MotionManager.Shutdown();
             TimerManager.Shutdown();
             EventManager.Shutdown();
+
+            LocalCache.SaveCache();
 
             Resources.UnloadUnusedAssets();
             System.GC.Collect();

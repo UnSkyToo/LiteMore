@@ -1,4 +1,5 @@
 ﻿using LiteMore.Core;
+using LiteMore.Player;
 
 namespace LiteMore.Combat.Skill
 {
@@ -87,7 +88,7 @@ namespace LiteMore.Combat.Skill
 
         public bool CanUse()
         {
-            return !IsCD && Cost <= PlayerManager.Mp;
+            return !IsCD && Cost <= PlayerManager.Player.Mp;
         }
 
         public bool Use()

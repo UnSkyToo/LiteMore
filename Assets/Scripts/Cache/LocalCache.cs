@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using UnityEngine;
+
+namespace LiteMore.Cache
+{
+    public static class LocalCache
+    {
+        private static readonly string CacheFileDataPath = $"{Application.dataPath}/cache.txt";
+        private static readonly Dictionary<string, string> Buffer_ = new Dictionary<string, string>();
+
+        public static void ClearCache()
+        {
+            File.Delete(CacheFileDataPath);
+        }
+
+        public static bool LoadCache()
+        {
+            try
+            {
+                Buffer_.Clear();
+
+                using (var InStream = new StreamReader(CacheFileDataPath, Encoding.ASCII))
+                {
+                    while (!InStream.EndOfStream)
+                    {
+                        var Line = InStream.ReadLine();
+                        var Entity = Line.Split('`');
+                        if (Entity.Length != 2)
+                        {
+                            throw new Exception($"Cache Line Error : {Line}");
+                        }
+                        Buffer_.Add(Entity[0], Entity[1]);
+                    }
+                    InStream.Close();
+                }
+
+                Debug.Log($"Load Cache Succeed : {CacheFileDataPath}");
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                Debug.LogWarning(Ex.Message);
+                return false;
+            }
+        }
+
+        public static bool SaveCache()
+        {
+            try
+            {
+                using (var OutStream = new StreamWriter(CacheFileDataPath, false, Encoding.ASCII))
+                {
+                    foreach (var Entity in Buffer_)
+                    {
+                        OutStream.WriteLine($"{Entity.Key}`{Entity.Value}");
+                    }
+                    OutStream.Close();
+                }
+
+                Debug.Log($"Save Cache Succeed : {CacheFileDataPath}");
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                Debug.LogWarning(Ex.Message);
+                return false;
+            }
+        }
+
+        public static string Get(string Key, string Default = "")
+        {
+            if (Buffer_.ContainsKey(Key))
+            {
+                return Buffer_[Key];
+            }
+
+            return Default;
+        }
+
+        public static void Set(string Key, string Value)
+        {
+            if (Buffer_.ContainsKey(Key))
+            {
+                Buffer_[Key] = Value;
+            }
+            else
+            {
+                Buffer_.Add(Key, Value);
+            }
+        }
+
+        public static bool GetBoolean(string Key, bool Default = false)
+        {
+            try
+            {
+                if (Buffer_.ContainsKey(Key))
+                {
+                    return Convert.ToBoolean(Buffer_[Key]);
+                }
+
+                return Default;
+            }
+            catch
+            {
+                Debug.LogWarning($"Unknown Type (Not Boolean): {Key}");
+                return Default;
+            }
+        }
+
+        public static void SetBoolean(string Key, bool Value)
+        {
+            Set(Key, Value.ToString());
+        }
+
+        public static int GetInt(string Key, int Default = 0)
+        {
+            try
+            {
+                if (Buffer_.ContainsKey(Key))
+                {
+                    return Convert.ToInt32(Buffer_[Key]);
+                }
+
+                return Default;
+            }
+            catch
+            {
+                Debug.LogWarning($"Unknown Type (Not Int32): {Key}");
+                return Default;
+            }
+        }
+
+        public static void SetInt(string Key, int Value)
+        {
+            Set(Key, Value.ToString());
+        }
+
+        public static float GetFloat(string Key, float Default = 0.0f)
+        {
+            try
+            {
+                if (Buffer_.ContainsKey(Key))
+                {
+                    return Convert.ToSingle(Buffer_[Key]);
+                }
+
+                return Default;
+            }
+            catch
+            {
+                Debug.LogWarning($"Unknown Type (Not Float): {Key}");
+                return Default;
+            }
+        }
+
+        public static void SetFloat(string Key, float Value)
+        {
+            Set(Key, Value.ToString(CultureInfo.InvariantCulture));
+        }
+    }
+}

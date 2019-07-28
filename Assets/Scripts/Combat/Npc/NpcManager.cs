@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Player;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc
@@ -102,12 +103,12 @@ namespace LiteMore.Combat.Npc
             return new float[]
             {
                 0,
-                PlayerManager.Hp,
-                PlayerManager.MaxHp,
-                PlayerManager.HpAdd,
-                PlayerManager.Mp,
-                PlayerManager.MaxMp,
-                PlayerManager.MpAdd,
+                PlayerManager.Player.Hp,
+                PlayerManager.Player.MaxHp,
+                PlayerManager.Player.AddHp,
+                PlayerManager.Player.Mp,
+                PlayerManager.Player.MaxMp,
+                PlayerManager.Player.AddMp,
                 0,
                 0,
                 0,

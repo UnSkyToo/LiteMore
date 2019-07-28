@@ -1,4 +1,5 @@
-﻿using LiteMore.UI;
+﻿using LiteMore.Player;
+using LiteMore.UI;
 
 namespace LiteMore.Combat.Wave
 {
@@ -8,8 +9,6 @@ namespace LiteMore.Combat.Wave
 
         public static bool Startup()
         {
-            LoadWave(1);
-
             return true;
         }
 
@@ -26,14 +25,15 @@ namespace LiteMore.Combat.Wave
 
                 if (!CurrentWave_.IsAlive)
                 {
-                    LoadWave(CurrentWave_.Wave + 1);
+                    CurrentWave_.Dispose();
+                    CurrentWave_ = null;
+                    PlayerManager.AddWave();
                 }
             }
         }
 
         public static void LoadWave(uint Wave)
         {
-            CurrentWave_?.Dispose();
             CurrentWave_ = new BaseWave(Wave);
 
             EventManager.Send<WaveChangeEvent>();

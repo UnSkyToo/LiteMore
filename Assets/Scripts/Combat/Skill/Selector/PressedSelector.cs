@@ -1,4 +1,5 @@
 ﻿using LiteMore.Extend;
+using LiteMore.Player;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -30,7 +31,7 @@ namespace LiteMore.Combat.Skill.Selector
 
             if (IsPressed_)
             {
-                if (PlayerManager.Mp < Skill_.Cost)
+                if (PlayerManager.Player.Mp < Skill_.Cost)
                 {
                     IsPressed_ = false;
                     return;

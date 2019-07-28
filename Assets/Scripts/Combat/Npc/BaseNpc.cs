@@ -2,6 +2,7 @@
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Fsm;
 using LiteMore.Core;
+using LiteMore.Player;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc
@@ -139,7 +140,7 @@ namespace LiteMore.Combat.Npc
 
         private void UpdateAttr(float DeltaTime)
         {
-            var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.HpAdd) * DeltaTime;
+            var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
             var MaxHp = Attr.CalcFinalValue(NpcAttrIndex.MaxHp);
             if (Hp > MaxHp)
             {
@@ -147,7 +148,7 @@ namespace LiteMore.Combat.Npc
             }
             Attr.SetValue(NpcAttrIndex.Hp, Hp);
 
-            var Mp = Attr.CalcFinalValue(NpcAttrIndex.Mp) + Attr.CalcFinalValue(NpcAttrIndex.MpAdd) * DeltaTime;
+            var Mp = Attr.CalcFinalValue(NpcAttrIndex.Mp) + Attr.CalcFinalValue(NpcAttrIndex.AddMp) * DeltaTime;
             var MaxMp = Attr.CalcFinalValue(NpcAttrIndex.MaxMp);
             if (Mp > MaxMp)
             {

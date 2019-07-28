@@ -24,6 +24,11 @@ namespace LiteMore.Combat.Emitter
 
     public class EmitterRandFloat : EmitterRandData<float>
     {
+        public EmitterRandFloat(float Value)
+            : this(Value, Value)
+        {
+        }
+
         public EmitterRandFloat(float Min, float Max)
             : base(Random.Range)
         {
@@ -34,6 +39,11 @@ namespace LiteMore.Combat.Emitter
 
     public class EmitterRandInt : EmitterRandData<int>
     {
+        public EmitterRandInt(int Value)
+            : this(Value, Value)
+        {
+        }
+
         public EmitterRandInt(int Min, int Max)
             : base(Random.Range)
         {
@@ -44,6 +54,11 @@ namespace LiteMore.Combat.Emitter
 
     public class EmitterRandVector2 : EmitterRandData<Vector2>
     {
+        public EmitterRandVector2(Vector2 Value)
+            : this(Value, Value)
+        {
+        }
+
         public EmitterRandVector2(Vector2 Min, Vector2 Max)
             : base((A, B) => new Vector2(Random.Range(A.x, B.x), Random.Range(A.y, B.y)))
         {

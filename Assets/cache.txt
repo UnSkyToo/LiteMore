@@ -1,0 +1,9 @@
+MaxHp`100
+AddHp`0
+MaxMp`100
+AddMp`10
+Gem`0
+Wave`1
+BulletDamageLevel`1
+BulletIntervalLevel`1
+BulletPerCountLevel`1

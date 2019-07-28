@@ -53,11 +53,6 @@ namespace LiteMore
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
-                TimeScale_ = 3.0f;
-                Debug.LogWarning($"TimeScale = {TimeScale_}");
-            }
-            else if (Input.GetKeyDown(KeyCode.F4))
-            {
                 TimeScale_ = 5.0f;
                 Debug.LogWarning($"TimeScale = {TimeScale_}");
             }
