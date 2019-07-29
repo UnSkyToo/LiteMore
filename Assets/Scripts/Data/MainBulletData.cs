@@ -47,4 +47,28 @@
             return 5.05f - 0.05f * Level;
         }
     }
+
+    public class MainBulletCountData
+    {
+        public uint Level { get; }
+        public int Cost { get; }
+        public int Count { get; }
+
+        public MainBulletCountData(uint Level)
+        {
+            this.Level = Level;
+            this.Cost = Formula_Cost(Level);
+            this.Count = Formula_Count(Level);
+        }
+
+        public static int Formula_Cost(uint Level)
+        {
+            return 10 + (int)(Level * 10);
+        }
+
+        public static int Formula_Count(uint Level)
+        {
+            return 1;
+        }
+    }
 }

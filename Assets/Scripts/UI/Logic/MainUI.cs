@@ -49,9 +49,9 @@ namespace LiteMore.UI.Logic
                 MpText_ =  UIHelper.FindComponent<Text>(Trans, "Mp");
                 GemText_ = UIHelper.FindComponent<Text>(Trans, "Gem");
 
-                var TipsMsg = $"<color=#ff0000><size=30>生命值归零游戏结束</size></color>\n" +
-                              "<color=#00ff00><size=30>魔法值用于释放技能</size></color>\n" +
-                              "<color=#ffff00><size=30>宝石是通用货币</size></color>";
+                var TipsMsg = $"<color=red><size=30>生命值归零游戏结束</size></color>\n" +
+                              "<color=green><size=30>魔法值用于释放技能</size></color>\n" +
+                              "<color=yellow><size=30>宝石是通用货币</size></color>";
                 TipsHelper.AddTips(Trans, "CoreInfo", () => TipsMsg);
 
                 EventManager.Register<CoreInfoChangeEvent>(OnCoreInfoChangeEvent);
@@ -118,7 +118,7 @@ namespace LiteMore.UI.Logic
             private void Refresh()
             {
                 var Data = WaveManager.GetWave().Data;
-                WaveText_.text = $"当前波数：{Data.Wave}";
+                WaveText_.text = $"当前波数：<color=red>{Data.Wave}</color>";
                 RemainingNumText_.text = $"剩余数量：{WaveManager.GetWave().GetRemainingCount()}";
                 IntervalText_.text = $"间隔时间：{Data.Interval:0.0}s";
                 SpeedText_.text = $"移动速度：{Data.Speed}";
@@ -154,7 +154,7 @@ namespace LiteMore.UI.Logic
         {
             private readonly Text BulletDamageText_;
             private readonly Text BulletIntervalText_;
-            private readonly Text BulletPerCountText_;
+            private readonly Text BulletCountText_;
 
             internal CoreUpPart(Transform Trans)
             {
@@ -163,6 +163,9 @@ namespace LiteMore.UI.Logic
 
                 BulletIntervalText_ = UIHelper.FindComponent<Text>(Trans, "MainBullet/Interval/Text");
                 UIHelper.AddEventToChild(Trans, "MainBullet/Interval/BtnAdd", OnBulletIntervalBtnAdd);
+
+                BulletCountText_ = UIHelper.FindComponent<Text>(Trans, "MainBullet/Count/Text");
+                UIHelper.AddEventToChild(Trans, "MainBullet/Count/BtnAdd", OnBulletCountBtnAdd);
 
                 Refresh();
             }
@@ -204,6 +207,21 @@ namespace LiteMore.UI.Logic
                 else
                 {
                     ToastHelper.Show($"宝石不足{PlayerManager.GetBulletIntervalCost()}，无法升级", Color.red);
+                }
+            }
+
+            private void OnBulletCountBtnAdd()
+            {
+                if (PlayerManager.Player.Gem >= PlayerManager.GetBulletCountCost())
+                {
+                    PlayerManager.AddGem(-PlayerManager.GetBulletCountCost());
+                    PlayerManager.AddBulletCountLevel();
+
+                    Refresh();
+                }
+                else
+                {
+                    ToastHelper.Show($"宝石不足{PlayerManager.GetBulletCountCost()}，无法升级", Color.red);
                 }
             }
         }

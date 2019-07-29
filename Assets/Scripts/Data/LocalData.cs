@@ -10,6 +10,7 @@ namespace LiteMore.Data
         public static Dictionary<uint, WaveData> WaveList = new Dictionary<uint, WaveData>();
         public static Dictionary<uint, MainBulletDamageData> MainBulletDamage = new Dictionary<uint, MainBulletDamageData>();
         public static Dictionary<uint, MainBulletIntervalData> MainBulletInterval = new Dictionary<uint, MainBulletIntervalData>();
+        public static Dictionary<uint, MainBulletCountData> MainBulletCount = new Dictionary<uint, MainBulletCountData>();
 
         public static void Generate()
         {
@@ -21,10 +22,12 @@ namespace LiteMore.Data
 
             MainBulletDamage.Clear();
             MainBulletInterval.Clear();
+            MainBulletCount.Clear();
             for (var Lv = 1u; Lv <= MaxBulletLv; ++Lv)
             {
                 MainBulletDamage.Add(Lv, new MainBulletDamageData(Lv));
                 MainBulletInterval.Add(Lv, new MainBulletIntervalData(Lv));
+                MainBulletCount.Add(Lv, new MainBulletCountData(Lv));
             }
         }
     }

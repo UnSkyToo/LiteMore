@@ -171,10 +171,15 @@ namespace LiteMore.Player
             return LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Cost;
         }
 
-        public static void AddBulletPerCountLevel()
+        public static void AddBulletCountLevel()
         {
-            Player_.BulletPerCountLevel++;
-            //ainEmitter_.EmittedCount = Player_.BulletPerCount;
+            Player_.BulletCountLevel++;
+            MainEmitter_.EmittedCount = (uint)LocalData.MainBulletCount[Player_.BulletCountLevel].Count;
+        }
+
+        public static int GetBulletCountCost()
+        {
+            return LocalData.MainBulletCount[Player_.BulletCountLevel].Cost;
         }
     }
 }

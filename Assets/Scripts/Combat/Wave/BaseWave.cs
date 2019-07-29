@@ -23,7 +23,7 @@ namespace LiteMore.Combat.Wave
             {
                 Team = CombatTeam.B,
                 TriggerCount = Data.TriggerCount,
-                EmittedCount = Data.EmiiterCount,
+                EmittedCount = Data.EmitterCount,
                 Interval = Data.Interval,
                 IsAlive = true,
                 IsPause = false,

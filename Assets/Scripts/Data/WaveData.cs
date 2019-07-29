@@ -4,7 +4,7 @@
     {
         public uint Wave { get; }
         public int TriggerCount { get; }
-        public uint EmiiterCount { get; }
+        public uint EmitterCount { get; }
         public float Interval { get; }
         public float Speed { get; }
         public int Hp { get; }
@@ -15,7 +15,7 @@
         {
             this.Wave = Wave;
             this.TriggerCount = Formula_TriggerCount(Wave);
-            this.EmiiterCount = Formula_EmiiterCount(Wave);
+            this.EmitterCount = Formula_EmitterCount(Wave);
             this.Interval = Formula_Interval(Wave);
             this.Speed = Formula_Speed(Wave);
             this.Hp = Formula_Hp(Wave);
@@ -28,7 +28,7 @@
             return 4 + (int)(Wave / 10);
         }
 
-        public static uint Formula_EmiiterCount(uint Wave)
+        public static uint Formula_EmitterCount(uint Wave)
         {
             return 5 + Wave / 3;
         }

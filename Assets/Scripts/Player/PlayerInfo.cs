@@ -17,7 +17,7 @@ namespace LiteMore.Player
 
         public uint BulletDamageLevel { get; set; }
         public uint BulletIntervalLevel { get; set; }
-        public uint BulletPerCountLevel { get; set; }
+        public uint BulletCountLevel { get; set; }
 
         public PlayerInfo()
         {
@@ -38,7 +38,7 @@ namespace LiteMore.Player
 
             BulletDamageLevel = (uint)LocalCache.GetInt(nameof(BulletIntervalLevel), 1);
             BulletIntervalLevel = (uint)LocalCache.GetInt(nameof(BulletIntervalLevel), 1);
-            BulletPerCountLevel = (uint)LocalCache.GetInt(nameof(BulletPerCountLevel), 1);
+            BulletCountLevel = (uint)LocalCache.GetInt(nameof(BulletCountLevel), 1);
         }
 
         public void SaveToCache()
@@ -54,7 +54,7 @@ namespace LiteMore.Player
 
             LocalCache.SetInt(nameof(BulletDamageLevel), (int)BulletDamageLevel);
             LocalCache.SetInt(nameof(BulletIntervalLevel), (int)BulletIntervalLevel);
-            LocalCache.SetInt(nameof(BulletPerCountLevel), (int)BulletPerCountLevel);
+            LocalCache.SetInt(nameof(BulletCountLevel), (int)BulletCountLevel);
         }
     }
 }
