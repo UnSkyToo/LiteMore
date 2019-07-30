@@ -42,8 +42,8 @@ namespace LiteMore.Core
 
         protected Transform Transform_;
 
-        protected GameEntity(Transform Trans)
-            : base()
+        protected GameEntity(string Name, Transform Trans)
+            : base(Name)
         {
             Transform_ = Trans;
             Transform_.name = $"<{ID}>";

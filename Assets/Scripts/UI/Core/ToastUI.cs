@@ -1,4 +1,5 @@
-﻿using LiteMore.Helper;
+﻿using System;
+using LiteMore.Helper;
 using LiteMore.Motion;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,8 @@ namespace LiteMore.UI.Core
 {
     public class ToastUI : BaseUI
     {
+        private Action Callback_;
+
         public ToastUI()
             : base()
         {
@@ -19,6 +22,7 @@ namespace LiteMore.UI.Core
             var Msg = FindComponent<Text>("Value");
             Msg.text = (string)Params[0];
             Msg.color = (Color)Params[1];
+            Callback_ = Params.Length > 2 ? (Action)Params[2] : null;
             var MsgTrans = Msg.GetComponent<RectTransform>();
             LayoutRebuilder.ForceRebuildLayoutImmediate(MsgTrans);
             UIRectTransform.sizeDelta = MsgTrans.sizeDelta + new Vector2(10, 6);
@@ -35,6 +39,11 @@ namespace LiteMore.UI.Core
                         new WaitTimeMotion(0.35f),
                         new FadeOutMotion(0.3f))),
                 new CallbackMotion(() => { UIManager.CloseUI(this); })));
+        }
+
+        protected override void OnClose()
+        {
+            Callback_?.Invoke();
         }
     }
 }

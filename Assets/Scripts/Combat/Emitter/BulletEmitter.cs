@@ -7,11 +7,11 @@ namespace LiteMore.Combat.Emitter
     public abstract class BulletEmitter : BaseEmitter
     {
         public EmitterRandFloat SpeedAttr { get; set; }
-        public EmitterRandInt DamageAttr { get; set; }
+        public EmitterRandFloat DamageAttr { get; set; }
         public string ResName { get; set; }
 
-        protected BulletEmitter()
-            : base()
+        protected BulletEmitter(string Name)
+            : base(Name)
         {
         }
     }
@@ -20,8 +20,8 @@ namespace LiteMore.Combat.Emitter
     {
         public EmitterRandFloat RadiusAttr { get; set; }
 
-        public BulletCircleEmitter()
-            : base()
+        public BulletCircleEmitter(string Name)
+            : base(Name)
         {
         }
 
@@ -39,7 +39,7 @@ namespace LiteMore.Combat.Emitter
                 var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
                 var Desc = new TrackBulletDescriptor(
-                    new BaseBulletDescriptor(Pos, Team, DamageAttr.Get()),
+                    new BaseBulletDescriptor(Name, Pos, Team, DamageAttr.Get()),
                     ResName, Target, SpeedAttr.Get());
 
                 BulletManager.AddTrackBullet(Desc);

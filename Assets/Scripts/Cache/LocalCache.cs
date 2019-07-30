@@ -9,12 +9,21 @@ namespace LiteMore.Cache
 {
     public static class LocalCache
     {
-        private static readonly string CacheFileDataPath = $"{Application.dataPath}/cache.txt";
         private static readonly Dictionary<string, string> Buffer_ = new Dictionary<string, string>();
 
-        public static void ClearCache()
+        public static bool ClearCache()
         {
-            File.Delete(CacheFileDataPath);
+            try
+            {
+                File.Delete(Configure.CacheFilePath);
+                Buffer_.Clear();
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                Debug.LogError(Ex.Message);
+                return false;
+            }
         }
 
         public static bool LoadCache()
@@ -23,7 +32,7 @@ namespace LiteMore.Cache
             {
                 Buffer_.Clear();
 
-                using (var InStream = new StreamReader(CacheFileDataPath, Encoding.ASCII))
+                using (var InStream = new StreamReader(Configure.CacheFilePath, Encoding.ASCII))
                 {
                     while (!InStream.EndOfStream)
                     {
@@ -38,7 +47,7 @@ namespace LiteMore.Cache
                     InStream.Close();
                 }
 
-                Debug.Log($"Load Cache Succeed : {CacheFileDataPath}");
+                Debug.Log($"Load Cache Succeed : {Configure.CacheFilePath}");
                 return true;
             }
             catch (Exception Ex)
@@ -52,7 +61,12 @@ namespace LiteMore.Cache
         {
             try
             {
-                using (var OutStream = new StreamWriter(CacheFileDataPath, false, Encoding.ASCII))
+                if (Buffer_.Count == 0)
+                {
+                    return true;
+                }
+
+                using (var OutStream = new StreamWriter(Configure.CacheFilePath, false, Encoding.ASCII))
                 {
                     foreach (var Entity in Buffer_)
                     {
@@ -61,7 +75,7 @@ namespace LiteMore.Cache
                     OutStream.Close();
                 }
 
-                Debug.Log($"Save Cache Succeed : {CacheFileDataPath}");
+                Debug.Log($"Save Cache Succeed : {Configure.CacheFilePath}");
                 return true;
             }
             catch (Exception Ex)

@@ -9,7 +9,6 @@ namespace LiteMore
     public class Main : MonoBehaviour
     {
         private GUIStyle Style_;
-        private float TimeScale_ = 1.0f;
 
         void Awake()
         {
@@ -33,7 +32,7 @@ namespace LiteMore
         {
             try
             {
-                GameManager.Tick(Time.deltaTime * TimeScale_);
+                GameManager.Tick(Time.deltaTime);
             }
             catch (System.Exception Ex)
             {
@@ -43,28 +42,28 @@ namespace LiteMore
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.F1))
             {
-                TimeScale_ = 0.5f;
-                Debug.LogWarning($"TimeScale = {TimeScale_}");
+                GameManager.TimeScale = 0.5f;
+                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.F2))
             {
-                TimeScale_ = 1.0f;
-                Debug.LogWarning($"TimeScale = {TimeScale_}");
+                GameManager.TimeScale = 1.0f;
+                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
-                TimeScale_ = 5.0f;
-                Debug.LogWarning($"TimeScale = {TimeScale_}");
+                GameManager.TimeScale = 5.0f;
+                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.PageUp))
             {
-                TimeScale_--;
-                Debug.LogWarning($"TimeScale = {TimeScale_}");
+                GameManager.TimeScale--;
+                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.PageDown))
             {
-                TimeScale_++;
-                Debug.LogWarning($"TimeScale = {TimeScale_}");
+                GameManager.TimeScale++;
+                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
             }
 
             if (Input.GetKeyDown(KeyCode.F5))

@@ -14,8 +14,8 @@ namespace LiteMore.Combat.Emitter
 
         private float Time_;
 
-        protected BaseEmitter()
-            : base()
+        protected BaseEmitter(string Name)
+            : base(Name)
         {
             Position = Vector2.zero;
             Team = CombatTeam.B;

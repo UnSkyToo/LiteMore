@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat;
+﻿using LiteMore.Cache;
+using LiteMore.Combat;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
@@ -14,8 +15,10 @@ namespace LiteMore.Player
     public static class PlayerManager
     {
         public static PlayerInfo Player => Player_;
+        public static PlayerDps Dps => Dps_;
 
         private static PlayerInfo Player_;
+        private static PlayerDps Dps_;
         private static CoreNpc CoreNpc_;
         private static BulletCircleEmitter MainEmitter_;
 
@@ -24,14 +27,18 @@ namespace LiteMore.Player
             Player_ = new PlayerInfo();
             Player_.LoadFromCache();
 
-            UIManager.OpenUI<MainUI>();
+            Dps_ = new PlayerDps(0.5f);
 
-            CoreNpc_ = NpcManager.AddCoreNpc(Configure.CoreBasePosition, NpcManager.GenerateCoreNpcAttr());
+            CoreNpc_ = NpcManager.AddCoreNpc("Core", Configure.CoreBasePosition, NpcManager.GenerateCoreNpcAttr());
             CoreNpc_.Attr.AttrChanged += OnCoreAttrChanged;
+
+            EventManager.Register<NpcDamageEvent>(OnNpcDamageEvent);
+
+            UIManager.OpenUI<MainUI>();
+            UIManager.OpenUI<DpsUI>();
 
             EventManager.Send<CoreInfoChangeEvent>();
             CreateMainEmitter();
-
             WaveManager.LoadWave((uint)Player.Wave);
 
             return true;
@@ -39,8 +46,10 @@ namespace LiteMore.Player
 
         public static void Shutdown()
         {
+            EventManager.UnRegister<NpcDamageEvent>(OnNpcDamageEvent);
             Player_.SaveToCache();
             UIManager.CloseUI<MainUI>();
+            UIManager.CloseUI<DpsUI>();
         }
 
         public static void Tick(float DeltaTime)
@@ -49,12 +58,27 @@ namespace LiteMore.Player
             {
                 GameManager.GameOver();
             }
+
+            Dps_.Tick(DeltaTime);
+        }
+
+        public static bool DeleteArchive()
+        {
+            return Player_.DeleteArchive();
+        }
+
+        private static void OnNpcDamageEvent(NpcDamageEvent Event)
+        {
+            if (Event.Master.Team == CombatTeam.B)
+            {
+                Dps_.ApplyDamage(Event.SourceName, Event.Value);
+            }
         }
 
         public static void CreateMainEmitter()
         {
             EmitterManager.RemoveEmitter(MainEmitter_);
-            MainEmitter_ = EmitterManager.AddEmitter(new BulletCircleEmitter
+            MainEmitter_ = EmitterManager.AddEmitter(new BulletCircleEmitter("MainBullet")
             {
                 Team = CombatTeam.A,
                 TriggerCount = -1,
@@ -65,7 +89,7 @@ namespace LiteMore.Player
                 Position = Configure.CoreTopPosition,
                 RadiusAttr = new EmitterRandFloat(0),
                 SpeedAttr = new EmitterRandFloat(1000, 2000),
-                DamageAttr = new EmitterRandInt(GetBulletDamage()),
+                DamageAttr = new EmitterRandFloat(GetBulletDamage()),
                 ResName = "Red",
             }) as BulletCircleEmitter;
 
@@ -76,7 +100,7 @@ namespace LiteMore.Player
                 if (Target != null)
                 {
                     var Desc = new TrackBulletDescriptor(
-                        new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 5),
+                        new BaseBulletDescriptor("Touch", Configure.CoreTopPosition, CombatTeam.A, 5),
                         "Blue", Target, 1500);
 
                     BulletManager.AddTrackBullet(Desc);
@@ -137,20 +161,22 @@ namespace LiteMore.Player
         {
             Player_.Wave++;
             WaveManager.LoadWave((uint)Player.Wave);
+            LocalCache.SaveCache();
         }
 
         public static void AddBulletDamageLevel()
         {
             Player_.BulletDamageLevel++;
-            MainEmitter_.DamageAttr = new EmitterRandInt(LocalData.MainBulletDamage[Player_.BulletDamageLevel].Damage);
+            MainEmitter_.DamageAttr = new EmitterRandFloat(LocalData.MainBulletDamage[Player_.BulletDamageLevel].Damage);
+            LocalCache.SaveCache();
         }
 
-        public static int GetBulletDamage()
+        public static float GetBulletDamage()
         {
             return LocalData.MainBulletDamage[Player_.BulletDamageLevel].Damage;
         }
 
-        public static int GetBulletDamageCost()
+        public static uint GetBulletDamageCost()
         {
             return LocalData.MainBulletDamage[Player_.BulletDamageLevel].Cost;
         }
@@ -159,6 +185,7 @@ namespace LiteMore.Player
         {
             Player_.BulletIntervalLevel++;
             MainEmitter_.Interval = LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Interval;
+            LocalCache.SaveCache();
         }
 
         public static float GetBulletInterval()
@@ -166,7 +193,7 @@ namespace LiteMore.Player
             return LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Interval;
         }
 
-        public static int GetBulletIntervalCost()
+        public static uint GetBulletIntervalCost()
         {
             return LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Cost;
         }
@@ -174,10 +201,16 @@ namespace LiteMore.Player
         public static void AddBulletCountLevel()
         {
             Player_.BulletCountLevel++;
-            MainEmitter_.EmittedCount = (uint)LocalData.MainBulletCount[Player_.BulletCountLevel].Count;
+            MainEmitter_.EmittedCount = LocalData.MainBulletCount[Player_.BulletCountLevel].Count;
+            LocalCache.SaveCache();
         }
 
-        public static int GetBulletCountCost()
+        public static uint GetBulletCount()
+        {
+            return LocalData.MainBulletCount[Player_.BulletCountLevel].Count;
+        }
+
+        public static uint GetBulletCountCost()
         {
             return LocalData.MainBulletCount[Player_.BulletCountLevel].Cost;
         }

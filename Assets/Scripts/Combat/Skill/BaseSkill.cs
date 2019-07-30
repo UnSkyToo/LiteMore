@@ -36,7 +36,6 @@ namespace LiteMore.Combat.Skill
     public class BaseSkill : BaseEntity
     {
         public string Icon { get; }
-        public string Name { get; }
         public float CD { get; }
         public int Cost { get; }
         public float Radius { get; }
@@ -45,9 +44,9 @@ namespace LiteMore.Combat.Skill
         public bool IsCD { get; protected set; }
 
         public BaseSkill(BaseSkillDescriptor Desc)
+            : base(Desc.Name)
         {
             this.Icon = Desc.Icon;
-            this.Name = Desc.Name;
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
             this.Radius = Desc.Radius;

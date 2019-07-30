@@ -13,6 +13,8 @@ namespace LiteMore.UI.Logic
         private WaveInfoPart WaveInfo_;
         private CoreUpPart CoreUp_;
 
+        private int TimeScale_ = 1;
+
         public MainUI()
             : base()
         {
@@ -23,8 +25,37 @@ namespace LiteMore.UI.Logic
         protected override void OnOpen(params object[] Params)
         {
             CoreInfo_ = new CoreInfoPart(FindChild("CoreInfo"));
-            WaveInfo_ = new WaveInfoPart(FindChild("WaveInfo"), FindComponent<Text>("NewWave"));
+            WaveInfo_ = new WaveInfoPart(FindChild("WaveInfo"));
             CoreUp_ = new CoreUpPart(FindChild("CoreUpInfo"));
+
+            AddEventToChild("BtnDelete", () =>
+            {
+                if (GameManager.IsRestart)
+                {
+                    return;
+                }
+
+                if (PlayerManager.DeleteArchive())
+                {
+                    ToastHelper.Show("删除存档成功", Color.red, GameManager.Restart);
+                }
+                else
+                {
+                    ToastHelper.Show("删除存档失败", Color.red);
+                }
+            });
+
+            AddEventToChild("BtnSpeed", () =>
+            {
+                TimeScale_++;
+                if (TimeScale_ > 3)
+                {
+                    TimeScale_ = 1;
+                }
+
+                GameManager.TimeScale = TimeScale_;
+                FindComponent<Text>("BtnSpeed/Text").text = $"x{TimeScale_}";
+            });
         }
 
         protected override void OnClose()
@@ -52,7 +83,7 @@ namespace LiteMore.UI.Logic
                 var TipsMsg = $"<color=red><size=30>生命值归零游戏结束</size></color>\n" +
                               "<color=green><size=30>魔法值用于释放技能</size></color>\n" +
                               "<color=yellow><size=30>宝石是通用货币</size></color>";
-                TipsHelper.AddTips(Trans, "CoreInfo", () => TipsMsg);
+                TipsHelper.AddTips(Trans, () => TipsMsg);
 
                 EventManager.Register<CoreInfoChangeEvent>(OnCoreInfoChangeEvent);
 
@@ -89,21 +120,25 @@ namespace LiteMore.UI.Logic
             private readonly Text DamageText_;
             private readonly Text GemText_;
             private readonly Text NewWaveText_;
+            private readonly GameObject BtnNextWaveObj_;
 
-            internal WaveInfoPart(Transform Trans, Text NewWaveText)
+            internal WaveInfoPart(Transform Trans)
             {
                 Trans_ = Trans.GetComponent<RectTransform>();
 
-                WaveText_ = UIHelper.FindComponent<Text>(Trans, "Wave");
-                RemainingNumText_ = UIHelper.FindComponent<Text>(Trans, "RemainingNum");
-                IntervalText_ = UIHelper.FindComponent<Text>(Trans, "Interval");
-                SpeedText_ = UIHelper.FindComponent<Text>(Trans, "Speed");
-                HpText_ = UIHelper.FindComponent<Text>(Trans, "Hp");
-                DamageText_ = UIHelper.FindComponent<Text>(Trans, "Damage");
-                GemText_ = UIHelper.FindComponent<Text>(Trans, "Gem");
-                NewWaveText_ = NewWaveText;
-
+                WaveText_ = UIHelper.FindComponent<Text>(Trans, "List/Wave");
+                RemainingNumText_ = UIHelper.FindComponent<Text>(Trans, "List/RemainingNum");
+                IntervalText_ = UIHelper.FindComponent<Text>(Trans, "List/Interval");
+                SpeedText_ = UIHelper.FindComponent<Text>(Trans, "List/Speed");
+                HpText_ = UIHelper.FindComponent<Text>(Trans, "List/Hp");
+                DamageText_ = UIHelper.FindComponent<Text>(Trans, "List/Damage");
+                GemText_ = UIHelper.FindComponent<Text>(Trans, "List/Gem");
+                NewWaveText_ = UIHelper.FindComponent<Text>(Trans, "NewWave");
                 NewWaveText_.gameObject.SetActive(false);
+                BtnNextWaveObj_ = UIHelper.FindChild(Trans, "BtnNextWave").gameObject;
+                BtnNextWaveObj_.SetActive(false);
+
+                UIHelper.AddEvent(BtnNextWaveObj_.transform, OnBtnNextWaveClick);
 
                 EventManager.Register<WaveChangeEvent>(OnWaveChangeEvent);
                 EventManager.Register<NewWaveEvent>(OnNewWaveEvent);
@@ -126,6 +161,11 @@ namespace LiteMore.UI.Logic
                 DamageText_.text = $"伤害值：{Data.Damage}";
                 GemText_.text = $"奖励宝石：{Data.Gem}";
 
+                if (WaveManager.GetWave().GetRemainingCount() == 0)
+                {
+                    BtnNextWaveObj_.SetActive(true);
+                }
+
                 LayoutRebuilder.ForceRebuildLayoutImmediate(Trans_);
             }
 
@@ -147,6 +187,12 @@ namespace LiteMore.UI.Logic
                     {
                         NewWaveText_.gameObject.SetActive(false);
                     })));
+            }
+
+            private void OnBtnNextWaveClick()
+            {
+                BtnNextWaveObj_.SetActive(false);
+                PlayerManager.AddWave();
             }
         }
 
@@ -178,13 +224,14 @@ namespace LiteMore.UI.Logic
             {
                 BulletDamageText_.text = $"主炮塔射击伤害：{PlayerManager.GetBulletDamage()}（<color=yellow>{PlayerManager.GetBulletDamageCost()}</color>）";
                 BulletIntervalText_.text = $"主炮塔射击间隔：{PlayerManager.GetBulletInterval()}s（<color=yellow>{PlayerManager.GetBulletIntervalCost()}</color>）";
+                BulletCountText_.text = $"主炮塔射击数量：{PlayerManager.GetBulletCount()}（<color=yellow>{PlayerManager.GetBulletCountCost()}</color>）";
             }
 
             private void OnBulletDamageBtnAdd()
             {
                 if (PlayerManager.Player.Gem >= PlayerManager.GetBulletDamageCost())
                 {
-                    PlayerManager.AddGem(-PlayerManager.GetBulletDamageCost());
+                    PlayerManager.AddGem(-(int)PlayerManager.GetBulletDamageCost());
                     PlayerManager.AddBulletDamageLevel();
 
                     Refresh();
@@ -199,7 +246,7 @@ namespace LiteMore.UI.Logic
             {
                 if (PlayerManager.Player.Gem >= PlayerManager.GetBulletIntervalCost())
                 {
-                    PlayerManager.AddGem(-PlayerManager.GetBulletIntervalCost());
+                    PlayerManager.AddGem(-(int)PlayerManager.GetBulletIntervalCost());
                     PlayerManager.AddBulletIntervalLevel();
 
                     Refresh();
@@ -214,7 +261,7 @@ namespace LiteMore.UI.Logic
             {
                 if (PlayerManager.Player.Gem >= PlayerManager.GetBulletCountCost())
                 {
-                    PlayerManager.AddGem(-PlayerManager.GetBulletCountCost());
+                    PlayerManager.AddGem(-(int)PlayerManager.GetBulletCountCost());
                     PlayerManager.AddBulletCountLevel();
 
                     Refresh();

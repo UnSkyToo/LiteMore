@@ -27,7 +27,6 @@ namespace LiteMore.Combat.Wave
                 {
                     CurrentWave_.Dispose();
                     CurrentWave_ = null;
-                    PlayerManager.AddWave();
                 }
             }
         }

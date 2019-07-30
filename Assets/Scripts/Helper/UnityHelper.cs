@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace LiteMore.Helper
 {
@@ -57,6 +58,11 @@ namespace LiteMore.Helper
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(RootCanvas_, ScreenPos, Camera.main, out Vector2 Pos);
             return Pos;
+        }
+
+        public static Color RandColor()
+        {
+            return new Color(Random.value, Random.value, Random.value);
         }
     }
 }

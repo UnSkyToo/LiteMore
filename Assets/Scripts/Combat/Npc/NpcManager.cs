@@ -116,13 +116,13 @@ namespace LiteMore.Combat.Npc
             };
         }
 
-        public static BaseNpc AddNpc(Vector2 Position, CombatTeam Team, float[] InitAttr, bool ForceFirst = false)
+        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr, bool ForceFirst = false)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
             Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
 
-            var Entity = new AINpc(Obj.transform, Team, InitAttr);
+            var Entity = new AINpc(Name, Obj.transform, Team, InitAttr);
             if (ForceFirst)
             {
                 NpcList_[(int)Team].Insert(0, Entity);
@@ -137,7 +137,7 @@ namespace LiteMore.Combat.Npc
             return Entity;
         }
 
-        public static CoreNpc AddCoreNpc(Vector2 Position, float[] InitAttr)
+        public static CoreNpc AddCoreNpc(string Name, Vector2 Position, float[] InitAttr)
         {
             if (CoreNpc_ != null)
             {
@@ -148,7 +148,7 @@ namespace LiteMore.Combat.Npc
             Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
 
-            CoreNpc_ = new CoreNpc(Obj.transform, InitAttr);
+            CoreNpc_ = new CoreNpc(Name, Obj.transform, InitAttr);
             NpcList_[(int)CombatTeam.A].Add(CoreNpc_);
             CoreNpc_.Position = Position;
             CoreNpc_.IsStatic = true;

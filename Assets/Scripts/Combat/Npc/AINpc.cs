@@ -4,8 +4,8 @@ namespace LiteMore.Combat.Npc
 {
     public class AINpc : BaseNpc
     {
-        public AINpc(Transform Trans, CombatTeam Team, float[] InitAttr)
-            : base(Trans, Team, InitAttr)
+        public AINpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
+            : base(Name, Trans, Team, InitAttr)
         {
         }
 

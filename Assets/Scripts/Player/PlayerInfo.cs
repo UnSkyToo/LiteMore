@@ -19,14 +19,23 @@ namespace LiteMore.Player
         public uint BulletIntervalLevel { get; set; }
         public uint BulletCountLevel { get; set; }
 
+        private bool IgnoreSaveCache_;
+
         public PlayerInfo()
         {
+            IgnoreSaveCache_ = false;
+        }
+
+        public bool DeleteArchive()
+        {
+            IgnoreSaveCache_ = LocalCache.ClearCache();
+            return IgnoreSaveCache_;
         }
 
         public void LoadFromCache()
         {
             MaxHp = LocalCache.GetFloat(nameof(MaxHp), 100);
-            AddHp = LocalCache.GetFloat(nameof(AddHp), 0);
+            AddHp = LocalCache.GetFloat(nameof(AddHp), 1);
             Hp = MaxHp;
 
             MaxMp = LocalCache.GetFloat(nameof(MaxMp), 100);
@@ -36,13 +45,18 @@ namespace LiteMore.Player
             Gem = LocalCache.GetInt(nameof(Gem), 0);
             Wave = LocalCache.GetInt(nameof(Wave), 1);
 
-            BulletDamageLevel = (uint)LocalCache.GetInt(nameof(BulletIntervalLevel), 1);
+            BulletDamageLevel = (uint)LocalCache.GetInt(nameof(BulletDamageLevel), 1);
             BulletIntervalLevel = (uint)LocalCache.GetInt(nameof(BulletIntervalLevel), 1);
             BulletCountLevel = (uint)LocalCache.GetInt(nameof(BulletCountLevel), 1);
         }
 
         public void SaveToCache()
         {
+            if (IgnoreSaveCache_)
+            {
+                return;
+            }
+
             LocalCache.SetFloat(nameof(MaxHp), MaxHp);
             LocalCache.SetFloat(nameof(AddHp), AddHp);
 

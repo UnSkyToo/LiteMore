@@ -7,12 +7,12 @@ namespace LiteMore.Combat.Emitter
     public abstract class NpcEmitter : BaseEmitter
     {
         public EmitterRandFloat SpeedAttr { get; set; }
-        public EmitterRandInt HpAttr { get; set; }
-        public EmitterRandInt DamageAttr { get; set; }
+        public EmitterRandFloat HpAttr { get; set; }
+        public EmitterRandFloat DamageAttr { get; set; }
         public EmitterRandInt GemAttr { get; set; }
 
-        protected NpcEmitter()
-            : base()
+        protected NpcEmitter(string Name)
+            : base(Name)
         {
         }
     }
@@ -24,8 +24,8 @@ namespace LiteMore.Combat.Emitter
         private Transform ObjOuter_;
         private LineCaller CallerOuter_;
 
-        public NpcRectEmitter()
-            : base()
+        public NpcRectEmitter(string Name)
+            : base(Name)
         {
         }
 
@@ -51,7 +51,7 @@ namespace LiteMore.Combat.Emitter
         {
             var Pos = Position + OffsetAttr.Get();
             var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 5, 5);
-            var Entity = NpcManager.AddNpc(Pos, Team, InitAttr);
+            var Entity = NpcManager.AddNpc(Name, Pos, Team, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
         }
     }
@@ -66,8 +66,8 @@ namespace LiteMore.Combat.Emitter
         private Transform ObjOuter_;
         private LineCaller CallerOuter_;
 
-        public NpcCircleEmitter()
-            : base()
+        public NpcCircleEmitter(string Name)
+            : base(Name)
         {
         }
 
@@ -103,7 +103,7 @@ namespace LiteMore.Combat.Emitter
             var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
             var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 5, 5);
-            var Entity = NpcManager.AddNpc(Pos, Team, InitAttr);
+            var Entity = NpcManager.AddNpc(Name, Pos, Team, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
         }
     }

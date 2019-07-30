@@ -16,7 +16,7 @@ namespace LiteMore.Combat.Skill.Selector
         protected readonly MainSkill Skill_;
 
         protected BaseSelector(SelectorMode Mode, MainSkill Skill)
-            : base()
+            : base($"Selector {Mode}")
         {
             this.Mode = Mode;
             this.Skill_ = Skill;

@@ -17,6 +17,12 @@ namespace LiteMore
         public static readonly Transform UIRoot = CanvasRoot.Find("UI").transform;
         public static readonly Transform SkillCancel = UIRoot.Find("SkillCancel").transform;
 
+#if UNITY_EDITOR
+        public static readonly string CacheFilePath = $"{Application.dataPath}/cache.txt";
+#else
+        public static readonly string CacheFilePath = $"{Application.persistentDataPath}/cache.txt";
+#endif
+
         public const int WindowWidth = 1280;
         public const int WindowHeight = 720;
         public const int WindowLeft = -640;

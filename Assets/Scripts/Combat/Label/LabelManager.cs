@@ -37,10 +37,8 @@ namespace LiteMore.Combat.Label
             }
         }
 
-        public static NumberLabel AddNumberLabel(Vector2 Position, NumberLabelType Type, int Value)
+        public static NumberLabel AddNumberLabel(Vector2 Position, NumberLabelType Type, float Value)
         {
-            return null;
-
             var Obj = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Num"));
             Obj.transform.SetParent(Configure.LabelRoot, false);
             Obj.transform.localPosition = Position;

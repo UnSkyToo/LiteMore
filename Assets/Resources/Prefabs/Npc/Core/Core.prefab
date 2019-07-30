@@ -233,6 +233,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2924216680054767438, guid: 36ae8f3667e707f4c9fba42d7657ce95,
+        type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8015172139493446455, guid: 36ae8f3667e707f4c9fba42d7657ce95,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -391,6 +396,11 @@ PrefabInstance:
     - target: {fileID: 1444808148459144156, guid: 849ca55371562f643b78b52b950163da,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026808408157302693, guid: 849ca55371562f643b78b52b950163da,
+        type: 3}
+      propertyPath: m_Transition
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

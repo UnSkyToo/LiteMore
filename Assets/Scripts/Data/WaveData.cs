@@ -1,4 +1,6 @@
-﻿namespace LiteMore.Data
+﻿using UnityEngine;
+
+namespace LiteMore.Data
 {
     public class WaveData
     {
@@ -7,8 +9,8 @@
         public uint EmitterCount { get; }
         public float Interval { get; }
         public float Speed { get; }
-        public int Hp { get; }
-        public int Damage { get; }
+        public float Hp { get; }
+        public float Damage { get; }
         public int Gem { get; }
 
         public WaveData(uint Wave)
@@ -25,37 +27,37 @@
 
         public static int Formula_TriggerCount(uint Wave)
         {
-            return 4 + (int)(Wave / 10);
+            return 5;
         }
 
         public static uint Formula_EmitterCount(uint Wave)
         {
-            return 5 + Wave / 3;
+            return 10 + (uint)Mathf.Pow(Wave, 0.5f);
         }
 
         public static float Formula_Interval(uint Wave)
         {
-            return 30.0f / Formula_TriggerCount(Wave);
+            return 5;
         }
 
         public static float Formula_Speed(uint Wave)
         {
-            return 70;
+            return 50;
         }
 
-        public static int Formula_Hp(uint Wave)
+        public static float Formula_Hp(uint Wave)
         {
-            return 5 + (int)(Wave / 2) * 1 + (int)(Wave / 10) * 5 + (int)(Wave / 20) * 10 + (int)(Wave / 50) * 30;
+            return 5 + (Wave - 1) * 0.15f;
         }
 
-        public static int Formula_Damage(uint Wave)
+        public static float Formula_Damage(uint Wave)
         {
-            return 1 + (int)(Wave / 5);
+            return 1;
         }
 
         public static int Formula_Gem(uint Wave)
         {
-            return 1 + (int)(Wave / 50);
+            return 1 + (int)((Wave - 1) * 0.1f);
         }
     }
 }

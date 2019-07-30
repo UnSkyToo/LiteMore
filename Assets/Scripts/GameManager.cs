@@ -19,12 +19,16 @@ namespace LiteMore
     public static class GameManager
     {
         public static bool IsPause { get; set; } = false;
+        public static bool IsRestart { get; set; } = false;
+        public static float TimeScale { get; set; } = 1.0f;
 
         private static float EnterBackgroundTime_ = 0.0f;
 
         public static bool Startup()
         {
             IsPause = true;
+            IsRestart = false;
+            TimeScale = 1.0f;
 
             LocalCache.LoadCache();
             LocalData.Generate();
@@ -65,20 +69,33 @@ namespace LiteMore
 
         public static void Tick(float DeltaTime)
         {
+            if (IsRestart)
+            {
+                RestartGameManager();
+                return;
+            }
+
             if (IsPause)
             {
                 return;
             }
 
-            TimerManager.Tick(DeltaTime);
-            MotionManager.Tick(DeltaTime);
-            UIManager.Tick(DeltaTime);
-            CombatManager.Tick(DeltaTime);
-            PlayerManager.Tick(DeltaTime);
+            var Dt = DeltaTime * TimeScale;
+            TimerManager.Tick(Dt);
+            MotionManager.Tick(Dt);
+            UIManager.Tick(Dt);
+            CombatManager.Tick(Dt);
+            PlayerManager.Tick(Dt);
         }
 
         public static void Restart()
         {
+            IsRestart = true;
+        }
+
+        private static void RestartGameManager()
+        {
+            IsRestart = false;
             UnityHelper.ClearLog();
             Shutdown();
             IsPause = !Startup();
@@ -86,6 +103,7 @@ namespace LiteMore
 
         public static void OnEnterBackground()
         {
+            LocalCache.SaveCache();
             EnterBackgroundTime_ = Time.realtimeSinceStartup;
             IsPause = true;
         }
@@ -115,7 +133,7 @@ namespace LiteMore
             Skill1Selector.OnUsed += (S) =>
             {
                 var BulletDesc = new LaserBulletDescriptor(
-                    new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 100),
+                    new BaseBulletDescriptor("Laser", Configure.CoreTopPosition, CombatTeam.A, 100),
                     180, 360, 300, 500);
                 BulletManager.AddLaserBullet(BulletDesc);
             };
@@ -124,7 +142,7 @@ namespace LiteMore
             var Skill2Selector = new ClickSelector(Skill2);
             Skill2Selector.OnUsed += (S) =>
             {
-                EmitterManager.AddEmitter(new BulletCircleEmitter
+                EmitterManager.AddEmitter(new BulletCircleEmitter("AutoS")
                 {
                     Team = CombatTeam.A,
                     TriggerCount = 10,
@@ -135,7 +153,7 @@ namespace LiteMore
                     Position = Configure.CoreTopPosition,
                     RadiusAttr = new EmitterRandFloat(0, 0),
                     SpeedAttr = new EmitterRandFloat(1000, 2000),
-                    DamageAttr = new EmitterRandInt(3, 5),
+                    DamageAttr = new EmitterRandFloat(3, 5),
                     ResName = "Blue",
                 });
             };
@@ -144,7 +162,7 @@ namespace LiteMore
             var Skill3Selector = new ClickSelector(Skill3);
             Skill3Selector.OnUsed += (S) =>
             {
-                EmitterManager.AddEmitter(new NpcCircleEmitter
+                EmitterManager.AddEmitter(new NpcCircleEmitter("Comeon")
                 {
                     Team = CombatTeam.B,
                     TriggerCount = 1,
@@ -155,8 +173,8 @@ namespace LiteMore
                     Position = new Vector2(Configure.WindowLeft + 200, 0),
                     RadiusAttr = new EmitterRandFloat(10, 200),
                     SpeedAttr = new EmitterRandFloat(80, 180),
-                    HpAttr = new EmitterRandInt(1, 5),
-                    DamageAttr = new EmitterRandInt(1, 1),
+                    HpAttr = new EmitterRandFloat(1, 5),
+                    DamageAttr = new EmitterRandFloat(1, 1),
                     GemAttr = new EmitterRandInt(1, 1),
                 });
             };
@@ -166,7 +184,7 @@ namespace LiteMore
             Skill4Selector.OnUsed += (Desc, Pos) =>
             {
                 var BulletDesc = new BombBulletDescriptor(
-                    new BaseBulletDescriptor(new Vector2(Pos.x, 400), CombatTeam.A, 500),
+                    new BaseBulletDescriptor("Bomb", new Vector2(Pos.x, 400), CombatTeam.A, 500),
                     Pos, 200, Desc.Skill.Radius);
 
                 BulletManager.AddBombBullet(BulletDesc);
@@ -177,7 +195,7 @@ namespace LiteMore
             Skill5Selector.OnUsed += (Desc, Dir) =>
             {
                 var BulletDesc = new BackBulletDescriptor(
-                    new BaseBulletDescriptor(new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
+                    new BaseBulletDescriptor("Back", new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
                     Dir, Configure.WindowWidth,
                     new Vector2(400, 82),
                     200);
@@ -191,7 +209,7 @@ namespace LiteMore
             {
                 var BulletDesc = new AttrTriggerBulletDescriptor(
                     new BaseTriggerBulletDescriptor(
-                        new BaseBulletDescriptor(Pos, CombatTeam.A, 1),
+                        new BaseBulletDescriptor("Slow", Pos, CombatTeam.A, 1),
                         Desc.Skill.Radius,
                         0.5f,
                         20,
@@ -208,7 +226,7 @@ namespace LiteMore
             var Skill7Selector = new ClickSelector(Skill7);
             Skill7Selector.OnUsed += (S) =>
             {
-                var Npc = NpcManager.AddNpc(Configure.CoreBasePosition, CombatTeam.A,
+                var Npc = NpcManager.AddNpc("Partner", Configure.CoreBasePosition, CombatTeam.A,
                     NpcManager.GenerateInitAttr(200, 500, 0, 1, 0, 50, 50),
                     true);
                 Npc.Scale = new Vector2(3, 3);
@@ -222,7 +240,7 @@ namespace LiteMore
                 if (Target != null)
                 {
                     BulletManager.AddTrackBullet(new TrackBulletDescriptor(
-                        new BaseBulletDescriptor(Configure.CoreTopPosition, CombatTeam.A, 1),
+                        new BaseBulletDescriptor("Continue", Configure.CoreTopPosition, CombatTeam.A, 1),
                         "Blue",
                         Target,
                         1500));

@@ -8,8 +8,8 @@ namespace LiteMore.Combat
     {
         protected Animator Animator_;
 
-        public BaseSfx(Transform Trans)
-            : base(Trans)
+        public BaseSfx(string Name, Transform Trans)
+            : base(Name, Trans)
         {
             Animator_ = Transform_.GetComponentInChildren<Animator>();
         }
@@ -74,7 +74,7 @@ namespace LiteMore.Combat
             Obj.transform.SetParent(Configure.SfxRoot, false);
             Obj.transform.localPosition = Position;
 
-            var Entity = new BaseSfx(Obj.transform);
+            var Entity = new BaseSfx(ResName, Obj.transform);
             SfxList_.Add(Entity);
             Entity.Position = Position;
 

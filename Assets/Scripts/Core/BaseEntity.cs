@@ -4,12 +4,14 @@ namespace LiteMore.Core
 {
     public abstract class BaseEntity : BaseObject, IDisposable
     {
+        public string Name { get; }
         public bool IsAlive { get; set; }
 
-        protected BaseEntity()
+        protected BaseEntity(string Name)
             : base()
         {
-            IsAlive = true;
+            this.Name = Name;
+            this.IsAlive = true;
         }
 
         public abstract void Dispose();

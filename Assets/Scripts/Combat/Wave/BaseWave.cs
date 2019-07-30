@@ -15,11 +15,12 @@ namespace LiteMore.Combat.Wave
         protected uint RemainingCount_;
 
         public BaseWave(uint Wave)
+            : base($"Wave{Wave}")
         {
             this.Wave = Wave;
 
             Data = LocalData.WaveList[Wave];
-            Emitter_ = EmitterManager.AddEmitter(new NpcRectEmitter
+            Emitter_ = EmitterManager.AddEmitter(new NpcRectEmitter(Name)
             {
                 Team = CombatTeam.B,
                 TriggerCount = Data.TriggerCount,
@@ -27,11 +28,11 @@ namespace LiteMore.Combat.Wave
                 Interval = Data.Interval,
                 IsAlive = true,
                 IsPause = false,
-                Position = new Vector2(Configure.WindowLeft + 200, 0),
-                SpeedAttr = new EmitterRandFloat(50, 100),
-                HpAttr = new EmitterRandInt(Data.Hp, Data.Hp),
-                DamageAttr = new EmitterRandInt(Data.Damage, Data.Damage),
-                GemAttr = new EmitterRandInt(Data.Gem, Data.Gem),
+                Position = new Vector2(Configure.WindowLeft + 50, 0),
+                SpeedAttr = new EmitterRandFloat(Data.Speed * 0.8f, Data.Speed * 1.2f),
+                HpAttr = new EmitterRandFloat(Data.Hp),
+                DamageAttr = new EmitterRandFloat(Data.Damage),
+                GemAttr = new EmitterRandInt(Data.Gem),
                 OffsetAttr = new EmitterRandVector2(
                     new Vector2(-100, -Configure.WindowHeight / 2 + 100),
                     new Vector2(100, Configure.WindowHeight / 2 - 100)),

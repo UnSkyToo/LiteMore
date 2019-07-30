@@ -23,8 +23,8 @@ namespace LiteMore.Combat.Npc
         private int HitSfxInterval_;
         protected List<BaseBullet> LockedList_;
 
-        public BaseNpc(Transform Trans, CombatTeam Team, float[] InitAttr)
-            : base(Trans)
+        public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
+            : base(Name, Trans)
         {
             IsStatic = false;
             this.Team = Team;
@@ -199,23 +199,24 @@ namespace LiteMore.Combat.Npc
         public void OnBulletHit(BaseBullet Collider)
         {
             LockedList_.Remove(Collider);
-            OnHitDamage(Collider.Damage);
+            OnHitDamage(Collider.Name, Collider.Damage);
         }
 
         public void OnNpcHit(BaseNpc Attacker)
         {
-            OnHitDamage(Attacker.CalcFinalAttr(NpcAttrIndex.Damage));
+            OnHitDamage(Attacker.Name, Attacker.CalcFinalAttr(NpcAttrIndex.Damage));
         }
 
-        private void OnHitDamage(float Damage)
+        private void OnHitDamage(string SourceName, float Damage)
         {
             if (IsFsmState(FsmStateName.Die))
             {
                 return;
             }
 
-            Attr.AddValue(NpcAttrIndex.Hp, -Damage);
+            EventManager.Send(new NpcDamageEvent(this, SourceName, Damage));
 
+            Attr.AddValue(NpcAttrIndex.Hp, -Damage);
             if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)
             {
                 Attr.SetValue(NpcAttrIndex.Hp, 0);

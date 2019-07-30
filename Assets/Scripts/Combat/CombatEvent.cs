@@ -71,4 +71,17 @@ namespace LiteMore.Combat
             this.Damage = Damage;
         }
     }
+
+    public class NpcDamageEvent : CombatEvent
+    {
+        public string SourceName { get; }
+        public float Value { get; }
+
+        public NpcDamageEvent(BaseNpc Master, string SourceName, float Value)
+            : base(Master)
+        {
+            this.SourceName = SourceName;
+            this.Value = Value;
+        }
+    }
 }

@@ -14,12 +14,14 @@ namespace LiteMore.Combat.Bullet
 
     public struct BaseBulletDescriptor
     {
+        public string Name { get; }
         public Vector2 Position { get; }
-        public int Damage { get; }
+        public float Damage { get; }
         public CombatTeam Team { get; }
 
-        public BaseBulletDescriptor(Vector2 Position, CombatTeam Team, int Damage)
+        public BaseBulletDescriptor(string Name, Vector2 Position, CombatTeam Team, float Damage)
         {
+            this.Name = Name;
             this.Position = Position;
             this.Damage = Damage;
             this.Team = Team;
@@ -30,10 +32,10 @@ namespace LiteMore.Combat.Bullet
     {
         public BulletType Type { get; }
         public CombatTeam Team { get; }
-        public int Damage { get; }
+        public float Damage { get; }
 
         protected BaseBullet(Transform Trans, BulletType Type, BaseBulletDescriptor Desc)
-            : base(Trans)
+            : base(Desc.Name, Trans)
         {
             this.Type = Type;
             this.Position = Desc.Position;
