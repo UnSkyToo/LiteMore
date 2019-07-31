@@ -122,6 +122,8 @@ namespace LiteMore.UI.Logic
             private readonly Text NewWaveText_;
             private readonly GameObject BtnNextWaveObj_;
 
+            private bool AutoNextWave_ = false;
+
             internal WaveInfoPart(Transform Trans)
             {
                 Trans_ = Trans.GetComponent<RectTransform>();
@@ -139,6 +141,12 @@ namespace LiteMore.UI.Logic
                 BtnNextWaveObj_.SetActive(false);
 
                 UIHelper.AddEvent(BtnNextWaveObj_.transform, OnBtnNextWaveClick);
+
+                AutoNextWave_ = UIHelper.FindComponent<Toggle>(Trans, "AutoNextWave").isOn;
+                UIHelper.FindComponent<Toggle>(Trans, "AutoNextWave").onValueChanged.AddListener((Auto) =>
+                    {
+                        AutoNextWave_ = Auto;
+                    });
 
                 EventManager.Register<WaveChangeEvent>(OnWaveChangeEvent);
                 EventManager.Register<NewWaveEvent>(OnNewWaveEvent);
@@ -163,7 +171,14 @@ namespace LiteMore.UI.Logic
 
                 if (WaveManager.GetWave().GetRemainingCount() == 0)
                 {
-                    BtnNextWaveObj_.SetActive(true);
+                    if (AutoNextWave_)
+                    {
+                        OnBtnNextWaveClick();
+                    }
+                    else
+                    {
+                        BtnNextWaveObj_.SetActive(true);
+                    }
                 }
 
                 LayoutRebuilder.ForceRebuildLayoutImmediate(Trans_);

@@ -27,17 +27,17 @@ namespace LiteMore.Data
 
         public static int Formula_TriggerCount(uint Wave)
         {
-            return 5;
+            return (int)(4 + (Wave - 1) * 0.04f);
         }
 
         public static uint Formula_EmitterCount(uint Wave)
         {
-            return 10 + (uint)Mathf.Pow(Wave, 0.5f);
+            return 5 + (uint)Mathf.Pow(Wave, 0.8045f);
         }
 
         public static float Formula_Interval(uint Wave)
         {
-            return 5;
+            return 8;
         }
 
         public static float Formula_Speed(uint Wave)
@@ -47,7 +47,7 @@ namespace LiteMore.Data
 
         public static float Formula_Hp(uint Wave)
         {
-            return 5 + (Wave - 1) * 0.15f;
+            return 5 + (Wave - 1) * 0.475f;
         }
 
         public static float Formula_Damage(uint Wave)

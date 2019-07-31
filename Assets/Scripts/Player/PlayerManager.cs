@@ -167,52 +167,52 @@ namespace LiteMore.Player
         public static void AddBulletDamageLevel()
         {
             Player_.BulletDamageLevel++;
-            MainEmitter_.DamageAttr = new EmitterRandFloat(LocalData.MainBulletDamage[Player_.BulletDamageLevel].Damage);
+            MainEmitter_.DamageAttr = new EmitterRandFloat(LocalData.MainBullet.Damage[Player_.BulletDamageLevel].Damage);
             LocalCache.SaveCache();
         }
 
         public static float GetBulletDamage()
         {
-            return LocalData.MainBulletDamage[Player_.BulletDamageLevel].Damage;
+            return LocalData.MainBullet.Damage[Player_.BulletDamageLevel].Damage;
         }
 
         public static uint GetBulletDamageCost()
         {
-            return LocalData.MainBulletDamage[Player_.BulletDamageLevel].Cost;
+            return LocalData.MainBullet.Damage[Player_.BulletDamageLevel].Cost;
         }
 
         public static void AddBulletIntervalLevel()
         {
             Player_.BulletIntervalLevel++;
-            MainEmitter_.Interval = LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Interval;
+            MainEmitter_.Interval = LocalData.MainBullet.Interval[Player_.BulletIntervalLevel].Interval;
             LocalCache.SaveCache();
         }
 
         public static float GetBulletInterval()
         {
-            return LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Interval;
+            return LocalData.MainBullet.Interval[Player_.BulletIntervalLevel].Interval;
         }
 
         public static uint GetBulletIntervalCost()
         {
-            return LocalData.MainBulletInterval[Player_.BulletIntervalLevel].Cost;
+            return LocalData.MainBullet.Interval[Player_.BulletIntervalLevel].Cost;
         }
 
         public static void AddBulletCountLevel()
         {
             Player_.BulletCountLevel++;
-            MainEmitter_.EmittedCount = LocalData.MainBulletCount[Player_.BulletCountLevel].Count;
+            MainEmitter_.EmittedCount = LocalData.MainBullet.Count[Player_.BulletCountLevel].Count;
             LocalCache.SaveCache();
         }
 
         public static uint GetBulletCount()
         {
-            return LocalData.MainBulletCount[Player_.BulletCountLevel].Count;
+            return LocalData.MainBullet.Count[Player_.BulletCountLevel].Count;
         }
 
         public static uint GetBulletCountCost()
         {
-            return LocalData.MainBulletCount[Player_.BulletCountLevel].Cost;
+            return LocalData.MainBullet.Count[Player_.BulletCountLevel].Cost;
         }
     }
 }

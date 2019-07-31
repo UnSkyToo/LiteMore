@@ -44,7 +44,7 @@ namespace LiteMore
                 return false;
             }
 
-            //CreateMainSkill();
+            CreateMainSkill();
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
