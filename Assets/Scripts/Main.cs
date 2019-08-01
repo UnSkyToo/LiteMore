@@ -13,7 +13,7 @@ namespace LiteMore
         void Awake()
         {
             Camera.main.orthographicSize = Screen.height / 2.0f;
-            Style_ = new GUIStyle {fontSize = 30, normal = {background = null, textColor = Color.white}};
+            Style_ = new GUIStyle { fontSize = 30, normal = { background = null, textColor = Color.white } };
 
             try
             {
@@ -77,7 +77,7 @@ namespace LiteMore
 
             if (Input.GetKeyDown(KeyCode.F9))
             {
-                EnableGizoms_ = !EnableGizoms_;
+                EnableGizmos_ = !EnableGizmos_;
             }
 #endif
         }
@@ -106,20 +106,20 @@ namespace LiteMore
             }
         }
 
-        void OnGUI()
+        /*void OnGUI()
         {
-            /*GUI.Label(new Rect(5, 100, 0, 40), $"Npc Count : {NpcManager.GetCount()}", Style_);
+            GUI.Label(new Rect(5, 100, 0, 40), $"Npc Count : {NpcManager.GetCount()}", Style_);
             GUI.Label(new Rect(5, 150, 0, 40), $"Bullet Count : {BulletManager.GetCount()}", Style_);
-            GUI.Label(new Rect(5, 200, 0, 40), $"Emitter Count : {EmitterManager.GetCount()}", Style_);*/
-        }
+            GUI.Label(new Rect(5, 200, 0, 40), $"Emitter Count : {EmitterManager.GetCount()}", Style_);
+        }*/
 
 #if UNITY_EDITOR
-        private static bool EnableGizoms_ = false;
+        private static bool EnableGizmos_ = false;
         private static readonly Vector3[] FourCorners_ = new Vector3[4];
 
         void OnDrawGizmos()
         {
-            if (!EnableGizoms_)
+            if (!EnableGizmos_)
             {
                 return;
             }

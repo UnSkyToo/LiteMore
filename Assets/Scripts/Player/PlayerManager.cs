@@ -36,6 +36,7 @@ namespace LiteMore.Player
 
             UIManager.OpenUI<MainUI>();
             UIManager.OpenUI<DpsUI>();
+            UIManager.OpenUI<QuickControlUI>();
 
             EventManager.Send<CoreInfoChangeEvent>();
             CreateMainEmitter();
@@ -48,15 +49,18 @@ namespace LiteMore.Player
         {
             EventManager.UnRegister<NpcDamageEvent>(OnNpcDamageEvent);
             Player_.SaveToCache();
-            UIManager.CloseUI<MainUI>();
+
+            UIManager.CloseUI<QuickControlUI>();
             UIManager.CloseUI<DpsUI>();
+            UIManager.CloseUI<MainUI>();
         }
 
         public static void Tick(float DeltaTime)
         {
             if (CoreNpc_.CalcFinalAttr(NpcAttrIndex.Hp) <= 0)
             {
-                GameManager.GameOver();
+                UIManager.OpenUI<GameOverUI>();
+                GameManager.IsPause = true;
             }
 
             Dps_.Tick(DeltaTime);
@@ -171,6 +175,11 @@ namespace LiteMore.Player
             LocalCache.SaveCache();
         }
 
+        public static uint GetBulletDamageLevel()
+        {
+            return Player_.BulletDamageLevel;
+        }
+
         public static float GetBulletDamage()
         {
             return LocalData.MainBullet.Damage[Player_.BulletDamageLevel].Damage;
@@ -188,6 +197,11 @@ namespace LiteMore.Player
             LocalCache.SaveCache();
         }
 
+        public static uint GetBulletIntervalLevel()
+        {
+            return Player_.BulletIntervalLevel;
+        }
+
         public static float GetBulletInterval()
         {
             return LocalData.MainBullet.Interval[Player_.BulletIntervalLevel].Interval;
@@ -203,6 +217,11 @@ namespace LiteMore.Player
             Player_.BulletCountLevel++;
             MainEmitter_.EmittedCount = LocalData.MainBullet.Count[Player_.BulletCountLevel].Count;
             LocalCache.SaveCache();
+        }
+
+        public static uint GetBulletCountLevel()
+        {
+            return Player_.BulletCountLevel;
         }
 
         public static uint GetBulletCount()

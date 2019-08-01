@@ -11,7 +11,6 @@ using LiteMore.Helper;
 using LiteMore.Motion;
 using LiteMore.Player;
 using LiteMore.UI;
-using LiteMore.UI.Logic;
 using UnityEngine;
 
 namespace LiteMore
@@ -44,7 +43,7 @@ namespace LiteMore
                 return false;
             }
 
-            CreateMainSkill();
+            //CreateMainSkill();
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
@@ -118,12 +117,6 @@ namespace LiteMore
 
             EnterBackgroundTime_ = Time.realtimeSinceStartup;
             IsPause = false;
-        }
-
-        public static void GameOver()
-        {
-            IsPause = true;
-            UIManager.OpenUI<GameOverUI>();
         }
 
         private static void CreateMainSkill()

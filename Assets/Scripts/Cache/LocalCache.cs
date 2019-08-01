@@ -37,6 +37,11 @@ namespace LiteMore.Cache
                     while (!InStream.EndOfStream)
                     {
                         var Line = InStream.ReadLine();
+                        if (string.IsNullOrWhiteSpace(Line))
+                        {
+                            continue;
+                        }
+
                         var Entity = Line.Split('`');
                         if (Entity.Length != 2)
                         {

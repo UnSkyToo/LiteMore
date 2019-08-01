@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace LiteMore.Data
 {
@@ -19,6 +18,8 @@ namespace LiteMore.Data
             }
 
             MainBullet = new MainBulletData(MaxWaveLv);
+
+            SkillLibrary.Generate();
         }
     }
 }

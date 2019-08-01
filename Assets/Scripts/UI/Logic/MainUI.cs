@@ -237,9 +237,9 @@ namespace LiteMore.UI.Logic
 
             private void Refresh()
             {
-                BulletDamageText_.text = $"主炮塔射击伤害：{PlayerManager.GetBulletDamage()}（<color=yellow>{PlayerManager.GetBulletDamageCost()}</color>）";
-                BulletIntervalText_.text = $"主炮塔射击间隔：{PlayerManager.GetBulletInterval()}s（<color=yellow>{PlayerManager.GetBulletIntervalCost()}</color>）";
-                BulletCountText_.text = $"主炮塔射击数量：{PlayerManager.GetBulletCount()}（<color=yellow>{PlayerManager.GetBulletCountCost()}</color>）";
+                BulletDamageText_.text = $"主炮塔射击伤害(Lv{PlayerManager.GetBulletDamageLevel()})：{PlayerManager.GetBulletDamage()}（<color=yellow>{PlayerManager.GetBulletDamageCost()}</color>）";
+                BulletIntervalText_.text = $"主炮塔射击间隔(Lv{PlayerManager.GetBulletIntervalLevel()})：{PlayerManager.GetBulletInterval()}s（<color=yellow>{PlayerManager.GetBulletIntervalCost()}</color>）";
+                BulletCountText_.text = $"主炮塔射击数量(Lv{PlayerManager.GetBulletCountLevel()})：{PlayerManager.GetBulletCount()}（<color=yellow>{PlayerManager.GetBulletCountCost()}</color>）";
             }
 
             private void OnBulletDamageBtnAdd()
