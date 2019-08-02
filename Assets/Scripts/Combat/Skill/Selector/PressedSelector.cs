@@ -7,10 +7,14 @@ namespace LiteMore.Combat.Skill.Selector
     {
         protected bool IsPressed_;
 
-        public PressedSelector(MainSkill Skill)
-            : base(SelectorMode.Pressed, Skill)
+        public PressedSelector()
+            : base(SelectorMode.Pressed)
         {
             IsPressed_ = false;
+        }
+
+        protected override void OnBindSkill()
+        {
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Down, () => { IsPressed_ = true; });
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Up, () => { IsPressed_ = false; });
         }

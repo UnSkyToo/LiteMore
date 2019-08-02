@@ -116,14 +116,14 @@ namespace LiteMore.Combat.Npc
             };
         }
 
-        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr, bool ForceFirst = false)
+        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr, bool AddToFront = false)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
             Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
 
             var Entity = new AINpc(Name, Obj.transform, Team, InitAttr);
-            if (ForceFirst)
+            if (AddToFront)
             {
                 NpcList_[(int)Team].Insert(0, Entity);
             }

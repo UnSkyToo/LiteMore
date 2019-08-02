@@ -15,12 +15,19 @@ namespace LiteMore.Combat.Skill.Selector
         public SelectorMode Mode { get; }
         protected MainSkill Skill_;
 
-        protected BaseSelector(SelectorMode Mode, MainSkill Skill)
+        protected BaseSelector(SelectorMode Mode)
             : base($"Selector {Mode}")
         {
             this.Mode = Mode;
-            this.Skill_ = Skill;
         }
+
+        public void BindSkill(MainSkill Skill)
+        {
+            Skill_ = Skill;
+            OnBindSkill();
+        }
+
+        protected abstract void OnBindSkill();
 
         public override void Dispose()
         {

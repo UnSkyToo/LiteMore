@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LiteMore.Combat.Npc;
-using LiteMore.Combat.Skill.Selector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +23,17 @@ namespace LiteMore.Combat.Skill
             }
 
             SkillList_.Clear();
+
+
+
+            /*AddMainSkill(SkillLibrary.Get(1001));
+            AddMainSkill(SkillLibrary.Get(1002));
+            AddMainSkill(SkillLibrary.Get(1003));
+            AddMainSkill(SkillLibrary.Get(1004));
+            AddMainSkill(SkillLibrary.Get(1005));
+            AddMainSkill(SkillLibrary.Get(1006));
+            AddMainSkill(SkillLibrary.Get(1007));
+            AddMainSkill(SkillLibrary.Get(1008));*/
 
             return true;
         }
@@ -55,7 +65,7 @@ namespace LiteMore.Combat.Skill
             return Obj.transform;
         }
 
-        public static MainSkill AddMainSkill(SkillDescriptor Desc, BaseSelector Selector)
+        public static MainSkill AddMainSkill(SkillDescriptor Desc)
         {
             var Obj = CreateMainSkillObject(Desc.Icon);
 

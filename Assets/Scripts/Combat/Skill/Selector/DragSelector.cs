@@ -10,12 +10,16 @@ namespace LiteMore.Combat.Skill.Selector
         protected Transform DragObj_;
         protected SpriteRenderer DragObjRender_;
 
-        protected DragSelector(SelectorMode Mode, MainSkill Skill, string DragResName)
-            : base(Mode, Skill)
+        protected DragSelector(SelectorMode Mode, string DragResName)
+            : base(Mode)
         {
             IsDrag_ = false;
             DragResName_ = DragResName;
             DragObj_ = null;
+        }
+
+        protected override void OnBindSkill()
+        {
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.BeginDrag, BeginDrag);
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Drag, Drag);
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.EndDrag, EndDrag);

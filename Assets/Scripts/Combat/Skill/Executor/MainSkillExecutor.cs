@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Executor
 {
-    public class MainSkillExecutor_1001 : BaseExecutor
+    public class SkillExecutor_1001 : BaseExecutor
     {
-        public MainSkillExecutor_1001()
+        public SkillExecutor_1001()
             : base()
         {
         }
@@ -23,9 +23,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1002 : BaseExecutor
+    public class SkillExecutor_1002 : BaseExecutor
     {
-        public MainSkillExecutor_1002()
+        public SkillExecutor_1002()
             : base()
         {
         }
@@ -50,9 +50,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1003 : BaseExecutor
+    public class SkillExecutor_1003 : BaseExecutor
     {
-        public MainSkillExecutor_1003()
+        public SkillExecutor_1003()
             : base()
         {
         }
@@ -78,9 +78,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1004 : BaseExecutor
+    public class SkillExecutor_1004 : BaseExecutor
     {
-        public MainSkillExecutor_1004()
+        public SkillExecutor_1004()
             : base()
         {
         }
@@ -99,9 +99,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1005 : BaseExecutor
+    public class SkillExecutor_1005 : BaseExecutor
     {
-        public MainSkillExecutor_1005()
+        public SkillExecutor_1005()
             : base()
         {
         }
@@ -121,9 +121,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1006 : BaseExecutor
+    public class SkillExecutor_1006 : BaseExecutor
     {
-        public MainSkillExecutor_1006()
+        public SkillExecutor_1006()
             : base()
         {
         }
@@ -150,9 +150,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1007 : BaseExecutor
+    public class SkillExecutor_1007 : BaseExecutor
     {
-        public MainSkillExecutor_1007()
+        public SkillExecutor_1007()
             : base()
         {
         }
@@ -167,9 +167,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class MainSkillExecutor_1008 : BaseExecutor
+    public class SkillExecutor_1008 : BaseExecutor
     {
-        public MainSkillExecutor_1008()
+        public SkillExecutor_1008()
             : base()
         {
         }

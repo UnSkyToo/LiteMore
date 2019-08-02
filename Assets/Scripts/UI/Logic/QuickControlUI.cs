@@ -91,9 +91,16 @@ namespace LiteMore.UI.Logic
 
         private void UpdateProbe(QuickNode Node)
         {
-            ProbeObj_.SetActive(true);
-            ProbeIcon_.sprite = Resources.Load<Sprite>(SkillLibrary.Get(Node.ID).Icon);
-            ProbeName_.text = SkillLibrary.Get(Node.ID).Name;
+            if (Node != null)
+            {
+                ProbeObj_.SetActive(true);
+                ProbeIcon_.sprite = Resources.Load<Sprite>(SkillLibrary.Get(Node.ID).Icon);
+                ProbeName_.text = SkillLibrary.Get(Node.ID).Name;
+            }
+            else
+            {
+                ProbeObj_.SetActive(false);
+            }
         }
 
         private void OnQuickSucceed(QuickNode Node)
@@ -101,7 +108,7 @@ namespace LiteMore.UI.Logic
             ResetQuickState();
             SkillManager.RemoveMainSkill(CurrentSkill_);
             var Desc = SkillLibrary.Get(Node.ID);
-            CurrentSkill_ = SkillManager.AddMainSkill(Desc, null);
+            CurrentSkill_ = SkillManager.AddMainSkill(Desc);
         }
     }
 }

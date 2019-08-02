@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Combat.Skill;
 
 namespace LiteMore.Data
 {
@@ -21,6 +22,7 @@ namespace LiteMore.Data
             MainBullet = new MainBulletData(MaxWaveLv);
 
             SkillList = new Dictionary<uint, SkillData>();
+            SkillLibrary.Generate();
         }
     }
 }

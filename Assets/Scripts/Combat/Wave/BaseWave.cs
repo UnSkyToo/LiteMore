@@ -28,7 +28,7 @@ namespace LiteMore.Combat.Wave
                 Interval = Data.Interval,
                 IsAlive = true,
                 IsPause = false,
-                Position = new Vector2(Configure.WindowLeft + 50, 0),
+                Position = new Vector2(Configure.WindowLeft + 120, 0),
                 SpeedAttr = new EmitterRandFloat(Data.Speed * 0.8f, Data.Speed * 1.2f),
                 HpAttr = new EmitterRandFloat(Data.Hp),
                 DamageAttr = new EmitterRandFloat(Data.Damage),

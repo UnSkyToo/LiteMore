@@ -8,8 +8,8 @@ namespace LiteMore.Combat.Skill.Selector
     {
         private readonly Vector2 OriginPos_;
 
-        public DragDirectionSelector(MainSkill Skill, string DragResName, Vector2 OriginPos)
-            : base(SelectorMode.DragDirection, Skill, DragResName)
+        public DragDirectionSelector(string DragResName, Vector2 OriginPos)
+            : base(SelectorMode.DragDirection, DragResName)
         {
             OriginPos_ = OriginPos;
         }

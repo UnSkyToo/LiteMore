@@ -4,8 +4,12 @@ namespace LiteMore.Combat.Skill.Selector
 {
     public class ClickSelector : BaseSelector
     {
-        public ClickSelector(MainSkill Skill)
-            : base(SelectorMode.Click, Skill)
+        public ClickSelector()
+            : base(SelectorMode.Click)
+        {
+        }
+
+        protected override void OnBindSkill()
         {
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Click, OnClick);
         }

@@ -5,8 +5,8 @@ namespace LiteMore.Combat.Skill.Selector
 {
     public class DragPositionSelector : DragSelector
     {
-        public DragPositionSelector(MainSkill Skill, string DragResName)
-            : base(SelectorMode.DragPosition, Skill, DragResName)
+        public DragPositionSelector(string DragResName)
+            : base(SelectorMode.DragPosition, DragResName)
         {
         }
 

@@ -39,6 +39,9 @@ namespace LiteMore.Combat.Skill
             NameText_.text = Desc.Name;
 
             TipsHelper.AddTips(IconTransform, () => Tips);
+
+            Selector_ = Desc.Selector;
+            Selector_.BindSkill(this);
         }
 
         public override void Dispose()
@@ -71,11 +74,6 @@ namespace LiteMore.Combat.Skill
 
             Mask_.fillAmount = (1 - Time / CD);
             CDText_.text = $"{Time:0.0}s";
-        }
-
-        public void SetSelector(BaseSelector Selector)
-        {
-            this.Selector_ = Selector;
         }
 
         public override void StartCD()

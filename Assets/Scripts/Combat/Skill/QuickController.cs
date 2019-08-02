@@ -219,6 +219,10 @@ namespace LiteMore.Combat.Skill
                 {
                     OnFailed?.Invoke();
                 }
+                else
+                {
+                    OnProbe?.Invoke(null);
+                }
             }
         }
     }

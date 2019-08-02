@@ -86,7 +86,7 @@ namespace LiteMore.Player
             {
                 Team = CombatTeam.A,
                 TriggerCount = -1,
-                EmittedCount = 1,
+                EmittedCount = GetBulletCount(),
                 Interval = GetBulletInterval(),
                 IsAlive = true,
                 IsPause = false,
