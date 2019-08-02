@@ -4,8 +4,6 @@ namespace LiteMore.Combat.Skill.Selector
 {
     public class ClickSelector : BaseSelector
     {
-        public event System.Action<MainSkill> OnUsed;
-
         public ClickSelector(MainSkill Skill)
             : base(SelectorMode.Click, Skill)
         {
@@ -17,19 +15,13 @@ namespace LiteMore.Combat.Skill.Selector
             UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.Click, OnClick);
         }
 
-        private void OnClick()
+        public override void Recreated()
         {
-            Use();
         }
 
-        private void Use()
+        private void OnClick()
         {
-            if (!Skill_.Use())
-            {
-                return;
-            }
-
-            OnUsed?.Invoke(Skill_);
+            Skill_.Use(null);
         }
     }
 }

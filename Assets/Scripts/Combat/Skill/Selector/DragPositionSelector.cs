@@ -1,13 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
 {
     public class DragPositionSelector : DragSelector
     {
-        public event System.Action<DragSelectorDescriptor, Vector2> OnUsed;
-
-        public DragPositionSelector(DragSelectorDescriptor Desc)
-            : base(SelectorMode.DragPosition, Desc)
+        public DragPositionSelector(MainSkill Skill, string DragResName)
+            : base(SelectorMode.DragPosition, Skill, DragResName)
         {
         }
 
@@ -26,7 +25,11 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnDragSpell(Vector2 Pos)
         {
-            OnUsed?.Invoke(Desc_, Pos);
+            Skill_.Use(new Dictionary<string, object>
+            {
+                {"Position", Pos},
+                {"Radius", Skill_.Radius},
+            });
         }
     }
 }

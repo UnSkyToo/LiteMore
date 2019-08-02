@@ -66,7 +66,7 @@ namespace LiteMore.Helper
             }, UIEventType.Cancel);
         }
 
-        public static string Skill(BaseSkillDescriptor Desc)
+        public static string Skill(SkillDescriptor Desc)
         {
             var Builder = new RichTextBuilder();
             Builder
@@ -80,11 +80,11 @@ namespace LiteMore.Helper
                 Builder.Chunk($"半径:{Desc.Radius}\n", Color.blue);
             }
 
-            if (!string.IsNullOrWhiteSpace(Desc.About))
+            /*if (!string.IsNullOrWhiteSpace(Desc.About))
             {
                 Builder.Msg("------------------\n")
                     .Chunk(Desc.About, Color.white, 20);
-            }
+            }*/
 
             return Builder.GetRichText();
         }

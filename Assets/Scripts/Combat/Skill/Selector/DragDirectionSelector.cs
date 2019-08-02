@@ -1,15 +1,15 @@
-﻿using LiteMore.Helper;
+﻿using System.Collections.Generic;
+using LiteMore.Helper;
 using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
 {
     public class DragDirectionSelector : DragSelector
     {
-        public event System.Action<DragSelectorDescriptor, Vector2> OnUsed;
         private readonly Vector2 OriginPos_;
 
-        public DragDirectionSelector(DragSelectorDescriptor Desc, Vector2 OriginPos)
-            : base(SelectorMode.DragDirection, Desc)
+        public DragDirectionSelector(MainSkill Skill, string DragResName, Vector2 OriginPos)
+            : base(SelectorMode.DragDirection, Skill, DragResName)
         {
             OriginPos_ = OriginPos;
         }
@@ -31,7 +31,10 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnDragSpell(Vector2 Pos)
         {
-            OnUsed?.Invoke(Desc_, (Pos - OriginPos_).normalized);
+            Skill_.Use(new Dictionary<string, object>
+            {
+                {"Direction", (Pos - OriginPos_).normalized},
+            });
         }
     }
 }

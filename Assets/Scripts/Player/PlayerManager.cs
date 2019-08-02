@@ -165,6 +165,7 @@ namespace LiteMore.Player
         {
             Player_.Wave++;
             WaveManager.LoadWave((uint)Player.Wave);
+            Player_.SaveToCache();
             LocalCache.SaveCache();
         }
 
@@ -172,7 +173,7 @@ namespace LiteMore.Player
         {
             Player_.BulletDamageLevel++;
             MainEmitter_.DamageAttr = new EmitterRandFloat(LocalData.MainBullet.Damage[Player_.BulletDamageLevel].Damage);
-            LocalCache.SaveCache();
+            Player_.SaveToCache();
         }
 
         public static uint GetBulletDamageLevel()
@@ -194,7 +195,7 @@ namespace LiteMore.Player
         {
             Player_.BulletIntervalLevel++;
             MainEmitter_.Interval = LocalData.MainBullet.Interval[Player_.BulletIntervalLevel].Interval;
-            LocalCache.SaveCache();
+            Player_.SaveToCache();
         }
 
         public static uint GetBulletIntervalLevel()
@@ -216,7 +217,7 @@ namespace LiteMore.Player
         {
             Player_.BulletCountLevel++;
             MainEmitter_.EmittedCount = LocalData.MainBullet.Count[Player_.BulletCountLevel].Count;
-            LocalCache.SaveCache();
+            Player_.SaveToCache();
         }
 
         public static uint GetBulletCountLevel()

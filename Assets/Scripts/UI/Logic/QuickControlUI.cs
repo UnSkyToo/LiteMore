@@ -1,5 +1,4 @@
 ﻿using LiteMore.Combat.Skill;
-using LiteMore.Data;
 using LiteMore.Helper;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,8 +10,11 @@ namespace LiteMore.UI.Logic
         private readonly QuickController Controller_;
         private GameObject ProbeObj_;
         private Image ProbeIcon_;
+        private Text ProbeName_;
         private Transform InputList_;
         private GameObject InputObj_;
+
+        private MainSkill CurrentSkill_;
 
         public QuickControlUI()
             : base()
@@ -26,43 +28,25 @@ namespace LiteMore.UI.Logic
 
         protected override void OnOpen(params object[] Params)
         {
-            AddEventToChild("Code/Metal", () =>
-            {
-                AddItemToInput(QuickCode.Metal);
-                Controller_.ExecuteCode(QuickCode.Metal);
-            });
-            AddEventToChild("Code/Wood", () =>
-            {
-                AddItemToInput(QuickCode.Wood);
-                Controller_.ExecuteCode(QuickCode.Wood);
-            });
-            AddEventToChild("Code/Water", () =>
-            {
-                AddItemToInput(QuickCode.Water);
-                Controller_.ExecuteCode(QuickCode.Water);
-            });
-            AddEventToChild("Code/Fire", () =>
-            {
-                AddItemToInput(QuickCode.Fire);
-                Controller_.ExecuteCode(QuickCode.Fire);
-            });
-            AddEventToChild("Code/Earth", () =>
-            {
-                AddItemToInput(QuickCode.Earth);
-                Controller_.ExecuteCode(QuickCode.Earth);
-            });
+            AddEventToChild("Code/Metal", () => { Controller_.ExecuteCode(QuickCode.Metal); });
+            AddEventToChild("Code/Wood", () => { Controller_.ExecuteCode(QuickCode.Wood); });
+            AddEventToChild("Code/Water", () => { Controller_.ExecuteCode(QuickCode.Water); });
+            AddEventToChild("Code/Fire", () => { Controller_.ExecuteCode(QuickCode.Fire); });
+            AddEventToChild("Code/Earth", () => { Controller_.ExecuteCode(QuickCode.Earth); });
 
             ProbeObj_ = FindChild("Probe").gameObject;
             ProbeObj_.SetActive(false);
             ProbeIcon_ = FindComponent<Image>("Probe/Icon");
+            ProbeName_ = FindComponent<Text>("Probe/Name");
 
             InputList_ = FindChild("Input");
             InputObj_ = FindChild("InputItem").gameObject;
             InputObj_.SetActive(false);
 
             Controller_.OnFailed += () => { ResetQuickState(); };
-            Controller_.OnSucceed += (Node) => { ResetQuickState(); };
+            Controller_.OnSucceed += OnQuickSucceed;
             Controller_.OnProbe += (Node) => { UpdateProbe(Node); };
+            Controller_.OnCode += (Code) => { AddItemToInput(Code); };
         }
 
         protected override void OnTick(float DeltaTime)
@@ -95,7 +79,7 @@ namespace LiteMore.UI.Logic
                     Img.sprite = Resources.Load<Sprite>("Textures/Icon/b3_water");
                     break;
                 case QuickCode.Fire:
-                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b3_water");
+                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b4_fire");
                     break;
                 case QuickCode.Earth:
                     Img.sprite = Resources.Load<Sprite>("Textures/Icon/b5_earth");
@@ -109,6 +93,15 @@ namespace LiteMore.UI.Logic
         {
             ProbeObj_.SetActive(true);
             ProbeIcon_.sprite = Resources.Load<Sprite>(SkillLibrary.Get(Node.ID).Icon);
+            ProbeName_.text = SkillLibrary.Get(Node.ID).Name;
+        }
+
+        private void OnQuickSucceed(QuickNode Node)
+        {
+            ResetQuickState();
+            SkillManager.RemoveMainSkill(CurrentSkill_);
+            var Desc = SkillLibrary.Get(Node.ID);
+            CurrentSkill_ = SkillManager.AddMainSkill(Desc, null);
         }
     }
 }

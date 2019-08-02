@@ -3,31 +3,18 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
 {
-    public struct DragSelectorDescriptor
-    {
-        public MainSkill Skill { get; }
-        public string ResName { get; }
-
-        public DragSelectorDescriptor(MainSkill Skill, string ResName)
-        {
-            this.Skill = Skill;
-            this.ResName = ResName;
-        }
-    }
-
     public abstract class DragSelector : BaseSelector
     {
-        protected DragSelectorDescriptor Desc_;
         protected bool IsDrag_;
+        protected string DragResName_;
         protected Transform DragObj_;
         protected SpriteRenderer DragObjRender_;
 
-        protected DragSelector(SelectorMode Mode, DragSelectorDescriptor Desc)
-            : base(Mode, Desc.Skill)
+        protected DragSelector(SelectorMode Mode, MainSkill Skill, string DragResName)
+            : base(Mode, Skill)
         {
-            Desc_ = Desc;
-
             IsDrag_ = false;
+            DragResName_ = DragResName;
             DragObj_ = null;
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.BeginDrag, BeginDrag);
             UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Drag, Drag);
@@ -42,6 +29,12 @@ namespace LiteMore.Combat.Skill.Selector
             DestroyDragObject();
         }
 
+        public override void Recreated()
+        {
+            DestroyDragObject();
+            CreateDragObject();
+        }
+
         private void CreateDragObject()
         {
             if (DragObj_ != null)
@@ -49,12 +42,12 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            DragObj_ = Object.Instantiate(Resources.Load<GameObject>(Desc_.ResName)).transform;
+            DragObj_ = Object.Instantiate(Resources.Load<GameObject>(DragResName_)).transform;
             DragObj_.SetParent(Configure.SfxRoot, false);
             DragObj_.localPosition = Vector3.zero;
             DragObjRender_ = DragObj_.GetComponent<SpriteRenderer>();
             DragObjRender_.color = Color.green;
-            DragObjRender_.size = new Vector2(Desc_.Skill.Radius * 2, Desc_.Skill.Radius * 2);
+            DragObjRender_.size = new Vector2(Skill_.Radius * 2, Skill_.Radius * 2);
         }
 
         private void DestroyDragObject()
@@ -117,7 +110,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            if (!Skill_.Use())
+            if (!Skill_.CanUse())
             {
                 return;
             }

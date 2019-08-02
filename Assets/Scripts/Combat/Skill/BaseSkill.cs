@@ -1,58 +1,31 @@
-﻿using LiteMore.Core;
+﻿using System.Collections.Generic;
+using LiteMore.Combat.Skill.Executor;
+using LiteMore.Core;
 using LiteMore.Player;
 
 namespace LiteMore.Combat.Skill
 {
-    public struct BaseSkillDescriptor
-    {
-        public string Icon { get; }
-        public string Name { get; }
-        public float CD { get; }
-        public int Cost { get; }
-        public float Radius { get; }
-        public string About { get; }
-
-        public BaseSkillDescriptor(string Icon, string Name, float CD, int Cost)
-            : this(Icon, Name, CD, Cost, 0, string.Empty)
-        {
-        }
-
-        public BaseSkillDescriptor(string Icon, string Name, float CD, int Cost, float Radius)
-            : this(Icon, Name, CD, Cost, Radius, string.Empty)
-        {
-        }
-
-        public BaseSkillDescriptor(string Icon, string Name, float CD, int Cost, float Radius, string About)
-        {
-            this.Icon = Icon;
-            this.Name = Name;
-            this.CD = CD;
-            this.Cost = Cost;
-            this.Radius = Radius;
-            this.About = About;
-        }
-    }
-
     public class BaseSkill : BaseEntity
     {
-        public string Icon { get; }
+        public uint SkillID { get; }
         public float CD { get; }
         public int Cost { get; }
         public float Radius { get; }
-        public string About { get; }
         public float Time { get; protected set; }
         public bool IsCD { get; protected set; }
 
-        public BaseSkill(BaseSkillDescriptor Desc)
+        protected readonly BaseExecutor Executor_;
+
+        public BaseSkill(SkillDescriptor Desc)
             : base(Desc.Name)
         {
-            this.Icon = Desc.Icon;
+            this.SkillID = Desc.SkillID;
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
             this.Radius = Desc.Radius;
-            this.About = Desc.About;
             this.Time = 0;
             this.IsCD = false;
+            this.Executor_ = Desc.Executor;
         }
 
         public override void Dispose()
@@ -90,7 +63,7 @@ namespace LiteMore.Combat.Skill
             return !IsCD && Cost <= PlayerManager.Player.Mp;
         }
 
-        public bool Use()
+        public bool Use(Dictionary<string, object> Args)
         {
             if (!CanUse())
             {
@@ -99,7 +72,37 @@ namespace LiteMore.Combat.Skill
 
             StartCD();
             PlayerManager.AddMp(-Cost);
-            return true;
+            if (Executor_ == null)
+            {
+                return false;
+            }
+
+            return Executor_.Execute(Name, CreateExecutorArgs(Args));
+        }
+
+        private Dictionary<string, object> CreateExecutorArgs(Dictionary<string, object> Args)
+        {
+            var BaseArgs = new Dictionary<string, object>();
+            BaseArgs.Add("SkillID", SkillID);
+            BaseArgs.Add("CD", CD);
+            BaseArgs.Add("Cost", Cost);
+
+            if (Args != null)
+            {
+                foreach (var Entity in Args)
+                {
+                    if (BaseArgs.ContainsKey(Entity.Key))
+                    {
+                        BaseArgs[Entity.Key] = Entity.Value;
+                    }
+                    else
+                    {
+                        BaseArgs.Add(Entity.Key, Entity.Value);
+                    }
+                }
+            }
+
+            return BaseArgs;
         }
     }
 }

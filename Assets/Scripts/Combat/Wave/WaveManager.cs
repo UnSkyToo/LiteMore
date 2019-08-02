@@ -1,5 +1,4 @@
-﻿using LiteMore.Player;
-using LiteMore.UI;
+﻿using LiteMore.UI;
 
 namespace LiteMore.Combat.Wave
 {

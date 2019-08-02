@@ -29,6 +29,26 @@ namespace LiteMore.Combat.Skill
             this.Earth_ = Earth;
         }
 
+        public QuickIndex(byte[] Elements)
+        {
+            if (Elements != null && Elements.Length == 5)
+            {
+                this.Metal_ = Elements[0];
+                this.Wood_ = Elements[1];
+                this.Water_ = Elements[2];
+                this.Fire_ = Elements[3];
+                this.Earth_ = Elements[4];
+            }
+            else
+            {
+                this.Metal_ = 0;
+                this.Wood_ = 0;
+                this.Water_ = 0;
+                this.Fire_ = 0;
+                this.Earth_ = 0;
+            }
+        }
+
         public override string ToString()
         {
             return $"<Metal({Metal_}), Wood({Wood_}), Water({Water_}), Fire({Fire_}), Earth({Earth_})>";
@@ -87,27 +107,26 @@ namespace LiteMore.Combat.Skill
 
     public class QuickController
     {
+        public static readonly int MaxElementCount = 5;
         public const int MaxComposeElementCount = 5;
-        public const float ControlTime = 0.3f;
+        public const float ControlTime = 0.5f;
 
         public event Action<QuickNode> OnProbe;
         public event Action<QuickNode> OnSucceed;
+        public event Action<QuickCode> OnCode; 
         public event Action OnFailed; 
 
         private readonly Dictionary<int, QuickNode> Elements_;
+        private readonly byte[] ElementsCount_;
 
         private bool IsHandle_;
         private float Time_;
 
-        private byte Metal_;
-        private byte Wood_;
-        private byte Water_;
-        private byte Fire_;
-        private byte Earth_;
 
         public QuickController()
         {
             Elements_ = new Dictionary<int, QuickNode>();
+            ElementsCount_ = new byte[MaxElementCount];
             Reset();
         }
 
@@ -130,34 +149,23 @@ namespace LiteMore.Combat.Skill
             IsHandle_ = true;
             Time_ = 0;
 
-            switch (Code)
+            ElementsCount_[(int)Code]++;
+
+            var Total = 0;
+            foreach (var Num in ElementsCount_)
             {
-                case QuickCode.Metal:
-                    Metal_++;
-                    break;
-                case QuickCode.Wood:
-                    Wood_++;
-                    break;
-                case QuickCode.Water:
-                    Water_++;
-                    break;
-                case QuickCode.Fire:
-                    Fire_++;
-                    break;
-                case QuickCode.Earth:
-                    Earth_++;
-                    break;
-                default:
-                    break;
+                Total += Num;
             }
 
-            var Total = Metal_ + Wood_ + Water_ + Fire_ + Earth_;
-            if (Total >= MaxComposeElementCount)
+            if (Total > MaxComposeElementCount)
             {
+                ElementsCount_[(int)Code]--;
                 Done();
+                ExecuteCode(Code);
             }
             else
             {
+                OnCode?.Invoke(Code);
                 CheckProbe(false);
             }
         }
@@ -183,16 +191,15 @@ namespace LiteMore.Combat.Skill
             IsHandle_ = false;
             Time_ = 0;
 
-            Metal_ = 0;
-            Wood_ = 0;
-            Water_ = 0;
-            Fire_ = 0;
-            Earth_ = 0;
+            for (var Index = 0; Index < MaxElementCount; ++Index)
+            {
+                ElementsCount_[Index] = 0;
+            }
         }
 
         private void CheckProbe(bool IsFinal)
         {
-            var Index = new QuickIndex(Metal_, Wood_, Water_, Fire_, Earth_);
+            var Index = new QuickIndex(ElementsCount_);
             
             if (Elements_.ContainsKey(Index.GetHashCode()))
             {

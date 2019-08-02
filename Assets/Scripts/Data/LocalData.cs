@@ -8,6 +8,7 @@ namespace LiteMore.Data
 
         public static Dictionary<uint, WaveData> WaveList { get; private set; }
         public static MainBulletData MainBullet { get; private set; }
+        public static Dictionary<uint, SkillData> SkillList { get; private set; }
 
         public static void Generate()
         {
@@ -19,7 +20,7 @@ namespace LiteMore.Data
 
             MainBullet = new MainBulletData(MaxWaveLv);
 
-            SkillLibrary.Generate();
+            SkillList = new Dictionary<uint, SkillData>();
         }
     }
 }

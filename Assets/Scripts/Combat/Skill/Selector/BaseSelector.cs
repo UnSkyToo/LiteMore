@@ -13,19 +13,20 @@ namespace LiteMore.Combat.Skill.Selector
     public abstract class BaseSelector : BaseEntity
     {
         public SelectorMode Mode { get; }
-        protected readonly MainSkill Skill_;
+        protected MainSkill Skill_;
 
         protected BaseSelector(SelectorMode Mode, MainSkill Skill)
             : base($"Selector {Mode}")
         {
             this.Mode = Mode;
             this.Skill_ = Skill;
-            this.Skill_.SetSelector(this);
         }
 
         public override void Dispose()
         {
         }
+
+        public abstract void Recreated();
 
         public override void Tick(float DeltaTime)
         {

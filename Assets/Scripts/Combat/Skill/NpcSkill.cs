@@ -6,7 +6,7 @@ namespace LiteMore.Combat.Skill
     {
         protected readonly BaseNpc Master_;
 
-        public NpcSkill(BaseSkillDescriptor Desc, BaseNpc Master)
+        public NpcSkill(SkillDescriptor Desc, BaseNpc Master)
             : base(Desc)
         {
             this.Master_ = Master;

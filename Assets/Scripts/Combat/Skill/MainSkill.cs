@@ -11,15 +11,19 @@ namespace LiteMore.Combat.Skill
         public string Tips { get; set; }
         public Transform IconTransform { get; }
 
+        public string Icon { get; }
+
         protected BaseSelector Selector_;
         private readonly Image Mask_;
         private readonly GameObject BG_;
         private readonly Text CDText_;
+        private readonly Text NameText_;
 
-        public MainSkill(Transform Trans, BaseSkillDescriptor Desc)
+        public MainSkill(Transform Trans, SkillDescriptor Desc)
             : base(Desc)
         {
             IconTransform = Trans;
+            Icon = Desc.Icon;
 
             Tips = TipsHelper.Skill(Desc);
             BG_ = IconTransform.Find("BG").gameObject;
@@ -30,6 +34,9 @@ namespace LiteMore.Combat.Skill
 
             CDText_ = IconTransform.Find("CD").GetComponent<Text>();
             CDText_.gameObject.SetActive(false);
+
+            NameText_ = IconTransform.Find("Name").GetComponent<Text>();
+            NameText_.text = Desc.Name;
 
             TipsHelper.AddTips(IconTransform, () => Tips);
         }
