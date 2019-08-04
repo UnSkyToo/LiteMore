@@ -9,6 +9,8 @@ namespace LiteMore.Combat
 {
     public static class CombatManager
     {
+        public static CombatCalculator Calculator { get; private set; }
+
         public static bool Startup()
         {
             if (!SfxManager.Startup())
@@ -50,6 +52,8 @@ namespace LiteMore.Combat
             {
                 return false;
             }
+
+            Calculator = new CombatCalculator();
 
             EventManager.Register<NpcIdleEvent>(OnCombatEvent);
             EventManager.Register<NpcWalkEvent>(OnCombatEvent);

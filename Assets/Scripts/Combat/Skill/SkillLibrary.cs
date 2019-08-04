@@ -38,6 +38,8 @@ namespace LiteMore.Combat.Skill
         {
             SkillList_.Clear();
 
+            Add(0001, "荆棘", string.Empty, 0, 0, 0, QuickIndex.Null, new SkillExecutor_0001(), null);
+
             Add(1001, "镭射激光", "skill1", 5, 30, 0, new QuickIndex(2, 0, 0, 2, 1),
                 new SkillExecutor_1001(), new ClickSelector());
             Add(1002, "自动弹幕", "skill2", 5, 30, 0, new QuickIndex(1, 1, 0, 1, 0),

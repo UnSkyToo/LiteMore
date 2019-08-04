@@ -14,6 +14,8 @@ namespace LiteMore.Combat.Skill
 
     public struct QuickIndex
     {
+        public static readonly QuickIndex Null = new QuickIndex(0, 0, 0, 0, 0);
+
         private readonly byte Metal_;
         private readonly byte Wood_;
         private readonly byte Water_;

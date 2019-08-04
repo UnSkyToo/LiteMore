@@ -199,22 +199,22 @@ namespace LiteMore.Combat.Npc
         public void OnBulletHit(BaseBullet Collider)
         {
             LockedList_.Remove(Collider);
-            OnHitDamage(Collider.Name, Collider.Damage);
+            OnHitDamage(null, Collider.Name, Collider.Damage);
         }
 
         public void OnNpcHit(BaseNpc Attacker)
         {
-            OnHitDamage(Attacker.Name, Attacker.CalcFinalAttr(NpcAttrIndex.Damage));
+            OnHitDamage(Attacker, Attacker.Name, Attacker.CalcFinalAttr(NpcAttrIndex.Damage));
         }
 
-        private void OnHitDamage(string SourceName, float Damage)
+        public void OnHitDamage(BaseNpc Attacker, string SourceName, float Damage)
         {
             if (IsFsmState(FsmStateName.Die))
             {
                 return;
             }
 
-            EventManager.Send(new NpcDamageEvent(this, SourceName, Damage));
+            EventManager.Send(new NpcDamageEvent(this, Attacker, SourceName, Damage));
 
             Attr.AddValue(NpcAttrIndex.Hp, -Damage);
             if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)

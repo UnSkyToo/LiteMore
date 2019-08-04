@@ -39,7 +39,7 @@ namespace LiteMore.Player
             UIManager.OpenUI<QuickControlUI>();
 
             EventManager.Send<CoreInfoChangeEvent>();
-            CreateMainEmitter();
+            //CreateMainEmitter();
             WaveManager.LoadWave((uint)Player.Wave);
 
             return true;
@@ -75,7 +75,7 @@ namespace LiteMore.Player
         {
             if (Event.Master.Team == CombatTeam.B)
             {
-                Dps_.ApplyDamage(Event.SourceName, Event.Value);
+                Dps_.ApplyDamage(Event.SourceName, Event.Damage);
             }
         }
 

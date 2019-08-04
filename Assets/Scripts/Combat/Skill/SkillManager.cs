@@ -24,17 +24,6 @@ namespace LiteMore.Combat.Skill
 
             SkillList_.Clear();
 
-
-
-            /*AddMainSkill(SkillLibrary.Get(1001));
-            AddMainSkill(SkillLibrary.Get(1002));
-            AddMainSkill(SkillLibrary.Get(1003));
-            AddMainSkill(SkillLibrary.Get(1004));
-            AddMainSkill(SkillLibrary.Get(1005));
-            AddMainSkill(SkillLibrary.Get(1006));
-            AddMainSkill(SkillLibrary.Get(1007));
-            AddMainSkill(SkillLibrary.Get(1008));*/
-
             return true;
         }
 
@@ -49,9 +38,15 @@ namespace LiteMore.Combat.Skill
 
         public static void Tick(float DeltaTime)
         {
-            foreach (var Entity in SkillList_)
+            for (var Index = SkillList_.Count - 1; Index >= 0; --Index)
             {
-                Entity.Tick(DeltaTime);
+                SkillList_[Index].Tick(DeltaTime);
+
+                if (!SkillList_[Index].IsAlive)
+                {
+                    SkillList_[Index].Dispose();
+                    SkillList_.RemoveAt(Index);
+                }
             }
         }
 
@@ -91,6 +86,19 @@ namespace LiteMore.Combat.Skill
             var Entity = new NpcSkill(Desc, Master);
             SkillList_.Add(Entity);
             return Entity;
+        }
+
+        public static PassiveSkill AddPassiveSkill(SkillDescriptor Desc, float SustainTime)
+        {
+            var Entity = new PassiveSkill(Desc, SustainTime);
+            SkillList_.Add(Entity);
+            Entity.Use(null);
+            return Entity;
+        }
+
+        public static void RemovePassiveSkill(PassiveSkill Skill)
+        {
+            Skill.IsAlive = false;
         }
     }
 }

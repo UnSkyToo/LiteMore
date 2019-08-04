@@ -11,6 +11,7 @@ namespace LiteMore.Combat.Skill
         public float CD { get; }
         public int Cost { get; }
         public float Radius { get; }
+        public uint Level { get; }
         public float Time { get; protected set; }
         public bool IsCD { get; protected set; }
 
@@ -23,6 +24,7 @@ namespace LiteMore.Combat.Skill
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
             this.Radius = Desc.Radius;
+            this.Level = 1;
             this.Time = 0;
             this.IsCD = false;
             this.Executor_ = Desc.Executor;
@@ -34,7 +36,7 @@ namespace LiteMore.Combat.Skill
 
         public override void Tick(float DeltaTime)
         {
-            if (!IsCD)
+            if (!IsCD || !IsAlive)
             {
                 return;
             }
@@ -50,7 +52,7 @@ namespace LiteMore.Combat.Skill
         public virtual void StartCD()
         {
             Time = CD;
-            IsCD = true;
+            IsCD = Time > 0;
         }
 
         public virtual void ClearCD()
@@ -58,34 +60,40 @@ namespace LiteMore.Combat.Skill
             IsCD = false;
         }
 
-        public bool CanUse()
+        public virtual bool CanUse()
         {
             return !IsCD && Cost <= PlayerManager.Player.Mp;
         }
 
-        public bool Use(Dictionary<string, object> Args)
+        public virtual bool Use(Dictionary<string, object> Args)
         {
             if (!CanUse())
             {
                 return false;
             }
 
-            StartCD();
-            PlayerManager.AddMp(-Cost);
             if (Executor_ == null)
             {
                 return false;
             }
 
-            return Executor_.Execute(Name, CreateExecutorArgs(Args));
+            if (Executor_.Execute(Name, CreateExecutorArgs(Args)))
+            {
+                StartCD();
+                PlayerManager.AddMp(-Cost);
+                return true;
+            }
+
+            return false;
         }
 
-        private Dictionary<string, object> CreateExecutorArgs(Dictionary<string, object> Args)
+        protected virtual Dictionary<string, object> CreateExecutorArgs(Dictionary<string, object> Args)
         {
             var BaseArgs = new Dictionary<string, object>();
             BaseArgs.Add("SkillID", SkillID);
             BaseArgs.Add("CD", CD);
             BaseArgs.Add("Cost", Cost);
+            BaseArgs.Add("Level", Level);
 
             if (Args != null)
             {

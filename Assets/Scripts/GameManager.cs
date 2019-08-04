@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using LiteMore.Cache;
+﻿using LiteMore.Cache;
 using LiteMore.Combat;
-using LiteMore.Combat.Bullet;
-using LiteMore.Combat.Emitter;
-using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
-using LiteMore.Combat.Skill.Selector;
 using LiteMore.Data;
 using LiteMore.Helper;
 using LiteMore.Motion;
@@ -42,6 +37,8 @@ namespace LiteMore
             {
                 return false;
             }
+
+            TestSkill();
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
@@ -115,6 +112,20 @@ namespace LiteMore
 
             EnterBackgroundTime_ = Time.realtimeSinceStartup;
             IsPause = false;
+        }
+
+        private static void TestSkill()
+        {
+            /*AddMainSkill(SkillLibrary.Get(1001));
+            AddMainSkill(SkillLibrary.Get(1002));
+            AddMainSkill(SkillLibrary.Get(1003));
+            AddMainSkill(SkillLibrary.Get(1004));
+            AddMainSkill(SkillLibrary.Get(1005));
+            AddMainSkill(SkillLibrary.Get(1006));
+            AddMainSkill(SkillLibrary.Get(1007));
+            AddMainSkill(SkillLibrary.Get(1008));*/
+
+            SkillManager.AddPassiveSkill(SkillLibrary.Get(0001), -1);
         }
     }
 }
