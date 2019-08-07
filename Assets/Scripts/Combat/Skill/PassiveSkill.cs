@@ -35,7 +35,7 @@ namespace LiteMore.Combat.Skill
         public override void Dispose()
         {
             IsSustain_ = false;
-            PassiveExecutor_?.Cancel(Name, CreateExecutorArgs(null));
+            PassiveExecutor_?.Cancel(CreateExecutorArgs(null));
         }
 
         public override bool CanUse()
@@ -55,7 +55,7 @@ namespace LiteMore.Combat.Skill
                 return false;
             }
 
-            if (PassiveExecutor_.Execute(Name, CreateExecutorArgs(Args)))
+            if (PassiveExecutor_.Execute(CreateExecutorArgs(Args)))
             {
                 IsSustain_ = true;
             }

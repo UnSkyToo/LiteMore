@@ -11,7 +11,6 @@ namespace LiteMore.Combat.Skill
         public float CD { get; }
         public int Cost { get; }
         public float Radius { get; }
-        public uint Level { get; }
         public float Time { get; protected set; }
         public bool IsCD { get; protected set; }
 
@@ -24,7 +23,6 @@ namespace LiteMore.Combat.Skill
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
             this.Radius = Desc.Radius;
-            this.Level = 1;
             this.Time = 0;
             this.IsCD = false;
             this.Executor_ = Desc.Executor;
@@ -57,6 +55,7 @@ namespace LiteMore.Combat.Skill
 
         public virtual void ClearCD()
         {
+            Time = 0;
             IsCD = false;
         }
 
@@ -77,10 +76,11 @@ namespace LiteMore.Combat.Skill
                 return false;
             }
 
-            if (Executor_.Execute(Name, CreateExecutorArgs(Args)))
+            if (Executor_.Execute(CreateExecutorArgs(Args)))
             {
                 StartCD();
                 PlayerManager.AddMp(-Cost);
+                EventManager.Send(new UseSkillEvent(PlayerManager.Master, SkillID));
                 return true;
             }
 
@@ -90,10 +90,10 @@ namespace LiteMore.Combat.Skill
         protected virtual Dictionary<string, object> CreateExecutorArgs(Dictionary<string, object> Args)
         {
             var BaseArgs = new Dictionary<string, object>();
+            BaseArgs.Add("Name", Name);
             BaseArgs.Add("SkillID", SkillID);
             BaseArgs.Add("CD", CD);
             BaseArgs.Add("Cost", Cost);
-            BaseArgs.Add("Level", Level);
 
             if (Args != null)
             {

@@ -50,6 +50,19 @@ namespace LiteMore.Combat.Skill
             }
         }
 
+        public static BaseSkill FindSkill(uint SkillID)
+        {
+            foreach (var Skill in SkillList_)
+            {
+                if (Skill.SkillID == SkillID)
+                {
+                    return Skill;
+                }
+            }
+
+            return null;
+        }
+
         private static Transform CreateMainSkillObject(string ResName)
         {
             var Obj = Object.Instantiate(ModelPrefab_);
@@ -99,6 +112,11 @@ namespace LiteMore.Combat.Skill
         public static void RemovePassiveSkill(PassiveSkill Skill)
         {
             Skill.IsAlive = false;
+        }
+
+        public static uint GetSkillLevel(uint SkillID)
+        {
+            return 1;
         }
     }
 }

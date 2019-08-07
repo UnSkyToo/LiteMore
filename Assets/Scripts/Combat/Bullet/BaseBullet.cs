@@ -16,8 +16,8 @@ namespace LiteMore.Combat.Bullet
     {
         public string Name { get; }
         public Vector2 Position { get; }
-        public float Damage { get; }
         public CombatTeam Team { get; }
+        public float Damage { get; }
 
         public BaseBulletDescriptor(string Name, Vector2 Position, CombatTeam Team, float Damage)
         {
@@ -39,8 +39,8 @@ namespace LiteMore.Combat.Bullet
         {
             this.Type = Type;
             this.Position = Desc.Position;
-            this.Damage = Desc.Damage;
             this.Team = Desc.Team;
+            this.Damage = Desc.Damage;
         }
     }
 }

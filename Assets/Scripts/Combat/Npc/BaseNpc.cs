@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Lite.Combat.Npc.Handler;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Fsm;
 using LiteMore.Core;
@@ -22,6 +23,8 @@ namespace LiteMore.Combat.Npc
         protected Vector2 TargetPos_;
         private int HitSfxInterval_;
         protected List<BaseBullet> LockedList_;
+
+        protected readonly List<BaseNpcHandler> HandlerList_;
 
         public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
             : base(Name, Trans)
@@ -50,11 +53,18 @@ namespace LiteMore.Combat.Npc
             HitSfxInterval_ = 0;
             LockedList_ = new List<BaseBullet>();
 
+            HandlerList_ = new List<BaseNpcHandler>();
+
             SetDirection(NpcDirection.Right);
         }
 
         public override void Tick(float DeltaTime)
         {
+            foreach (var Handler in HandlerList_)
+            {
+                Handler.OnTick(DeltaTime);
+            }
+
             Animation_.Tick(DeltaTime);
             Fsm_.Tick(DeltaTime);
             Bar_.Tick(DeltaTime);
@@ -94,6 +104,68 @@ namespace LiteMore.Combat.Npc
             return Attr.CalcFinalValue(Index);
         }
 
+        public void RegisterHandler(BaseNpcHandler Handler)
+        {
+            if (HandlerList_.Contains(Handler))
+            {
+                return;
+            }
+
+            Handler.Master = this;
+            HandlerList_.Add(Handler);
+            HandlerList_.Sort((A, B) =>
+            {
+                if (A.Priority > B.Priority)
+                {
+                    return -1;
+                }
+
+                if (A.Priority < B.Priority)
+                {
+                    return 1;
+                }
+
+                return 0;
+            });
+        }
+
+        public void UnRegisterHandler(BaseNpcHandler Handler)
+        {
+            Handler.Master = null;
+            HandlerList_.Remove(Handler);
+        }
+
+        public float AddAttr(NpcAttrIndex Index, float Value)
+        {
+            var RealValue = Value;
+            foreach (var Handler in HandlerList_)
+            {
+                RealValue = Handler.OnAddAttr(Index, RealValue);
+            }
+
+            Attr.AddValue(Index, RealValue);
+            return Value;
+        }
+
+        private void UpdateAttr(float DeltaTime)
+        {
+            var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
+            var MaxHp = Attr.CalcFinalValue(NpcAttrIndex.MaxHp);
+            if (Hp > MaxHp)
+            {
+                Hp = MaxHp;
+            }
+            Attr.SetValue(NpcAttrIndex.Hp, Hp);
+
+            var Mp = Attr.CalcFinalValue(NpcAttrIndex.Mp) + Attr.CalcFinalValue(NpcAttrIndex.AddMp) * DeltaTime;
+            var MaxMp = Attr.CalcFinalValue(NpcAttrIndex.MaxMp);
+            if (Mp > MaxMp)
+            {
+                Mp = MaxMp;
+            }
+            Attr.SetValue(NpcAttrIndex.Mp, Mp);
+        }
+
         private void OnAttrChanged(NpcAttrIndex Index)
         {
             switch (Index)
@@ -106,6 +178,12 @@ namespace LiteMore.Combat.Npc
                     break;
                 case NpcAttrIndex.Speed:
                     MoveTo(TargetPos_);
+                    break;
+                case NpcAttrIndex.Hp:
+                    if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)
+                    {
+                        Dead();
+                    }
                     break;
                 default:
                     break;
@@ -136,25 +214,6 @@ namespace LiteMore.Combat.Npc
         public bool IsValidTarget()
         {
             return TargetNpc != null && TargetNpc.IsAlive;
-        }
-
-        private void UpdateAttr(float DeltaTime)
-        {
-            var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
-            var MaxHp = Attr.CalcFinalValue(NpcAttrIndex.MaxHp);
-            if (Hp > MaxHp)
-            {
-                Hp = MaxHp;
-            }
-            Attr.SetValue(NpcAttrIndex.Hp, Hp);
-
-            var Mp = Attr.CalcFinalValue(NpcAttrIndex.Mp) + Attr.CalcFinalValue(NpcAttrIndex.AddMp) * DeltaTime;
-            var MaxMp = Attr.CalcFinalValue(NpcAttrIndex.MaxMp);
-            if (Mp > MaxMp)
-            {
-                Mp = MaxMp;
-            }
-            Attr.SetValue(NpcAttrIndex.Mp, Mp);
         }
 
         private void UpdateLockedList()
@@ -214,17 +273,8 @@ namespace LiteMore.Combat.Npc
                 return;
             }
 
-            EventManager.Send(new NpcDamageEvent(this, Attacker, SourceName, Damage));
-
-            Attr.AddValue(NpcAttrIndex.Hp, -Damage);
-            if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)
-            {
-                Attr.SetValue(NpcAttrIndex.Hp, 0);
-                PlayerManager.AddGem((int)CalcFinalAttr(NpcAttrIndex.Gem));
-                SfxManager.AddSfx("Prefabs/Sfx/GoldSfx", Position);
-                EventManager.Send(new NpcDieEvent(this));
-            }
-
+            var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
+            EventManager.Send(new NpcDamageEvent(this, Attacker, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
             TryToPlayHitSfx();
         }
 
@@ -246,6 +296,19 @@ namespace LiteMore.Combat.Npc
 
             TargetPos_ = TargetPos;
             EventManager.Send(new NpcWalkEvent(this, TargetPos));
+        }
+
+        public void Dead()
+        {
+            if (IsFsmState(FsmStateName.Die))
+            {
+                return;
+            }
+
+            Attr.SetValue(NpcAttrIndex.Hp, 0, false);
+            PlayerManager.AddGem((int)CalcFinalAttr(NpcAttrIndex.Gem));
+            SfxManager.AddSfx("Prefabs/Sfx/GoldSfx", Position);
+            EventManager.Send(new NpcDieEvent(this));
         }
 
         public void SetDead()

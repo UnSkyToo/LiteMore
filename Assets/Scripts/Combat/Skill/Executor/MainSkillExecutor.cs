@@ -6,33 +6,23 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Executor
 {
-    public class SkillExecutor_1001 : BaseExecutor
+    public class SkillExecutor_2001 : BaseExecutor
     {
-        public SkillExecutor_1001()
-            : base()
-        {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
+        public override bool Execute(Dictionary<string, object> Args)
         {
             var BulletDesc = new LaserBulletDescriptor(
-                new BaseBulletDescriptor(Name, Configure.CoreTopPosition, CombatTeam.A, 100),
+                new BaseBulletDescriptor((string)(Args["Name"]), Configure.CoreTopPosition, CombatTeam.A, 100),
                 180, 360, 300, 500);
             BulletManager.AddLaserBullet(BulletDesc);
             return true;
         }
     }
 
-    public class SkillExecutor_1002 : BaseExecutor
+    public class SkillExecutor_2002 : BaseExecutor
     {
-        public SkillExecutor_1002()
-            : base()
+        public override bool Execute(Dictionary<string, object> Args)
         {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
-        {
-            EmitterManager.AddEmitter(new BulletCircleEmitter(Name)
+            EmitterManager.AddEmitter(new BulletCircleEmitter((string)(Args["Name"]))
             {
                 Team = CombatTeam.A,
                 TriggerCount = 10,
@@ -50,16 +40,11 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class SkillExecutor_1003 : BaseExecutor
+    public class SkillExecutor_2003 : BaseExecutor
     {
-        public SkillExecutor_1003()
-            : base()
+        public override bool Execute(Dictionary<string, object> Args)
         {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
-        {
-            EmitterManager.AddEmitter(new NpcCircleEmitter(Name)
+            EmitterManager.AddEmitter(new NpcCircleEmitter((string)(Args["Name"]))
             {
                 Team = CombatTeam.B,
                 TriggerCount = 1,
@@ -78,20 +63,15 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class SkillExecutor_1004 : BaseExecutor
+    public class SkillExecutor_2004 : BaseExecutor
     {
-        public SkillExecutor_1004()
-            : base()
-        {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
+        public override bool Execute(Dictionary<string, object> Args)
         {
             var Pos = (Vector2)Args["Position"];
             var Radius = (float)Args["Radius"];
 
             var BulletDesc = new BombBulletDescriptor(
-                new BaseBulletDescriptor(Name, new Vector2(Pos.x, 400), CombatTeam.A, 500),
+                new BaseBulletDescriptor((string)(Args["Name"]), new Vector2(Pos.x, 400), CombatTeam.A, 500),
                 Pos, 200, Radius);
 
             BulletManager.AddBombBullet(BulletDesc);
@@ -99,19 +79,14 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class SkillExecutor_1005 : BaseExecutor
+    public class SkillExecutor_2005 : BaseExecutor
     {
-        public SkillExecutor_1005()
-            : base()
-        {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
+        public override bool Execute(Dictionary<string, object> Args)
         {
             var Dir = (Vector2)Args["Direction"];
 
             var BulletDesc = new BackBulletDescriptor(
-                new BaseBulletDescriptor(Name, new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
+                new BaseBulletDescriptor((string)(Args["Name"]), new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
                 Dir, Configure.WindowWidth,
                 new Vector2(400, 82),
                 200);
@@ -121,21 +96,16 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class SkillExecutor_1006 : BaseExecutor
+    public class SkillExecutor_2006 : BaseExecutor
     {
-        public SkillExecutor_1006()
-            : base()
-        {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
+        public override bool Execute(Dictionary<string, object> Args)
         {
             var Pos = (Vector2)Args["Position"];
             var Radius = (float)Args["Radius"];
 
             var BulletDesc = new AttrTriggerBulletDescriptor(
                 new BaseTriggerBulletDescriptor(
-                    new BaseBulletDescriptor(Name, Pos, CombatTeam.A, 1),
+                    new BaseBulletDescriptor((string)(Args["Name"]), Pos, CombatTeam.A, 1),
                     Radius,
                     0.5f,
                     20,
@@ -150,16 +120,11 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class SkillExecutor_1007 : BaseExecutor
+    public class SkillExecutor_2007 : BaseExecutor
     {
-        public SkillExecutor_1007()
-            : base()
+        public override bool Execute(Dictionary<string, object> Args)
         {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
-        {
-            var Npc = NpcManager.AddNpc(Name, Configure.CoreBasePosition, CombatTeam.A,
+            var Npc = NpcManager.AddNpc((string)(Args["Name"]), Configure.CoreBasePosition, CombatTeam.A,
                 NpcManager.GenerateInitAttr(200, 500, 0, 1, 0, 50, 50),
                 true);
             Npc.Scale = new Vector2(3, 3);
@@ -167,20 +132,15 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
-    public class SkillExecutor_1008 : BaseExecutor
+    public class SkillExecutor_2008 : BaseExecutor
     {
-        public SkillExecutor_1008()
-            : base()
-        {
-        }
-
-        public override bool Execute(string Name, Dictionary<string, object> Args)
+        public override bool Execute(Dictionary<string, object> Args)
         {
             var Target = NpcManager.GetRandomNpc(CombatTeam.B);
             if (Target != null)
             {
                 BulletManager.AddTrackBullet(new TrackBulletDescriptor(
-                    new BaseBulletDescriptor(Name, Configure.CoreTopPosition, CombatTeam.A, 1),
+                    new BaseBulletDescriptor((string)(Args["Name"]), Configure.CoreTopPosition, CombatTeam.A, 1),
                     "Blue",
                     Target,
                     1500));

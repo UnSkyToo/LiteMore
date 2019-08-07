@@ -8,6 +8,6 @@ namespace LiteMore.Combat.Skill.Executor
         {
         }
 
-        public abstract bool Execute(string Name, Dictionary<string, object> Args);
+        public abstract bool Execute(Dictionary<string, object> Args);
     }
 }

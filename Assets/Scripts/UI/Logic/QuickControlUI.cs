@@ -23,7 +23,7 @@ namespace LiteMore.UI.Logic
             DepthIndex = 0;
 
             Controller_ = new QuickController();
-            SkillLibrary.PatchQuickController(Controller_);
+            //SkillLibrary.PatchQuickController(Controller_);
         }
 
         protected override void OnOpen(params object[] Params)

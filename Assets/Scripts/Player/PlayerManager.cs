@@ -16,6 +16,7 @@ namespace LiteMore.Player
     {
         public static PlayerInfo Player => Player_;
         public static PlayerDps Dps => Dps_;
+        public static CoreNpc Master => CoreNpc_;
 
         private static PlayerInfo Player_;
         private static PlayerDps Dps_;
@@ -36,12 +37,9 @@ namespace LiteMore.Player
 
             UIManager.OpenUI<MainUI>();
             UIManager.OpenUI<DpsUI>();
-            UIManager.OpenUI<QuickControlUI>();
+            //UIManager.OpenUI<QuickControlUI>();
 
             EventManager.Send<CoreInfoChangeEvent>();
-            //CreateMainEmitter();
-            WaveManager.LoadWave((uint)Player.Wave);
-
             return true;
         }
 
@@ -50,7 +48,7 @@ namespace LiteMore.Player
             EventManager.UnRegister<NpcDamageEvent>(OnNpcDamageEvent);
             Player_.SaveToCache();
 
-            UIManager.CloseUI<QuickControlUI>();
+            //UIManager.CloseUI<QuickControlUI>();
             UIManager.CloseUI<DpsUI>();
             UIManager.CloseUI<MainUI>();
         }
@@ -64,6 +62,11 @@ namespace LiteMore.Player
             }
 
             Dps_.Tick(DeltaTime);
+        }
+
+        public static void SaveToArchive()
+        {
+            Player_.SaveToCache();
         }
 
         public static bool DeleteArchive()

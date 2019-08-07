@@ -21,10 +21,10 @@ namespace LiteMore.Extend
 
     public class UIEventTriggerListener : EventTrigger
     {
-        private readonly Action<UnityEngine.GameObject, Vector2>[] EventCallback_ = new Action<UnityEngine.GameObject, Vector2>[(int)UIEventType.Count];
+        private readonly Action<GameObject, Vector2>[] EventCallback_ = new Action<GameObject, Vector2>[(int)UIEventType.Count];
         private readonly Action[] EventCallbackEx_ = new Action[(int)UIEventType.Count];
 
-        public static UIEventTriggerListener Get(UnityEngine.Transform Obj)
+        public static UIEventTriggerListener Get(Transform Obj)
         {
             var Listener = Obj.GetComponent<UIEventTriggerListener>();
             if (Listener == null)
@@ -36,7 +36,7 @@ namespace LiteMore.Extend
             return Listener;
         }
 
-        public static void Remove(UnityEngine.Transform Obj)
+        public static void Remove(Transform Obj)
         {
             var Listener = Obj.GetComponent<UIEventTriggerListener>();
             if (Listener != null)
@@ -46,7 +46,7 @@ namespace LiteMore.Extend
             }
         }
 
-        public void AddCallback(UIEventType Type, Action<UnityEngine.GameObject, Vector2> Callback)
+        public void AddCallback(UIEventType Type, Action<GameObject, Vector2> Callback)
         {
             EventCallback_[(int)Type] += Callback;
         }
@@ -56,7 +56,7 @@ namespace LiteMore.Extend
             EventCallbackEx_[(int)Type] += Callback;
         }
 
-        public void RemoveCallback(UIEventType Type, Action<UnityEngine.GameObject, Vector2> Callback)
+        public void RemoveCallback(UIEventType Type, Action<GameObject, Vector2> Callback)
         {
             if (Callback == null)
             {

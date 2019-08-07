@@ -1,6 +1,8 @@
 ﻿using LiteMore.Cache;
 using LiteMore.Combat;
+using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
+using LiteMore.Combat.Wave;
 using LiteMore.Data;
 using LiteMore.Helper;
 using LiteMore.Motion;
@@ -40,6 +42,9 @@ namespace LiteMore
 
             TestSkill();
 
+            //PlayerManager.CreateMainEmitter();
+            //WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
+
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
             return true;
@@ -54,6 +59,7 @@ namespace LiteMore
             TimerManager.Shutdown();
             EventManager.Shutdown();
 
+            PlayerManager.SaveToArchive();
             LocalCache.SaveCache();
 
             Resources.UnloadUnusedAssets();
@@ -116,16 +122,19 @@ namespace LiteMore
 
         private static void TestSkill()
         {
-            /*AddMainSkill(SkillLibrary.Get(1001));
-            AddMainSkill(SkillLibrary.Get(1002));
-            AddMainSkill(SkillLibrary.Get(1003));
-            AddMainSkill(SkillLibrary.Get(1004));
-            AddMainSkill(SkillLibrary.Get(1005));
-            AddMainSkill(SkillLibrary.Get(1006));
-            AddMainSkill(SkillLibrary.Get(1007));
-            AddMainSkill(SkillLibrary.Get(1008));*/
+            SkillManager.AddMainSkill(SkillLibrary.Get(2001));
+            /*SkillManager.AddMainSkill(SkillLibrary.Get(2002));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2003));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2004));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2005));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2006));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2007));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2008));*/
 
-            SkillManager.AddPassiveSkill(SkillLibrary.Get(0001), -1);
+            NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
+                NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 5, 5));
+
+            SkillManager.AddPassiveSkill(SkillLibrary.Get(1005), -1);
         }
     }
 }

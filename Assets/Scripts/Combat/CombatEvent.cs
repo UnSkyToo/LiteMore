@@ -77,13 +77,26 @@ namespace LiteMore.Combat
         public BaseNpc Attacker { get; }
         public string SourceName { get; }
         public float Damage { get; }
+        public float RealValue { get; }
 
-        public NpcDamageEvent(BaseNpc Master, BaseNpc Attacker, string SourceName, float Damage)
+        public NpcDamageEvent(BaseNpc Master, BaseNpc Attacker, string SourceName, float Damage, float RealValue)
             : base(Master)
         {
             this.Attacker = Attacker;
             this.SourceName = SourceName;
             this.Damage = Damage;
+            this.RealValue = RealValue;
+        }
+    }
+
+    public class UseSkillEvent : CombatEvent
+    {
+        public uint SkillID { get; }
+
+        public UseSkillEvent(BaseNpc Master, uint SkillID)
+            : base(Master)
+        {
+            this.SkillID = SkillID;
         }
     }
 }
