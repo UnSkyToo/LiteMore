@@ -1,4 +1,5 @@
 ﻿using LiteMore.Extend;
+using LiteMore.Player;
 
 namespace LiteMore.Combat
 {
@@ -16,6 +17,11 @@ namespace LiteMore.Combat
         public float Calc(float Base, float Percent)
         {
             return Base * Percent * TypePercent * GlobalPercent;
+        }
+
+        public float Calc(float Percent)
+        {
+            return Calc(PlayerManager.Master.CalcFinalAttr(NpcAttrIndex.Damage), Percent);
         }
 
         public void AddTypePercent(float Value)

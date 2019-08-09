@@ -39,6 +39,9 @@ namespace LiteMore.Player
             UIManager.OpenUI<DpsUI>();
             //UIManager.OpenUI<QuickControlUI>();
 
+            //CreateMainEmitter();
+            //WaveManager.LoadWave((uint)Player.Wave);
+
             EventManager.Send<CoreInfoChangeEvent>();
             return true;
         }
