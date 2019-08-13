@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 2109237528
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 104ca8ec8bf71c4aa1916d124a4d831e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Bullet/BulletBlue.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bullet.sprite

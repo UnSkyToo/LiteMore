@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: e1b53bdfe28b9a0488a35e2c92e079d4
 TextureImporter:
-  internalIDToNameTable: []
+  fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,15 +98,13 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 9ebd737969d892b4ab6691d847cc819b
-    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: textures/bomb/bomb_2.sprite
   assetBundleVariant: 

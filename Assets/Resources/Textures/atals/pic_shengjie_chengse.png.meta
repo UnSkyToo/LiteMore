@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: 2f74e665ca3bf0c4fbcd3aedf5b7adcb
 TextureImporter:
-  internalIDToNameTable: []
+  fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,15 +98,13 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 38841d353130f84419e5689487c76bd7
-    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: textures/atals/pic_shengjie_chengse.sprite
   assetBundleVariant: 

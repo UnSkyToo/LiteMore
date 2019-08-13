@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: 26f7b0266c4590e47b256c808a3a843b
 TextureImporter:
-  internalIDToNameTable: []
+  fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,15 +98,13 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: c994da28263688644a88c9e78b317646
-    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: textures/bv0.sprite
   assetBundleVariant: 

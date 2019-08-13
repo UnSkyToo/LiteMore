@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: 6852f862a37b71e4292b1bfd54a09ad0
 TextureImporter:
-  internalIDToNameTable: []
+  fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,15 +98,13 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 384aa6f5f6bda49499d984c970112815
-    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: textures/atals/pic_jia.sprite
   assetBundleVariant: 

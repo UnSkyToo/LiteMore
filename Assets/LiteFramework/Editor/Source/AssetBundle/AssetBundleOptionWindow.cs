@@ -25,7 +25,7 @@ namespace LiteFramework.Editor.AssetBundle
                 AssetBundleBuilder.BuildAsset(GetCurrentTarget(), GetCurrentOptions(), false);
             }
 
-            if (GUILayout.Button("Clean StreamingAssets"))
+            if (GUILayout.Button("Clean AssetBundle Name"))
             {
                 AssetBundleBuilder.CleanAllBundle();
             }

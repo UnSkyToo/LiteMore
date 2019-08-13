@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: 5e1f0add1fb951947bf29692c9af2536
 TextureImporter:
-  internalIDToNameTable: []
+  fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,15 +98,13 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 693835a3fe18c4048b571c2757443330
-    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: textures/icon/skill3.sprite
   assetBundleVariant: 

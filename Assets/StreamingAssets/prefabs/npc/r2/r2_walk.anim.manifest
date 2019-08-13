@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 803889594
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 89b07960a4f47fc1fae3d796fa106a4e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Npc/R2/R2_walk.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.sprite

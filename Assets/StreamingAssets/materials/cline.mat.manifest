@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 1670644117
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2ebfa0cc364f75c8bbdbdc65e62b661f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 51a16e16d5113854a16091e54ae5bb0d
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Materials/CLine.mat
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/materials/cline.shader
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/m.sprite

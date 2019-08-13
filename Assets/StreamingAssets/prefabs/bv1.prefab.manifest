@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 638625222
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b059e02f67cbef05173ce9ea81eba83f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c14c144446a0d5e7633ca1d79f4d7b01
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/bv1.prefab
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bv1.sprite

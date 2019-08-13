@@ -35,7 +35,7 @@ namespace LiteFramework.Editor.AssetBundle
                 AssetDatabase.RemoveUnusedAssetBundleNames();
 
                 LuaFileList_.Clear();
-                var RootPath = $"{Application.dataPath}/StandaloneAssets/";
+                var RootPath = $"{Application.dataPath}/{LiteConfigure.StandaloneAssetsName}/";
                 var AssetsList = CollectAllAssetBundlePath(RootPath, RootPath);
                 AssetsList = HandleAllLuaFile(AssetsList);
                 ConfigurationAssetBundle(AssetsList);
@@ -66,8 +66,8 @@ namespace LiteFramework.Editor.AssetBundle
 
         private static void HandleLuaFile(string FilePath)
         {
-            var OldFilePath = $"Assets/StandaloneAssets/{FilePath}";
-            var NewFilePath = $"Assets/StandaloneAssets/{FilePath}.bytes";
+            var OldFilePath = $"Assets/{LiteConfigure.StandaloneAssetsName}/{FilePath}";
+            var NewFilePath = $"Assets/{LiteConfigure.StandaloneAssetsName}/{FilePath}.bytes";
             LuaFileList_.Add(NewFilePath);
             File.Copy(OldFilePath, NewFilePath, true);
         }
@@ -129,7 +129,7 @@ namespace LiteFramework.Editor.AssetBundle
 
         private static void SetAssetBundleName(string ResPath)
         {
-            var Importer = AssetImporter.GetAtPath($"Assets/StandaloneAssets/{ResPath}");
+            var Importer = AssetImporter.GetAtPath($"Assets/{LiteConfigure.StandaloneAssetsName}/{ResPath}");
             if (Importer == null)
             {
                 LLogger.LError($"unexpected asset path : {ResPath}");
@@ -167,11 +167,11 @@ namespace LiteFramework.Editor.AssetBundle
 
         public static void CleanAllBundle()
         {
-            var RootPath = $"{Application.dataPath}/StandaloneAssets/";
+            var RootPath = $"{Application.dataPath}/{LiteConfigure.StandaloneAssetsName}/";
             var AssetList = CollectAllAssetBundlePath(RootPath, RootPath);
             foreach (var Asset in AssetList)
             {
-                var Importer = AssetImporter.GetAtPath($"Assets/StandaloneAssets/{Asset}");
+                var Importer = AssetImporter.GetAtPath($"Assets/{LiteConfigure.StandaloneAssetsName}/{Asset}");
                 if (Importer != null)
                 {
                     Importer.assetBundleName = string.Empty;

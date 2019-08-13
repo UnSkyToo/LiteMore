@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 2312657338
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dd59eac18ea190d9ca9c2d7f005d99cf
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Sfx/HitSfx.controller
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/hitsfx.anim

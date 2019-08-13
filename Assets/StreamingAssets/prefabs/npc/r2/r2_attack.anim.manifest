@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 2839565400
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3587ba2a0e383dcb2afc0565dbdcd5bf
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Npc/R2/R2_attack.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.sprite

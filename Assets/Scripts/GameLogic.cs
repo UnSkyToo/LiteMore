@@ -60,13 +60,13 @@ namespace LiteMore
         private static void TestSkill()
         {
             SkillManager.AddMainSkill(SkillLibrary.Get(2001));
-            /*SkillManager.AddMainSkill(SkillLibrary.Get(2002));
+            SkillManager.AddMainSkill(SkillLibrary.Get(2002));
             SkillManager.AddMainSkill(SkillLibrary.Get(2003));
             SkillManager.AddMainSkill(SkillLibrary.Get(2004));
             SkillManager.AddMainSkill(SkillLibrary.Get(2005));
             SkillManager.AddMainSkill(SkillLibrary.Get(2006));
             SkillManager.AddMainSkill(SkillLibrary.Get(2007));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2008));*/
+            SkillManager.AddMainSkill(SkillLibrary.Get(2008));
 
             NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
                 NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 5, 5));

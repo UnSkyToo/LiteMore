@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 1776184993
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9ed7fc0c3cd7d436fc9df3adca4672ca
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7ae14fe94a027e241fc5b0cce1b06d42
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/HpBar.prefab
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.sprite

@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 669189383
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a13695a12e802e4b9db882ce42021be9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Bullet/BulletRed.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bullet.sprite

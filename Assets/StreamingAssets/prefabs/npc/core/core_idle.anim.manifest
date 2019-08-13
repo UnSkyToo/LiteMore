@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 525271026
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c4b103c4c5cb7835bde666aba4b7ade2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Npc/Core/Core_idle.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/build.sprite

@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 2034057476
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e2bdf0626f33215539b1064de8651dff
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7c00680fa405d5ada95691a559d7d2ea
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 120
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Bullet/BulletLaser.prefab
+Dependencies: []

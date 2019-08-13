@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 3598221862
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3e93401664a74842e16ae49dde6cb5ed
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c14c144446a0d5e7633ca1d79f4d7b01
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Bullet/BulletBomb.prefab
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bossair1.sprite

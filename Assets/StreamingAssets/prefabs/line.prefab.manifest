@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 3469251952
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bd36a1928051fd771a3619eb7a3e8297
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7c00680fa405d5ada95691a559d7d2ea
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 120
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Line.prefab
+Dependencies: []

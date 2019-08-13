@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 885175659
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9c854342ea2a267c699ec5c9fadd6cfb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Sfx/BombSfx.controller
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/bombsfx.anim

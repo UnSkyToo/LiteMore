@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 2548555460
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fb09e799c36d73376d2b651e3268d5c6
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ea5a42e0fd8ea905efa7aa926a3b8944
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Textures/atals/frm_pinzhi_cheng.png
+Dependencies: []

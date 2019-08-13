@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 2870545394
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 81a38e08aa2257e30131d874369db155
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Sfx/HitSfx.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/sfx.sprite
