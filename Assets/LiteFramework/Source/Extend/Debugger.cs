@@ -21,10 +21,12 @@ namespace LiteFramework.Extend
             {LogType.Log, Color.white}
         };
 
-        public bool Enabled = false;
+        public bool Enabled = true;
+        private bool IsMiniMode_ = true;
 
         private const float ShakeAcceleration_ = 3.0f;
-        private const string WindowTitle_ = "Console";
+        private const string WindowTitle_ = "Debuger";
+        private static readonly GUIContent FpsLabel_ = new GUIContent("Fps", "show fps mode");
         private static readonly GUIContent ClearLabel_ = new GUIContent("Clear", "clear the contents of the console");
         private static readonly GUIContent HideLabel_ = new GUIContent("Hide", "hide the window");
         private static readonly GUIContent OnlyShowErrorLabel_ = new GUIContent("Error", "only show error msg");
@@ -34,10 +36,9 @@ namespace LiteFramework.Extend
         private static readonly GUIStyle FontStyle_ = new GUIStyle();
 
         private const int Margin_ = 10;
-        private Rect TitleBarRect_ = new Rect(0, 0, Screen.width, 20);
-
-        private Rect WindowRect_ =
-            new Rect(Margin_, Margin_, Screen.width - (Margin_ * 2), Screen.height - (Margin_ * 2));
+        private readonly Rect TitleBarRect_ = new Rect(0, 0, Screen.width, 20);
+        private Rect MiniRet_ = new Rect(5, 5, 100, 60);
+        private Rect WindowRect_ = new Rect(Margin_, Margin_, Screen.width - (Margin_ * 2), Screen.height - (Margin_ * 2));
 
         private readonly List<Log> Logs_ = new List<Log>();
         private bool Collapse_ = false;
@@ -48,6 +49,10 @@ namespace LiteFramework.Extend
         private int NeedTouchCount_ = 3;
         private float TouchedTime_ = 0.0f;
         private float MaxTouchedTime_ = 2.0f;
+
+        private int FpsCount_ = 60;
+        private int CurrentFps_ = 0;
+        private float FpsTime_ = 0.0f;
 
         void Start()
         {
@@ -87,6 +92,22 @@ namespace LiteFramework.Extend
             {
                 TouchedTime_ = 0.0f;
             }
+
+            if (!Enabled)
+            {
+                return;
+            }
+
+            FpsTime_ += Time.deltaTime;
+
+            if (FpsTime_ >= 1.0f)
+            {
+                FpsTime_ -= 1.0f;
+                FpsCount_ = CurrentFps_;
+                CurrentFps_ = 0;
+            }
+
+            CurrentFps_++;
         }
 
         void OnGUI()
@@ -96,22 +117,38 @@ namespace LiteFramework.Extend
                 return;
             }
 
-            WindowRect_ = GUILayout.Window(1, WindowRect_, DrawConsoleWindow, WindowTitle_);
+            if (IsMiniMode_)
+            {
+                MiniRet_ = GUILayout.Window(1, MiniRet_, DrawMiniWindow, WindowTitle_);
+            }
+            else
+            {
+                WindowRect_ = GUILayout.Window(1, WindowRect_, DrawConsoleWindow, WindowTitle_);
+            }
         }
 
         private void ExchangeWindow()
         {
             Enabled = !Enabled;
-            TitleBarRect_ = new Rect(0, 0, Screen.width, 20);
             WindowRect_ = new Rect(Margin_, Margin_, Screen.width - (Margin_ * 2), Screen.height - (Margin_ * 2));
+        }
+
+        private void DrawMiniWindow(int WindowID)
+        {
+            GUI.DragWindow(TitleBarRect_);
+
+            if (GUILayout.Button($"Fps:{FpsCount_}", GUILayout.Height(30)))
+            {
+                IsMiniMode_ = false;
+            }
         }
 
         private void DrawConsoleWindow(int WindowID)
         {
+            GUI.DragWindow(TitleBarRect_);
+
             DrawToolBar();
             DrawLogsList();
-
-            GUI.DragWindow(TitleBarRect_);
         }
 
         private void DrawLogsList()
@@ -156,43 +193,42 @@ namespace LiteFramework.Extend
         {
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button(ClearLabel_, GUILayout.Width(Screen.width * 0.15f),
-                GUILayout.Height(Screen.height * 0.05f)))
+            if (GUILayout.Button(FpsLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
+            {
+                IsMiniMode_ = true;
+            }
+
+            if (GUILayout.Button(ClearLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
             {
                 Logs_.Clear();
             }
 
-            if (GUILayout.Button(HideLabel_, GUILayout.Width(Screen.width * 0.15f),
-                GUILayout.Height(Screen.height * 0.05f)))
+            if (GUILayout.Button(HideLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
             {
                 ExchangeWindow();
             }
 
             if (OnlyShowError_)
             {
-                if (GUILayout.Button(ShowAllLabel_, GUILayout.Width(Screen.width * 0.15f),
-                    GUILayout.Height(Screen.height * 0.05f)))
+                if (GUILayout.Button(ShowAllLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
                 {
                     OnlyShowError_ = false;
                 }
             }
             else
             {
-                if (GUILayout.Button(OnlyShowErrorLabel_, GUILayout.Width(Screen.width * 0.15f),
-                    GUILayout.Height(Screen.height * 0.05f)))
+                if (GUILayout.Button(OnlyShowErrorLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
                 {
                     OnlyShowError_ = true;
                 }
             }
 
-            if (GUILayout.Button(CollapseLabel_, GUILayout.Width(Screen.width * 0.15f),
-                GUILayout.Height(Screen.height * 0.05f)))
+            if (GUILayout.Button(CollapseLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
             {
                 Collapse_ = !Collapse_;
             }
 
-            if (GUILayout.Button(StackTraceLabel_, GUILayout.Width(Screen.width * 0.15f),
-                GUILayout.Height(Screen.height * 0.05f)))
+            if (GUILayout.Button(StackTraceLabel_, GUILayout.Width(Screen.width * 0.1f), GUILayout.Height(Screen.height * 0.05f)))
             {
                 ShowStackTrace_ = !ShowStackTrace_;
             }

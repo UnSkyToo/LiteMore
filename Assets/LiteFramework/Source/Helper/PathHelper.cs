@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteFramework.Core.Log;
+using UnityEngine;
 
 namespace LiteFramework.Helper
 {
@@ -82,10 +83,12 @@ namespace LiteFramework.Helper
             return $"{Application.streamingAssetsPath}/{Path}";
         }
 
+#if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
         public static string GetStandaloneAssetsPath(string Path)
         {
             return $"{Application.dataPath}/{LiteConfigure.StandaloneAssetsName}/{Path}";
         }
+#endif
 
         public static string GetAssetFullPath(string Path)
         {
@@ -95,26 +98,15 @@ namespace LiteFramework.Helper
                 return FullPath;
             }
 
-            FullPath = GetStreamingAssetsPath(Path);
-            if (System.IO.File.Exists(FullPath))
-            {
-                return FullPath;
-            }
-
-#if UNITY_EDITOR
+#if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
             FullPath = GetStandaloneAssetsPath(Path);
             if (System.IO.File.Exists(FullPath))
             {
                 return FullPath;
             }
-
-            if (System.IO.File.Exists(FullPath))
-            {
-                return Path;
-            }
 #endif
 
-            return string.Empty;
+            return GetStreamingAssetsPath(Path);
         }
     }
 }

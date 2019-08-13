@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
 
 using System;
 using System.IO;

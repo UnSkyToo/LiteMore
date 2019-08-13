@@ -1,4 +1,5 @@
 ﻿using LiteFramework;
+using LiteFramework.Core.Log;
 using LiteFramework.Game.Logic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,16 +17,14 @@ namespace LiteMore
 
             try
             {
-                if (!LiteManager.Startup(this))
+                if (LiteManager.Startup(this))
                 {
-                    Debug.LogError("GameManager Startup Failed");
+                    LogicManager.Attach(new GameLogic());
                 }
-                
-                LogicManager.Attach(new GameLogic());
             }
             catch (System.Exception Ex)
             {
-                Debug.LogError($"{Ex.Message}\n{Ex.StackTrace}");
+                LLogger.LError($"{Ex.Message}\n{Ex.StackTrace}");
             }
         }
 
@@ -37,34 +36,34 @@ namespace LiteMore
             }
             catch (System.Exception Ex)
             {
-                Debug.LogError($"{Ex.Message}\n{Ex.StackTrace}");
+                LLogger.LError($"{Ex.Message}\n{Ex.StackTrace}");
             }
 
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.F1))
             {
                 LiteManager.TimeScale = 0.5f;
-                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
+                LLogger.LWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.F2))
             {
                 LiteManager.TimeScale = 1.0f;
-                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
+                LLogger.LWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
                 LiteManager.TimeScale = 5.0f;
-                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
+                LLogger.LWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.PageUp))
             {
                 LiteManager.TimeScale--;
-                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
+                LLogger.LWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.PageDown))
             {
                 LiteManager.TimeScale++;
-                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
+                LLogger.LWarning($"TimeScale = {LiteManager.TimeScale}");
             }
 
             if (Input.GetKeyDown(KeyCode.F5))
@@ -91,7 +90,7 @@ namespace LiteMore
             }
             catch (System.Exception Ex)
             {
-                Debug.LogError($"{Ex.Message}\n{Ex.StackTrace}");
+                LLogger.LError($"{Ex.Message}\n{Ex.StackTrace}");
             }
         }
 

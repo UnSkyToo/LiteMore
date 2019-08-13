@@ -139,6 +139,7 @@ namespace LiteFramework.Game.Asset
             var FullPath = PathHelper.GetAssetFullPath(ResPath);
             if (string.IsNullOrEmpty(FullPath))
             {
+                LLogger.LError($"LoadAssetBundleManifest Failed : {FullPath}");
                 return false;
             }
 
@@ -152,7 +153,7 @@ namespace LiteFramework.Game.Asset
             }
             else
             {
-                LLogger.LError($"LoadAssetBundleManifest Failed : {ResPath}");
+                LLogger.LError($"LoadAssetBundleManifest Failed : {FullPath}");
             }
 
             return false;

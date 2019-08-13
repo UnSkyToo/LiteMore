@@ -22,10 +22,11 @@ namespace LiteFramework
             IsPause = true;
             IsRestart = false;
             TimeScale = 1.0f;
-
-            LLogger.LInfo("Lite Framework Startup");
             MonoBehaviourInstance = Instance;
 
+            Attach<Debugger>(MonoBehaviourInstance.gameObject);
+
+            LLogger.LInfo("Lite Framework Startup");
             if (!LiteCoreManager.Startup(MonoBehaviourInstance))
             {
                 return false;
@@ -35,11 +36,6 @@ namespace LiteFramework
             {
                 return false;
             }
-
-#if UNITY_EDITOR
-            Attach<Debugger>(MonoBehaviourInstance.gameObject);
-            Attach<Fps>(MonoBehaviourInstance.gameObject);
-#endif
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
@@ -51,10 +47,7 @@ namespace LiteFramework
             LiteGameManager.Shutdown();
             LiteCoreManager.Shutdown();
 
-#if UNITY_EDITOR
             Detach<Debugger>(MonoBehaviourInstance.gameObject);
-            Detach<Fps>(MonoBehaviourInstance.gameObject);
-#endif
 
             PlayerPrefs.Save();
             Resources.UnloadUnusedAssets();
