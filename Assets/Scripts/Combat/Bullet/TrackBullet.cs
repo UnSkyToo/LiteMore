@@ -1,6 +1,6 @@
-﻿using LiteMore.Combat.Label;
+﻿using LiteFramework.Helper;
+using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
-using LiteMore.Helper;
 using UnityEngine;
 
 namespace LiteMore.Combat.Bullet

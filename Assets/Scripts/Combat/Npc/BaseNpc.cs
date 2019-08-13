@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Lite.Combat.Npc.Handler;
+using LiteFramework.Core.Event;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Fsm;
 using LiteMore.Core;

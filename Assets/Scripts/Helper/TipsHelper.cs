@@ -1,7 +1,9 @@
 ﻿using System;
+using LiteFramework.Core.Async.Timer;
+using LiteFramework.Game.UI;
+using LiteFramework.Helper;
 using LiteMore.Combat.Skill;
 using LiteMore.Extend;
-using LiteMore.UI;
 using LiteMore.UI.Core;
 using UnityEngine;
 
@@ -22,9 +24,8 @@ namespace LiteMore.Helper
 
         public static void AddTips(Transform Obj, Func<string> GetFunc)
         {
-            var TimerID = 0u;
+            TimerEntity Timer = null;
             var BeginPos = Vector2.zero;
-            BaseUI Tips = null;
 
             UIHelper.AddEvent(Obj, (_, Pos) =>
             {
@@ -35,34 +36,34 @@ namespace LiteMore.Helper
                 }
 
                 BeginPos = Pos;
-                TimerID = TimerManager.AddTimer(Configure.TipsHoldTime, () => { Tips = UIManager.OpenUI<TipsUI>(Msg, Pos); }, 1);
+                Timer = TimerManager.AddTimer(Configure.TipsHoldTime, () => { UIManager.OpenUI<TipsUI>(Msg, Pos); }, 1);
             }, UIEventType.Down);
 
             UIHelper.AddEvent(Obj, (_, Pos) =>
             {
-                if (TimerID == 0)
+                if (Timer == null)
                 {
                     return;
                 }
 
                 if (Vector2.Distance(Pos, BeginPos) > 10)
                 {
-                    TimerManager.StopTimer(TimerID);
-                    TimerID = 0;
+                    TimerManager.StopTimer(Timer);
+                    Timer = null;
                 }
             }, UIEventType.Drag);
 
             UIHelper.AddEvent(Obj, (_, Pos) =>
             {
-                TimerManager.StopTimer(TimerID);
-                TimerID = 0;
-                UIManager.CloseUI(Tips);
+                TimerManager.StopTimer(Timer);
+                Timer = null;
+                UIManager.CloseUI<TipsUI>();
             }, UIEventType.Up);
 
             UIHelper.AddEvent(Obj, (_, Pos) =>
             {
-                TimerManager.StopTimer(TimerID);
-                TimerID = 0;
+                TimerManager.StopTimer(Timer);
+                Timer = null;
             }, UIEventType.Cancel);
         }
 

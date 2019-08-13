@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Bullet;
+﻿using LiteFramework.Core.Event;
+using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;

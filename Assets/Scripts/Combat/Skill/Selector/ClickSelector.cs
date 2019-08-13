@@ -1,4 +1,4 @@
-﻿using LiteMore.Extend;
+﻿using LiteFramework.Game.UI;
 
 namespace LiteMore.Combat.Skill.Selector
 {

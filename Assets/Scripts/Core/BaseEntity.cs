@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteFramework.Core.Base;
 
 namespace LiteMore.Core
 {

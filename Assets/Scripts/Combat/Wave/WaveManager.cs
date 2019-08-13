@@ -1,4 +1,5 @@
-﻿using LiteMore.UI;
+﻿using LiteFramework.Core.Event;
+using LiteMore.UI;
 
 namespace LiteMore.Combat.Wave
 {

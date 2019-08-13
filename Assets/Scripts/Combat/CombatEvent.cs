@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Npc;
+﻿using LiteFramework.Core.Event;
+using LiteMore.Combat.Npc;
 using UnityEngine;
 
 namespace LiteMore.Combat

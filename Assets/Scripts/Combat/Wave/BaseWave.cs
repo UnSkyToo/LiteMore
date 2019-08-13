@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Emitter;
+﻿using LiteFramework.Core.Event;
+using LiteMore.Combat.Emitter;
 using LiteMore.Core;
 using LiteMore.Data;
 using LiteMore.UI;

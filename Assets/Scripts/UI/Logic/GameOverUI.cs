@@ -1,4 +1,7 @@
-﻿namespace LiteMore.UI.Logic
+﻿using LiteFramework;
+using LiteFramework.Game.UI;
+
+namespace LiteMore.UI.Logic
 {
     public class GameOverUI : BaseUI
     {
@@ -13,7 +16,7 @@
         {
             AddEventToChild("BtnRestart", (Obj, Pos) =>
             {
-                GameManager.Restart();
+                LiteManager.Restart();
             });
         }
     }

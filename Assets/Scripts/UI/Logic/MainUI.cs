@@ -1,6 +1,10 @@
-﻿using LiteMore.Combat.Wave;
+﻿using LiteFramework;
+using LiteFramework.Core.Event;
+using LiteFramework.Core.Motion;
+using LiteFramework.Game.UI;
+using LiteFramework.Helper;
+using LiteMore.Combat.Wave;
 using LiteMore.Helper;
-using LiteMore.Motion;
 using LiteMore.Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,14 +34,14 @@ namespace LiteMore.UI.Logic
 
             AddEventToChild("BtnDelete", () =>
             {
-                if (GameManager.IsRestart)
+                if (LiteManager.IsRestart)
                 {
                     return;
                 }
 
                 if (PlayerManager.DeleteArchive())
                 {
-                    ToastHelper.Show("删除存档成功", Color.red, GameManager.Restart);
+                    ToastHelper.Show("删除存档成功", Color.red, LiteManager.Restart);
                 }
                 else
                 {
@@ -53,7 +57,7 @@ namespace LiteMore.UI.Logic
                     TimeScale_ = 1;
                 }
 
-                GameManager.TimeScale = TimeScale_;
+                LiteManager.TimeScale = TimeScale_;
                 FindComponent<Text>("BtnSpeed/Text").text = $"x{TimeScale_}";
             });
         }

@@ -1,6 +1,5 @@
-﻿using LiteMore.Combat.Bullet;
-using LiteMore.Combat.Emitter;
-using LiteMore.Combat.Npc;
+﻿using LiteFramework;
+using LiteFramework.Game.Logic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,10 +16,12 @@ namespace LiteMore
 
             try
             {
-                if (!GameManager.Startup())
+                if (!LiteManager.Startup(this))
                 {
                     Debug.LogError("GameManager Startup Failed");
                 }
+                
+                LogicManager.Attach(new GameLogic());
             }
             catch (System.Exception Ex)
             {
@@ -32,7 +33,7 @@ namespace LiteMore
         {
             try
             {
-                GameManager.Tick(Time.deltaTime);
+                LiteManager.Tick(Time.deltaTime);
             }
             catch (System.Exception Ex)
             {
@@ -42,37 +43,37 @@ namespace LiteMore
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.F1))
             {
-                GameManager.TimeScale = 0.5f;
-                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
+                LiteManager.TimeScale = 0.5f;
+                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.F2))
             {
-                GameManager.TimeScale = 1.0f;
-                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
+                LiteManager.TimeScale = 1.0f;
+                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
-                GameManager.TimeScale = 5.0f;
-                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
+                LiteManager.TimeScale = 5.0f;
+                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.PageUp))
             {
-                GameManager.TimeScale--;
-                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
+                LiteManager.TimeScale--;
+                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
             }
             else if (Input.GetKeyDown(KeyCode.PageDown))
             {
-                GameManager.TimeScale++;
-                Debug.LogWarning($"TimeScale = {GameManager.TimeScale}");
+                LiteManager.TimeScale++;
+                Debug.LogWarning($"TimeScale = {LiteManager.TimeScale}");
             }
 
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                GameManager.Restart();
+                LiteManager.Restart();
             }
             if (Input.GetKeyDown(KeyCode.F6))
             {
-                GameManager.Shutdown();
+                LiteManager.Shutdown();
             }
 
             if (Input.GetKeyDown(KeyCode.F9))
@@ -86,7 +87,7 @@ namespace LiteMore
         {
             try
             {
-                GameManager.Shutdown();
+                LiteManager.Shutdown();
             }
             catch (System.Exception Ex)
             {
@@ -98,20 +99,13 @@ namespace LiteMore
         {
             if (Pause)
             {
-                GameManager.OnEnterBackground();
+                LiteManager.OnEnterBackground();
             }
             else
             {
-                GameManager.OnEnterForeground();
+                LiteManager.OnEnterForeground();
             }
         }
-
-        /*void OnGUI()
-        {
-            GUI.Label(new Rect(5, 100, 0, 40), $"Npc Count : {NpcManager.GetCount()}", Style_);
-            GUI.Label(new Rect(5, 150, 0, 40), $"Bullet Count : {BulletManager.GetCount()}", Style_);
-            GUI.Label(new Rect(5, 200, 0, 40), $"Emitter Count : {EmitterManager.GetCount()}", Style_);
-        }*/
 
 #if UNITY_EDITOR
         private static bool EnableGizmos_ = false;

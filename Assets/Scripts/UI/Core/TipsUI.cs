@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteFramework.Game.UI;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace LiteMore.UI.Core

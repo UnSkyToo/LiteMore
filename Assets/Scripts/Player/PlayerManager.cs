@@ -1,11 +1,13 @@
-﻿using LiteMore.Cache;
+﻿using LiteFramework;
+using LiteFramework.Core.Event;
+using LiteFramework.Game.UI;
+using LiteMore.Cache;
 using LiteMore.Combat;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Wave;
 using LiteMore.Data;
-using LiteMore.Extend;
 using LiteMore.UI;
 using LiteMore.UI.Logic;
 using UnityEngine;
@@ -61,7 +63,7 @@ namespace LiteMore.Player
             if (CoreNpc_.CalcFinalAttr(NpcAttrIndex.Hp) <= 0)
             {
                 UIManager.OpenUI<GameOverUI>();
-                GameManager.IsPause = true;
+                LiteManager.IsPause = true;
             }
 
             Dps_.Tick(DeltaTime);

@@ -1,5 +1,5 @@
-﻿using LiteMore.Combat.Npc;
-using LiteMore.Extend;
+﻿using LiteFramework.Extend;
+using LiteMore.Combat.Npc;
 using UnityEngine;
 
 namespace LiteMore.Combat.Emitter
