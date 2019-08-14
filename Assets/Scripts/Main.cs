@@ -17,10 +17,10 @@ namespace LiteMore
 
             try
             {
-                if (LiteManager.Startup(this))
+                LiteManager.Startup(this, () =>
                 {
                     LogicManager.Attach(new GameLogic());
-                }
+                });
             }
             catch (System.Exception Ex)
             {

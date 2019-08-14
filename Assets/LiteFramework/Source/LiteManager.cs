@@ -1,7 +1,7 @@
 ﻿using LiteFramework.Core;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
-using LiteFramework.Extend;
+using LiteFramework.Extend.Debug;
 using LiteFramework.Game;
 using LiteFramework.Helper;
 using UnityEngine;
@@ -17,14 +17,25 @@ namespace LiteFramework
         private static MonoBehaviour MonoBehaviourInstance { get; set; }
         private static float EnterBackgroundTime_ = 0.0f;
 
-        public static bool Startup(MonoBehaviour Instance)
+        private static System.Action StartupCallback { get; set; }
+
+        public static bool Startup(MonoBehaviour Instance, System.Action Callback)
         {
             IsPause = true;
             IsRestart = false;
             TimeScale = 1.0f;
             MonoBehaviourInstance = Instance;
+            StartupCallback = Callback;
 
-            Attach<Debugger>(MonoBehaviourInstance.gameObject);
+            LiteConfigure.UIDescList.Clear();
+
+            if (Debug.isDebugBuild ||
+                Application.platform == RuntimePlatform.WindowsEditor ||
+                Application.platform == RuntimePlatform.OSXEditor ||
+                Application.platform == RuntimePlatform.LinuxEditor)
+            {
+                Attach<Debugger>(MonoBehaviourInstance.gameObject);
+            }
 
             LLogger.LInfo("Lite Framework Startup");
             if (!LiteCoreManager.Startup(MonoBehaviourInstance))
@@ -39,6 +50,7 @@ namespace LiteFramework
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
+            StartupCallback?.Invoke();
             return true;
         }
 
@@ -47,7 +59,13 @@ namespace LiteFramework
             LiteGameManager.Shutdown();
             LiteCoreManager.Shutdown();
 
-            Detach<Debugger>(MonoBehaviourInstance.gameObject);
+            if (Debug.isDebugBuild ||
+                Application.platform == RuntimePlatform.WindowsEditor ||
+                Application.platform == RuntimePlatform.OSXEditor ||
+                Application.platform == RuntimePlatform.LinuxEditor)
+            {
+                Detach<Debugger>(MonoBehaviourInstance.gameObject);
+            }
 
             PlayerPrefs.Save();
             Resources.UnloadUnusedAssets();
@@ -83,7 +101,7 @@ namespace LiteFramework
             IsRestart = false;
             UnityHelper.ClearLog();
             Shutdown();
-            IsPause = !Startup(MonoBehaviourInstance);
+            IsPause = !Startup(MonoBehaviourInstance, StartupCallback);
         }
 
         public static T Attach<T>(GameObject Root) where T : MonoBehaviour
