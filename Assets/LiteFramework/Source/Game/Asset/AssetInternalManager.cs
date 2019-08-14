@@ -19,15 +19,6 @@ namespace LiteFramework.Game.Asset
             Data,
         }
 
-        public enum AssetRealType : byte
-        {
-            Asset,
-            Prefab,
-            Data,
-            Sprite,
-            Texture,
-        }
-
         private static readonly Dictionary<string, AssetBundleCacheBase> AssetBundleCacheList_ = new Dictionary<string, AssetBundleCacheBase>();
         private static readonly Dictionary<string, List<Action>> LoadAssetBundleCallbackList_ = new Dictionary<string, List<Action>>();
         private static readonly Dictionary<int, string> AssetBundlePathCacheList_ = new Dictionary<int, string>();
@@ -80,60 +71,6 @@ namespace LiteFramework.Game.Asset
             }
         }
 
-        private static AssetRealType GetAssetRealTypeWithName(string BundlePath)
-        {
-            var Ext = PathHelper.GetFileExt(BundlePath);
-
-            switch (Ext)
-            {
-                case ".bytes":
-                    return AssetRealType.Data;
-                case ".prefab":
-                    return AssetRealType.Prefab;
-                default:
-                    break;
-            }
-
-            var Importer = AssetImporter.GetAtPath($"Assets/{LiteConfigure.StandaloneAssetsName}/{BundlePath}");
-            if (Importer is TextureImporter TexImporter)
-            {
-                if (TexImporter.textureType == TextureImporterType.Sprite)
-                {
-                    return AssetRealType.Sprite;
-                }
-
-                return AssetRealType.Texture;
-            }
-
-            return AssetRealType.Asset;
-        }
-
-        private static string TryGetAssetRealPath(string BundlePath)
-        {
-            var Ext = PathHelper.GetFileExt(BundlePath);
-
-            switch (Ext)
-            {
-                case ".sprite":
-                case ".texture":
-                    BundlePath = PathHelper.GetDirectoryAndFileName(BundlePath);
-                    if (File.Exists(PathHelper.GetStandaloneAssetsPath($"{BundlePath}.png")))
-                    {
-                        BundlePath = $"{BundlePath}.png";
-                    }
-
-                    if (File.Exists(PathHelper.GetStandaloneAssetsPath($"{BundlePath}.jpg")))
-                    {
-                        BundlePath = $"{BundlePath}.jpg";
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            return BundlePath;
-        }
-
         private static AssetBundleCacheBase CreateAssetBundleCache<T>(AssetBundleType BundleType, string BundlePath) where T : UnityEngine.Object
         {
             AssetBundleCacheBase Cache = null;
@@ -141,28 +78,7 @@ namespace LiteFramework.Game.Asset
             switch (BundleType)
             {
                 case AssetBundleType.Asset:
-                    var RealType = GetAssetRealTypeWithName(BundlePath);
-
-                    switch (RealType)
-                    {
-                        case AssetRealType.Asset:
-                            Cache = new AssetBundleCache<T>(BundleType, BundlePath);
-                            break;
-                        case AssetRealType.Prefab:
-                            Cache = new PrefabBundleCache(BundleType, BundlePath);
-                            break;
-                        case AssetRealType.Data:
-                            Cache = new DataBundleCache(BundleType, BundlePath);
-                            break;
-                        case AssetRealType.Sprite:
-                            Cache = new AssetBundleCache<UnityEngine.Sprite>(BundleType, BundlePath);
-                            break;
-                        case AssetRealType.Texture:
-                            Cache = new AssetBundleCache<UnityEngine.Texture>(BundleType, BundlePath);
-                            break;
-                        default:
-                            break;
-                    }
+                    Cache = new AssetBundleCache<UnityEngine.Object>(BundleType, BundlePath);
                     break;
                 case AssetBundleType.Prefab:
                     Cache = new PrefabBundleCache(BundleType, BundlePath);
@@ -271,21 +187,21 @@ namespace LiteFramework.Game.Asset
         {
             T Asset = null;
             BundlePath = BundlePath.ToLower();
-            AssetName = AssetName.ToLower();
+            AssetName = $"{AssetName.ToLower()}_{typeof(T).Name.ToLower()}";
 
-            AssetBundleCache<T> AssetCache = null;
+            AssetBundleCache<UnityEngine.Object> AssetCache = null;
             if (!AssetBundleCacheList_.ContainsKey(BundlePath))
             {
-                AssetCache = LoadAssetBundleSync<T>(AssetBundleType.Asset, BundlePath) as AssetBundleCache<T>;
+                AssetCache = LoadAssetBundleSync<UnityEngine.Object>(AssetBundleType.Asset, BundlePath) as AssetBundleCache<UnityEngine.Object>;
             }
             else
             {
-                AssetCache = AssetBundleCacheList_[BundlePath] as AssetBundleCache<T>;
+                AssetCache = AssetBundleCacheList_[BundlePath] as AssetBundleCache<UnityEngine.Object>;
             }
 
             if (AssetCache != null)
             {
-                Asset = AssetCache.CreateAsset(AssetName);
+                Asset = AssetCache.CreateAsset(AssetName) as T;
 
                 if (Asset != null)
                 {
@@ -604,11 +520,15 @@ namespace LiteFramework.Game.Asset
                 {
                     foreach (var Asset in Assets)
                     {
-                        if (Asset is T TAsset)
+                        var Name = $"{Asset.name.ToLower()}_{Asset.GetType().Name.ToLower()}";
+                        if (AssetList_.ContainsKey(Name))
                         {
-                            AssetList_.Add(Asset.name.ToLower(), TAsset);
-                            AssetInstanceIDList_.Add(Asset.GetInstanceID());
+                            LLogger.LWarning($"Repeat Asset : {Name}");
+                            continue;
                         }
+
+                        AssetList_.Add(Name, Asset as T);
+                        AssetInstanceIDList_.Add(Asset.GetInstanceID());
                     }
                 }
             }

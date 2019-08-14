@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2312657338
+CRC: 2059635529
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 91
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Sfx/HitSfx.controller
+- Assets/StandaloneAssets/Prefabs/Sfx/HitSfx.controller
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/hitsfx.anim

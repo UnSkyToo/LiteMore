@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1630879445
+CRC: 1506125067
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -44,5 +44,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/UI/DpsUI.prefab
+- Assets/StandaloneAssets/UI/DpsUI.prefab
 Dependencies: []

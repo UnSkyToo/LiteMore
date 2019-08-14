@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1462255635
+CRC: 3048962711
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 332ec9be3fb06716193a5fae98a3af29
+    Hash: e1559d032db91654360b79916ce9f132
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/R2/R2_die.anim
+- Assets/StandaloneAssets/Prefabs/Npc/R2/R2_die.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png

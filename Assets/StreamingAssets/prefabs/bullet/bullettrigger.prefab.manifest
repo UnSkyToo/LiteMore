@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 691927195
+CRC: 174244963
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: aa96823cd61503763316e0cdaffd0520
+    Hash: c56c0590d78643eb56584ab8e9de15e9
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -22,6 +22,6 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Bullet/BulletTrigger.prefab
+- Assets/StandaloneAssets/Prefabs/Bullet/BulletTrigger.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bv0.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bv0.png

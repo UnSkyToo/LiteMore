@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 292815344
+CRC: 3992592101
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e6577aad208bec7babf7f9a4b2822538
+    Hash: d05926b377d943cc8c4acc0f99bebe3a
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/R2/R2_idle.anim
+- Assets/StandaloneAssets/Prefabs/Npc/R2/R2_idle.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png

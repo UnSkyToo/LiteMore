@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 4045678212
+CRC: 3254813294
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -12,5 +12,5 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Materials/CLine.shader
+- Assets/StandaloneAssets/Materials/CLine.shader
 Dependencies: []

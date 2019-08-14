@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2268062560
+CRC: 1168212196
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -32,5 +32,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/UI/ToastUI.prefab
+- Assets/StandaloneAssets/UI/ToastUI.prefab
 Dependencies: []

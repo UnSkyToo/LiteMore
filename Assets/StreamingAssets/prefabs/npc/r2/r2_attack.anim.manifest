@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2839565400
+CRC: 759821619
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3587ba2a0e383dcb2afc0565dbdcd5bf
+    Hash: e7e75c5f3a561f8739cfb658849150ea
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/R2/R2_attack.anim
+- Assets/StandaloneAssets/Prefabs/Npc/R2/R2_attack.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png

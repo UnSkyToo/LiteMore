@@ -139,12 +139,13 @@ namespace LiteFramework.Editor.AssetBundle
             /*var Index = ResPath.LastIndexOf('.');
             if (Index == -1)
             {
-                Logger.DError($"unexpected asset path : {ResPath}");
+                LLogger.LError($"unexpected asset path : {ResPath}");
                 return;
             }
     
             var BundleName = ResPath.Substring(0, Index);*/
-            var BundleName = ResPath;
+
+            /*var BundleName = ResPath;
 
             if (Importer is TextureImporter TexImporter)
             {
@@ -159,7 +160,9 @@ namespace LiteFramework.Editor.AssetBundle
                 {
                     BundleName = $"{BundleName}.texture";
                 }
-            }
+            }*/
+
+            var BundleName = ResPath;
 
             Importer.assetBundleName = BundleName;
             Importer.assetBundleVariant = string.Empty;

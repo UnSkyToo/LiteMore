@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Label;
+﻿using LiteFramework.Game.Asset;
+using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Shape;
 using UnityEngine;
@@ -47,7 +48,7 @@ namespace LiteMore.Combat.Bullet
             MaxTime_ = Vector2.Distance(OriginPos_, TargetPos_) / Speed_;
             IsBomb_ = false;
 
-            RadiusObj_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/bv0"));
+            RadiusObj_ = AssetManager.CreatePrefabSync("prefabs/bv0.prefab");
             RadiusObj_.transform.SetParent(Configure.SfxRoot.transform, false);
             RadiusObj_.transform.localPosition = TargetPos_;
             var SR = RadiusObj_.GetComponent<SpriteRenderer>();
@@ -59,7 +60,7 @@ namespace LiteMore.Combat.Bullet
 
         public override void Dispose()
         {
-            Object.Destroy(RadiusObj_);
+            AssetManager.DeleteAsset(RadiusObj_);
             base.Dispose();
         }
 
@@ -90,7 +91,7 @@ namespace LiteMore.Combat.Bullet
         private void Bomb()
         {
             IsBomb_ = true;
-            BombSfx_ = SfxManager.AddSfx("Prefabs/Sfx/BombSfx", Position);
+            BombSfx_ = SfxManager.AddSfx("prefabs/sfx/bombsfx.prefab", Position);
 
             Shape_.Center = Position;
 

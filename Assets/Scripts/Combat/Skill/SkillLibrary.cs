@@ -47,9 +47,9 @@ namespace LiteMore.Combat.Skill
             Add(2001, "镭射激光", "skill1", 5, 30, 0, new SkillExecutor_2001(), new ClickSelector());
             Add(2002, "自动弹幕", "skill2", 5, 30, 0, new SkillExecutor_2002(), new ClickSelector());
             Add(2003, "放马过来", "skill3", 5, 30, 0, new SkillExecutor_2003(), new ClickSelector());
-            Add(2004, "天降正义", "skill4", 5, 30, 250, new SkillExecutor_2004(), new DragPositionSelector("Prefabs/bv0"));
-            Add(2005, "速速退散", "skill5", 5, 30, 200, new SkillExecutor_2005(), new DragDirectionSelector("Prefabs/bv1", Configure.CoreBasePosition));
-            Add(2006, "减速陷阱", "skill6", 5, 30, 100, new SkillExecutor_2006(), new DragPositionSelector("Prefabs/bv0"));
+            Add(2004, "天降正义", "skill4", 5, 30, 250, new SkillExecutor_2004(), new DragPositionSelector("prefabs/bv0.prefab"));
+            Add(2005, "速速退散", "skill5", 5, 30, 200, new SkillExecutor_2005(), new DragDirectionSelector("prefabs/bv1.prefab", Configure.CoreBasePosition));
+            Add(2006, "减速陷阱", "skill6", 5, 30, 100, new SkillExecutor_2006(), new DragPositionSelector("prefabs/bv0.prefab"));
             Add(2007, "召唤援军", "skill7", 5, 30, 0, new SkillExecutor_2007(), new ClickSelector());
             Add(2008, "持续子弹", "skill8", 0.1f, 2, 0, new SkillExecutor_2008(), new PressedSelector());
         }
@@ -79,7 +79,7 @@ namespace LiteMore.Combat.Skill
                 return;
             }
 
-            SkillList_.Add(SkillID, new SkillDescriptor(SkillID, Name, $"Textures/Icon/{Icon}", CD, Cost, Radius, Executor, Selector));
+            SkillList_.Add(SkillID, new SkillDescriptor(SkillID, Name, $"textures/icon/{Icon}.png", CD, Cost, Radius, Executor, Selector));
         }
 
         private static void Add(uint SkillID, string Name, BaseExecutor Executor)

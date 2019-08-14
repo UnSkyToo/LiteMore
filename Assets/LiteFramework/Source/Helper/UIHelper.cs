@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteFramework.Game.Asset;
 using LiteFramework.Game.UI;
 using UnityEngine;
 
@@ -190,7 +191,7 @@ namespace LiteFramework.Helper
             var ChildCount = Parent.childCount;
             for (var Index = 0; Index < ChildCount; ++Index)
             {
-                UnityEngine.Object.Destroy(Parent.GetChild(Index)?.gameObject);
+                AssetManager.DeleteAsset(Parent.GetChild(Index)?.gameObject);
             }
         }
 

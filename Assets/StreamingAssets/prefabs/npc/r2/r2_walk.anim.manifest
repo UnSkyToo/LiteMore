@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 803889594
+CRC: 1376659776
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 89b07960a4f47fc1fae3d796fa106a4e
+    Hash: 0b29bcb8d26e2b4d66848b37f095eb69
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/R2/R2_walk.anim
+- Assets/StandaloneAssets/Prefabs/Npc/R2/R2_walk.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png

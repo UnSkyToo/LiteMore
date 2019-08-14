@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 325294665
+CRC: 775819085
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -36,5 +36,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/UI/GameOverUI.prefab
+- Assets/StandaloneAssets/UI/GameOverUI.prefab
 Dependencies: []

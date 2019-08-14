@@ -8,8 +8,7 @@ namespace LiteFramework
     {
         public const float EnterBackgroundMaxTime = 90.0f;
         public const string AssetBundleManifestName = "StreamingAssets";
-        //public const string StandaloneAssetsName = "StandaloneAssets";
-        public const string StandaloneAssetsName = "Resources";
+        public const string StandaloneAssetsName = "StandaloneAssets";
 
         public const string CanvasNormalName = "Canvas-Normal";
         // use lua module

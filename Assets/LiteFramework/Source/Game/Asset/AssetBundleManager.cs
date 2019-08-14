@@ -17,15 +17,6 @@ namespace LiteFramework.Game.Asset
             Data,
         }
 
-        public enum AssetRealType : byte
-        {
-            Asset,
-            Prefab,
-            Data,
-            Sprite,
-            Texture,
-        }
-
         private static UnityEngine.AssetBundleManifest Manifest_ = null;
         private static readonly List<string> AssetBundlePathList_ = new List<string>();
         private static readonly Dictionary<string, AssetBundleCacheBase> AssetBundleCacheList_ = new Dictionary<string, AssetBundleCacheBase>();
@@ -115,25 +106,6 @@ namespace LiteFramework.Game.Asset
             }
         }
 
-        private static AssetRealType GetAssetRealTypeWithName(string BundlePath)
-        {
-            var Ext = PathHelper.GetFileExt(BundlePath);
-
-            switch (Ext)
-            {
-                case ".sprite":
-                    return AssetRealType.Sprite;
-                case ".texture":
-                    return AssetRealType.Texture;
-                case ".bytes":
-                    return AssetRealType.Data;
-                case ".prefab":
-                    return AssetRealType.Prefab;
-                default:
-                    return AssetRealType.Asset;
-            }
-        }
-
         private static bool LoadAssetBundleManifest(string ResPath)
         {
             var FullPath = PathHelper.GetAssetFullPath(ResPath);
@@ -166,28 +138,23 @@ namespace LiteFramework.Game.Asset
             switch (BundleType)
             {
                 case AssetBundleType.Asset:
-                    var RealType = GetAssetRealTypeWithName(BundlePath);
+                    /*var RealType = GetAssetBundleTypeWithName(BundlePath);
 
                     switch (RealType)
                     {
-                        case AssetRealType.Asset:
+                        case AssetBundleType.Asset:
                             Cache = new AssetBundleCache<T>(BundleType, BundlePath);
                             break;
-                        case AssetRealType.Prefab:
+                        case AssetBundleType.Prefab:
                             Cache = new PrefabBundleCache(BundleType, BundlePath);
                             break;
-                        case AssetRealType.Data:
+                        case AssetBundleType.Data:
                             Cache = new DataBundleCache(BundleType, BundlePath);
-                            break;
-                        case AssetRealType.Sprite:
-                            Cache = new AssetBundleCache<UnityEngine.Sprite>(BundleType, BundlePath);
-                            break;
-                        case AssetRealType.Texture:
-                            Cache = new AssetBundleCache<UnityEngine.Texture>(BundleType, BundlePath);
                             break;
                         default:
                             break;
-                    }
+                    }*/
+                    Cache = new AssetBundleCache<UnityEngine.Object>(BundleType, BundlePath);
                     break;
                 case AssetBundleType.Prefab:
                     Cache = new PrefabBundleCache(BundleType, BundlePath);
@@ -414,21 +381,21 @@ namespace LiteFramework.Game.Asset
         {
             T Asset = null;
             BundlePath = BundlePath.ToLower();
-            AssetName = AssetName.ToLower();
+            AssetName = $"{AssetName.ToLower()}_{typeof(T).Name.ToLower()}";
 
-            AssetBundleCache<T> AssetCache = null;
+            AssetBundleCache<UnityEngine.Object> AssetCache = null;
             if (!AssetBundleCacheList_.ContainsKey(BundlePath))
             {
-                AssetCache = LoadAssetBundleSync<T>(AssetBundleType.Asset, BundlePath) as AssetBundleCache<T>;
+                AssetCache = LoadAssetBundleSync<UnityEngine.Object>(AssetBundleType.Asset, BundlePath) as AssetBundleCache<UnityEngine.Object>;
             }
             else
             {
-                AssetCache = AssetBundleCacheList_[BundlePath] as AssetBundleCache<T>;
+                AssetCache = AssetBundleCacheList_[BundlePath] as AssetBundleCache<UnityEngine.Object>;
             }
 
             if (AssetCache != null)
             {
-                Asset = AssetCache.CreateAsset(AssetName);
+                Asset = AssetCache.CreateAsset(AssetName) as T;
 
                 if (Asset != null)
                 {
@@ -798,7 +765,13 @@ namespace LiteFramework.Game.Asset
                 {
                     foreach (var Asset in AssetList)
                     {
-                        AssetList_.Add(Asset.name.ToLower(), Asset);
+                        var Name = $"{Asset.name.ToLower()}_{Asset.GetType().Name.ToLower()}";
+                        if (AssetList_.ContainsKey(Name))
+                        {
+                            LLogger.LWarning($"Repeat Asset : {Name}");
+                            continue;
+                        }
+                        AssetList_.Add(Name, Asset);
                         AssetInstanceIDList_.Add(Asset.GetInstanceID());
                     }
                 }

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1312584289
+CRC: 2029730051
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 65ed26fc2bdd9bd4459c4129e8693e8a
+    Hash: bd4e9fb00ea39ca0df1758bb734cdf6c
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7ae14fe94a027e241fc5b0cce1b06d42
@@ -24,6 +24,6 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/MpBar.prefab
+- Assets/StandaloneAssets/Prefabs/MpBar.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png

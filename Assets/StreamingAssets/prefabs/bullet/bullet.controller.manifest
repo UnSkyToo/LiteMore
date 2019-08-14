@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1500097695
+CRC: 910344416
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -14,7 +14,7 @@ ClassTypes:
 - Class: 91
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Bullet/Bullet.controller
+- Assets/StandaloneAssets/Prefabs/Bullet/Bullet.controller
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/bullet/bulletblue.anim
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/bullet/bulletred.anim

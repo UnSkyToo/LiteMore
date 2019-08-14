@@ -593,7 +593,7 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   scriptingDefineSymbols:
-    7: 
+    7: LITE_USE_INTERNAL_ASSET
   platformArchitecture: {}
   scriptingBackend:
     Android: 0

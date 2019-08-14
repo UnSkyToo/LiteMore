@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Game.Asset;
 using UnityEngine;
 
 namespace LiteMore.Combat.Label
@@ -39,7 +40,7 @@ namespace LiteMore.Combat.Label
 
         public static NumberLabel AddNumberLabel(Vector2 Position, NumberLabelType Type, float Value)
         {
-            var Obj = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Num"));
+            var Obj = AssetManager.CreatePrefabSync("prefabs/num.prefab");
             Obj.transform.SetParent(Configure.LabelRoot, false);
             Obj.transform.localPosition = Position;
 

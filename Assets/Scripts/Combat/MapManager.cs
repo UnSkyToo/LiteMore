@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteFramework.Game.Asset;
+using UnityEngine;
 
 namespace LiteMore.Combat
 {
@@ -6,7 +7,7 @@ namespace LiteMore.Combat
     {
         public static bool Startup()
         {
-            var Tex = Resources.Load<Sprite>("Textures/m");
+            var Tex = AssetManager.CreateAssetSync<Sprite>("textures/m.png");
             for (var Y = -2; Y <= 2; ++Y)
             {
                 for (var X = -3; X <= 3; ++X)
@@ -20,14 +21,6 @@ namespace LiteMore.Combat
                 }
             }
 
-            var Build = new GameObject("build");
-            Build.layer = LayerMask.NameToLayer("UI");
-            Build.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/build");
-            Build.GetComponent<SpriteRenderer>().sortingOrder = -5;
-            Build.GetComponent<SpriteRenderer>().flipX = true;
-            Build.transform.SetParent(Configure.MapRoot, false);
-            Build.transform.localPosition = Configure.CoreBasePosition;
-
             return true;
         }
 
@@ -36,7 +29,7 @@ namespace LiteMore.Combat
             var Map = GameObject.Find("Map");
             for (var Index = Map.transform.childCount - 1; Index >=0; --Index)
             {
-                Object.Destroy(Map.transform.GetChild(Index).gameObject);
+                AssetManager.DeleteAsset(Map.transform.GetChild(Index).gameObject);
             }
         }
 

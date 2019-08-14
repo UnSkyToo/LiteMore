@@ -1,30 +1,22 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Game.Asset;
 using UnityEngine;
 
 namespace LiteMore.Combat.Bullet
 {
     public static class BulletManager
     {
-        private static readonly Dictionary<BulletType, GameObject> BulletPrefab_ = new Dictionary<BulletType, GameObject>();
+        private static readonly Dictionary<BulletType, string> BulletPrefabName_ = new Dictionary<BulletType, string>();
         private static readonly List<BaseBullet> BulletList_ = new List<BaseBullet>();
 
         public static bool Startup()
         {
-            BulletPrefab_.Clear();
-            BulletPrefab_.Add(BulletType.Track, Resources.Load<GameObject>("Prefabs/Bullet/Bullet"));
-            BulletPrefab_.Add(BulletType.Laser, Resources.Load<GameObject>("Prefabs/Bullet/BulletLaser"));
-            BulletPrefab_.Add(BulletType.Bomb, Resources.Load<GameObject>("Prefabs/Bullet/BulletBomb"));
-            BulletPrefab_.Add(BulletType.Back, Resources.Load<GameObject>("Prefabs/Bullet/BulletBack"));
-            BulletPrefab_.Add(BulletType.Trigger, Resources.Load<GameObject>("Prefabs/Bullet/BulletTrigger"));
-
-            foreach (var Checker in BulletPrefab_)
-            {
-                if (Checker.Value == null)
-                {
-                    Debug.LogError($"BulletManager : null model prefab of {Checker.Key}");
-                    return false;
-                }
-            }
+            BulletPrefabName_.Clear();
+            BulletPrefabName_.Add(BulletType.Track, "Prefabs/Bullet/Bullet.prefab".ToLower());
+            BulletPrefabName_.Add(BulletType.Laser, "Prefabs/Bullet/BulletLaser.prefab".ToLower());
+            BulletPrefabName_.Add(BulletType.Bomb, "Prefabs/Bullet/BulletBomb.prefab".ToLower());
+            BulletPrefabName_.Add(BulletType.Back, "Prefabs/Bullet/BulletBack.prefab".ToLower());
+            BulletPrefabName_.Add(BulletType.Trigger, "Prefabs/Bullet/BulletTrigger.prefab".ToLower());
 
             BulletList_.Clear();
 
@@ -39,7 +31,7 @@ namespace LiteMore.Combat.Bullet
             }
 
             BulletList_.Clear();
-            BulletPrefab_.Clear();
+            BulletPrefabName_.Clear();
         }
 
         public static void Tick(float DeltaTime)
@@ -58,7 +50,7 @@ namespace LiteMore.Combat.Bullet
 
         private static GameObject CreateBullet(BulletType Type, Vector2 Position)
         {
-            var Obj = Object.Instantiate(BulletPrefab_[Type]);
+            var Obj = AssetManager.CreatePrefabSync(BulletPrefabName_[Type]);
             Obj.transform.SetParent(Configure.BulletRoot, false);
             Obj.transform.localPosition = Position;
             return Obj;

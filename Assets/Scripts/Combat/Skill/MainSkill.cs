@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Skill.Selector;
+﻿using LiteFramework.Game.Asset;
+using LiteMore.Combat.Skill.Selector;
 using LiteMore.Helper;
 using LiteMore.Player;
 using UnityEngine;
@@ -47,7 +48,7 @@ namespace LiteMore.Combat.Skill
         public override void Dispose()
         {
             Selector_?.Dispose();
-            Object.Destroy(IconTransform.gameObject);
+            AssetManager.DeleteAsset(IconTransform.gameObject);
             base.Dispose();
         }
 

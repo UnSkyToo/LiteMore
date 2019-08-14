@@ -1,4 +1,5 @@
-﻿using LiteFramework.Game.UI;
+﻿using LiteFramework.Game.Asset;
+using LiteFramework.Game.UI;
 using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
@@ -46,7 +47,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            DragObj_ = Object.Instantiate(Resources.Load<GameObject>(DragResName_)).transform;
+            DragObj_ = AssetManager.CreatePrefabSync(DragResName_).transform;
             DragObj_.SetParent(Configure.SfxRoot, false);
             DragObj_.localPosition = Vector3.zero;
             DragObjRender_ = DragObj_.GetComponent<SpriteRenderer>();
@@ -61,7 +62,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            Object.Destroy(DragObj_.gameObject);
+            AssetManager.DeleteAsset(DragObj_.gameObject);
             DragObj_ = null;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Game.Asset;
 using LiteMore.Player;
 using UnityEngine;
 
@@ -7,8 +8,6 @@ namespace LiteMore.Combat.Npc
     public static class NpcManager
     {
         public const int TeamCount = 2;
-
-        private static GameObject ModelPrefab_;
 
         private static readonly List<BaseNpc>[] NpcList_ = new List<BaseNpc>[TeamCount]
         {
@@ -20,13 +19,6 @@ namespace LiteMore.Combat.Npc
 
         public static bool Startup()
         {
-            ModelPrefab_ = Resources.Load<GameObject>("Prefabs/Npc/R2/R2");
-            if (ModelPrefab_ == null)
-            {
-                Debug.LogError("NpcManager : null model prefab");
-                return false;
-            }
-
             for (var Team = 0; Team < TeamCount; ++Team)
             {
                 NpcList_[Team].Clear();
@@ -118,7 +110,7 @@ namespace LiteMore.Combat.Npc
 
         public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr, bool AddToFront = false)
         {
-            var Obj = Object.Instantiate(ModelPrefab_);
+            var Obj = AssetManager.CreatePrefabSync("prefabs/npc/r2/r2.prefab");
             Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
 
@@ -144,7 +136,7 @@ namespace LiteMore.Combat.Npc
                 return CoreNpc_;
             }
 
-            var Obj = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Npc/Core/Core"));
+            var Obj = AssetManager.CreatePrefabSync("prefabs/npc/core/core.prefab");
             Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
 

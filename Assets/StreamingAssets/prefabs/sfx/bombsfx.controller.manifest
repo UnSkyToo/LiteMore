@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 885175659
+CRC: 3811086359
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 91
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Sfx/BombSfx.controller
+- Assets/StandaloneAssets/Prefabs/Sfx/BombSfx.controller
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/bombsfx.anim

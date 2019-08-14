@@ -283,7 +283,7 @@ namespace LiteMore.Combat.Npc
         {
             if (HitSfxInterval_ <= 0)
             {
-                SfxManager.AddSfx("Prefabs/Sfx/HitSfx", Position);
+                SfxManager.AddSfx("prefabs/sfx/hitsfx.prefab", Position);
                 HitSfxInterval_ = 8;
             }
         }
@@ -308,7 +308,7 @@ namespace LiteMore.Combat.Npc
 
             Attr.SetValue(NpcAttrIndex.Hp, 0, false);
             PlayerManager.AddGem((int)CalcFinalAttr(NpcAttrIndex.Gem));
-            SfxManager.AddSfx("Prefabs/Sfx/GoldSfx", Position);
+            SfxManager.AddSfx("prefabs/sfx/goldsfx.prefab", Position);
             EventManager.Send(new NpcDieEvent(this));
         }
 

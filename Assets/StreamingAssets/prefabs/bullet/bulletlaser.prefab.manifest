@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2034057476
+CRC: 3765469461
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -20,5 +20,5 @@ ClassTypes:
 - Class: 120
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Bullet/BulletLaser.prefab
+- Assets/StandaloneAssets/Prefabs/Bullet/BulletLaser.prefab
 Dependencies: []

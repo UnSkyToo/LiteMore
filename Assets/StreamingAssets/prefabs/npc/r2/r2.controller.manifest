@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 4229325487
+CRC: 2776587854
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -14,7 +14,7 @@ ClassTypes:
 - Class: 91
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/R2/R2.controller
+- Assets/StandaloneAssets/Prefabs/Npc/R2/R2.controller
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_attack.anim
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_die.anim

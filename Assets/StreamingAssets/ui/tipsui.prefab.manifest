@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4129569672
+CRC: 2924400261
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 161291fdca4130e4e48d986ee2df3c01
+    Hash: 3b2be6019f35af410a8f0c08e42a5a14
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7bc891bdb5f894865b7f505e913c5315
@@ -34,6 +34,6 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/UI/TipsUI.prefab
+- Assets/StandaloneAssets/UI/TipsUI.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/tips.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/tips.png

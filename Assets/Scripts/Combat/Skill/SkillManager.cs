@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Game.Asset;
 using LiteMore.Combat.Npc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,20 +9,11 @@ namespace LiteMore.Combat.Skill
     public static class SkillManager
     {
         private static Transform SkillRoot_;
-        private static GameObject ModelPrefab_;
         private static readonly List<BaseSkill> SkillList_ = new List<BaseSkill>();
 
         public static bool Startup()
         {
             SkillRoot_ = GameObject.Find("Skill").transform;
-
-            ModelPrefab_ = Resources.Load<GameObject>("Prefabs/SkillIcon");
-            if (ModelPrefab_ == null)
-            {
-                Debug.LogError("SkillManager : null model prefab");
-                return false;
-            }
-
             SkillList_.Clear();
 
             return true;
@@ -65,10 +57,10 @@ namespace LiteMore.Combat.Skill
 
         private static Transform CreateMainSkillObject(string ResName)
         {
-            var Obj = Object.Instantiate(ModelPrefab_);
+            var Obj = AssetManager.CreatePrefabSync("prefabs/skillicon.prefab");
             Obj.transform.SetParent(SkillRoot_, false);
-            Obj.GetComponent<Image>().sprite = Resources.Load<Sprite>(ResName);
-            Obj.transform.Find("Mask").GetComponent<Image>().sprite = Resources.Load<Sprite>(ResName);
+            Obj.GetComponent<Image>().sprite = AssetManager.CreateAssetSync<Sprite>(ResName);
+            Obj.transform.Find("Mask").GetComponent<Image>().sprite = AssetManager.CreateAssetSync<Sprite>(ResName);
 
             return Obj.transform;
         }

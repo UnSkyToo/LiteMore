@@ -1,4 +1,5 @@
 ﻿using LiteFramework.Extend;
+using LiteFramework.Game.Asset;
 using LiteMore.Combat.Npc;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace LiteMore.Combat.Emitter
 
         public override void CreateDebugLine()
         {
-            ObjOuter_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
+            ObjOuter_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
             ObjOuter_.name = $"NpcRectOuter<{ID}>";
             ObjOuter_.SetParent(Configure.EmitterRoot, false);
             ObjOuter_.localPosition = Vector3.zero;
@@ -44,7 +45,7 @@ namespace LiteMore.Combat.Emitter
 
         public override void Dispose()
         {
-            Object.Destroy(ObjOuter_.gameObject);
+            AssetManager.DeleteAsset(ObjOuter_.gameObject);
         }
 
         protected override void OnEmitted(uint Cur, uint Max)
@@ -73,7 +74,7 @@ namespace LiteMore.Combat.Emitter
 
         public override void CreateDebugLine()
         {
-            ObjInner_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
+            ObjInner_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
             ObjInner_.name = $"NpcNormalInner<{ID}>";
             ObjInner_.SetParent(Configure.EmitterRoot, false);
             ObjInner_.localPosition = Vector3.zero;
@@ -81,7 +82,7 @@ namespace LiteMore.Combat.Emitter
             CallerInner_ = new LineCaller(ObjInner_.GetComponent<LineRenderer>());
             CallerInner_.DrawCircle(new LineCallerPoint(Position, Color.red), RadiusAttr.Min);
 
-            ObjOuter_ = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Line")).transform;
+            ObjOuter_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
             ObjOuter_.name = $"NpcNormalOuter<{ID}>";
             ObjOuter_.SetParent(Configure.EmitterRoot, false);
             ObjOuter_.localPosition = Vector3.zero;
@@ -92,8 +93,8 @@ namespace LiteMore.Combat.Emitter
 
         public override void Dispose()
         {
-            Object.Destroy(ObjInner_.gameObject);
-            Object.Destroy(ObjOuter_.gameObject);
+            AssetManager.DeleteAsset(ObjInner_.gameObject);
+            AssetManager.DeleteAsset(ObjOuter_.gameObject);
         }
 
         protected override void OnEmitted(uint Cur, uint Max)

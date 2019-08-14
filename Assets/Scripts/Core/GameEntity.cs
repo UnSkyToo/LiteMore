@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteFramework.Game.Asset;
+using UnityEngine;
 
 namespace LiteMore.Core
 {
@@ -58,7 +59,7 @@ namespace LiteMore.Core
             IsAlive = false;
             if (Transform_ != null)
             {
-                Object.Destroy(Transform_.gameObject);
+                AssetManager.DeleteAsset(Transform_.gameObject);
                 Transform_ = null;
             }
         }

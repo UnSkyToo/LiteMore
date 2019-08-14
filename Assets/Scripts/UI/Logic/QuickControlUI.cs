@@ -1,4 +1,5 @@
-﻿using LiteFramework.Game.UI;
+﻿using LiteFramework.Game.Asset;
+using LiteFramework.Game.UI;
 using LiteFramework.Helper;
 using LiteMore.Combat.Skill;
 using UnityEngine;
@@ -71,19 +72,19 @@ namespace LiteMore.UI.Logic
             switch (Code)
             {
                 case QuickCode.Metal:
-                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b1_metal");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b1_metal.png");
                     break;
                 case QuickCode.Wood:
-                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b2_wood");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b2_wood.png");
                     break;
                 case QuickCode.Water:
-                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b3_water");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b3_water.png");
                     break;
                 case QuickCode.Fire:
-                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b4_fire");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b4_fire.png");
                     break;
                 case QuickCode.Earth:
-                    Img.sprite = Resources.Load<Sprite>("Textures/Icon/b5_earth");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b5_earth.png");
                     break;
                 default:
                     break;
@@ -95,7 +96,7 @@ namespace LiteMore.UI.Logic
             if (Node != null)
             {
                 ProbeObj_.SetActive(true);
-                ProbeIcon_.sprite = Resources.Load<Sprite>(SkillLibrary.Get(Node.ID).Icon);
+                ProbeIcon_.sprite = AssetManager.CreateAssetSync<Sprite>(SkillLibrary.Get(Node.ID).Icon);
                 ProbeName_.text = SkillLibrary.Get(Node.ID).Name;
             }
             else

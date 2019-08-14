@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 70918401
+CRC: 3155142750
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -14,6 +14,6 @@ ClassTypes:
 - Class: 91
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/Core/Core.controller
+- Assets/StandaloneAssets/Prefabs/Npc/Core/Core.controller
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core_idle.anim

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Game.Asset;
 using LiteMore.Core;
 using UnityEngine;
 
@@ -29,6 +30,11 @@ namespace LiteMore.Combat
 
         public bool IsEnd()
         {
+            if (!IsAlive)
+            {
+                return true;
+            }
+
             var Info = Animator_.GetCurrentAnimatorStateInfo(0);
             return Info.normalizedTime >= 1.0f;
         }
@@ -70,7 +76,7 @@ namespace LiteMore.Combat
 
         public static BaseSfx AddSfx(string ResName, Vector2 Position)
         {
-            var Obj = Object.Instantiate(Resources.Load<GameObject>(ResName));
+            var Obj = AssetManager.CreatePrefabSync(ResName);
             Obj.transform.SetParent(Configure.SfxRoot, false);
             Obj.transform.localPosition = Position;
 

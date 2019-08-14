@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3003726747
+CRC: 2854323061
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 53bdb2ef1615bdbc6f0cd7e2386d93f0
+    Hash: 030177ef1761dfe1abea948c8bebebb6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9f534d51acd39c7d68c7d681985cd6ea
@@ -36,10 +36,10 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Npc/Core/Core.prefab
+- Assets/StandaloneAssets/Prefabs/Npc/Core/Core.prefab
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/hpbar.prefab
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/mpbar.prefab
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/build.sprite
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/build.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png

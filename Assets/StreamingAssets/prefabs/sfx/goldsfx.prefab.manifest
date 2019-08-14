@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1077783863
+CRC: 3312722281
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 95dbaccff87ae26d1e17ca7c813574a3
+    Hash: df82b5cc7de0c47aa95c334d69476199
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2495b201d674e914a98a58ad8df6283a
@@ -26,7 +26,7 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Sfx/GoldSfx.prefab
+- Assets/StandaloneAssets/Prefabs/Sfx/GoldSfx.prefab
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/goldsfx.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/item.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/item.png

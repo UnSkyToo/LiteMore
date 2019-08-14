@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 160228436
+CRC: 4184769301
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d4d45872f8fd9c8cb13dc2962d017441
+    Hash: 46a5f30159a71ffe31b8ea11bf5d0200
   TypeTreeHash:
     serializedVersion: 2
     Hash: 36efdee9ee48bc0112d936f4af3c31aa
@@ -26,7 +26,7 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Prefabs/Sfx/BombSfx.prefab
+- Assets/StandaloneAssets/Prefabs/Sfx/BombSfx.prefab
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/bombsfx.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_0.sprite
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_0.png

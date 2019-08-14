@@ -256,7 +256,7 @@ namespace LiteFramework.Game.UI
                 {
                     if (Obj == null)
                     {
-                        LLogger.LWarning("Can't Create UI : " + UIPath);
+                        LLogger.LWarning($"Can't Create UI : {Desc.PrefabName}");
                         return;
                     }
                     Callback?.Invoke(Obj.transform);
