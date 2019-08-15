@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LiteFramework.Extend.Debug
 {
-    internal class LogDebugWindow : BaseDebugWindow
+    internal class LogDebuggerItem : BaseDebuggerDrawItem
     {
         private class LogInfo
         {
@@ -16,6 +16,7 @@ namespace LiteFramework.Extend.Debug
         private readonly List<LogInfo> Logs_ = new List<LogInfo>();
         private Vector2 ScrollPosition_ = Vector2.zero;
         private Vector2 TraceScrollPosition_ = Vector2.zero;
+        private bool IsLock_ = false;
         private uint InfoCount_ = 0;
         private bool IsShowInfo_ = true;
         private uint WarningCount_ = 0;
@@ -26,12 +27,7 @@ namespace LiteFramework.Extend.Debug
 
         private readonly TextEditor TextEditor_ = new TextEditor();
 
-        internal LogDebugWindow()
-            : base()
-        {
-        }
-
-        internal override bool Startup()
+        public LogDebuggerItem()
         {
             Logs_.Clear();
             ScrollPosition_ = Vector2.zero;
@@ -44,21 +40,15 @@ namespace LiteFramework.Extend.Debug
             ErrorCount_ = 0;
             IsShowError_ = true;
             TraceNode_ = null;
-
             Application.logMessageReceived += HandleLog;
-            return true;
         }
 
-        internal override void Shutdown()
+        public override void Dispose()
         {
             Application.logMessageReceived -= HandleLog;
         }
 
-        internal override void Tick(float DeltaTime)
-        {
-        }
-
-        internal override void Draw()
+        public override void Draw()
         {
             DrawToolBar();
             DrawLogsList();
@@ -81,7 +71,7 @@ namespace LiteFramework.Extend.Debug
             {
                 Logs_.Clear();
             }
-
+            IsLock_ = GUILayout.Toggle(IsLock_, "Lock Scroll", GUILayout.Width(90f));
             GUILayout.FlexibleSpace();
 
             IsShowInfo_ = GUILayout.Toggle(IsShowInfo_, $"Info({InfoCount_})", GUILayout.Width(90));
@@ -114,6 +104,11 @@ namespace LiteFramework.Extend.Debug
         {
             GUILayout.BeginVertical(GUI.skin.box);
             {
+                if (IsLock_)
+                {
+                    ScrollPosition_.y = float.MaxValue;
+                }
+
                 ScrollPosition_ = GUILayout.BeginScrollView(ScrollPosition_);
                 {
                     var IsSelected = false;

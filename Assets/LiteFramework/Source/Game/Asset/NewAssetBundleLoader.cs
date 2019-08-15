@@ -162,8 +162,6 @@ namespace LiteFramework.Game.Asset
                 var Request = CreateBundleRequestAsync(AssetPath);
                 yield return Request;
 
-                LLogger.LInfo($"Load AssetBundle : {AssetPath}");
-
                 if (!Request.isDone)
                 {
                     LLogger.LWarning($"Load AssetBundle : {AssetPath} Failed");

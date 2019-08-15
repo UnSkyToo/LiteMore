@@ -6,6 +6,7 @@ namespace LiteFramework
 {
     public static class LiteConfigure
     {
+        public const string LiteFrameworkVersion = "19.8.15.1";
         public const float EnterBackgroundMaxTime = 90.0f;
         public const string AssetBundleManifestName = "StreamingAssets";
         public const string StandaloneAssetsName = "StandaloneAssets";
