@@ -119,7 +119,7 @@ namespace LiteFramework.Core.ObjectPool
             {
                 if (ObjectCache_.ContainsKey(Key))
                 {
-                    Object.Destroy(ObjectCache_[Key].Obj);
+                    Object.DestroyImmediate(ObjectCache_[Key].Obj);
                     ObjectCache_.Remove(Key);
                 }
             }
