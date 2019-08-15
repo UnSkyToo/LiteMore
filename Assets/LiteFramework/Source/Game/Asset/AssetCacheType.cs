@@ -1,6 +1,6 @@
 ﻿namespace LiteFramework.Game.Asset
 {
-    internal enum AssetBundleType : byte
+    internal enum AssetCacheType : byte
     {
         Asset,
         Prefab,

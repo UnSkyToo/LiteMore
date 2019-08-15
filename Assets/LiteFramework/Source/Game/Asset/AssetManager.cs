@@ -10,9 +10,9 @@ namespace LiteFramework.Game.Asset
         public static bool Startup()
         {
 #if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
-            Loader_ = new AssetInternalLoader();
+            Loader_ = new NewAssetInternalLoader();
 #else
-            Loader_ = new AssetBundleLoader();
+            Loader_ = new NewAssetBundleLoader();
 #endif
             return Loader_.Startup();
         }
@@ -97,9 +97,9 @@ namespace LiteFramework.Game.Asset
             Loader_.DeleteAsset(Asset);
         }
 
-        public static void DeleteUnusedAssetBundle()
+        public static void DeleteUnusedAsset()
         {
-            Loader_.DeleteUnusedAssetBundle();
+            Loader_.DeleteUnusedAsset();
         }
     }
 }

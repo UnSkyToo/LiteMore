@@ -14,7 +14,7 @@ namespace LiteFramework.Extend.Debug
 
         private const string WindowTitle_ = "<b>Debuger</b>";
 
-        private readonly Rect TitleBarRect_ = new Rect(0, 0, Screen.width, 20);
+        private readonly Rect TitleBarRect_ = new Rect(10, 10, Screen.width, 25);
 
         private int FpsCount_ = 60;
         private int CurrentFps_ = 0;

@@ -26,6 +26,6 @@ namespace LiteFramework.Game.Asset
 
         void DeleteAsset<T>(T Asset) where T : UnityEngine.Object;
         void DeleteAsset(GameObject Asset);
-        void DeleteUnusedAssetBundle();
+        void DeleteUnusedAsset();
     }
 }
