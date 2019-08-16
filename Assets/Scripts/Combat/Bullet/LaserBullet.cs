@@ -86,7 +86,7 @@ namespace LiteMore.Combat.Bullet
                 if (Shape_.Contains(Entity.Position))
                 {
                     Entity.OnBulletHit(this);
-                    LabelManager.AddNumberLabel(Entity.Position, NumberLabelType.Laser, Damage);
+                    //LabelManager.AddNumberLabel(Entity.Position, NumberLabelType.Laser, Damage);
                 }
             }
         }

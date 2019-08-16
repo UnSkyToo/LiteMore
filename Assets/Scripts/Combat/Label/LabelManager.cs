@@ -44,7 +44,20 @@ namespace LiteMore.Combat.Label
             Obj.transform.SetParent(Configure.LabelRoot, false);
             Obj.transform.localPosition = Position;
 
-            var Entity = new NumberLabel(Obj.transform, Type, Value);
+            var Entity = new NumberLabel(Obj.transform, Type, $"{Value:0.0}");
+            LabelList_.Add(Entity);
+            Entity.Position = Position;
+
+            return Entity;
+        }
+
+        public static NumberLabel AddStringLabel(Vector2 Position, string Value)
+        {
+            var Obj = AssetManager.CreatePrefabSync("prefabs/num.prefab");
+            Obj.transform.SetParent(Configure.LabelRoot, false);
+            Obj.transform.localPosition = Position;
+
+            var Entity = new NumberLabel(Obj.transform, NumberLabelType.Bomb, Value);
             LabelList_.Add(Entity);
             Entity.Position = Position;
 

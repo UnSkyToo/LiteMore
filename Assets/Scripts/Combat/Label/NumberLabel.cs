@@ -13,7 +13,7 @@ namespace LiteMore.Combat.Label
 
     public class NumberLabel : BaseLabel
     {
-        public NumberLabel(Transform Trans, NumberLabelType Type, float Value)
+        public NumberLabel(Transform Trans, NumberLabelType Type, string Value)
             : base("NumLabel", Trans)
         {
             Position = Trans.localPosition;
@@ -21,10 +21,10 @@ namespace LiteMore.Combat.Label
             InitWithType(Type, Value);
         }
 
-        private void InitWithType(NumberLabelType Type, float Value)
+        private void InitWithType(NumberLabelType Type, string Value)
         {
             var Txt = Transform_.GetComponent<Text>();
-            Txt.text = $"{Value:0.0}";
+            Txt.text = Value;
 
             switch (Type)
             {

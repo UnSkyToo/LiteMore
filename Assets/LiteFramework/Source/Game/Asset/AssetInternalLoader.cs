@@ -244,14 +244,14 @@ namespace LiteFramework.Game.Asset
 
         private class PrefabAssetInternalCache : BaseAssetInternalCache
         {
-            private readonly Dictionary<string, ObjectPoolEntity> ObjectPools_ = null;
-            private readonly Dictionary<int, string> GameObjectPoolNames_ = null;
+            private readonly Dictionary<string, UnityEngine.GameObject> AssetList_ = null;
+            private readonly List<int> AssetInstanceIDList_ = null;
 
             public PrefabAssetInternalCache(AssetCacheType BundleType, string BundlePath)
                 : base(BundleType, BundlePath)
             {
-                ObjectPools_ = new Dictionary<string, ObjectPoolEntity>();
-                GameObjectPoolNames_ = new Dictionary<int, string>();
+                AssetList_ = new Dictionary<string, UnityEngine.GameObject>();
+                AssetInstanceIDList_ = new List<int>();
             }
 
             protected override void OnLoad()
@@ -262,57 +262,52 @@ namespace LiteFramework.Game.Asset
                 {
                     foreach (var Asset in AssetList)
                     {
-                        if (Asset.name.ToLower() == AssetName.ToLower())
+                        var Name = Asset.name.ToLower();
+                        if (AssetList_.ContainsKey(Name))
                         {
-                            var Pool = ObjectPoolManager.AddPool($"{AssetPath}_{Asset.name}".ToLower(), Asset);
-                            ObjectPools_.Add(Pool.PoolName, Pool);
+                            LLogger.LWarning($"Repeat Asset : {Name}");
+                            continue;
                         }
+                        AssetList_.Add(Name, Asset);
                     }
                 }
             }
 
             protected override void OnUnload()
             {
-                if (ObjectPools_.Count > 0)
+                if (AssetList_.Count > 0)
                 {
-                    foreach (var Pool in ObjectPools_)
+                    /*foreach (var Asset in AssetList_)
                     {
-                        ObjectPoolManager.DeletePool(Pool.Value);
-                    }
-
-                    ObjectPools_.Clear();
+                        UnityEngine.Resources.UnloadAsset(Asset.Value);
+                    }*/
+                    AssetList_.Clear();
                 }
 
-                GameObjectPoolNames_.Clear();
+                AssetInstanceIDList_.Clear();
             }
 
             public override UnityEngine.Object CreateAsset(string AssetName)
             {
-                var PoolName = $"{AssetPath}_{AssetName}".ToLower();
-                if (!ObjectPools_.ContainsKey(PoolName))
+                AssetName = AssetName.ToLower();
+                if (!AssetList_.ContainsKey(AssetName))
                 {
                     return null;
                 }
 
-                var Obj = ObjectPools_[PoolName].Spawn();
-                if (!GameObjectPoolNames_.ContainsKey(Obj.GetInstanceID()))
-                {
-                    GameObjectPoolNames_.Add(Obj.GetInstanceID(), PoolName);
-                }
+                var Obj = UnityEngine.Object.Instantiate(AssetList_[AssetName]);
+                AssetInstanceIDList_.Add(Obj.GetInstanceID());
                 IncRef();
                 return Obj;
             }
 
             public override void DeleteAsset(UnityEngine.Object Asset)
             {
-                if (Asset is UnityEngine.GameObject Obj)
+                if (Asset != null && AssetInstanceIDList_.Contains(Asset.GetInstanceID()))
                 {
-                    if (GameObjectPoolNames_.ContainsKey(Asset.GetInstanceID()))
-                    {
-                        var AssetName = GameObjectPoolNames_[Asset.GetInstanceID()];
-                        ObjectPools_[AssetName].Recycle(Obj);
-                        DecRef();
-                    }
+                    AssetInstanceIDList_.Remove(Asset.GetInstanceID());
+                    UnityEngine.Object.Destroy(Asset);
+                    DecRef();
                 }
             }
         }

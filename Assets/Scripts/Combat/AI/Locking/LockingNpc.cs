@@ -7,10 +7,11 @@ namespace LiteMore.Combat.AI.Locking
 {
     public static class LockingNpc
     {
-        private static readonly Dictionary<LockNpcType, Func<List<BaseNpc>, BaseNpc, List<BaseNpc>>> FuncList_ = new Dictionary<LockNpcType, Func<List<BaseNpc>, BaseNpc, List<BaseNpc>>>
+        private static readonly Dictionary<LockNpcType, Func<List<BaseNpc>, BaseNpc, object, List<BaseNpc>>> FuncList_ = new Dictionary<LockNpcType, Func<List<BaseNpc>, BaseNpc, object, List<BaseNpc>>>
         {
             {LockNpcType.All, Find_All},
             {LockNpcType.Nearest, Find_Nearest},
+            {LockNpcType.InDistance, Find_InDistance},
             {LockNpcType.CurHpMinimum, Find_CurHpMinimum},
             {LockNpcType.CurHpMaximum, Find_CurHpMaximum},
             {LockNpcType.MaxHpMinimum, Find_MaxHpMinimum},
@@ -22,17 +23,17 @@ namespace LiteMore.Combat.AI.Locking
             {LockNpcType.Random, Find_Random},
         };
 
-        public static List<BaseNpc> Find(List<BaseNpc> List, BaseNpc Master, LockNpcType Type)
+        public static List<BaseNpc> Find(List<BaseNpc> List, BaseNpc Master, LockNpcType Type, object Args)
         {
-            return FuncList_[Type].Invoke(List, Master);
+            return FuncList_[Type].Invoke(List, Master, Args);
         }
 
-        private static List<BaseNpc> Find_All(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_All(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             return List;
         }
 
-        private static List<BaseNpc> Find_Nearest(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_Nearest(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -50,7 +51,24 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> {Target};
         }
 
-        private static List<BaseNpc> Find_CurHpMinimum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_InDistance(List<BaseNpc> List, BaseNpc Master, object Args)
+        {
+            var Result = new List<BaseNpc>();
+            var Range = (float) Args;
+
+            foreach (var Npc in List)
+            {
+                var Dist = Vector2.Distance(Master.Position, Npc.Position);
+                if (Dist < Range)
+                {
+                    Result.Add(Npc);
+                }
+            }
+
+            return Result;
+        }
+
+        private static List<BaseNpc> Find_CurHpMinimum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -68,7 +86,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_CurHpMaximum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_CurHpMaximum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -86,7 +104,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_MaxHpMinimum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_MaxHpMinimum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -104,7 +122,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_MaxHpMaximum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_MaxHpMaximum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -122,7 +140,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_HpPercentMinimum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_HpPercentMinimum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -140,7 +158,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_HpPercentMaximum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_HpPercentMaximum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -158,7 +176,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_DamageMinimum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_DamageMinimum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -176,7 +194,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_DamageMaximum(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_DamageMaximum(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -194,7 +212,7 @@ namespace LiteMore.Combat.AI.Locking
             return new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_Random(List<BaseNpc> List, BaseNpc Master)
+        private static List<BaseNpc> Find_Random(List<BaseNpc> List, BaseNpc Master, object Args)
         {
             if (List.Count == 0)
             {

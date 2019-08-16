@@ -2,17 +2,50 @@
 {
     public enum NpcAttrIndex : byte
     {
-        Speed = 0,  // 移动速度
-        Hp,         // 当前生命值
-        MaxHp,      // 最大生命值
-        AddHp,      // 生命恢复
-        Mp,         // 当前魔法值
-        MaxMp,      // 最大魔法值
-        AddMp,      // 魔法恢复
-        Damage,     // 伤害
-        Gem,        // 死亡奖励宝石
-        Range,      // 攻击范围
-        Radius,     // 可攻击半径
+        /// <summary>
+        /// 移动速度
+        /// </summary>
+        Speed = 0,
+        /// <summary>
+        /// 当前生命值
+        /// </summary>
+        Hp,
+        /// <summary>最大生命值
+        /// 
+        /// </summary>
+        MaxHp,
+        /// <summary>
+        /// 生命恢复
+        /// </summary>
+        AddHp,
+        /// <summary>
+        /// 当前魔法值
+        /// </summary>
+        Mp,
+        /// <summary>
+        /// 最大魔法值
+        /// </summary>
+        MaxMp,
+        /// <summary>
+        /// 魔法恢复
+        /// </summary>
+        AddMp,
+        /// <summary>
+        /// 伤害
+        /// </summary>
+        Damage,
+        /// <summary>
+        /// 死亡奖励宝石
+        /// </summary>
+        Gem,
+        /// <summary>
+        /// 攻击范围
+        /// </summary>
+        Range,
+        /// <summary>
+        /// 受击半径
+        /// </summary>
+        Radius, 
         Count
     }
 

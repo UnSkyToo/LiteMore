@@ -37,8 +37,8 @@ namespace LiteMore
 
             TestSkill();
 
-            PlayerManager.CreateMainEmitter();
-            WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
+            //PlayerManager.CreateMainEmitter();
+            //WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
 
             return true;
         }

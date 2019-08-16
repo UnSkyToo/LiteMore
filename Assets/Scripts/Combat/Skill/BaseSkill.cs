@@ -11,7 +11,7 @@ namespace LiteMore.Combat.Skill
         public uint SkillID { get; }
         public float CD { get; }
         public int Cost { get; }
-        public float Radius { get; }
+        public float Radius { get; set; }
         public float Time { get; protected set; }
         public bool IsCD { get; protected set; }
 
@@ -106,6 +106,7 @@ namespace LiteMore.Combat.Skill
             BaseArgs.Add("CD", CD);
             BaseArgs.Add("Cost", Cost);
             BaseArgs.Add("Master", Master);
+            BaseArgs.Add("Radius", Radius);
 
             if (Args != null)
             {

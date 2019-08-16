@@ -2,9 +2,9 @@
 using LiteFramework.Core.Event;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Fsm;
+using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc.Handler;
 using LiteMore.Core;
-using LiteMore.Player;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc
@@ -14,14 +14,8 @@ namespace LiteMore.Combat.Npc
         public bool IsStatic { get; set; }
         public CombatTeam Team { get; protected set; }
 
-        public BaseNpc AttackerNpc { get; set; }
-        public BaseNpc TargetNpc { get; set; }
-
         protected readonly NpcBar Bar_;
-
-        protected Vector2 TargetPos_;
         protected List<BaseBullet> LockedList_;
-
         protected readonly List<BaseNpcHandler> HandlerList_;
 
         public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
@@ -49,7 +43,7 @@ namespace LiteMore.Combat.Npc
             Bar_.SetMaxHp(CalcFinalAttr(NpcAttrIndex.MaxHp));
             Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
 
-            TargetPos_ = Vector2.zero;
+            TargetPos = Vector2.zero;
             HitSfxInterval_ = 0;
             LockedList_ = new List<BaseBullet>();
 
@@ -121,16 +115,6 @@ namespace LiteMore.Combat.Npc
             return CanLocked();
         }
 
-        public bool IsValidAttacker()
-        {
-            return AttackerNpc != null && AttackerNpc.IsValid();
-        }
-        
-        public bool IsValidTarget()
-        {
-            return TargetNpc != null && TargetNpc.IsValid();
-        }
-
         private void UpdateLockedList()
         {
             for (var Index = LockedList_.Count - 1; Index >= 0; --Index)
@@ -190,17 +174,7 @@ namespace LiteMore.Combat.Npc
 
             var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
             EventManager.Send(new NpcDamageEvent(ID, Team, Attacker?.ID ?? 0, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
-        }
-
-        public void MoveTo(Vector2 TargetPos)
-        {
-            if (IsStatic)
-            {
-                return;
-            }
-
-            TargetPos_ = TargetPos;
-            EventManager.Send(new NpcWalkEvent(ID, Team, TargetPos));
+            LabelManager.AddNumberLabel(Position, NumberLabelType.Float, Damage);
         }
 
         public void Dead()
@@ -219,20 +193,12 @@ namespace LiteMore.Combat.Npc
             IsAlive = false;
         }
 
-        public void Back(float Distance, float Speed)
+        public void TurnToTarget()
         {
-            Back((Position - TargetPos_).normalized * Distance, Speed);
-        }
-
-        public void Back(Vector2 Offset, float Speed)
-        {
-            if (IsStatic)
+            if (IsValidTarget())
             {
-                return;
+                SetDirection(CombatHelper.CalcDirection(Position, TargetNpc.Position));
             }
-
-            var BackPos = Position + Offset;
-            EventManager.Send(new NpcBackEvent(ID, Team, BackPos, Offset.magnitude / Speed));
         }
     }
 }

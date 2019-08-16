@@ -284,7 +284,7 @@ namespace LiteFramework.Game.Asset
             public PrefabAssetBundleCache(AssetCacheType AssetType, string AssetPath, UnityEngine.AssetBundleManifest Manifest)
                 : base(AssetType, AssetPath, Manifest)
             {
-                AssetList_ = new Dictionary<string, GameObject>();
+                AssetList_ = new Dictionary<string, UnityEngine.GameObject>();
                 AssetInstanceIDList_ = new List<int>();
             }
 

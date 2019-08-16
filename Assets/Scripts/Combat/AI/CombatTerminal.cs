@@ -1,4 +1,5 @@
 ﻿using LiteMore.Combat.AI.BehaviorTree;
+using UnityEngine;
 
 namespace LiteMore.Combat.AI
 {
@@ -17,8 +18,14 @@ namespace LiteMore.Combat.AI
 
         protected override BehaviorRunningState OnExecute(BehaviorInputData Input)
         {
-            if (Input.Attacker.IsFsmState(FsmStateName.Walk))
+            if (Input.Attacker.IsFsmState(FsmStateName.Walk) && Input.Attacker.IsValidTarget())
             {
+                var Dist = Vector2.Distance(Input.Attacker.TargetPos, Input.Attacker.TargetNpc.Position);
+                if (Dist > Input.Attacker.CalcFinalAttr(NpcAttrIndex.Range))
+                {
+                    Input.Attacker.MoveTo(Input.Attacker.TargetNpc.Position);
+                }
+
                 return BehaviorRunningState.Running;
             }
 

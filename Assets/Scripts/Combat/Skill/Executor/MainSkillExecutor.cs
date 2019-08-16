@@ -129,9 +129,10 @@ namespace LiteMore.Combat.Skill.Executor
         public override bool Execute(Dictionary<string, object> Args)
         {
             var Npc = NpcManager.AddNpc((string)(Args["Name"]), Configure.CoreBasePosition, CombatTeam.A,
-                NpcManager.GenerateInitAttr(200, 500, 0, 1, 0, 50, 50),
-                true);
+                NpcManager.GenerateInitAttr(200, 500, 0, 50, 0, 100, 100));
             Npc.Scale = new Vector2(3, 3);
+            Npc.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3002), Npc)); // 嘲讽-主动
+            Npc.AddSkill(SkillManager.AddPassiveSkill(SkillLibrary.Get(1001), Npc, -1)); // 荆棘-被动
             return true;
         }
     }

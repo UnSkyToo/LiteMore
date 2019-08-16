@@ -109,24 +109,20 @@ namespace LiteMore.Combat.Npc
             };
         }
 
-        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr, bool AddToFront = false)
+        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/npc/r2/r2.prefab");
             Obj.transform.SetParent(Configure.NpcRoot, false);
             Obj.transform.localPosition = Position;
 
             var Entity = new AINpc(Name, Obj.transform, Team, InitAttr);
-            if (AddToFront)
-            {
-                NpcList_[(int)Team].Insert(0, Entity);
-            }
-            else
-            {
-                NpcList_[(int)Team].Add(Entity);
-            }
+            NpcList_[(int)Team].Add(Entity);
 
             Entity.Position = Position;
-            Entity.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3001), Entity));
+
+            var NormalAtk = SkillManager.AddNpcSkill(SkillLibrary.Get(3001), Entity);
+            NormalAtk.Radius = Entity.CalcFinalAttr(NpcAttrIndex.Radius);
+            Entity.AddSkill(NormalAtk);
 
             return Entity;
         }

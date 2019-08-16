@@ -14,14 +14,28 @@ namespace LiteMore.Combat.AI
             }
 
             var NextSkill = Input.Attacker.GetNextSkill();
-            if (NextSkill != null)
+            if (NextSkill != null && NextSkill.CanUse())
             {
                 return true;
             }
 
-            NextSkill = Input.Attacker.GetSkillList()[0];
+            var SkillList = Input.Attacker.GetSkillList();
+            for (var Index = SkillList.Count - 1; Index >= 0; --Index)
+            {
+                if (SkillList[Index].CanUse())
+                {
+                    NextSkill = SkillList[Index];
+                    break;
+                }
+            }
+
+            if (NextSkill == null)
+            {
+                return false;
+            }
+
             Input.Attacker.SetNextSkill(NextSkill);
-            Input.Distance = NextSkill.Radius;
+            //Input.Distance = NextSkill.Radius;
             return true;
         }
     }
@@ -44,8 +58,7 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            var Dist = Vector2.Distance(Input.Attacker.Position, Input.Attacker.TargetNpc.Position);
-            if (Dist > 0 && Dist <= Input.Distance)
+            if (CombatHelper.IsAttackRange(Input.Attacker, Input.Attacker.TargetNpc))
             {
                 return true;
             }
@@ -58,8 +71,7 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            var Dist = Vector2.Distance(Input.Attacker.Position, Input.Attacker.TargetNpc.Position);
-            if (Dist > Input.Distance)
+            if (!CombatHelper.IsAttackRange(Input.Attacker, Input.Attacker.TargetNpc))
             {
                 return true;
             }

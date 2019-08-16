@@ -16,7 +16,17 @@ namespace LiteMore.Combat.Fsm.State
             var Evt = Event as NpcSkillEvent;
             SkillID_ = Evt.SkillID;
 
-            Fsm.Master.PlayAnimation("Attack", true);
+            Fsm.Master.PlayAnimation("Attack", false);
+            Fsm.Master.TurnToTarget();
+        }
+
+        public override void OnTick(float DeltaTime)
+        {
+            if (Fsm.Master.AnimationIsEnd())
+            {
+                Fsm.ChangeToIdleState();
+                return;
+            }
         }
 
         public override void OnCombatEvent(CombatEvent Event)

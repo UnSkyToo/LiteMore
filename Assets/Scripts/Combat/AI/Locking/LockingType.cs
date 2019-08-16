@@ -14,6 +14,7 @@
     {
         All, // 列表内所有人
         Nearest, // 列表内最近的人
+        InDistance, // 列表内指定距离内的人
         CurHpMinimum, // 列表内当前生命值最少
         CurHpMaximum, // 列表内当前生命值最多
         MaxHpMinimum, // 列表内最大生命值最少

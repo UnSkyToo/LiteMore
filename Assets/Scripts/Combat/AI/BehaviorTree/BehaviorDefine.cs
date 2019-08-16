@@ -29,7 +29,6 @@ namespace LiteMore.Combat.AI.BehaviorTree
         public float DeltaTime { get; set; }
         public float TickTime { get; set; }
         public BaseNpc Attacker { get; set; }
-        public float Distance { get; set; }
         public BehaviorNode Node { get; set; }
     }
 }

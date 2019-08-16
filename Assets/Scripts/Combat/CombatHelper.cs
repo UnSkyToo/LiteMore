@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteMore.Combat.Npc;
+using UnityEngine;
 
 namespace LiteMore.Combat
 {
@@ -25,6 +26,13 @@ namespace LiteMore.Combat
             }
 
             return NpcDirection.Left;
+        }
+
+        public static bool IsAttackRange(BaseNpc Attacker, BaseNpc Target)
+        {
+            var Dist = Vector2.Distance(Attacker.Position, Target.Position);
+            var Range = Attacker.CalcFinalAttr(NpcAttrIndex.Range) + Target.CalcFinalAttr(NpcAttrIndex.Radius);
+            return Dist <= Range;
         }
     }
 }

@@ -19,15 +19,15 @@ namespace LiteMore.Combat.AI.Locking
 
     public static class LockingHelper
     {
-        public static List<BaseNpc> Find(BaseNpc Master, LockingRule Rule)
+        public static List<BaseNpc> Find(BaseNpc Master, LockingRule Rule, object Args)
         {
-            var List = LockingTeam.Find(Master, Rule.TeamType);
-            return LockingNpc.Find(List, Master, Rule.NpcType);
+            var List = LockingTeam.Find(Master, Rule.TeamType, Args);
+            return LockingNpc.Find(List, Master, Rule.NpcType, Args);
         }
 
         public static BaseNpc FindNearest(BaseNpc Master)
         {
-            var List = Find(Master, LockingRule.Nearest);
+            var List = Find(Master, LockingRule.Nearest, null);
 
             if (List.Count > 0)
             {

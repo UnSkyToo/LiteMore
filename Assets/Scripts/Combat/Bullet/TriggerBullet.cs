@@ -142,7 +142,7 @@ namespace LiteMore.Combat.Bullet
         protected override void OnNpcEnter(BaseNpc Target, uint TotalApplyCount)
         {
             Target.OnBulletHit(this);
-            LabelManager.AddNumberLabel(Target.Position, NumberLabelType.Bomb, Damage);
+            //LabelManager.AddNumberLabel(Target.Position, NumberLabelType.Bomb, Damage);
         }
 
         protected override void OnNpcStay(BaseNpc Target, uint TotalApplyCount)

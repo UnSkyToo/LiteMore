@@ -52,7 +52,7 @@
                     Bar_.SetMaxMp(Attr.CalcFinalValue(NpcAttrIndex.MaxMp));
                     break;
                 case NpcAttrIndex.Speed:
-                    MoveTo(TargetPos_);
+                    MoveTo(TargetPos);
                     break;
                 case NpcAttrIndex.Hp:
                     if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)

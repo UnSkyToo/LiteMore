@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Npc;
+﻿using LiteMore.Combat.Label;
+using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 
 namespace LiteMore.Combat.Fsm.Handler
@@ -31,7 +32,17 @@ namespace LiteMore.Combat.Fsm.Handler
             }
 
             Attacker.TargetNpc.TryToPlayHitSfx(Evt.HitSfx);
-            return (Skill as NpcSkill).Use(null);
+            if ((Skill as NpcSkill).Use(null))
+            {
+                if (Skill.SkillID != 3001)
+                {
+                    LabelManager.AddStringLabel(Attacker.Position, Skill.Name);
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

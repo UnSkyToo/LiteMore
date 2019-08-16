@@ -14,6 +14,8 @@ namespace LiteFramework.Core.ObjectPool
             this.SpawnFunc_ = OnSpawn;
             this.RecycleFunc_ = OnRecycle;
             this.DisposeFunc_ = OnDispose;
+
+            this.Prefab_.SetActive(false);
         }
 
         public override void Dispose()

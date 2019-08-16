@@ -79,7 +79,7 @@ namespace LiteMore.Combat.Bullet
                 IsMove = false;
 
                 Target_.OnBulletHit(this);
-                LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
+                //LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
                 IsAlive = false;
             }
 

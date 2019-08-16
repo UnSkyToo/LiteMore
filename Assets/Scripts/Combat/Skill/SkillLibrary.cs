@@ -53,7 +53,8 @@ namespace LiteMore.Combat.Skill
             Add(2007, "召唤援军", "skill7", 5, 30, 0, new SkillExecutor_2007(), new ClickSelector());
             Add(2008, "持续子弹", "skill8", 0.1f, 2, 0, new SkillExecutor_2008(), new PressedSelector());
 
-            Add(3001, "普攻", 1, 0, 10, new SkillExecutor_3001());
+            Add(3001, "普攻", 1, 0, 0, new SkillExecutor_3001());
+            Add(3002, "嘲讽", 5, 0, 300, new SkillExecutor_3002());
         }
 
         /*public static void PatchQuickController(QuickController Controller)
