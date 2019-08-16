@@ -33,6 +33,7 @@ namespace LiteFramework.Extend.Debug
             RootGroup_.Register("Info/Other", new DebuggerInfo.OtherItem());
 
             RootGroup_.Register("Setting", new SettingDebuggerItem());
+
             RootGroup_.Register("Profiler/Summary", new DebuggerProfiler.SummerItem());
             RootGroup_.Register("Profiler/Memory/Summary", new DebuggerProfiler.MemorySummaryItem());
             RootGroup_.Register("Profiler/Memory/All", new DebuggerProfiler.MemoryInfoItem<UnityEngine.Object>());
@@ -45,6 +46,8 @@ namespace LiteFramework.Extend.Debug
             RootGroup_.Register("Profiler/Memory/Font", new DebuggerProfiler.MemoryInfoItem<UnityEngine.Font>());
             RootGroup_.Register("Profiler/Memory/TextAsset", new DebuggerProfiler.MemoryInfoItem<UnityEngine.TextAsset>());
             RootGroup_.Register("Profiler/Memory/ScriptableObject", new DebuggerProfiler.MemoryInfoItem<UnityEngine.ScriptableObject>());
+
+            RootGroup_.Register("Profiler/Object Pool", new DebuggerProfiler.ObjectPoolItem());
         }
 
         void OnDestroy()

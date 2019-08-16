@@ -10,9 +10,9 @@ namespace LiteFramework.Game.Asset
         public static bool Startup()
         {
 #if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
-            Loader_ = new NewAssetInternalLoader();
+            Loader_ = new AssetInternalLoader();
 #else
-            Loader_ = new NewAssetBundleLoader();
+            Loader_ = new AssetBundleLoader();
 #endif
             return Loader_.Startup();
         }

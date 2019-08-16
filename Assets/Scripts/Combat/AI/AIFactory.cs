@@ -8,29 +8,16 @@ namespace LiteMore.Combat.AI
         {
             var Root = BehaviorFactory.CreatePrioritySelectorNode("Root", null, null);
 
-            /*local pIsForceMove = BehaviorFactory:createPrioritySelectorNode('IsForceMove', pRoot, BehaviorPrecondition_IsForceMove: new ())
+            var FindSkillNode = BehaviorFactory.CreatePrioritySelectorNode("FindSkill", Root, new CombatPrecondition_TryFindSkill());
+            var FindSkillTargetNode = BehaviorFactory.CreatePrioritySelectorNode("FindSkillTarget", FindSkillNode, new CombatPrecondition_TryFindSkillTarget());
 
-            local pForceMove = BehaviorFactory:createTerminalNode('ForceMove', pIsForceMove, nil, Behavior_ForceMove: new ())
+            var NearTargetNode = BehaviorFactory.CreatePrioritySelectorNode("NearTarget", FindSkillTargetNode, new CombatPrecondition_IsNearTarget());
+            var UseSkillNode = BehaviorFactory.CreateTerminalNode<CombatTerminal_UseSkill>("UseSkill", NearTargetNode, null);
 
+            var FarTargetNode = BehaviorFactory.CreatePrioritySelectorNode("FarTarget", FindSkillTargetNode, new CombatPrecondition_IsFarTarget());
+            var MoveToTarget = BehaviorFactory.CreateTerminalNode<CombatTerminal_MoveToTarget>("MoveToTarget", FarTargetNode, null);
 
-            local pSkill = BehaviorFactory:createPrioritySelectorNode('FindSkill', pRoot, BehaviorPrecondition_FindSkill: new ())
-
-            local pFindSkillTarget = BehaviorFactory:createPrioritySelectorNode('FindSkillTarget', pSkill, BehaviorPrecondition_FindSkillTarget: new ())
-
-
-            local pNearTarget = BehaviorFactory:createPrioritySelectorNode('NearTarget', pFindSkillTarget, BehaviorPrecondition_IsNearTarget: new ())
-
-            local pUseSkill = BehaviorFactory:createTerminalNode('UseSkill', pNearTarget, nil, Behavior_UseSkill: new ())
-
-
-            local pFarTarget = BehaviorFactory:createPrioritySelectorNode('FarTarget', pFindSkillTarget, BehaviorPrecondition_IsFarTarget: new ())
-
-            local pMoveToTarget = BehaviorFactory:createTerminalNode('MoveToTarget', pFarTarget, nil, Behavior_MoveToTarget: new ())
-
-
-            return pRoot*/
-
-            return null;
+            return Root;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Event;
+using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill.Executor;
 
 namespace LiteMore.Combat.Skill
@@ -8,13 +10,15 @@ namespace LiteMore.Combat.Skill
         protected bool IsSustain_;
         protected float SustainTime_;
         protected readonly PassiveExecutor PassiveExecutor_;
+        protected readonly BaseNpc Master_;
 
-        public PassiveSkill(SkillDescriptor Desc, float SustainTime)
-            : base(Desc)
+        public PassiveSkill(SkillDescriptor Desc, BaseNpc Master, float SustainTime)
+            : base(Desc, Master)
         {
             IsSustain_ = false;
             SustainTime_ = SustainTime;
             PassiveExecutor_ = Executor_ as PassiveExecutor;
+            Master_ = Master;
         }
 
         public override void Tick(float DeltaTime)

@@ -20,12 +20,13 @@ namespace LiteMore.Combat.Fsm
             {
                 {FsmStateName.Idle, new IdleState(this)},
                 {FsmStateName.Walk, new WalkState(this)},
-                {FsmStateName.Attack, new AttackState(this)},
+                {FsmStateName.Skill, new SkillState(this)},
                 {FsmStateName.Die, new DieState(this)},
                 {FsmStateName.Back, new BackState(this)},
             };
 
             this.HandlerList_ = new List<BaseFsmHandler>();
+            RegisterHandler(new HitTargetEventHandler(this));
         }
 
         public void Tick(float DeltaTime)

@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.Bullet;
+﻿using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Npc;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace LiteMore.Combat.Emitter
 {
     public abstract class BulletEmitter : BaseEmitter
     {
+        public BaseNpc Master { get; set; }
         public EmitterRandFloat SpeedAttr { get; set; }
         public EmitterRandFloat DamageAttr { get; set; }
         public string ResName { get; set; }
@@ -31,7 +33,7 @@ namespace LiteMore.Combat.Emitter
 
         protected override void OnEmitted(uint Cur, uint Max)
         {
-            var Target = NpcManager.GetRandomNpc(Team.Opposite());
+            var Target = LockingHelper.FindNearest(Master);
             if (Target != null)
             {
                 var Radius = RadiusAttr.Get();

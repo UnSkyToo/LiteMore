@@ -1,4 +1,5 @@
-﻿using LiteFramework.Game.Asset;
+﻿using LiteFramework.Core.Event;
+using LiteFramework.Game.Asset;
 using LiteMore.Combat.Skill.Selector;
 using LiteMore.Helper;
 using LiteMore.Player;
@@ -21,7 +22,7 @@ namespace LiteMore.Combat.Skill
         private readonly Text NameText_;
 
         public MainSkill(Transform Trans, SkillDescriptor Desc)
-            : base(Desc)
+            : base(Desc, PlayerManager.Master)
         {
             IconTransform = Trans;
             Icon = Desc.Icon;

@@ -37,7 +37,7 @@ namespace LiteMore.Combat.Fsm.State
         {
             if (!IsMove_)
             {
-                Fsm.ChangeToState(FsmStateName.Attack, null);
+                Fsm.ChangeToIdleState();
                 return;
             }
 
@@ -61,6 +61,10 @@ namespace LiteMore.Combat.Fsm.State
             else if (Event is NpcIdleEvent)
             {
                 Fsm.ChangeToIdleState();
+            }
+            else if (Event is NpcSkillEvent)
+            {
+                Fsm.ChangeToState(FsmStateName.Skill, Event);
             }
             else if (Event is NpcDieEvent)
             {

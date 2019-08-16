@@ -58,9 +58,10 @@ namespace LiteMore.Combat
 
             EventManager.Register<NpcIdleEvent>(OnCombatEvent);
             EventManager.Register<NpcWalkEvent>(OnCombatEvent);
-            EventManager.Register<NpcAttackEvent>(OnCombatEvent);
+            EventManager.Register<NpcSkillEvent>(OnCombatEvent);
             EventManager.Register<NpcDieEvent>(OnCombatEvent);
             EventManager.Register<NpcBackEvent>(OnCombatEvent);
+            EventManager.Register<NpcHitTargetEvent>(OnCombatEvent);
 
             return true;
         }
@@ -69,9 +70,10 @@ namespace LiteMore.Combat
         {
             EventManager.UnRegister<NpcIdleEvent>(OnCombatEvent);
             EventManager.UnRegister<NpcWalkEvent>(OnCombatEvent);
-            EventManager.UnRegister<NpcAttackEvent>(OnCombatEvent);
+            EventManager.UnRegister<NpcSkillEvent>(OnCombatEvent);
             EventManager.UnRegister<NpcDieEvent>(OnCombatEvent);
             EventManager.UnRegister<NpcBackEvent>(OnCombatEvent);
+            EventManager.UnRegister<NpcHitTargetEvent>(OnCombatEvent);
 
             WaveManager.Shutdown();
             SkillManager.Shutdown();
@@ -97,9 +99,10 @@ namespace LiteMore.Combat
 
         private static void OnCombatEvent(CombatEvent Event)
         {
-            if (Event.Master != null && Event.Master.IsAlive)
+            var Master = NpcManager.FindNpc(Event.MasterTeam, Event.MasterID);
+            if (Master != null && Master.IsAlive)
             {
-                Event.Master.OnCombatEvent(Event);
+                Master.OnCombatEvent(Event);
             }
         }
     }

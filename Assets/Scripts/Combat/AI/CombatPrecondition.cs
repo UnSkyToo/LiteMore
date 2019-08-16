@@ -1,35 +1,70 @@
-﻿using System.Collections.Generic;
-using LiteMore.Combat.AI.BehaviorTree;
+﻿using LiteMore.Combat.AI.BehaviorTree;
+using LiteMore.Combat.AI.Locking;
+using UnityEngine;
 
 namespace LiteMore.Combat.AI
 {
-    public class Behavior_TryFindTarget : BehaviorPrecondition
+    public class CombatPrecondition_TryFindSkill : BehaviorPrecondition
     {
-        public Behavior_TryFindTarget()
-            : base()
-        {
-        }
-
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            /*Role attacker = RoleManager.GetInstance().FindRole(Input.Attacker);
-
-            if (attacker.GetRoleType() == Role.RoleType.Monster)
+            if (!Input.Attacker.CanUseSkill())
             {
-                input.TargetId = RoleManager.GetInstance().MainPlayer.Id;
+                return false;
             }
-            else
+
+            var NextSkill = Input.Attacker.GetNextSkill();
+            if (NextSkill != null)
             {
-                List<Role> monster = RoleManager.GetInstance().MonsterList;
+                return true;
+            }
 
-                foreach (Role role in monster)
-                {
-                    input.TargetId = role.Id;
-                    break;
-                }
-            }*/
-
+            NextSkill = Input.Attacker.GetSkillList()[0];
+            Input.Attacker.SetNextSkill(NextSkill);
+            Input.Distance = NextSkill.Radius;
             return true;
+        }
+    }
+
+    public class CombatPrecondition_TryFindSkillTarget : BehaviorPrecondition
+    {
+        public override bool ExternalCondition(BehaviorInputData Input)
+        {
+            if (Input.Attacker.IsValidTarget())
+            {
+                return true;
+            }
+
+            Input.Attacker.TargetNpc = LockingHelper.FindNearest(Input.Attacker);
+            return Input.Attacker.TargetNpc != null;
+        }
+    }
+
+    public class CombatPrecondition_IsNearTarget : BehaviorPrecondition
+    {
+        public override bool ExternalCondition(BehaviorInputData Input)
+        {
+            var Dist = Vector2.Distance(Input.Attacker.Position, Input.Attacker.TargetNpc.Position);
+            if (Dist > 0 && Dist <= Input.Distance)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    public class CombatPrecondition_IsFarTarget : BehaviorPrecondition
+    {
+        public override bool ExternalCondition(BehaviorInputData Input)
+        {
+            var Dist = Vector2.Distance(Input.Attacker.Position, Input.Attacker.TargetNpc.Position);
+            if (Dist > Input.Distance)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

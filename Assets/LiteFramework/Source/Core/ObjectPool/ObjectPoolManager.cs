@@ -1,58 +1,84 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace LiteFramework.Core.ObjectPool
 {
     public static class ObjectPoolManager
     {
-        private static readonly Dictionary<string, ObjectPoolEntity> Pools_ = new Dictionary<string, ObjectPoolEntity>();
+        private static readonly Dictionary<string, BaseObjectPool> PoolList_ = new Dictionary<string, BaseObjectPool>();
 
         public static bool Startup()
         {
-            Pools_.Clear();
+            PoolList_.Clear();
             return true;
         }
 
         public static void Shutdown()
         {
-            foreach (var Pool in Pools_)
+            foreach (var Pool in PoolList_)
             {
-                Pool.Value.DestroyObjects();
+                Pool.Value.Dispose();
             }
-            Pools_.Clear();
+            PoolList_.Clear();
         }
 
         public static void Tick(float DeltaTime)
         {
         }
 
-        public static ObjectPoolEntity AddPool(string PoolName, GameObject Prefab)
+        public static BaseObjectPool FindPool(string PoolName)
         {
-            if (!Pools_.ContainsKey(PoolName))
+            if (!PoolList_.ContainsKey(PoolName))
             {
-                var Pool = new ObjectPoolEntity(PoolName, Prefab);
-                Pools_.Add(PoolName, Pool);
+                return null;
+            }
+
+            return PoolList_[PoolName];
+        }
+
+        public static GameObjectPool CreateGameObjectPool(string PoolName, UnityEngine.GameObject Prefab)
+        {
+            if (FindPool(PoolName) != null)
+            {
+                return null;
+            }
+
+            var Pool = new GameObjectPool(PoolName, Prefab);
+            AddPool(Pool);
+            return Pool;
+        }
+
+        public static BaseObjectPool AddPool(BaseObjectPool Pool)
+        {
+            if (!PoolList_.ContainsKey(Pool.PoolName))
+            {
+                PoolList_.Add(Pool.PoolName, Pool);
                 return Pool;
             }
 
-            return Pools_[PoolName];
+            return PoolList_[Pool.PoolName];
         }
 
         public static void DeletePool(string PoolName)
         {
-            if (Pools_.ContainsKey(PoolName))
+            if (PoolList_.ContainsKey(PoolName))
             {
-                Pools_[PoolName].DestroyObjects();
-                Pools_.Remove(PoolName);
+                PoolList_[PoolName].Dispose();
+                PoolList_.Remove(PoolName);
             }
         }
 
-        public static void DeletePool(ObjectPoolEntity Pool)
+        public static void DeletePool(BaseObjectPool Pool)
         {
             if (Pool != null)
             {
                 DeletePool(Pool.PoolName);
             }
+        }
+
+        public static BaseObjectPool[] GetObjectPoolList()
+        {
+            return PoolList_.Values.ToArray();
         }
     }
 }

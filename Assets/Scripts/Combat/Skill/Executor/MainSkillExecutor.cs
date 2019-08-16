@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Combat.AI;
+using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
+using LiteMore.Player;
 using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Executor
@@ -24,6 +27,7 @@ namespace LiteMore.Combat.Skill.Executor
         {
             EmitterManager.AddEmitter(new BulletCircleEmitter((string)(Args["Name"]))
             {
+                Master = PlayerManager.Master,
                 Team = CombatTeam.A,
                 TriggerCount = 10,
                 EmittedCount = 100,
@@ -136,7 +140,7 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(Dictionary<string, object> Args)
         {
-            var Target = NpcManager.GetRandomNpc(CombatTeam.B);
+            var Target = LockingHelper.FindNearest(PlayerManager.Master);
             if (Target != null)
             {
                 BulletManager.AddTrackBullet(new TrackBulletDescriptor(

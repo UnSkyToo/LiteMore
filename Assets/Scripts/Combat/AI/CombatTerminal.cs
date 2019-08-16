@@ -2,25 +2,45 @@
 
 namespace LiteMore.Combat.AI
 {
-    public class Behavior_MoveToTarget : BehaviorTerminalNode
+    public class CombatTerminal_MoveToTarget : BehaviorTerminalNode
     {
-        public Behavior_MoveToTarget()
-            : base()
-        {
-        }
-
         protected override void OnEnter(BehaviorInputData Input)
         {
-            /*Role target = RoleManager.GetInstance().FindRole(input.TargetId);
-
-            if (target != null)
+            if (!Input.Attacker.IsFsmState(FsmStateName.Walk))
             {
-                MoveEvent moveEvent = new MoveEvent();
-                moveEvent.RoleId = input.AttackerId;
-                moveEvent.Position = target.Position;
+                if (Input.Attacker.IsValidTarget())
+                {
+                    Input.Attacker.MoveTo(Input.Attacker.TargetNpc.Position);
+                }
+            }
+        }
 
-                GameEventManager.GetInstance().SendGameEvent(moveEvent);
-            }*/
+        protected override BehaviorRunningState OnExecute(BehaviorInputData Input)
+        {
+            if (Input.Attacker.IsFsmState(FsmStateName.Walk))
+            {
+                return BehaviorRunningState.Running;
+            }
+
+            return BehaviorRunningState.Finish;
+        }
+    }
+
+    public class CombatTerminal_UseSkill : BehaviorTerminalNode
+    {
+        protected override void OnEnter(BehaviorInputData Input)
+        {
+            Input.Attacker.UseNextSkill();
+        }
+
+        protected override BehaviorRunningState OnExecute(BehaviorInputData Input)
+        {
+            if (Input.Attacker.IsFsmState(FsmStateName.Skill))
+            {
+                return BehaviorRunningState.Running;
+            }
+
+            return BehaviorRunningState.Finish;
         }
     }
 }

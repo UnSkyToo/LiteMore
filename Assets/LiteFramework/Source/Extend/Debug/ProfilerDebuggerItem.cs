@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteFramework.Core.ObjectPool;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -97,7 +98,8 @@ namespace LiteFramework.Extend.Debug
                     }
                     else
                     {
-                        GUILayout.Label($"<b>{SampleCount_} Objects ({GetSizeString(SampleSize_)}) obtained at {SampleTime_.ToString("yyyy-MM-dd HH:mm:ss")}.</b>");
+                        GUILayout.Label(
+                            $"<b>{SampleCount_} Objects ({GetSizeString(SampleSize_)}) obtained at {SampleTime_.ToString("yyyy-MM-dd HH:mm:ss")}.</b>");
 
                         GUILayout.BeginHorizontal();
                         {
@@ -228,11 +230,11 @@ namespace LiteFramework.Extend.Debug
 
             private const int ShowSampleCount = 300;
 
-            private readonly List<Sample> m_Samples = new List<Sample>();
-            private DateTime m_SampleTime = DateTime.MinValue;
-            private long m_SampleSize = 0L;
-            private long m_DuplicateSampleSize = 0L;
-            private int m_DuplicateSimpleCount = 0;
+            private readonly List<Sample> SampleList_ = new List<Sample>();
+            private DateTime SampleTime_ = DateTime.MinValue;
+            private long SampleSize_ = 0L;
+            private long DuplicateSampleSize_ = 0L;
+            private int DuplicateSimpleCount_ = 0;
 
             protected override void OnDrawScrollable()
             {
@@ -245,22 +247,24 @@ namespace LiteFramework.Extend.Debug
                         TakeSample();
                     }
 
-                    if (m_SampleTime <= DateTime.MinValue)
+                    if (SampleTime_ <= DateTime.MinValue)
                     {
                         GUILayout.Label($"<b>Please take sample for {TypeName} first.</b>");
                     }
                     else
                     {
-                        if (m_DuplicateSimpleCount > 0)
+                        if (DuplicateSimpleCount_ > 0)
                         {
-                            GUILayout.Label($"<b>{m_Samples.Count} {TypeName}s ({GetSizeString(m_SampleSize)}) obtained at {m_SampleTime.ToString("yyyy-MM-dd HH:mm:ss")}, while {m_DuplicateSimpleCount} {TypeName}s ({GetSizeString(m_DuplicateSampleSize)}) might be duplicated.</b>");
+                            GUILayout.Label(
+                                $"<b>{SampleList_.Count} {TypeName}s ({GetSizeString(SampleSize_)}) obtained at {SampleTime_.ToString("yyyy-MM-dd HH:mm:ss")}, while {DuplicateSimpleCount_} {TypeName}s ({GetSizeString(DuplicateSampleSize_)}) might be duplicated.</b>");
                         }
                         else
                         {
-                            GUILayout.Label($"<b>{m_Samples.Count} {TypeName}s ({GetSizeString(m_SampleSize)}) obtained at {m_SampleTime.ToString("yyyy-MM-dd HH:mm:ss")}.</b>");
+                            GUILayout.Label(
+                                $"<b>{SampleList_.Count} {TypeName}s ({GetSizeString(SampleSize_)}) obtained at {SampleTime_.ToString("yyyy-MM-dd HH:mm:ss")}.</b>");
                         }
 
-                        if (m_Samples.Count > 0)
+                        if (SampleList_.Count > 0)
                         {
                             GUILayout.BeginHorizontal();
                             {
@@ -271,19 +275,23 @@ namespace LiteFramework.Extend.Debug
                             GUILayout.EndHorizontal();
                         }
 
-                        int count = 0;
-                        for (int i = 0; i < m_Samples.Count; i++)
+                        var Count = 0;
+                        foreach (var Sam in SampleList_)
                         {
                             GUILayout.BeginHorizontal();
                             {
-                                GUILayout.Label(m_Samples[i].Highlight ? $"<color=yellow>{m_Samples[i].Name}</color>" : $"{m_Samples[i].Name}");
-                                GUILayout.Label(m_Samples[i].Highlight ? $"<color=yellow>{m_Samples[i].Type}</color>" : $"{m_Samples[i].Type}", GUILayout.Width(240f));
-                                GUILayout.Label(m_Samples[i].Highlight ? $"<color=yellow>{GetSizeString(m_Samples[i].Size)}</color>" : $"{GetSizeString(m_Samples[i].Size)}", GUILayout.Width(80f));
+                                GUILayout.Label(Sam.Highlight ? $"<color=yellow>{Sam.Name}</color>" : $"{Sam.Name}");
+                                GUILayout.Label(Sam.Highlight ? $"<color=yellow>{Sam.Type}</color>" : $"{Sam.Type}",
+                                    GUILayout.Width(240f));
+                                GUILayout.Label(
+                                    Sam.Highlight
+                                        ? $"<color=yellow>{GetSizeString(Sam.Size)}</color>"
+                                        : $"{GetSizeString(Sam.Size)}", GUILayout.Width(80f));
                             }
                             GUILayout.EndHorizontal();
 
-                            count++;
-                            if (count >= ShowSampleCount)
+                            Count++;
+                            if (Count >= ShowSampleCount)
                             {
                                 break;
                             }
@@ -295,34 +303,36 @@ namespace LiteFramework.Extend.Debug
 
             private void TakeSample()
             {
-                m_SampleTime = DateTime.Now;
-                m_SampleSize = 0L;
-                m_DuplicateSampleSize = 0L;
-                m_DuplicateSimpleCount = 0;
-                m_Samples.Clear();
+                SampleTime_ = DateTime.Now;
+                SampleSize_ = 0L;
+                DuplicateSampleSize_ = 0L;
+                DuplicateSimpleCount_ = 0;
+                SampleList_.Clear();
 
-                T[] samples = Resources.FindObjectsOfTypeAll<T>();
-                for (int i = 0; i < samples.Length; i++)
+                var Samples = Resources.FindObjectsOfTypeAll<T>();
+                foreach (var Sam in Samples)
                 {
-                    long sampleSize = 0L;
+                    var MemSize = 0L;
 #if UNITY_5_6_OR_NEWER
-                    sampleSize = Profiler.GetRuntimeMemorySizeLong(samples[i]);
+                    MemSize = Profiler.GetRuntimeMemorySizeLong(Sam);
 #else
-                    sampleSize = Profiler.GetRuntimeMemorySize(samples[i]);
+                    MemSize = Profiler.GetRuntimeMemorySize(Sam);
 #endif
-                    m_SampleSize += sampleSize;
-                    m_Samples.Add(new Sample(samples[i].name, samples[i].GetType().Name, sampleSize));
+                    SampleSize_ += MemSize;
+                    SampleList_.Add(new Sample(Sam.name, Sam.GetType().Name, MemSize));
                 }
 
-                m_Samples.Sort(SampleComparer);
+                SampleList_.Sort(SampleComparer);
 
-                for (int i = 1; i < m_Samples.Count; i++)
+                for (var Index = 1; Index < SampleList_.Count; ++Index)
                 {
-                    if (m_Samples[i].Name == m_Samples[i - 1].Name && m_Samples[i].Type == m_Samples[i - 1].Type && m_Samples[i].Size == m_Samples[i - 1].Size)
+                    if (SampleList_[Index].Name == SampleList_[Index - 1].Name &&
+                        SampleList_[Index].Type == SampleList_[Index - 1].Type &&
+                        SampleList_[Index].Size == SampleList_[Index - 1].Size)
                     {
-                        m_Samples[i].Highlight = true;
-                        m_DuplicateSampleSize += m_Samples[i].Size;
-                        m_DuplicateSimpleCount++;
+                        SampleList_[Index].Highlight = true;
+                        DuplicateSampleSize_ += SampleList_[Index].Size;
+                        DuplicateSimpleCount_++;
                     }
                 }
             }
@@ -354,19 +364,81 @@ namespace LiteFramework.Extend.Debug
 
             private int SampleComparer(Sample A, Sample B)
             {
-                int result = B.Size.CompareTo(A.Size);
-                if (result != 0)
+                var Result = B.Size.CompareTo(A.Size);
+                if (Result != 0)
                 {
-                    return result;
+                    return Result;
                 }
 
-                result = A.Type.CompareTo(B.Type);
-                if (result != 0)
+                Result = A.Type.CompareTo(B.Type);
+                if (Result != 0)
                 {
-                    return result;
+                    return Result;
                 }
 
                 return A.Name.CompareTo(B.Name);
+            }
+        }
+
+        internal class ObjectPoolItem : ScrollableDebuggerDrawItem
+        {
+            protected override void OnDrawScrollable()
+            {
+                var Pools = ObjectPoolManager.GetObjectPoolList();
+                GUILayout.Label("<b>Object Pool Information</b>");
+                GUILayout.BeginVertical(GUI.skin.box);
+                {
+                    DrawItem("Object Pool Count", Pools.Length.ToString());
+                }
+                GUILayout.EndVertical();
+                foreach (var Pool in Pools)
+                {
+                    DrawObjectPool(Pool);
+                }
+            }
+
+            private void DrawObjectPool(BaseObjectPool Pool)
+            {
+                GUILayout.Label($"<b>Object Pool: {Pool.PoolName}</b>");
+                GUILayout.BeginVertical(GUI.skin.box);
+                {
+                    var Caches = Pool.GetObjectCacheList();
+                    DrawItem("Type", Pool.ObjectType.FullName);
+                    DrawItem("Capacity", Pool.Capacity.ToString());
+                    DrawItem("Used Count", Pool.UsedCount.ToString());
+                    DrawItem("Idle Count", Pool.IdleCount.ToString());
+
+                    GUILayout.BeginHorizontal();
+                    {
+                        GUILayout.Label("<b>Is Used</b>", GUILayout.Width(80f));
+                        GUILayout.Label("<b>Use Count</b>", GUILayout.Width(80f));
+                        GUILayout.Label("<b>Use Time</b>", GUILayout.Width(80f));
+                        GUILayout.Label("<b>Last Spawn Time</b>", GUILayout.Width(120f));
+                        GUILayout.Label("<b>Last Recycle Time</b>", GUILayout.Width(120f));
+                    }
+                    GUILayout.EndHorizontal();
+
+                    if (Caches.Length > 0)
+                    {
+                        foreach (var Cache in Caches)
+                        {
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.Label(Cache.Used.ToString(), GUILayout.Width(80f));
+                                GUILayout.Label(Cache.Count.ToString(), GUILayout.Width(80f));
+                                GUILayout.Label(Cache.TotalTime.ToString(), GUILayout.Width(80));
+                                GUILayout.Label(Cache.LastSpawnTime.ToString("yyyy-MM-dd HH:mm:ss"), GUILayout.Width(120f));
+                                GUILayout.Label(Cache.LastRecycleTime.ToString("yyyy-MM-dd HH:mm:ss"), GUILayout.Width(120f));
+                            }
+                            GUILayout.EndHorizontal();
+                        }
+                    }
+                    else
+                    {
+                        GUILayout.Label("<i>Object Pool is Empty ...</i>");
+                    }
+                }
+                GUILayout.EndVertical();
             }
         }
     }

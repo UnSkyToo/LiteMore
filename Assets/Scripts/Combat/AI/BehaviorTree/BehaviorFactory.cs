@@ -47,9 +47,7 @@
 
         public static BehaviorNode CreateTerminalNode<T>(string Name, BehaviorNode Parent, BehaviorPrecondition Condition) where T : BehaviorTerminalNode, new()
         {
-            //var Node = new T(Name, Parent, Condition);
-            var Node = default(T);
-            Node.Name = Name;
+            var Node = new T {Name = Name};
             Node.SetParent(Parent);
             Node.SetCondition(Condition);
             Parent?.AddChild(Node);

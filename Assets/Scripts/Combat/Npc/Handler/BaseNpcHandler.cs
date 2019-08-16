@@ -1,7 +1,7 @@
 ﻿using LiteMore.Combat;
 using LiteMore.Combat.Npc;
 
-namespace Lite.Combat.Npc.Handler
+namespace LiteMore.Combat.Npc.Handler
 {
     public class BaseNpcHandler
     {

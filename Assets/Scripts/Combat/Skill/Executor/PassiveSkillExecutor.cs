@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using Lite.Combat.Npc.Handler;
+using LiteMore.Combat.Npc.Handler;
 using LiteFramework.Core.Event;
+using LiteMore.Combat.Npc;
 using LiteMore.Player;
 using UnityEngine;
 
@@ -18,11 +19,13 @@ namespace LiteMore.Combat.Skill.Executor
     {
         private string Name_;
         private uint SkillID_;
+        private BaseNpc Master_;
 
         public override bool Execute(Dictionary<string, object> Args)
         {
             Name_ = (string)(Args["Name"]);
             SkillID_ = (uint)(Args["SkillID"]);
+            Master_ = Args["Master"] as BaseNpc;
             EventManager.Register<NpcDamageEvent>(OnNpcDamageEvent);
             return true;
         }
@@ -34,13 +37,19 @@ namespace LiteMore.Combat.Skill.Executor
 
         private void OnNpcDamageEvent(NpcDamageEvent Event)
         {
-            if (Event.Attacker == null || Event.Attacker.Team == CombatTeam.A)
+            if (Event.MasterID != Master_.ID)
             {
                 return;
             }
 
-            var Level = SkillManager.GetSkillLevel(SkillID_);
-            Event.Attacker.OnHitDamage(Event.Master, Name_, Event.RealValue * Level * 0.5f);
+            var Attacker = NpcManager.FindNpc(Event.AttackerID);
+            if (Attacker == null)
+            {
+                return;
+            }
+
+            var Level = Master_.GetSkillLevel(SkillID_);
+            Attacker.OnHitDamage(Master_, Name_, Event.RealValue * Level * 0.5f);
         }
     }
 
@@ -53,7 +62,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(Dictionary<string, object> Args)
         {
-            Handler_ = new SkillExecutor1002_NpcHandler(100, (uint)(Args["SkillID"]));
+            Handler_ = new SkillExecutor1002_NpcHandler(100, (uint)(Args["SkillID"]), Args["Master"] as BaseNpc);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
@@ -66,11 +75,13 @@ namespace LiteMore.Combat.Skill.Executor
         private class SkillExecutor1002_NpcHandler : BaseNpcHandler
         {
             private readonly uint SkillID_;
+            private readonly BaseNpc Master_;
 
-            public SkillExecutor1002_NpcHandler(uint Priority, uint SkillID)
+            public SkillExecutor1002_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
                 : base(Priority)
             {
                 SkillID_ = SkillID;
+                Master_ = Master;
             }
 
             public override float OnAddAttr(NpcAttrIndex Index, float Value)
@@ -80,7 +91,7 @@ namespace LiteMore.Combat.Skill.Executor
                     return Value;
                 }
 
-                var Level = SkillManager.GetSkillLevel(SkillID_);
+                var Level = Master_.GetSkillLevel(SkillID_);
                 return Value * (1 - (0.4f + 0.1f * Level));
             }
         }
@@ -95,7 +106,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(Dictionary<string, object> Args)
         {
-            Handler_ = new SkillExecutor1003_NpcHandler(0, (uint)(Args["SkillID"]));
+            Handler_ = new SkillExecutor1003_NpcHandler(0, (uint)(Args["SkillID"]), Args["Master"] as BaseNpc);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
@@ -108,11 +119,13 @@ namespace LiteMore.Combat.Skill.Executor
         private class SkillExecutor1003_NpcHandler : BaseNpcHandler
         {
             private readonly uint SkillID_;
+            private readonly BaseNpc Master_;
 
-            public SkillExecutor1003_NpcHandler(uint Priority, uint SkillID)
+            public SkillExecutor1003_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
                 : base(Priority)
             {
                 SkillID_ = SkillID;
+                Master_ = Master;
             }
 
             public override float OnAddAttr(NpcAttrIndex Index, float Value)
@@ -122,7 +135,7 @@ namespace LiteMore.Combat.Skill.Executor
                     return Value;
                 }
 
-                var Level = SkillManager.GetSkillLevel(SkillID_);
+                var Level = Master_.GetSkillLevel(SkillID_);
                 return Mathf.Clamp(Value + 10 * Level, Value, 0);
             }
         }
@@ -133,16 +146,19 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_1004 : PassiveExecutor
     {
+        private BaseNpc Master_;
+
         public override bool Execute(Dictionary<string, object> Args)
         {
-            var Level = SkillManager.GetSkillLevel((uint)Args["SkillID"]);
+            Master_ = Args["Master"] as BaseNpc;
+            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddHp, Level * 10);
             return true;
         }
 
         public override void Cancel(Dictionary<string, object> Args)
         {
-            var Level = SkillManager.GetSkillLevel((uint)Args["SkillID"]);
+            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddHp, -Level * 10);
         }
     }
@@ -152,16 +168,19 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_1005 : PassiveExecutor
     {
+        private BaseNpc Master_;
+
         public override bool Execute(Dictionary<string, object> Args)
         {
-            var Level = SkillManager.GetSkillLevel((uint)Args["SkillID"]);
+            Master_ = Args["Master"] as BaseNpc;
+            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddMp, Level * 10);
             return true;
         }
 
         public override void Cancel(Dictionary<string, object> Args)
         {
-            var Level = SkillManager.GetSkillLevel((uint)Args["SkillID"]);
+            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddMp, -Level * 10);
         }
     }
@@ -172,25 +191,32 @@ namespace LiteMore.Combat.Skill.Executor
     public class SkillExecutor_1006 : PassiveExecutor
     {
         private uint SkillID_;
+        private BaseNpc Master_;
 
         public override bool Execute(Dictionary<string, object> Args)
         {
             SkillID_ = (uint)(Args["SkillID"]);
-            EventManager.Register<UseSkillEvent>(OnUseSkillEvent);
+            Master_ = Args["Master"] as BaseNpc;
+            EventManager.Register<NpcSkillEvent>(OnNpcSkillEvent);
             return true;
         }
 
         public override void Cancel(Dictionary<string, object> Args)
         {
-            EventManager.UnRegister<UseSkillEvent>(OnUseSkillEvent);
+            EventManager.UnRegister<NpcSkillEvent>(OnNpcSkillEvent);
         }
 
-        private void OnUseSkillEvent(UseSkillEvent Event)
+        private void OnNpcSkillEvent(NpcSkillEvent Event)
         {
-            var Level = SkillManager.GetSkillLevel(SkillID_);
+            if (Event.MasterID != Master_.ID)
+            {
+                return;
+            }
+
+            var Level = Master_.GetSkillLevel(SkillID_);
             if (Random.Range(0, 100) < Level * 10)
             {
-                Event.Master.AddAttr(NpcAttrIndex.Mp, Level * 5);
+                Master_.AddAttr(NpcAttrIndex.Mp, Level * 5);
             }
         }
     }
@@ -201,22 +227,24 @@ namespace LiteMore.Combat.Skill.Executor
     public class SkillExecutor_1007 : PassiveExecutor
     {
         private uint SkillID_;
+        private BaseNpc Master_;
 
         public override bool Execute(Dictionary<string, object> Args)
         {
             SkillID_ = (uint)(Args["SkillID"]);
-            EventManager.Register<UseSkillEvent>(OnUseSkillEvent);
+            Master_ = Args["Master"] as BaseNpc;
+            EventManager.Register<NpcSkillEvent>(OnNpcSkillEvent);
             return true;
         }
 
         public override void Cancel(Dictionary<string, object> Args)
         {
-            EventManager.UnRegister<UseSkillEvent>(OnUseSkillEvent);
+            EventManager.UnRegister<NpcSkillEvent>(OnNpcSkillEvent);
         }
 
-        private void OnUseSkillEvent(UseSkillEvent Event)
+        private void OnNpcSkillEvent(NpcSkillEvent Event)
         {
-            var Level = SkillManager.GetSkillLevel(SkillID_);
+            var Level = Master_.GetSkillLevel(SkillID_);
             if (Random.Range(0, 100) < Level * 5)
             {
                 SkillManager.FindSkill(Event.SkillID)?.ClearCD();
@@ -230,10 +258,12 @@ namespace LiteMore.Combat.Skill.Executor
     public class SkillExecutor_1008 : PassiveExecutor
     {
         private uint Level_;
+        private BaseNpc Master_;
 
         public override bool Execute(Dictionary<string, object> Args)
         {
-            Level_ = SkillManager.GetSkillLevel((uint)(Args["SkillID"]));
+            Master_ = Args["Master"] as BaseNpc;
+            Level_ = Master_.GetSkillLevel((uint)(Args["SkillID"]));
             CombatManager.Calculator.AddGlobalPercent(0.05f * Level_);
             return true;
         }

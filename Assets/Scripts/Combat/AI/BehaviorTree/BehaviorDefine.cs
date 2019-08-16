@@ -25,11 +25,11 @@ namespace LiteMore.Combat.AI.BehaviorTree
 
     public class BehaviorInputData
     {
+        public bool Enabled { get; set; }
         public float DeltaTime { get; set; }
+        public float TickTime { get; set; }
         public BaseNpc Attacker { get; set; }
-        public uint TargetID { get; set; }
-        public uint FollowID { get; set; }
-
-        public List<uint> Targets { get; set; }
+        public float Distance { get; set; }
+        public BehaviorNode Node { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using LiteFramework.Core.Event;
 using LiteFramework.Game.UI;
 using LiteMore.Cache;
 using LiteMore.Combat;
+using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
@@ -36,6 +37,7 @@ namespace LiteMore.Player
             CoreNpc_.Attr.AttrChanged += OnCoreAttrChanged;
 
             EventManager.Register<NpcDamageEvent>(OnNpcDamageEvent);
+            EventManager.Register<NpcDieEvent>(OnNpcDieEvent);
 
             UIManager.OpenUI<MainUI>();
             UIManager.OpenUI<DpsUI>();
@@ -51,6 +53,7 @@ namespace LiteMore.Player
         public static void Shutdown()
         {
             EventManager.UnRegister<NpcDamageEvent>(OnNpcDamageEvent);
+            EventManager.UnRegister<NpcDieEvent>(OnNpcDieEvent);
             Player_.SaveToCache();
 
             //UIManager.CloseUI<QuickControlUI>();
@@ -81,9 +84,22 @@ namespace LiteMore.Player
 
         private static void OnNpcDamageEvent(NpcDamageEvent Event)
         {
-            if (Event.Master.Team == CombatTeam.B)
+            if (Event.MasterTeam == CombatTeam.B)
             {
                 Dps_.ApplyDamage(Event.SourceName, Event.Damage);
+            }
+        }
+
+        private static void OnNpcDieEvent(NpcDieEvent Event)
+        {
+            if (Event.MasterTeam == CombatTeam.B)
+            {
+                var Npc = NpcManager.FindNpc(Event.MasterTeam, Event.MasterID);
+                if (Npc != null)
+                {
+                    AddGem((int)Npc.CalcFinalAttr(NpcAttrIndex.Gem));
+                    SfxManager.AddSfx("prefabs/sfx/goldsfx.prefab", Npc.Position);
+                }
             }
         }
 
@@ -92,6 +108,7 @@ namespace LiteMore.Player
             EmitterManager.RemoveEmitter(MainEmitter_);
             MainEmitter_ = EmitterManager.AddEmitter(new BulletCircleEmitter("MainBullet")
             {
+                Master = PlayerManager.Master,
                 Team = CombatTeam.A,
                 TriggerCount = -1,
                 EmittedCount = GetBulletCount(),
@@ -108,7 +125,7 @@ namespace LiteMore.Player
             UIEventTriggerListener.Remove(GameObject.Find("Touch").transform);
             UIEventTriggerListener.Get(GameObject.Find("Touch").transform).AddCallback(UIEventType.Click, () =>
             {
-                var Target = NpcManager.GetRandomNpc(CombatTeam.B);
+                var Target = LockingHelper.FindNearest(Master);
                 if (Target != null)
                 {
                     var Desc = new TrackBulletDescriptor(

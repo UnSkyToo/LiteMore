@@ -42,5 +42,10 @@ namespace LiteMore.Combat.Bullet
             this.Team = Desc.Team;
             this.Damage = Desc.Damage;
         }
+
+        public override void Dispose()
+        {
+            BulletManager.DisposeBullet(this);
+        }
     }
 }

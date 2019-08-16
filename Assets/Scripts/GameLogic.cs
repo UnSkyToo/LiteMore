@@ -4,6 +4,7 @@ using LiteMore.Cache;
 using LiteMore.Combat;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
+using LiteMore.Combat.Wave;
 using LiteMore.Data;
 using LiteMore.Player;
 using LiteMore.UI;
@@ -36,8 +37,8 @@ namespace LiteMore
 
             TestSkill();
 
-            //PlayerManager.CreateMainEmitter();
-            //WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
+            PlayerManager.CreateMainEmitter();
+            WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
 
             return true;
         }
@@ -71,7 +72,7 @@ namespace LiteMore
             NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
                 NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 5, 5));
 
-            SkillManager.AddPassiveSkill(SkillLibrary.Get(1005), -1);
+            SkillManager.AddPassiveSkill(SkillLibrary.Get(1005), PlayerManager.Master, -1);
         }
     }
 }

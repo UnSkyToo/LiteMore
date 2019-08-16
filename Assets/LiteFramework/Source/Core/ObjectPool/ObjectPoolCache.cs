@@ -1,18 +1,13 @@
-﻿using UnityEngine;
-
-namespace LiteFramework.Core.ObjectPool
+﻿namespace LiteFramework.Core.ObjectPool
 {
-    public class ObjectPoolCache
+    public class ObjectPoolCache<T> : BaseObjectPoolCache where T : UnityEngine.Object
     {
-        public GameObject Obj { get; set; }
-        public bool Used { get; set; }
-        public uint Count { get; set; }
+        public T Entity { get; }
 
-        public ObjectPoolCache(GameObject Obj)
+        public ObjectPoolCache(T Entity)
+            : base()
         {
-            this.Obj = Obj;
-            this.Used = false;
-            this.Count = 1;
+            this.Entity = Entity;
         }
     }
 }

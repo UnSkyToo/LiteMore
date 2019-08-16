@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using LiteFramework.Core.Event;
+using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill.Executor;
 using LiteMore.Core;
-using LiteMore.Player;
 
 namespace LiteMore.Combat.Skill
 {
-    public class BaseSkill : BaseEntity
+    public abstract class BaseSkill : BaseEntity
     {
+        public BaseNpc Master { get; }
         public uint SkillID { get; }
         public float CD { get; }
         public int Cost { get; }
@@ -17,9 +17,10 @@ namespace LiteMore.Combat.Skill
 
         protected readonly BaseExecutor Executor_;
 
-        public BaseSkill(SkillDescriptor Desc)
+        protected BaseSkill(SkillDescriptor Desc, BaseNpc Master)
             : base(Desc.Name)
         {
+            this.Master = Master;
             this.SkillID = Desc.SkillID;
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
@@ -62,7 +63,17 @@ namespace LiteMore.Combat.Skill
 
         public virtual bool CanUse()
         {
-            return !IsCD && Cost <= PlayerManager.Player.Mp;
+            if (IsCD)
+            {
+                return false;
+            }
+
+            if (Master != null)
+            {
+                return Cost <= Master.CalcFinalAttr(NpcAttrIndex.Mp);
+            }
+
+            return true;
         }
 
         public virtual bool Use(Dictionary<string, object> Args)
@@ -80,8 +91,7 @@ namespace LiteMore.Combat.Skill
             if (Executor_.Execute(CreateExecutorArgs(Args)))
             {
                 StartCD();
-                PlayerManager.AddMp(-Cost);
-                EventManager.Send(new UseSkillEvent(PlayerManager.Master, SkillID));
+                Master.AddAttr(NpcAttrIndex.Mp, -Cost);
                 return true;
             }
 
@@ -95,6 +105,7 @@ namespace LiteMore.Combat.Skill
             BaseArgs.Add("SkillID", SkillID);
             BaseArgs.Add("CD", CD);
             BaseArgs.Add("Cost", Cost);
+            BaseArgs.Add("Master", Master);
 
             if (Args != null)
             {

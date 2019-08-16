@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.ObjectPool;
 using LiteFramework.Game.Asset;
 using UnityEngine;
 
@@ -6,17 +7,16 @@ namespace LiteMore.Combat.Bullet
 {
     public static class BulletManager
     {
-        private static readonly Dictionary<BulletType, string> BulletPrefabName_ = new Dictionary<BulletType, string>();
+        private static readonly Dictionary<BulletType, GameObjectPool> BulletPool_ = new Dictionary<BulletType, GameObjectPool>();
         private static readonly List<BaseBullet> BulletList_ = new List<BaseBullet>();
 
         public static bool Startup()
         {
-            BulletPrefabName_.Clear();
-            BulletPrefabName_.Add(BulletType.Track, "Prefabs/Bullet/Bullet.prefab".ToLower());
-            BulletPrefabName_.Add(BulletType.Laser, "Prefabs/Bullet/BulletLaser.prefab".ToLower());
-            BulletPrefabName_.Add(BulletType.Bomb, "Prefabs/Bullet/BulletBomb.prefab".ToLower());
-            BulletPrefabName_.Add(BulletType.Back, "Prefabs/Bullet/BulletBack.prefab".ToLower());
-            BulletPrefabName_.Add(BulletType.Trigger, "Prefabs/Bullet/BulletTrigger.prefab".ToLower());
+            BulletPool_.Add(BulletType.Track, ObjectPoolManager.CreateGameObjectPool("TrackBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/Bullet.prefab")));
+            BulletPool_.Add(BulletType.Laser, ObjectPoolManager.CreateGameObjectPool("LaserBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletLaser.prefab")));
+            BulletPool_.Add(BulletType.Bomb, ObjectPoolManager.CreateGameObjectPool("BombBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletBomb.prefab")));
+            BulletPool_.Add(BulletType.Back, ObjectPoolManager.CreateGameObjectPool("BackBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletBack.prefab")));
+            BulletPool_.Add(BulletType.Trigger, ObjectPoolManager.CreateGameObjectPool("TriggerBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletTrigger.prefab")));
 
             BulletList_.Clear();
 
@@ -29,9 +29,13 @@ namespace LiteMore.Combat.Bullet
             {
                 Entity.Dispose();
             }
-
             BulletList_.Clear();
-            BulletPrefabName_.Clear();
+
+            foreach (var Pool in BulletPool_)
+            {
+                ObjectPoolManager.DeletePool(Pool.Value);
+            }
+            BulletPool_.Clear();
         }
 
         public static void Tick(float DeltaTime)
@@ -48,9 +52,15 @@ namespace LiteMore.Combat.Bullet
             }
         }
 
+        public static void DisposeBullet(BaseBullet Bullet)
+        {
+            Bullet.IsAlive = false;
+            BulletPool_[Bullet.Type].Recycle(Bullet.Entity.gameObject);
+        }
+
         private static GameObject CreateBullet(BulletType Type, Vector2 Position)
         {
-            var Obj = AssetManager.CreatePrefabSync(BulletPrefabName_[Type]);
+            var Obj = BulletPool_[Type].Spawn();
             Obj.transform.SetParent(Configure.BulletRoot, false);
             Obj.transform.localPosition = Position;
             return Obj;

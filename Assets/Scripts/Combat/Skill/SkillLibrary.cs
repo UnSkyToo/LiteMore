@@ -52,6 +52,8 @@ namespace LiteMore.Combat.Skill
             Add(2006, "减速陷阱", "skill6", 5, 30, 100, new SkillExecutor_2006(), new DragPositionSelector("prefabs/bv0.prefab"));
             Add(2007, "召唤援军", "skill7", 5, 30, 0, new SkillExecutor_2007(), new ClickSelector());
             Add(2008, "持续子弹", "skill8", 0.1f, 2, 0, new SkillExecutor_2008(), new PressedSelector());
+
+            Add(3001, "普攻", 1, 0, 10, new SkillExecutor_3001());
         }
 
         /*public static void PatchQuickController(QuickController Controller)
@@ -85,6 +87,11 @@ namespace LiteMore.Combat.Skill
         private static void Add(uint SkillID, string Name, BaseExecutor Executor)
         {
             Add(SkillID, Name, string.Empty, 0, 0, 0, Executor, null);
+        }
+
+        private static void Add(uint SkillID, string Name, float CD, int Cost, float Radius, BaseExecutor Executor)
+        {
+            Add(SkillID, Name, string.Empty, CD, Cost, Radius, Executor, null);
         }
     }
 }

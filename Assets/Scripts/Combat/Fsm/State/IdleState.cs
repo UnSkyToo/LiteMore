@@ -18,6 +18,10 @@
             {
                 Fsm.ChangeToState(FsmStateName.Walk, Event);
             }
+            else if (Event is NpcSkillEvent)
+            {
+                Fsm.ChangeToState(FsmStateName.Skill, Event);
+            }
             else if (Event is NpcDieEvent)
             {
                 Fsm.ChangeToState(FsmStateName.Die, Event);

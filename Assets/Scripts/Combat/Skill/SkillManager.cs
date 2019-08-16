@@ -55,6 +55,19 @@ namespace LiteMore.Combat.Skill
             return null;
         }
 
+        public static BaseSkill FindSkillWithID(uint ID)
+        {
+            foreach (var Skill in SkillList_)
+            {
+                if (Skill.ID == ID)
+                {
+                    return Skill;
+                }
+            }
+
+            return null;
+        }
+
         private static Transform CreateMainSkillObject(string ResName)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/skillicon.prefab");
@@ -93,9 +106,9 @@ namespace LiteMore.Combat.Skill
             return Entity;
         }
 
-        public static PassiveSkill AddPassiveSkill(SkillDescriptor Desc, float SustainTime)
+        public static PassiveSkill AddPassiveSkill(SkillDescriptor Desc, BaseNpc Master, float SustainTime)
         {
-            var Entity = new PassiveSkill(Desc, SustainTime);
+            var Entity = new PassiveSkill(Desc, Master, SustainTime);
             SkillList_.Add(Entity);
             Entity.Use(null);
             return Entity;
@@ -106,9 +119,15 @@ namespace LiteMore.Combat.Skill
             Skill.IsAlive = false;
         }
 
-        public static uint GetSkillLevel(uint SkillID)
+        public static bool CanUseSkill(uint SkillID)
         {
-            return 1;
+            var Skill = FindSkill(SkillID);
+            if (Skill == null)
+            {
+                return false;
+            }
+
+            return Skill.CanUse();
         }
     }
 }

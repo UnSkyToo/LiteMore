@@ -1,28 +1,25 @@
 ﻿using System.Collections.Generic;
-using Lite.Combat.Npc.Handler;
 using LiteFramework.Core.Event;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Fsm;
+using LiteMore.Combat.Npc.Handler;
 using LiteMore.Core;
 using LiteMore.Player;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc
 {
-    public class BaseNpc : GameEntity
+    public partial class BaseNpc : GameEntity
     {
         public bool IsStatic { get; set; }
         public CombatTeam Team { get; protected set; }
-        public NpcAttribute Attr { get; }
-        public NpcDirection Direction { get; protected set; }
+
+        public BaseNpc AttackerNpc { get; set; }
         public BaseNpc TargetNpc { get; set; }
 
-        protected readonly NpcAnimation Animation_;
-        protected readonly BaseFsm Fsm_;
         protected readonly NpcBar Bar_;
 
         protected Vector2 TargetPos_;
-        private int HitSfxInterval_;
         protected List<BaseBullet> LockedList_;
 
         protected readonly List<BaseNpcHandler> HandlerList_;
@@ -30,13 +27,15 @@ namespace LiteMore.Combat.Npc
         public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
             : base(Name, Trans)
         {
-            IsStatic = false;
+            this.IsStatic = false;
             this.Team = Team;
 
             Attr = new NpcAttribute(InitAttr);
             Attr.AttrChanged += OnAttrChanged;
+            State_ = 0;
 
             Direction = NpcDirection.None;
+            AttackerNpc = null;
             TargetNpc = null;
 
             Animation_ = new NpcAnimation(Trans.GetComponent<Animator>());
@@ -75,21 +74,6 @@ namespace LiteMore.Combat.Npc
             base.Tick(DeltaTime);
         }
 
-        public void PlayAnimation(string AnimName, bool IsLoop)
-        {
-            Animation_.Play(AnimName, IsLoop);
-        }
-
-        public bool AnimationIsEnd()
-        {
-            return Animation_.IsEnd();
-        }
-
-        public bool IsFsmState(FsmStateName StateName)
-        {
-            return Fsm_.GetStateName() == StateName;
-        }
-
         public void OnCombatEvent(CombatEvent Event)
         {
             Fsm_.OnCombatEvent(Event);
@@ -100,11 +84,7 @@ namespace LiteMore.Combat.Npc
             Fsm_.OnMsgCode(Animation, MsgCode);
         }
 
-        public float CalcFinalAttr(NpcAttrIndex Index)
-        {
-            return Attr.CalcFinalValue(Index);
-        }
-
+        
         public void RegisterHandler(BaseNpcHandler Handler)
         {
             if (HandlerList_.Contains(Handler))
@@ -136,85 +116,19 @@ namespace LiteMore.Combat.Npc
             HandlerList_.Remove(Handler);
         }
 
-        public float AddAttr(NpcAttrIndex Index, float Value)
+        public bool IsValid()
         {
-            var RealValue = Value;
-            foreach (var Handler in HandlerList_)
-            {
-                RealValue = Handler.OnAddAttr(Index, RealValue);
-            }
-
-            Attr.AddValue(Index, RealValue);
-            return Value;
+            return CanLocked();
         }
 
-        private void UpdateAttr(float DeltaTime)
+        public bool IsValidAttacker()
         {
-            var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
-            var MaxHp = Attr.CalcFinalValue(NpcAttrIndex.MaxHp);
-            if (Hp > MaxHp)
-            {
-                Hp = MaxHp;
-            }
-            Attr.SetValue(NpcAttrIndex.Hp, Hp);
-
-            var Mp = Attr.CalcFinalValue(NpcAttrIndex.Mp) + Attr.CalcFinalValue(NpcAttrIndex.AddMp) * DeltaTime;
-            var MaxMp = Attr.CalcFinalValue(NpcAttrIndex.MaxMp);
-            if (Mp > MaxMp)
-            {
-                Mp = MaxMp;
-            }
-            Attr.SetValue(NpcAttrIndex.Mp, Mp);
+            return AttackerNpc != null && AttackerNpc.IsValid();
         }
-
-        private void OnAttrChanged(NpcAttrIndex Index)
-        {
-            switch (Index)
-            {
-                case NpcAttrIndex.MaxHp:
-                    Bar_.SetMaxHp(Attr.CalcFinalValue(NpcAttrIndex.MaxHp));
-                    break;
-                case NpcAttrIndex.MaxMp:
-                    Bar_.SetMaxMp(Attr.CalcFinalValue(NpcAttrIndex.MaxMp));
-                    break;
-                case NpcAttrIndex.Speed:
-                    MoveTo(TargetPos_);
-                    break;
-                case NpcAttrIndex.Hp:
-                    if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)
-                    {
-                        Dead();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void SetDirection(NpcDirection Dir)
-        {
-            if (Direction == Dir)
-            {
-                return;
-            }
-
-            Direction = Dir;
-            switch (Direction)
-            {
-                case NpcDirection.Left:
-                    GetComponent<SpriteRenderer>().flipX = true;
-                    break;
-                case NpcDirection.Right:
-                    GetComponent<SpriteRenderer>().flipX = false;
-                    break;
-                default:
-                    break;
-            }
-        }
-
+        
         public bool IsValidTarget()
         {
-            return TargetNpc != null && TargetNpc.IsAlive;
+            return TargetNpc != null && TargetNpc.IsValid();
         }
 
         private void UpdateLockedList()
@@ -253,18 +167,13 @@ namespace LiteMore.Combat.Npc
 
         public virtual bool CanLocked()
         {
-            return CalcFinalAttr(NpcAttrIndex.Hp) > 0 && CalcForecastHp() > 0 && IsAlive;
+            return IsAlive && !IsFsmState(FsmStateName.Die) && CalcFinalAttr(NpcAttrIndex.Hp) > 0 && CalcForecastHp() > 0;
         }
 
         public void OnBulletHit(BaseBullet Collider)
         {
             LockedList_.Remove(Collider);
             OnHitDamage(null, Collider.Name, Collider.Damage);
-        }
-
-        public void OnNpcHit(BaseNpc Attacker)
-        {
-            OnHitDamage(Attacker, Attacker.Name, Attacker.CalcFinalAttr(NpcAttrIndex.Damage));
         }
 
         public void OnHitDamage(BaseNpc Attacker, string SourceName, float Damage)
@@ -274,18 +183,13 @@ namespace LiteMore.Combat.Npc
                 return;
             }
 
-            var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
-            EventManager.Send(new NpcDamageEvent(this, Attacker, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
-            TryToPlayHitSfx();
-        }
-
-        private void TryToPlayHitSfx()
-        {
-            if (HitSfxInterval_ <= 0)
+            if (Attacker != null)
             {
-                SfxManager.AddSfx("prefabs/sfx/hitsfx.prefab", Position);
-                HitSfxInterval_ = 8;
+                AttackerNpc = Attacker;
             }
+
+            var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
+            EventManager.Send(new NpcDamageEvent(ID, Team, Attacker?.ID ?? 0, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
         }
 
         public void MoveTo(Vector2 TargetPos)
@@ -296,7 +200,7 @@ namespace LiteMore.Combat.Npc
             }
 
             TargetPos_ = TargetPos;
-            EventManager.Send(new NpcWalkEvent(this, TargetPos));
+            EventManager.Send(new NpcWalkEvent(ID, Team, TargetPos));
         }
 
         public void Dead()
@@ -307,9 +211,7 @@ namespace LiteMore.Combat.Npc
             }
 
             Attr.SetValue(NpcAttrIndex.Hp, 0, false);
-            PlayerManager.AddGem((int)CalcFinalAttr(NpcAttrIndex.Gem));
-            SfxManager.AddSfx("prefabs/sfx/goldsfx.prefab", Position);
-            EventManager.Send(new NpcDieEvent(this));
+            EventManager.Send(new NpcDieEvent(ID, Team));
         }
 
         public void SetDead()
@@ -330,7 +232,7 @@ namespace LiteMore.Combat.Npc
             }
 
             var BackPos = Position + Offset;
-            EventManager.Send(new NpcBackEvent(this, BackPos, Offset.magnitude / Speed));
+            EventManager.Send(new NpcBackEvent(ID, Team, BackPos, Offset.magnitude / Speed));
         }
     }
 }

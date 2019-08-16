@@ -55,7 +55,7 @@ namespace LiteMore.Combat.Wave
 
         private void OnNpcDieEvent(NpcDieEvent Event)
         {
-            if (Event.Master.Team == CombatTeam.B)
+            if (Event.MasterTeam == CombatTeam.B)
             {
                 if (RemainingCount_ > 0)
                 {

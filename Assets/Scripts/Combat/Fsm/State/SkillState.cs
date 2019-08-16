@@ -1,17 +1,22 @@
-﻿namespace LiteMore.Combat.Fsm.State
+﻿using LiteFramework.Core.Event;
+
+namespace LiteMore.Combat.Fsm.State
 {
-    public class AttackState : BaseState
+    public class SkillState : BaseState
     {
-        public AttackState(BaseFsm Fsm)
-            : base(FsmStateName.Attack, Fsm)
+        private uint SkillID_;
+
+        public SkillState(BaseFsm Fsm)
+            : base(FsmStateName.Skill, Fsm)
         {
         }
 
         public override void OnEnter(CombatEvent Event)
         {
-            Fsm.Master.PlayAnimation("Attack", true);
+            var Evt = Event as NpcSkillEvent;
+            SkillID_ = Evt.SkillID;
 
-            //Fsm.ChangeToState(NpcFsmStateName.Die, new NpcDieEvent(Fsm.Master.ID));
+            Fsm.Master.PlayAnimation("Attack", true);
         }
 
         public override void OnCombatEvent(CombatEvent Event)
@@ -34,12 +39,8 @@
         {
             if (MsgCode == CombatMsgCode.Atk)
             {
-                //PlayerManager.AddHp(-(Fsm.Master.CalcFinalAttr(NpcAttrIndex.Damage)));
-
-                if (Fsm.Master.IsValidTarget())
-                {
-                    Fsm.Master.TargetNpc.OnNpcHit(Fsm.Master);
-                }
+                var Evt = new NpcHitTargetEvent(Fsm.Master.ID, Fsm.Master.Team, SkillID_, "prefabs/sfx/hitsfx.prefab");
+                EventManager.Send(Evt);
             }
         }
     }

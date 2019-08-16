@@ -1,138 +1,129 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LiteFramework.Core.ObjectPool
 {
-    public class ObjectPoolEntity
+    public class ObjectPoolEntity<T> : BaseObjectPool where T : UnityEngine.Object
     {
-        public delegate void PoolEventHandler(GameObject Obj);
-        public event PoolEventHandler OnSpawn;
-        public event PoolEventHandler OnRecycle;
-
         public int InfrequentCount { get; set; } = 2;
-        public string PoolName { get; }
-        public GameObject Prefab { get; }
 
-        private readonly Dictionary<int, ObjectPoolCache> ObjectCache_ = null;
+        protected Func<T> CreateFunc_ = null;
+        protected Action<T> SpawnFunc_ = null;
+        protected Action<T> RecycleFunc_ = null;
+        protected Action<T> DisposeFunc_ = null;
 
-        public ObjectPoolEntity(string PoolName, GameObject Prefab)
+        public ObjectPoolEntity(string PoolName, Func<T> CreateFunc, Action<T> SpawnFunc, Action<T> RecycleFunc, Action<T> DisposeFunc)
+            : base(PoolName, typeof(T))
         {
-            this.PoolName = PoolName;
-            this.Prefab = Prefab;
-            this.ObjectCache_ = new Dictionary<int, ObjectPoolCache>();
+            this.CreateFunc_ = CreateFunc;
+            this.SpawnFunc_ = SpawnFunc;
+            this.RecycleFunc_ = RecycleFunc;
+            this.DisposeFunc_ = DisposeFunc;
         }
 
-        public GameObject Spawn()
+        public T Spawn()
         {
-            foreach (var Cache in ObjectCache_)
+            foreach (var Cache in ObjectCacheList_)
             {
                 if (!Cache.Value.Used)
                 {
-                    Cache.Value.Used = true;
-                    Cache.Value.Count++;
-                    Cache.Value.Obj.SetActive(true);
-                    TriggerSpawn(Cache.Value.Obj);
-                    return Cache.Value.Obj;
+                    UsedCount++;
+                    IdleCount--;
+                    var TCache = Cache.Value as ObjectPoolCache<T>;
+                    TriggerSpawn(TCache);
+                    return TCache.Entity;
                 }
             }
 
-            GameObject Obj = null;
-            if (Prefab != null)
-            {
-                Obj = Object.Instantiate(Prefab);
-            }
-            else
-            {
-                Obj = new GameObject();
-            }
-
-            var NewCache = new ObjectPoolCache(Obj);
-            ObjectCache_.Add(Obj.GetInstanceID(), NewCache);
-            NewCache.Used = true;
-            Obj.SetActive(true);
-            Obj.transform.localPosition = Vector3.zero;
-            Obj.transform.localRotation = Quaternion.identity;
-            Obj.transform.localScale = Vector3.one;
-            TriggerSpawn(Obj);
+            var Obj = CreateFunc_.Invoke();
+            var NewCache = new ObjectPoolCache<T>(Obj);
+            ObjectCacheList_.Add(Obj.GetInstanceID(), NewCache);
+            TriggerSpawn(NewCache);
+            UsedCount++;
 
             return Obj;
         }
 
-        public void Recycle(GameObject Obj)
+        public void Recycle(T Obj)
         {
-            TriggerRecycle(Obj);
+            UsedCount--;
+            IdleCount++;
 
-            if (Obj != null && ObjectCache_.ContainsKey(Obj.GetInstanceID()))
+            if (Obj != null && ObjectCacheList_.ContainsKey(Obj.GetInstanceID()))
             {
-                ObjectCache_[Obj.GetInstanceID()].Obj.SetActive(false);
-                ObjectCache_[Obj.GetInstanceID()].Used = false;
-            }
-            else
-            {
-                Object.Destroy(Obj);
+                TriggerRecycle(ObjectCacheList_[Obj.GetInstanceID()] as ObjectPoolCache<T>);
             }
         }
 
-        public void DestroyObjects()
+        public override void Dispose()
         {
-            foreach (var Cache in ObjectCache_)
+            foreach (var Cache in ObjectCacheList_)
             {
-                Object.Destroy(Cache.Value.Obj);
+                TriggerDispose(Cache.Value as ObjectPoolCache<T>);
             }
 
-            ObjectCache_.Clear();
+            ObjectCacheList_.Clear();
+            UsedCount = 0;
+            IdleCount = 0;
         }
 
         public void DestroyUnusedObjects()
         {
-            var DestroyKeys = new List<int>();
+            var DisposeKeys = new List<int>();
 
-            foreach (var Cache in ObjectCache_)
+            foreach (var Cache in ObjectCacheList_)
             {
                 if (!Cache.Value.Used)
                 {
-                    DestroyKeys.Add(Cache.Key);
+                    DisposeKeys.Add(Cache.Key);
                 }
             }
 
-            DestroyList(DestroyKeys);
+            DisposeObjectList(DisposeKeys);
         }
 
         public void DestroyInfrequentObjects()
         {
-            var DestroyKeys = new List<int>();
+            var DisposeKeys = new List<int>();
 
-            foreach (var Cache in ObjectCache_)
+            foreach (var Cache in ObjectCacheList_)
             {
                 if (!Cache.Value.Used && Cache.Value.Count <= InfrequentCount)
                 {
-                    DestroyKeys.Add(Cache.Key);
+                    DisposeKeys.Add(Cache.Key);
                 }
             }
 
-            DestroyList(DestroyKeys);
+            DisposeObjectList(DisposeKeys);
         }
 
-        private void DestroyList(List<int> Keys)
+        private void DisposeObjectList(List<int> Keys)
         {
             foreach (var Key in Keys)
             {
-                if (ObjectCache_.ContainsKey(Key))
+                if (ObjectCacheList_.ContainsKey(Key))
                 {
-                    Object.DestroyImmediate(ObjectCache_[Key].Obj);
-                    ObjectCache_.Remove(Key);
+                    TriggerDispose(ObjectCacheList_[Key] as ObjectPoolCache<T>);
+                    ObjectCacheList_.Remove(Key);
                 }
             }
         }
 
-        private void TriggerSpawn(GameObject Obj)
+        private void TriggerSpawn(ObjectPoolCache<T> Cache)
         {
-            OnSpawn?.Invoke(Obj);
+            Cache.OnSpawn();
+            SpawnFunc_?.Invoke(Cache.Entity);
         }
 
-        private void TriggerRecycle(GameObject Obj)
+        private void TriggerRecycle(ObjectPoolCache<T> Cache)
         {
-            OnRecycle?.Invoke(Obj);
+            Cache.OnRecycle();
+            RecycleFunc_?.Invoke(Cache.Entity);
+        }
+
+        private void TriggerDispose(ObjectPoolCache<T> Cache)
+        {
+            DisposeFunc_?.Invoke(Cache.Entity);
         }
     }
 }

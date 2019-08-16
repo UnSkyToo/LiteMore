@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Game.Asset;
+using LiteMore.Combat.Skill;
 using LiteMore.Player;
 using UnityEngine;
 
@@ -125,6 +126,7 @@ namespace LiteMore.Combat.Npc
             }
 
             Entity.Position = Position;
+            Entity.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3001), Entity));
 
             return Entity;
         }
@@ -181,24 +183,6 @@ namespace LiteMore.Combat.Npc
                 if (Entity.ID == ID)
                 {
                     return Entity;
-                }
-            }
-
-            return null;
-        }
-
-        public static BaseNpc GetRandomNpc(CombatTeam Team)
-        {
-            if (GetCount() == 0)
-            {
-                return null;
-            }
-
-            for (var Index = 0; Index < NpcList_[(int)Team].Count; ++Index)
-            {
-                if (NpcList_[(int)Team][Index].CanLocked())
-                {
-                    return NpcList_[(int)Team][Index];
                 }
             }
 

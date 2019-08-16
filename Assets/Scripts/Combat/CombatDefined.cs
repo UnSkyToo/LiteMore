@@ -16,6 +16,26 @@
         Count
     }
 
+    public enum NpcState : byte
+    {
+        /// <summary>
+        /// 眩晕
+        /// </summary>
+        Dizzy   = 1 << 0,
+        /// <summary>
+        /// 沉默
+        /// </summary>
+        Silent  = 1 << 1,
+        /// <summary>
+        /// 嘲讽
+        /// </summary>
+        Taunt   = 1 << 2,
+        /// <summary>
+        /// 无敌
+        /// </summary>
+        God     = 1 << 3,
+    }
+
     public enum NpcDirection : byte
     {
         None,
@@ -27,7 +47,7 @@
     {
         Idle,
         Walk,
-        Attack,
+        Skill,
         Die,
         Back,
     }
