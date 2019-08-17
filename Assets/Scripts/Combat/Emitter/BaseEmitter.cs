@@ -1,15 +1,18 @@
-﻿using LiteMore.Core;
+﻿using System;
+using LiteMore.Core;
 using UnityEngine;
 
 namespace LiteMore.Combat.Emitter
 {
     public abstract class BaseEmitter : BaseEntity
     {
+        public event Action<uint> OnTrigger; 
+
         public Vector2 Position { get; set; }
         public CombatTeam Team { get; set; }
         public bool IsPause { get; set; }
         public float Interval { get; set; }
-        public uint EmittedCount { get; set; }
+        public EmitterRandInt EmittedCountAttr { get; set; }
         public int TriggerCount { get; set; }
 
         private float Time_;
@@ -22,7 +25,6 @@ namespace LiteMore.Combat.Emitter
             IsPause = false;
             Interval = 1;
             Time_ = 0;
-            EmittedCount = 1;
             TriggerCount = -1;
         }
 
@@ -42,10 +44,13 @@ namespace LiteMore.Combat.Emitter
             {
                 Time_ -= Interval;
 
-                for (var Index = 0u; Index < EmittedCount; ++Index)
+                var Count = EmittedCountAttr.Get();
+                Count = Mathf.Clamp(Count, 0, int.MaxValue);
+                for (var Index = 0u; Index < Count; ++Index)
                 {
-                    OnEmitted(Index, EmittedCount);
+                    OnEmitted(Index, (uint)Count);
                 }
+                OnTrigger?.Invoke((uint)Count);
 
                 if (TriggerCount > 0)
                 {
@@ -62,16 +67,6 @@ namespace LiteMore.Combat.Emitter
         public void AtOnce()
         {
             Time_ = Interval;
-        }
-
-        public uint GetRemainingCount()
-        {
-            if (TriggerCount > 0)
-            {
-                return (uint)(TriggerCount * EmittedCount);
-            }
-
-            return 0;
         }
 
         public abstract void CreateDebugLine();

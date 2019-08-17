@@ -24,9 +24,9 @@ namespace LiteMore.Combat.Wave
             Emitter_ = EmitterManager.AddEmitter(new NpcRectEmitter(Name)
             {
                 Team = CombatTeam.B,
-                TriggerCount = Data.TriggerCount,
-                EmittedCount = Data.EmitterCount,
-                Interval = Data.Interval,
+                TriggerCount = -1,//Data.TriggerCount,
+                EmittedCountAttr = new EmitterRandInt(1, 5),//Data.EmitterCount,
+                Interval = 1f,//Data.Interval,
                 IsAlive = true,
                 IsPause = false,
                 Position = new Vector2(Configure.WindowLeft + 120, 0),
@@ -38,8 +38,8 @@ namespace LiteMore.Combat.Wave
                     new Vector2(-100, -Configure.WindowHeight / 2 + 100),
                     new Vector2(100, Configure.WindowHeight / 2 - 100)),
             });
+            Emitter_.OnTrigger += (Count) => RemainingCount_ += Count;
             //Emitter_.AtOnce();
-            RemainingCount_ = Emitter_.GetRemainingCount();
 
             EventManager.Register<NpcDieEvent>(OnNpcDieEvent);
         }

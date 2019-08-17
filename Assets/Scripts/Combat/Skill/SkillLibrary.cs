@@ -55,6 +55,7 @@ namespace LiteMore.Combat.Skill
 
             Add(3001, "普攻", 1, 0, 0, new SkillExecutor_3001());
             Add(3002, "嘲讽", 5, 0, 300, new SkillExecutor_3002());
+            Add(3003, "影分身", 8, 0, 0, new SkillExecutor_3003());
         }
 
         public static void PatchQuickController(QuickController Controller)

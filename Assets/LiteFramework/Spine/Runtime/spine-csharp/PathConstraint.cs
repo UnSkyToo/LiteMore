@@ -1,37 +1,44 @@
 /******************************************************************************
- * Spine Runtimes Software License v2.5
+ * Spine Runtimes License Agreement
+ * Last updated May 1, 2019. Replaces all prior versions.
  *
- * Copyright (c) 2013-2016, Esoteric Software
- * All rights reserved.
+ * Copyright (c) 2013-2019, Esoteric Software LLC
  *
- * You are granted a perpetual, non-exclusive, non-sublicensable, and
- * non-transferable license to use, install, execute, and perform the Spine
- * Runtimes software and derivative works solely for personal or internal
- * use. Without the written permission of Esoteric Software (see Section 2 of
- * the Spine Software License Agreement), you may not (a) modify, translate,
- * adapt, or develop new applications using the Spine Runtimes or otherwise
- * create derivative works or improvements of the Spine Runtimes or (b) remove,
- * delete, alter, or obscure any trademarks or any copyright, trademark, patent,
- * or other intellectual property or proprietary rights notices on or in the
- * Software, including any copy thereof. Redistributions in binary or source
- * form must include this license and terms.
+ * Integration of the Spine Runtimes into software or otherwise creating
+ * derivative works of the Spine Runtimes is permitted under the terms and
+ * conditions of Section 2 of the Spine Editor License Agreement:
+ * http://esotericsoftware.com/spine-editor-license
  *
- * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
- * EVENT SHALL ESOTERIC SOFTWARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
- * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
- * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * Otherwise, it is permitted to integrate the Spine Runtimes into software
+ * or otherwise create derivative works of the Spine Runtimes (collectively,
+ * "Products"), provided that each user of the Products must obtain their own
+ * Spine Editor license and redistribution of the Products in any form must
+ * include this license and copyright notice.
+ *
+ * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY EXPRESS
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN
+ * NO EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS
+ * INTERRUPTION, OR LOSS OF USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
 using System;
 
 namespace Spine {
-	public class PathConstraint : IConstraint {
+
+	/// <summary>
+	/// <para>
+	/// Stores the current pose for a path constraint. A path constraint adjusts the rotation, translation, and scale of the
+	/// constrained bones so they follow a {@link PathAttachment}.</para>
+	/// <para>
+	/// See <a href="http://esotericsoftware.com/spine-path-constraints">Path constraints</a> in the Spine User Guide.</para>
+	/// </summary>
+	public class PathConstraint : IUpdatable {
 		const int NONE = -1, BEFORE = -2, AFTER = -3;
 		const float Epsilon = 0.00001f;
 
@@ -40,18 +47,11 @@ namespace Spine {
 		internal Slot target;
 		internal float position, spacing, rotateMix, translateMix;
 
+		internal bool active;
+
 		internal ExposedList<float> spaces = new ExposedList<float>(), positions = new ExposedList<float>();
 		internal ExposedList<float> world = new ExposedList<float>(), curves = new ExposedList<float>(), lengths = new ExposedList<float>();
 		internal float[] segments = new float[10];
-
-		public int Order { get { return data.order; } }
-		public float Position { get { return position; } set { position = value; } }
-		public float Spacing { get { return spacing; } set { spacing = value; } }
-		public float RotateMix { get { return rotateMix; } set { rotateMix = value; } }
-		public float TranslateMix { get { return translateMix; } set { translateMix = value; } }
-		public ExposedList<Bone> Bones { get { return bones; } }
-		public Slot Target { get { return target; } set { target = value; } }
-		public PathConstraintData Data { get { return data; } }
 
 		public PathConstraint (PathConstraintData data, Skeleton skeleton) {
 			if (data == null) throw new ArgumentNullException("data", "data cannot be null.");
@@ -67,11 +67,26 @@ namespace Spine {
 			translateMix = data.translateMix;
 		}
 
+		/// <summary>Copy constructor.</summary>
+		public PathConstraint (PathConstraint constraint, Skeleton skeleton) {
+			if (constraint == null) throw new ArgumentNullException("constraint cannot be null.");
+			if (skeleton == null) throw new ArgumentNullException("skeleton cannot be null.");
+			data = constraint.data;
+			bones = new ExposedList<Bone>(constraint.Bones.Count);
+			foreach (Bone bone in constraint.Bones)
+				bones.Add(skeleton.Bones.Items[bone.data.index]);
+			target = skeleton.slots.Items[constraint.target.data.index];
+			position = constraint.position;
+			spacing = constraint.spacing;
+			rotateMix = constraint.rotateMix;
+			translateMix = constraint.translateMix;
+		}
+
 		/// <summary>Applies the constraint to the constrained bones.</summary>
 		public void Apply () {
 			Update();
 		}
-			
+		
 		public void Update () {
 			PathAttachment attachment = target.Attachment as PathAttachment;
 			if (attachment == null) return;
@@ -183,7 +198,7 @@ namespace Spine {
 			float[] spacesItems = this.spaces.Items, output = this.positions.Resize(spacesCount * 3 + 2).Items, world;
 			bool closed = path.Closed;
 			int verticesLength = path.WorldVerticesLength, curveCount = verticesLength / 6, prevCurve = NONE;
-            float pathLength = 0;
+			float pathLength = 0;
 
 			if (!path.ConstantSpeed) {
 				float[] lengths = path.Lengths;
@@ -207,14 +222,14 @@ namespace Spine {
 					} else if (p < 0) {
 						if (prevCurve != BEFORE) {
 							prevCurve = BEFORE;
-							path.ComputeWorldVertices(target, 2, 4, world, 0);
+							path.ComputeWorldVertices(target, 2, 4, world, 0, 2);
 						}
 						AddBeforePosition(p, world, 0, output, o);
 						continue;
 					} else if (p > pathLength) {
 						if (prevCurve != AFTER) {
 							prevCurve = AFTER;
-							path.ComputeWorldVertices(target, verticesLength - 6, 4, world, 0);
+							path.ComputeWorldVertices(target, verticesLength - 6, 4, world, 0, 2);
 						}
 						AddAfterPosition(p - pathLength, world, 0, output, o);
 						continue;
@@ -235,10 +250,10 @@ namespace Spine {
 					if (curve != prevCurve) {
 						prevCurve = curve;
 						if (closed && curve == curveCount) {
-							path.ComputeWorldVertices(target, verticesLength - 4, 4, world, 0);
-							path.ComputeWorldVertices(target, 0, 4, world, 4);
+							path.ComputeWorldVertices(target, verticesLength - 4, 4, world, 0, 2);
+							path.ComputeWorldVertices(target, 0, 4, world, 4, 2);
 						} else
-							path.ComputeWorldVertices(target, curve * 6 + 2, 8, world, 0);
+							path.ComputeWorldVertices(target, curve * 6 + 2, 8, world, 0, 2);
 					}
 					AddCurvePosition(p, world[0], world[1], world[2], world[3], world[4], world[5], world[6], world[7], output, o,
 						tangents || (i > 0 && space < PathConstraint.Epsilon));
@@ -250,15 +265,15 @@ namespace Spine {
 			if (closed) {
 				verticesLength += 2;
 				world = this.world.Resize(verticesLength).Items;
-				path.ComputeWorldVertices(target, 2, verticesLength - 4, world, 0);
-				path.ComputeWorldVertices(target, 0, 2, world, verticesLength - 4);
+				path.ComputeWorldVertices(target, 2, verticesLength - 4, world, 0, 2);
+				path.ComputeWorldVertices(target, 0, 2, world, verticesLength - 4, 2);
 				world[verticesLength - 2] = world[0];
 				world[verticesLength - 1] = world[1];
 			} else {
 				curveCount--;
 				verticesLength -= 4;
 				world = this.world.Resize(verticesLength).Items;
-				path.ComputeWorldVertices(target, 2, verticesLength, world, 0);
+				path.ComputeWorldVertices(target, 2, verticesLength, world, 0, 2);
 			}
 
 			// Curve lengths.
@@ -432,5 +447,21 @@ namespace Spine {
 					output[o + 2] = (float)Math.Atan2(y - (y1 * uu + cy1 * ut * 2 + cy2 * tt), x - (x1 * uu + cx1 * ut * 2 + cx2 * tt));
 			}
 		}
+		
+		/// <summary>The position along the path.</summary>
+		public float Position { get { return position; } set { position = value; } }
+		/// <summary>The spacing between bones.</summary>
+		public float Spacing { get { return spacing; } set { spacing = value; } }
+		/// <summary>A percentage (0-1) that controls the mix between the constrained and unconstrained rotations.</summary>
+		public float RotateMix { get { return rotateMix; } set { rotateMix = value; } }
+		/// <summary>A percentage (0-1) that controls the mix between the constrained and unconstrained translations.</summary>
+		public float TranslateMix { get { return translateMix; } set { translateMix = value; } }
+		/// <summary>The bones that will be modified by this path constraint.</summary>
+		public ExposedList<Bone> Bones { get { return bones; } }
+		/// <summary>The slot whose path attachment will be used to constrained the bones.</summary>
+		public Slot Target { get { return target; } set { target = value; } }
+		public bool Active { get { return active; } }
+		/// <summary>The path constraint's setup pose data.</summary>
+		public PathConstraintData Data { get { return data; } }
 	}
 }

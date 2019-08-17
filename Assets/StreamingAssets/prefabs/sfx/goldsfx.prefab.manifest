@@ -3,7 +3,7 @@ CRC: 3312722281
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: df82b5cc7de0c47aa95c334d69476199
+    Hash: 7634d084a49c96470a7a857b08f01f3e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2495b201d674e914a98a58ad8df6283a
@@ -28,5 +28,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Sfx/GoldSfx.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/goldsfx.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/item.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/sfx/goldsfx.controller
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/item.png

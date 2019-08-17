@@ -1,5 +1,6 @@
 ﻿using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
+using LiteFramework.Game.Audio;
 using LiteFramework.Game.Logic;
 using LiteFramework.Game.Lua;
 using LiteFramework.Game.UI;
@@ -14,6 +15,13 @@ namespace LiteFramework.Game
             if (!AssetManager.Startup())
             {
                 LLogger.LError($"{nameof(AssetManager)} Startup Failed");
+                return false;
+            }
+
+            LLogger.LInfo($"{nameof(AudioManager)} Startup");
+            if (!AudioManager.Startup())
+            {
+                LLogger.LError($"{nameof(AudioManager)} Startup Failed");
                 return false;
             }
 
@@ -50,12 +58,14 @@ namespace LiteFramework.Game
 #endif
             LogicManager.Shutdown();
             UIManager.Shutdown();
+            AudioManager.Shutdown();
             AssetManager.Shutdown();
         }
 
         public static void Tick(float DeltaTime)
         {
             AssetManager.Tick(DeltaTime);
+            AudioManager.Tick(DeltaTime);
             UIManager.Tick(DeltaTime);
             LogicManager.Tick(DeltaTime);
 #if LITE_USE_LUA_MODULE

@@ -3,7 +3,7 @@ CRC: 1123303534
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 684cea2981ffb4884e21522663fc403b
+    Hash: 73bfee381f06b8dc265019502e2e7ab2
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,12 +16,12 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Sfx/BombSfx.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_0.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_1.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_2.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_3.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_4.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_5.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_6.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_7.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_8.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_0.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_1.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_2.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_3.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_4.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_5.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_6.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_7.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bomb/bomb_8.png

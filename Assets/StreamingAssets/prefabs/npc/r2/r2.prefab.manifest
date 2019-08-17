@@ -3,7 +3,7 @@ CRC: 1577627952
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b3cdacb8be2a12abd2adad9727bcb574
+    Hash: 75470b1214009a3d729daee1585c3cac
   TypeTreeHash:
     serializedVersion: 2
     Hash: 51e082e0be1153ff8d14f0299448ed68
@@ -40,6 +40,6 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2.controller
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/r2.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/ui.png

@@ -3,7 +3,7 @@ CRC: 2266377232
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4d2c0b157b2898af672052dde4456ecc
+    Hash: 504845d80c5e6a9e074c68e983feff16
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0b15b8a46d7b95452e6c4f0c0966ea2a
@@ -44,7 +44,7 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/UI/MainUI.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_jia.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_chengse.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_lv.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_zi.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/pic_jia.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_chengse.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_lv.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_zi.png

@@ -3,7 +3,7 @@ CRC: 174244963
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c56c0590d78643eb56584ab8e9de15e9
+    Hash: ad48623803d5443a973ef631f3d8e0f9
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -24,4 +24,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Bullet/BulletTrigger.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bv0.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bv0.png

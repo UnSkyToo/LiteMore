@@ -7,6 +7,7 @@ namespace LiteMore
         public static readonly Transform CanvasRoot = GameObject.Find("Canvas").transform;
 
         public static readonly Transform CombatRoot = CanvasRoot.Find("Combat").transform;
+        public static readonly Transform AudioRoot = CombatRoot.Find("Audio").transform;
         public static readonly Transform MapRoot = CombatRoot.Find("Map").transform;
         public static readonly Transform NpcRoot = CombatRoot.Find("Npc").transform;
         public static readonly Transform BulletRoot = CombatRoot.Find("Bullet").transform;

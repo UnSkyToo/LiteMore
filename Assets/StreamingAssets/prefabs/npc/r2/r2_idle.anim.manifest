@@ -3,7 +3,7 @@ CRC: 3992592101
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d05926b377d943cc8c4acc0f99bebe3a
+    Hash: 09fa3af8fb6caac88ec76d2bc76b5fca
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2_idle.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/r2.png

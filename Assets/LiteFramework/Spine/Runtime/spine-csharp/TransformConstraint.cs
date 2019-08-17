@@ -1,50 +1,49 @@
 /******************************************************************************
- * Spine Runtimes Software License v2.5
+ * Spine Runtimes License Agreement
+ * Last updated May 1, 2019. Replaces all prior versions.
  *
- * Copyright (c) 2013-2016, Esoteric Software
- * All rights reserved.
+ * Copyright (c) 2013-2019, Esoteric Software LLC
  *
- * You are granted a perpetual, non-exclusive, non-sublicensable, and
- * non-transferable license to use, install, execute, and perform the Spine
- * Runtimes software and derivative works solely for personal or internal
- * use. Without the written permission of Esoteric Software (see Section 2 of
- * the Spine Software License Agreement), you may not (a) modify, translate,
- * adapt, or develop new applications using the Spine Runtimes or otherwise
- * create derivative works or improvements of the Spine Runtimes or (b) remove,
- * delete, alter, or obscure any trademarks or any copyright, trademark, patent,
- * or other intellectual property or proprietary rights notices on or in the
- * Software, including any copy thereof. Redistributions in binary or source
- * form must include this license and terms.
+ * Integration of the Spine Runtimes into software or otherwise creating
+ * derivative works of the Spine Runtimes is permitted under the terms and
+ * conditions of Section 2 of the Spine Editor License Agreement:
+ * http://esotericsoftware.com/spine-editor-license
  *
- * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
- * EVENT SHALL ESOTERIC SOFTWARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS INTERRUPTION, OR LOSS OF
- * USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
- * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * Otherwise, it is permitted to integrate the Spine Runtimes into software
+ * or otherwise create derivative works of the Spine Runtimes (collectively,
+ * "Products"), provided that each user of the Products must obtain their own
+ * Spine Editor license and redistribution of the Products in any form must
+ * include this license and copyright notice.
+ *
+ * THIS SOFTWARE IS PROVIDED BY ESOTERIC SOFTWARE LLC "AS IS" AND ANY EXPRESS
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN
+ * NO EVENT SHALL ESOTERIC SOFTWARE LLC BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, BUSINESS
+ * INTERRUPTION, OR LOSS OF USE, DATA, OR PROFITS) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
 using System;
 
 namespace Spine {
-	public class TransformConstraint : IConstraint {
+	/// <summary>
+	/// <para>
+	/// Stores the current pose for a transform constraint. A transform constraint adjusts the world transform of the constrained
+	/// bones to match that of the target bone.</para>
+	/// <para>
+	/// See <a href="http://esotericsoftware.com/spine-transform-constraints">Transform constraints</a> in the Spine User Guide.</para>
+	/// </summary>
+	public class TransformConstraint : IUpdatable {
 		internal TransformConstraintData data;
 		internal ExposedList<Bone> bones;
 		internal Bone target;
 		internal float rotateMix, translateMix, scaleMix, shearMix;
-
-		public TransformConstraintData Data { get { return data; } }
-		public int Order { get { return data.order; } }
-		public ExposedList<Bone> Bones { get { return bones; } }
-		public Bone Target { get { return target; } set { target = value; } }
-		public float RotateMix { get { return rotateMix; } set { rotateMix = value; } }
-		public float TranslateMix { get { return translateMix; } set { translateMix = value; } }
-		public float ScaleMix { get { return scaleMix; } set { scaleMix = value; } }
-		public float ShearMix { get { return shearMix; } set { shearMix = value; } }
+		
+		internal bool active;
 
 		public TransformConstraint (TransformConstraintData data, Skeleton skeleton) {
 			if (data == null) throw new ArgumentNullException("data", "data cannot be null.");
@@ -57,11 +56,27 @@ namespace Spine {
 
 			bones = new ExposedList<Bone>();
 			foreach (BoneData boneData in data.bones)
-				bones.Add (skeleton.FindBone (boneData.name));
+				bones.Add (skeleton.FindBone(boneData.name));
 
 			target = skeleton.FindBone(data.target.name);
 		}
 
+		/// <summary>Copy constructor.</summary>
+		public TransformConstraint (TransformConstraint constraint, Skeleton skeleton) {
+			if (constraint == null) throw new ArgumentNullException("constraint cannot be null.");
+			if (skeleton == null) throw new ArgumentNullException("skeleton cannot be null.");
+			data = constraint.data;
+			bones = new ExposedList<Bone>(constraint.Bones.Count);
+			foreach (Bone bone in constraint.Bones)
+				bones.Add(skeleton.Bones.Items[bone.data.index]);
+			target = skeleton.Bones.Items[constraint.target.data.index];
+			rotateMix = constraint.rotateMix;
+			translateMix = constraint.translateMix;
+			scaleMix = constraint.scaleMix;
+			shearMix = constraint.shearMix;
+		}
+
+		/// <summary>Applies the constraint to the constrained bones.</summary>
 		public void Apply () {
 			Update();
 		}
@@ -116,13 +131,11 @@ namespace Spine {
 
 				if (scaleMix > 0) {
 					float s = (float)Math.Sqrt(bone.a * bone.a + bone.c * bone.c);
-					//float ts = (float)Math.sqrt(ta * ta + tc * tc);
-					if (s > 0.00001f) s = (s + ((float)Math.Sqrt(ta * ta + tc * tc) - s + data.offsetScaleX) * scaleMix) / s;
+					if (s != 0) s = (s + ((float)Math.Sqrt(ta * ta + tc * tc) - s + data.offsetScaleX) * scaleMix) / s;
 					bone.a *= s;
 					bone.c *= s;
 					s = (float)Math.Sqrt(bone.b * bone.b + bone.d * bone.d);
-					//ts = (float)Math.Sqrt(tb * tb + td * td);
-					if (s > 0.00001f) s = (s + ((float)Math.Sqrt(tb * tb + td * td) - s + data.offsetScaleY) * scaleMix) / s;
+					if (s != 0) s = (s + ((float)Math.Sqrt(tb * tb + td * td) - s + data.offsetScaleY) * scaleMix) / s;
 					bone.b *= s;
 					bone.d *= s;
 					modified = true;
@@ -231,15 +244,15 @@ namespace Spine {
 
 				float scaleX = bone.ascaleX, scaleY = bone.ascaleY;
 				if (scaleMix != 0) {
-					if (scaleX > 0.00001f) scaleX = (scaleX + (target.ascaleX - scaleX + data.offsetScaleX) * scaleMix) / scaleX;
-					if (scaleY > 0.00001f) scaleY = (scaleY + (target.ascaleY - scaleY + data.offsetScaleY) * scaleMix) / scaleY;
+					if (scaleX != 0) scaleX = (scaleX + (target.ascaleX - scaleX + data.offsetScaleX) * scaleMix) / scaleX;
+					if (scaleY != 0) scaleY = (scaleY + (target.ascaleY - scaleY + data.offsetScaleY) * scaleMix) / scaleY;
 				}
 
 				float shearY = bone.ashearY;
 				if (shearMix != 0) {
 					float r = target.ashearY - shearY + data.offsetShearY;
 					r -= (16384 - (int)(16384.499999999996 - r / 360)) * 360;
-					bone.shearY += r * shearMix;
+					shearY += r * shearMix;
 				}
 
 				bone.UpdateWorldTransform(x, y, rotation, scaleX, scaleY, bone.ashearX, shearY);
@@ -266,8 +279,8 @@ namespace Spine {
 
 				float scaleX = bone.ascaleX, scaleY = bone.ascaleY;
 				if (scaleMix != 0) {
-					if (scaleX > 0.00001f) scaleX *= ((target.ascaleX - 1 + data.offsetScaleX) * scaleMix) + 1;
-					if (scaleY > 0.00001f) scaleY *= ((target.ascaleY - 1 + data.offsetScaleY) * scaleMix) + 1;
+					scaleX *= ((target.ascaleX - 1 + data.offsetScaleX) * scaleMix) + 1;
+					scaleY *= ((target.ascaleY - 1 + data.offsetScaleY) * scaleMix) + 1;
 				}
 
 				float shearY = bone.ashearY;
@@ -276,6 +289,22 @@ namespace Spine {
 				bone.UpdateWorldTransform(x, y, rotation, scaleX, scaleY, bone.ashearX, shearY);
 			}
 		}
+
+		/// <summary>The bones that will be modified by this transform constraint.</summary>
+		public ExposedList<Bone> Bones { get { return bones; } }
+		/// <summary>The target bone whose world transform will be copied to the constrained bones.</summary>
+		public Bone Target { get { return target; } set { target = value; } }
+		/// <summary>A percentage (0-1) that controls the mix between the constrained and unconstrained rotations.</summary>
+		public float RotateMix { get { return rotateMix; } set { rotateMix = value; } }
+		/// <summary>A percentage (0-1) that controls the mix between the constrained and unconstrained translations.</summary>
+		public float TranslateMix { get { return translateMix; } set { translateMix = value; } }
+		/// <summary>A percentage (0-1) that controls the mix between the constrained and unconstrained scales.</summary>
+		public float ScaleMix { get { return scaleMix; } set { scaleMix = value; } }
+		/// <summary>A percentage (0-1) that controls the mix between the constrained and unconstrained scales.</summary>
+		public float ShearMix { get { return shearMix; } set { shearMix = value; } }
+		public bool Active { get { return active; } }
+		/// <summary>The transform constraint's setup pose data.</summary>
+		public TransformConstraintData Data { get { return data; } }
 
 		override public string ToString () {
 			return data.name;

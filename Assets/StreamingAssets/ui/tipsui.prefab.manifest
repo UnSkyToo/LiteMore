@@ -3,7 +3,7 @@ CRC: 2924400261
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3b2be6019f35af410a8f0c08e42a5a14
+    Hash: 645964b4860ee438ca7a2990023ec92c
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7bc891bdb5f894865b7f505e913c5315
@@ -36,4 +36,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/UI/TipsUI.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/tips.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/tips.png

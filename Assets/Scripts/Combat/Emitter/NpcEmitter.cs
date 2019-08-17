@@ -51,7 +51,7 @@ namespace LiteMore.Combat.Emitter
         protected override void OnEmitted(uint Cur, uint Max)
         {
             var Pos = Position + OffsetAttr.Get();
-            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 5, 5);
+            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 20, 20);
             var Entity = NpcManager.AddNpc(Name, Pos, Team, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
         }
@@ -103,7 +103,7 @@ namespace LiteMore.Combat.Emitter
             var Angle = Random.Range(0, Mathf.PI * 2);
             var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
-            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 5, 5);
+            var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, DamageAttr.Get(), GemAttr.Get(), 20, 20);
             var Entity = NpcManager.AddNpc(Name, Pos, Team, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
         }

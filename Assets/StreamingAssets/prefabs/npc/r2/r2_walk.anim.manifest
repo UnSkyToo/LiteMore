@@ -3,7 +3,7 @@ CRC: 1376659776
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0b29bcb8d26e2b4d66848b37f095eb69
+    Hash: ba08c38b4bde4ebd167ec64787386ba1
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2_walk.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/r2.png

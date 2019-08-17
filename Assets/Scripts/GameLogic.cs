@@ -1,4 +1,5 @@
 ﻿using LiteFramework;
+using LiteFramework.Game.Audio;
 using LiteFramework.Game.Logic;
 using LiteMore.Cache;
 using LiteMore.Combat;
@@ -24,6 +25,10 @@ namespace LiteMore
             LocalData.Generate();
             Lang.Load();
 
+            AudioManager.Root = Configure.AudioRoot;
+
+            AudioManager.MuteAllAudio(true);
+
             foreach (var Entity in UIConfigure.UIList)
             {
                 LiteConfigure.UIDescList.Add(Entity.Key, Entity.Value);
@@ -35,10 +40,12 @@ namespace LiteMore
                 return false;
             }
 
+            AudioManager.PlayMusic("audio/bgm_titan.mp3", true, 0.5f);
+
             TestSkill();
 
-            //PlayerManager.CreateMainEmitter();
-            //WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
+            PlayerManager.CreateMainEmitter();
+            WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
 
             return true;
         }
@@ -70,7 +77,7 @@ namespace LiteMore
             SkillManager.AddMainSkill(SkillLibrary.Get(2008));
 
             NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
-                NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 5, 5));
+                NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 20, 20));
 
             SkillManager.AddPassiveSkill(SkillLibrary.Get(1005), PlayerManager.Master, -1);
         }

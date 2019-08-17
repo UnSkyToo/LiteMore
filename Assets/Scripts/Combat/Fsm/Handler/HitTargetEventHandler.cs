@@ -1,6 +1,7 @@
 ﻿using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
+using UnityEngine;
 
 namespace LiteMore.Combat.Fsm.Handler
 {
@@ -36,7 +37,7 @@ namespace LiteMore.Combat.Fsm.Handler
             {
                 if (Skill.SkillID != 3001)
                 {
-                    LabelManager.AddStringLabel(Attacker.Position, Skill.Name);
+                    LabelManager.AddStringLabel(Attacker.Position, Skill.Name, Color.green, 30);
                 }
 
                 return true;

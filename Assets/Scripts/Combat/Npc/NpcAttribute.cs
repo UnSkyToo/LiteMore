@@ -48,6 +48,19 @@ namespace LiteMore.Combat.Npc
             }
         }
 
+        public NpcAttribute(NpcAttribute Other)
+        {
+            Value_ = new float[(int)NpcAttrIndex.Count];
+            Percent_ = new float[(int)NpcAttrIndex.Count];
+            Base_ = new float[(int)NpcAttrIndex.Count];
+            for (var Index = 0; Index < Value_.Length; ++Index)
+            {
+                Value_[Index] = Other.Value_[Index];
+                Percent_[Index] = Other.Percent_[Index];
+                Base_[Index] = Other.Base_[Index];
+            }
+        }
+
         public float CalcFinalValue(NpcAttrIndex Index)
         {
             return GetValue(Index) * GetPercent(Index) + GetBase(Index);

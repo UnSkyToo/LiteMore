@@ -30,7 +30,7 @@ namespace LiteMore.Combat.Skill.Executor
                 Master = PlayerManager.Master,
                 Team = CombatTeam.A,
                 TriggerCount = 10,
-                EmittedCount = 100,
+                EmittedCountAttr = new EmitterRandInt(100),
                 Interval = 30.0f / 60.0f,
                 IsAlive = true,
                 IsPause = false,
@@ -52,7 +52,7 @@ namespace LiteMore.Combat.Skill.Executor
             {
                 Team = CombatTeam.B,
                 TriggerCount = 1,
-                EmittedCount = 100,
+                EmittedCountAttr = new EmitterRandInt(100),
                 Interval = 1.0f / 60.0f,
                 IsAlive = true,
                 IsPause = false,
@@ -132,6 +132,7 @@ namespace LiteMore.Combat.Skill.Executor
                 NpcManager.GenerateInitAttr(200, 500, 0, 50, 0, 100, 100));
             Npc.Scale = new Vector2(3, 3);
             Npc.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3002), Npc)); // 嘲讽-主动
+            Npc.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3003), Npc)); // 分身-主动
             Npc.AddSkill(SkillManager.AddPassiveSkill(SkillLibrary.Get(1001), Npc, -1)); // 荆棘-被动
             return true;
         }

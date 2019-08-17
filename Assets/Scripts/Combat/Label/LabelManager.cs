@@ -51,13 +51,13 @@ namespace LiteMore.Combat.Label
             return Entity;
         }
 
-        public static NumberLabel AddStringLabel(Vector2 Position, string Value)
+        public static StringLabel AddStringLabel(Vector2 Position, string Value, Color TextColor, int FontSize = 20)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/num.prefab");
             Obj.transform.SetParent(Configure.LabelRoot, false);
             Obj.transform.localPosition = Position;
 
-            var Entity = new NumberLabel(Obj.transform, NumberLabelType.Bomb, Value);
+            var Entity = new StringLabel(Obj.transform, Value, TextColor, FontSize);
             LabelList_.Add(Entity);
             Entity.Position = Position;
 

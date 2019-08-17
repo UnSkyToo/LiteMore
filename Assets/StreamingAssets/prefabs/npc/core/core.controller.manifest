@@ -3,7 +3,7 @@ CRC: 3155142750
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2abdd0c70d94fe2c50d0749ce101a075
+    Hash: f11aa162a7bb681a31934057325e1104
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/Core/Core.controller
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core_idle.anim
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core_idle.anim

@@ -111,7 +111,7 @@ namespace LiteMore.Player
                 Master = PlayerManager.Master,
                 Team = CombatTeam.A,
                 TriggerCount = -1,
-                EmittedCount = GetBulletCount(),
+                EmittedCountAttr = new EmitterRandInt((int)GetBulletCount()),
                 Interval = GetBulletInterval(),
                 IsAlive = true,
                 IsPause = false,
@@ -241,7 +241,7 @@ namespace LiteMore.Player
         public static void AddBulletCountLevel()
         {
             Player_.BulletCountLevel++;
-            MainEmitter_.EmittedCount = LocalData.MainBullet.Count[Player_.BulletCountLevel].Count;
+            MainEmitter_.EmittedCountAttr = new EmitterRandInt((int)LocalData.MainBullet.Count[Player_.BulletCountLevel].Count);
             Player_.SaveToCache();
         }
 

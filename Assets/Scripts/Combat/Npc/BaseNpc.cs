@@ -18,13 +18,13 @@ namespace LiteMore.Combat.Npc
         protected List<BaseBullet> LockedList_;
         protected readonly List<BaseNpcHandler> HandlerList_;
 
-        public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
+        public BaseNpc(string Name, Transform Trans, CombatTeam Team, NpcAttribute InitAttr)
             : base(Name, Trans)
         {
             this.IsStatic = false;
             this.Team = Team;
 
-            Attr = new NpcAttribute(InitAttr);
+            Attr = InitAttr;
             Attr.AttrChanged += OnAttrChanged;
             State_ = 0;
 

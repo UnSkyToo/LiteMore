@@ -61,5 +61,10 @@ namespace LiteFramework.Helper
         {
             return new Color(Random.value, Random.value, Random.value);
         }
+
+        public static Vector2 RandVec2(float Radius)
+        {
+            return new Vector2(Random.Range(-Radius, Radius), Random.Range(-Radius, Radius));
+        }
     }
 }

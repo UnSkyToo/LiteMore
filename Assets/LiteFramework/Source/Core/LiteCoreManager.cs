@@ -3,6 +3,7 @@ using LiteFramework.Core.Async.Timer;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
 using LiteFramework.Core.Motion;
+using LiteFramework.Core.Net;
 using LiteFramework.Core.ObjectPool;
 
 namespace LiteFramework.Core
@@ -46,11 +47,19 @@ namespace LiteFramework.Core
                 return false;
             }
 
+            LLogger.LInfo($"{nameof(NetManager)} Startup");
+            if (!NetManager.Startup())
+            {
+                LLogger.LError($"{nameof(NetManager)} Startup Failed");
+                return false;
+            }
+
             return true;
         }
 
         public static void Shutdown()
         {
+            NetManager.Shutdown();
             MotionManager.Shutdown();
             TimerManager.Shutdown();
             TaskManager.Shutdown();
@@ -65,6 +74,7 @@ namespace LiteFramework.Core
             TaskManager.Tick(DeltaTime);
             TimerManager.Tick(DeltaTime);
             MotionManager.Tick(DeltaTime);
+            NetManager.Tick(DeltaTime);
         }
     }
 }

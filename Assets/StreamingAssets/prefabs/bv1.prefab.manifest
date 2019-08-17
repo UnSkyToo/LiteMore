@@ -3,7 +3,7 @@ CRC: 3791999019
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 25e8b9563b761b55c7f65b75b36e97a7
+    Hash: 572f31e4a246b24f642cdfc4d7935e00
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -24,4 +24,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/bv1.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bv1.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bv1.png

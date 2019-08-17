@@ -8,7 +8,7 @@ namespace LiteMore.Combat.Npc
     {
         protected readonly BehaviorInputData AIData_;
 
-        public AINpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
+        public AINpc(string Name, Transform Trans, CombatTeam Team, NpcAttribute InitAttr)
             : base(Name, Trans, Team, InitAttr)
         {
             AIData_ = new BehaviorInputData();

@@ -3,7 +3,7 @@ CRC: 3776215389
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1f235581eb1fdf68caeb9d71ccc9b618
+    Hash: bc40f4f2d0e7c02d2b847de032bc8242
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7bc891bdb5f894865b7f505e913c5315
@@ -36,5 +36,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/SkillIcon.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_lan.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_lan.png
+- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png

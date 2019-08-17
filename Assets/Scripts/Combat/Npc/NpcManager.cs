@@ -73,9 +73,9 @@ namespace LiteMore.Combat.Npc
         // Gem,        // 死亡奖励宝石
         // Range,      // 攻击范围
         // Radius,     // 可攻击半径
-        public static float[] GenerateInitAttr(float Speed, float MaxHp, float MaxMp, float Damage, float Gem, float Range, float Radius)
+        public static NpcAttribute GenerateInitAttr(float Speed, float MaxHp, float MaxMp, float Damage, float Gem, float Range, float Radius)
         {
-            return new float[]
+            return new NpcAttribute(new float[]
             {
                 Speed,
                 MaxHp,
@@ -88,12 +88,12 @@ namespace LiteMore.Combat.Npc
                 Gem,
                 Range,
                 Radius,
-            };
+            });
         }
 
-        public static float[] GenerateCoreNpcAttr()
+        public static NpcAttribute GenerateCoreNpcAttr()
         {
-            return new float[]
+            return new NpcAttribute(new float[]
             {
                 0,
                 PlayerManager.Player.Hp,
@@ -106,10 +106,10 @@ namespace LiteMore.Combat.Npc
                 0,
                 0,
                 50,
-            };
+            });
         }
 
-        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr)
+        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, NpcAttribute InitAttr)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/npc/r2/r2.prefab");
             Obj.transform.SetParent(Configure.NpcRoot, false);
@@ -127,7 +127,7 @@ namespace LiteMore.Combat.Npc
             return Entity;
         }
 
-        public static CoreNpc AddCoreNpc(string Name, Vector2 Position, float[] InitAttr)
+        public static CoreNpc AddCoreNpc(string Name, Vector2 Position, NpcAttribute InitAttr)
         {
             if (CoreNpc_ != null)
             {
