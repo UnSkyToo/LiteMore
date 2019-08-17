@@ -57,13 +57,17 @@ namespace LiteMore.Combat.Skill
             Add(3002, "嘲讽", 5, 0, 300, new SkillExecutor_3002());
         }
 
-        /*public static void PatchQuickController(QuickController Controller)
+        public static void PatchQuickController(QuickController Controller)
         {
-            foreach (var Info in SkillList_)
-            {
-                Controller.AddNode(Info.Value.Index, new QuickNode(Info.Key));
-            }
-        }*/
+            Controller.AddNode(new QuickIndex(1, 1, 0, 0, 1), new QuickNode(2001));
+            Controller.AddNode(new QuickIndex(0, 1, 0, 2, 1), new QuickNode(2002));
+            Controller.AddNode(new QuickIndex(0, 1, 0, 0, 0), new QuickNode(2003));
+            Controller.AddNode(new QuickIndex(1, 1, 0, 0, 0), new QuickNode(2004));
+            Controller.AddNode(new QuickIndex(0, 1, 1, 0, 1), new QuickNode(2005));
+            Controller.AddNode(new QuickIndex(0, 0, 2, 0, 1), new QuickNode(2006));
+            Controller.AddNode(new QuickIndex(1, 1, 1, 1, 1), new QuickNode(2007));
+            Controller.AddNode(new QuickIndex(0, 0, 0, 1, 0), new QuickNode(2008));
+        }
 
         public static SkillDescriptor Get(uint SkillID)
         {
