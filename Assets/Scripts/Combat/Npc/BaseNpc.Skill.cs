@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
+using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Skill;
 using UnityEngine;
 
@@ -10,9 +11,9 @@ namespace LiteMore.Combat.Npc
         public BaseNpc AttackerNpc { get; set; }
         public BaseNpc TargetNpc { get; set; }
         public Vector2 TargetPos { get; protected set; }
+        public bool IsForceMove { get; protected set; }
 
         protected List<BaseSkill> SkillList_ = new List<BaseSkill>();
-        protected BaseSkill NextSkill_ = null;
 
         public void Back(float Distance, float Speed)
         {
@@ -30,7 +31,13 @@ namespace LiteMore.Combat.Npc
             EventManager.Send(new NpcBackEvent(ID, Team, BackPos, Offset.magnitude / Speed));
         }
 
-        public void MoveTo(Vector2 TargetPos)
+        public void StopMove()
+        {
+            Fsm_.ChangeToIdleState();
+            IsForceMove = false;
+        }
+
+        public void MoveTo(Vector2 TargetPos, bool IsForceMove = false)
         {
             if (IsStatic)
             {
@@ -38,12 +45,13 @@ namespace LiteMore.Combat.Npc
             }
 
             this.TargetPos = TargetPos;
+            this.IsForceMove = IsForceMove;
             EventManager.Send(new NpcWalkEvent(ID, Team, TargetPos));
         }
 
         public bool CanUseSkill()
         {
-            if (!IsAlive)
+            if (!IsAlive || IsForceMove)
             {
                 return false;
             }
@@ -61,6 +69,22 @@ namespace LiteMore.Combat.Npc
             return false;
         }
 
+        public bool CanUseSkill(uint SkillID)
+        {
+            if (!CanUseSkill())
+            {
+                return false;
+            }
+
+            var Skill = GetSkill(SkillID);
+            if (Skill == null)
+            {
+                return false;
+            }
+
+            return Skill.CanUse();
+        }
+
         public uint GetSkillLevel(uint SkillID)
         {
             return 1;
@@ -76,16 +100,6 @@ namespace LiteMore.Combat.Npc
             SkillList_.Add(Skill);
         }
 
-        public void SetNextSkill(BaseSkill Skill)
-        {
-            NextSkill_ = Skill;
-        }
-
-        public BaseSkill GetNextSkill()
-        {
-            return NextSkill_;
-        }
-
         public BaseSkill GetSkill(uint SkillID)
         {
             foreach (var Skill in SkillList_)
@@ -99,9 +113,32 @@ namespace LiteMore.Combat.Npc
             return null;
         }
 
-        public void UseNextSkill()
+        public void UseSkill(uint SkillID)
         {
-            var Evt = new NpcSkillEvent(ID, Team, TargetNpc.ID, NextSkill_.SkillID);
+            if (!CanUseSkill(SkillID))
+            {
+                return;
+            }
+
+            var SkillDesc = SkillLibrary.Get(SkillID);
+            if (SkillDesc == null)
+            {
+                return;
+            }
+
+            object Args = null;
+            if (SkillDesc.Rule.RangeType == LockRangeType.InDistance)
+            {
+                Args = SkillDesc.Radius;
+            }
+
+            var Targets = LockingHelper.Find(this, SkillDesc.Rule, Args);
+            if (Targets.Count == 0)
+            {
+                return;
+            }
+
+            var Evt = new NpcSkillEvent(ID, Team, SkillID, Targets);
             EventManager.Send(Evt);
         }
 

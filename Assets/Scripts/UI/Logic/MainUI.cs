@@ -17,6 +17,8 @@ namespace LiteMore.UI.Logic
         private WaveInfoPart WaveInfo_;
         private CoreUpPart CoreUp_;
 
+        private Transform SkillList_;
+
         private int TimeScale_ = 1;
 
         public MainUI()
@@ -31,6 +33,7 @@ namespace LiteMore.UI.Logic
             CoreInfo_ = new CoreInfoPart(FindChild("CoreInfo"));
             WaveInfo_ = new WaveInfoPart(FindChild("WaveInfo"));
             CoreUp_ = new CoreUpPart(FindChild("CoreUpInfo"));
+            SkillList_ = FindChild("SkillList");
 
             AddEventToChild("BtnDelete", () =>
             {
@@ -67,6 +70,11 @@ namespace LiteMore.UI.Logic
             CoreInfo_.Dispose();
             WaveInfo_.Dispose();
             CoreUp_.Dispose();
+        }
+
+        public Transform GetSkillListParent()
+        {
+            return SkillList_;
         }
 
         private class CoreInfoPart
@@ -126,8 +134,6 @@ namespace LiteMore.UI.Logic
             private readonly Text NewWaveText_;
             private readonly GameObject BtnNextWaveObj_;
 
-            private bool AutoNextWave_ = false;
-
             internal WaveInfoPart(Transform Trans)
             {
                 Trans_ = Trans.GetComponent<RectTransform>();
@@ -142,15 +148,8 @@ namespace LiteMore.UI.Logic
                 NewWaveText_ = UIHelper.FindComponent<Text>(Trans, "NewWave");
                 NewWaveText_.gameObject.SetActive(false);
                 BtnNextWaveObj_ = UIHelper.FindChild(Trans, "BtnNextWave").gameObject;
-                BtnNextWaveObj_.SetActive(false);
 
                 UIHelper.AddEvent(BtnNextWaveObj_.transform, OnBtnNextWaveClick);
-
-                AutoNextWave_ = UIHelper.FindComponent<Toggle>(Trans, "AutoNextWave").isOn;
-                UIHelper.FindComponent<Toggle>(Trans, "AutoNextWave").onValueChanged.AddListener((Auto) =>
-                    {
-                        AutoNextWave_ = Auto;
-                    });
 
                 EventManager.Register<WaveChangeEvent>(OnWaveChangeEvent);
                 EventManager.Register<NewWaveEvent>(OnNewWaveEvent);
@@ -164,7 +163,12 @@ namespace LiteMore.UI.Logic
 
             private void Refresh()
             {
-                var Data = WaveManager.GetWave().Data;
+                var Data = WaveManager.GetWave()?.Data;
+                if (Data == null)
+                {
+                    return;
+                }
+
                 WaveText_.text = $"当前波数：<color=red>{Data.Wave}</color>";
                 RemainingNumText_.text = $"剩余数量：{WaveManager.GetWave().GetRemainingCount()}";
                 IntervalText_.text = $"间隔时间：{Data.Interval:0.0}s";
@@ -172,18 +176,6 @@ namespace LiteMore.UI.Logic
                 HpText_.text = $"生命值：{Data.Hp}";
                 DamageText_.text = $"伤害值：{Data.Damage}";
                 GemText_.text = $"奖励宝石：{Data.Gem}";
-
-                if (WaveManager.GetWave().GetRemainingCount() == 0)
-                {
-                    if (AutoNextWave_)
-                    {
-                        OnBtnNextWaveClick();
-                    }
-                    else
-                    {
-                        BtnNextWaveObj_.SetActive(true);
-                    }
-                }
 
                 LayoutRebuilder.ForceRebuildLayoutImmediate(Trans_);
             }
@@ -210,7 +202,6 @@ namespace LiteMore.UI.Logic
 
             private void OnBtnNextWaveClick()
             {
-                BtnNextWaveObj_.SetActive(false);
                 PlayerManager.AddWave();
             }
         }

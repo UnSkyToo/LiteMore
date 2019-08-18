@@ -1,5 +1,6 @@
 ﻿using LiteMore.Combat.AI.BehaviorTree;
 using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.Skill;
 using UnityEngine;
 
 namespace LiteMore.Combat.AI
@@ -13,7 +14,7 @@ namespace LiteMore.Combat.AI
                 return false;
             }
 
-            var NextSkill = Input.Attacker.GetNextSkill();
+            var NextSkill = Input.Attacker.GetSkill(Input.SkillID);
             if (NextSkill != null && NextSkill.CanUse())
             {
                 return true;
@@ -34,7 +35,7 @@ namespace LiteMore.Combat.AI
                 return false;
             }
 
-            Input.Attacker.SetNextSkill(NextSkill);
+            Input.SkillID = NextSkill.SkillID;
             //Input.Distance = NextSkill.Radius;
             return true;
         }

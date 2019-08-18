@@ -37,7 +37,7 @@ namespace LiteMore.Combat.AI
     {
         protected override void OnEnter(BehaviorInputData Input)
         {
-            Input.Attacker.UseNextSkill();
+            Input.Attacker.UseSkill(Input.SkillID);
         }
 
         protected override BehaviorRunningState OnExecute(BehaviorInputData Input)

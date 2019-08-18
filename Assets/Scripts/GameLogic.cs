@@ -1,6 +1,7 @@
 ﻿using LiteFramework;
 using LiteFramework.Game.Audio;
 using LiteFramework.Game.Logic;
+using LiteFramework.Game.UI;
 using LiteMore.Cache;
 using LiteMore.Combat;
 using LiteMore.Combat.Npc;
@@ -9,6 +10,7 @@ using LiteMore.Combat.Wave;
 using LiteMore.Data;
 using LiteMore.Player;
 using LiteMore.UI;
+using LiteMore.UI.Logic;
 using UnityEngine;
 
 namespace LiteMore
@@ -43,9 +45,8 @@ namespace LiteMore
             AudioManager.PlayMusic("audio/bgm_titan.mp3", true, 0.5f);
 
             TestSkill();
-
-            PlayerManager.CreateMainEmitter();
-            WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
+            //PlayerManager.CreateMainEmitter();
+            //WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
 
             return true;
         }
@@ -67,17 +68,19 @@ namespace LiteMore
 
         private static void TestSkill()
         {
-            SkillManager.AddMainSkill(SkillLibrary.Get(2001));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2002));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2003));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2004));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2005));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2006));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2007));
-            SkillManager.AddMainSkill(SkillLibrary.Get(2008));
+            var SkillParent = UIManager.FindUI<MainUI>()?.GetSkillListParent();
+
+            SkillManager.AddMainSkill(SkillLibrary.Get(2001), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2002), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2003), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2004), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2005), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2006), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2007), PlayerManager.Master, SkillParent);
+            SkillManager.AddMainSkill(SkillLibrary.Get(2008), PlayerManager.Master, SkillParent);
 
             NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
-                NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 20, 20));
+                NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 20, 20)).Scale = new Vector2(2, 2);
 
             SkillManager.AddPassiveSkill(SkillLibrary.Get(1005), PlayerManager.Master, -1);
         }

@@ -1,4 +1,5 @@
-﻿using LiteFramework.Game.UI;
+﻿using System.Collections.Generic;
+using LiteFramework.Game.UI;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -9,23 +10,24 @@ namespace LiteMore.Combat.Skill.Selector
         {
         }
 
-        protected override void OnBindSkill()
+        protected override void OnBindCarrier(Dictionary<string, object> Args)
         {
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Click, OnClick);
+            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Click, OnClick);
         }
 
         public override void Dispose()
         {
-            UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.Click, OnClick);
-        }
-
-        public override void Recreated()
-        {
+            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.Click, OnClick);
         }
 
         private void OnClick()
         {
-            Skill_.Use(null);
+            if (!CanUse())
+            {
+                return;
+            }
+
+            Used(null);
         }
     }
 }

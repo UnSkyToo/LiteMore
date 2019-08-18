@@ -1,5 +1,6 @@
 ﻿using LiteFramework;
 using LiteFramework.Core.Event;
+using LiteFramework.Core.Log;
 using LiteFramework.Game.UI;
 using LiteMore.Cache;
 using LiteMore.Combat;
@@ -7,6 +8,8 @@ using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Skill;
+using LiteMore.Combat.Skill.Selector;
 using LiteMore.Combat.Wave;
 using LiteMore.Data;
 using LiteMore.UI;
@@ -40,8 +43,30 @@ namespace LiteMore.Player
             EventManager.Register<NpcDieEvent>(OnNpcDieEvent);
 
             UIManager.OpenUI<MainUI>();
-            UIManager.OpenUI<DpsUI>();
+            //UIManager.OpenUI<DpsUI>();
             //UIManager.OpenUI<QuickControlUI>();
+            var UI = UIManager.OpenUI<JoystickUI>();
+            var S = NpcManager.AddNpc("s", new Vector2(0, 0), CombatTeam.A, NpcManager.GenerateInitAttr(200, 1000, 0, 50, 1, 50, 50));
+            S.Scale = new Vector2(3, 3);
+            ((AINpc) S).EnableAI(false);
+
+            //S.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3002)));
+
+            UI.OnJoystickMoveEvent += (IsStop, Dir, Strength) =>
+            {
+                if (IsStop)
+                {
+                    S.StopMove();
+                }
+                else
+                {
+                    S.MoveTo(Dir * Strength * 1000, true);
+                }
+            };
+
+            var C = new ClickSelector();
+            C.OnUsed += (Args) => { S.UseSkill(3001); };
+            //UI.BindSkill(0, C, S.GetSkillList()[0], () => S.CanUseSkill(S.GetSkillList()[0].SkillID), null);
 
             //CreateMainEmitter();
             //WaveManager.LoadWave((uint)Player.Wave);
@@ -56,6 +81,7 @@ namespace LiteMore.Player
             EventManager.UnRegister<NpcDieEvent>(OnNpcDieEvent);
             Player_.SaveToCache();
 
+            UIManager.CloseUI<JoystickUI>();
             //UIManager.CloseUI<QuickControlUI>();
             UIManager.CloseUI<DpsUI>();
             UIManager.CloseUI<MainUI>();

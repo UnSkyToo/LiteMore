@@ -1,4 +1,7 @@
-﻿using LiteMore.Core;
+﻿using System;
+using System.Collections.Generic;
+using LiteMore.Core;
+using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -12,8 +15,11 @@ namespace LiteMore.Combat.Skill.Selector
 
     public abstract class BaseSelector : BaseEntity
     {
+        public event Action<Dictionary<string, object>> OnUsed; 
+
         public SelectorMode Mode { get; }
-        protected MainSkill Skill_;
+        protected Transform Carrier_;
+        private Func<bool> CanUseFunc_;
 
         protected BaseSelector(SelectorMode Mode)
             : base($"Selector {Mode}")
@@ -21,22 +27,36 @@ namespace LiteMore.Combat.Skill.Selector
             this.Mode = Mode;
         }
 
-        public void BindSkill(MainSkill Skill)
+        public void BindCarrier(Transform Carrier, Func<bool> CanUseFunc, Dictionary<string, object> Args)
         {
-            Skill_ = Skill;
-            OnBindSkill();
+            if (Carrier_ != null)
+            {
+                Dispose();
+            }
+
+            Carrier_ = Carrier;
+            CanUseFunc_ = CanUseFunc;
+            OnBindCarrier(Args);
         }
 
-        protected abstract void OnBindSkill();
+        protected abstract void OnBindCarrier(Dictionary<string, object> Args);
 
         public override void Dispose()
         {
         }
 
-        public abstract void Recreated();
-
         public override void Tick(float DeltaTime)
         {
+        }
+
+        protected bool CanUse()
+        {
+            return !(CanUseFunc_ != null && CanUseFunc_?.Invoke() == false);
+        }
+
+        protected void Used(Dictionary<string, object> Args)
+        {
+            OnUsed?.Invoke(Args);
         }
     }
 }

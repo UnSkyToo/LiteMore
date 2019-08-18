@@ -1,10 +1,13 @@
-﻿using LiteFramework.Core.Event;
+﻿using System.Collections.Generic;
+using LiteFramework.Core.Event;
+using LiteMore.Combat.Npc;
 
 namespace LiteMore.Combat.Fsm.State
 {
     public class SkillState : BaseState
     {
         private uint SkillID_;
+        private List<BaseNpc> TargetList_;
 
         public SkillState(BaseFsm Fsm)
             : base(FsmStateName.Skill, Fsm)
@@ -15,6 +18,7 @@ namespace LiteMore.Combat.Fsm.State
         {
             var Evt = Event as NpcSkillEvent;
             SkillID_ = Evt.SkillID;
+            TargetList_ = Evt.TargetList;
 
             Fsm.Master.PlayAnimation("Attack", false);
             Fsm.Master.TurnToTarget();
@@ -49,7 +53,7 @@ namespace LiteMore.Combat.Fsm.State
         {
             if (MsgCode == CombatMsgCode.Atk)
             {
-                var Evt = new NpcHitTargetEvent(Fsm.Master.ID, Fsm.Master.Team, SkillID_, "prefabs/sfx/hitsfx.prefab");
+                var Evt = new NpcHitTargetEvent(Fsm.Master.ID, Fsm.Master.Team, SkillID_, TargetList_, "prefabs/sfx/hitsfx.prefab");
                 EventManager.Send(Evt);
             }
         }

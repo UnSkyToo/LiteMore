@@ -1,5 +1,5 @@
-﻿using LiteFramework.Game.UI;
-using LiteMore.Player;
+﻿using System.Collections.Generic;
+using LiteFramework.Game.UI;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -13,19 +13,15 @@ namespace LiteMore.Combat.Skill.Selector
             IsPressed_ = false;
         }
 
-        protected override void OnBindSkill()
+        protected override void OnBindCarrier(Dictionary<string, object> Args)
         {
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Down, () => { IsPressed_ = true; });
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Up, () => { IsPressed_ = false; });
+            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Down, () => { IsPressed_ = true; });
+            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Up, () => { IsPressed_ = false; });
         }
 
         public override void Dispose()
         {
-            UIEventTriggerListener.Remove(Skill_.IconTransform);
-        }
-
-        public override void Recreated()
-        {
+            UIEventTriggerListener.Remove(Carrier_);
         }
 
         public override void Tick(float DeltaTime)
@@ -34,13 +30,13 @@ namespace LiteMore.Combat.Skill.Selector
 
             if (IsPressed_)
             {
-                if (PlayerManager.Player.Mp < Skill_.Cost)
+                if (!CanUse())
                 {
                     IsPressed_ = false;
                     return;
                 }
 
-                Skill_.Use(null);
+                Used(null);
             }
         }
     }

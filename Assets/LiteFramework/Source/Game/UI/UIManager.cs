@@ -43,6 +43,9 @@ namespace LiteFramework.Game.UI
 
         public static bool Startup()
         {
+            CanvasNormalRectTransform_ = null;
+            CanvasNormalRectTransform_ = null;
+
             UIList_.Clear();
             CacheList_.Clear();
             OpenList_.Clear();
@@ -109,37 +112,48 @@ namespace LiteFramework.Game.UI
             }
         }
 
-        public static void OpenUI<T>(params object[] Params) where T : BaseUI, new()
+        public static T OpenUI<T>(params object[] Params) where T : BaseUI, new()
         {
             var ScriptType = typeof(T);
             if (!LiteConfigure.UIDescList.ContainsKey(ScriptType))
             {
-                LLogger.LWarning($"Can't find UI Desc : {ScriptType.Name}");
-                return;
+                LLogger.LError($"Can't find UI Desc : {ScriptType.Name}");
+                return null;
             }
 
-            CreateUI<T>(LiteConfigure.UIDescList[ScriptType], Params);
+            return CreateUI<T>(LiteConfigure.UIDescList[ScriptType], Params);
         }
 
-        public static void OpenUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
+        public static T OpenUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
             if (Desc.OpenMore)
             {
-                CreateUI<T>(Desc, Params);
-                return;
+                return CreateUI<T>(Desc, Params);
             }
 
             if (!IsOpened<T>())
             {
-                return;
+                return FindUI<T>();
             }
 
-            CreateUI<T>(Desc, Params);
+            return CreateUI<T>(Desc, Params);
         }
 
-        public static void OpenUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
+        public static T OpenUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
-            CreateUI<T>(Script, Desc, Params);
+            return CreateUI<T>(Script, Desc, Params);
+        }
+
+        public static void ShowUI<T>() where T : BaseUI
+        {
+            var UI = FindUI<T>();
+            UI?.Show();
+        }
+
+        public static void HideUI<T>() where T : BaseUI
+        {
+            var UI = FindUI<T>();
+            UI?.Hide();
         }
 
         public static void CloseUI<T>() where T : BaseUI
@@ -218,6 +232,30 @@ namespace LiteFramework.Game.UI
             return null;
         }
 
+        public static List<T> FindAllUI<T>() where T : BaseUI
+        {
+            var ScriptType = typeof(T);
+            var Result = new List<T>();
+
+            foreach (var Data in UIList_)
+            {
+                if (Data.Value.Name == ScriptType.Name)
+                {
+                    Result.Add(Data.Value as T);
+                }
+            }
+
+            foreach (var Data in OpenList_)
+            {
+                if (Data.Name == ScriptType.Name)
+                {
+                    Result.Add(Data as T);
+                }
+            }
+
+            return Result;
+        }
+
         public static bool IsOpened<T>() where T : BaseUI
         {
             var UI = FindUI<T>();
@@ -240,57 +278,53 @@ namespace LiteFramework.Game.UI
             return false;
         }
 
-        private static void GetOrCreateGameObject(UIDescriptor Desc, Action<Transform> Callback)
+        private static Transform GetOrCreateGameObject(UIDescriptor Desc)
         {
-            Transform UIObj = null;
             if (CacheList_.ContainsKey(Desc.PrefabName) && !Desc.OpenMore)
             {
-                UIObj = CacheList_[Desc.PrefabName];
+                var UIObj = CacheList_[Desc.PrefabName];
                 CacheList_.Remove(Desc.PrefabName);
+                return UIObj;
             }
 
-            if (UIObj == null)
+            var UIPath = $"{Desc.PrefabName}.prefab";
+            var Obj = AssetManager.CreatePrefabSync(UIPath);
+            if (Obj == null)
             {
-                var UIPath = $"{Desc.PrefabName}.prefab";
-                AssetManager.CreatePrefabAsync(UIPath, Obj =>
-                {
-                    if (Obj == null)
-                    {
-                        LLogger.LWarning($"Can't Create UI : {Desc.PrefabName}");
-                        return;
-                    }
-                    Callback?.Invoke(Obj.transform);
-                });
+                LLogger.LError($"Can't Create UI : {Desc.PrefabName}");
+                return null;
             }
-            else
-            {
-                Callback?.Invoke(UIObj);
-            }
+
+            return Obj.transform;
         }
 
-        public static void CreateUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
+        private static T CreateUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
-            GetOrCreateGameObject(Desc, (Obj) =>
+            var Obj = GetOrCreateGameObject(Desc);
+            if (Obj == null)
             {
-                CreateUI<T>(Obj, Desc, Params);
-            });
+                return null;
+            }
+            return CreateUI<T>(Obj, Desc, Params);
         }
 
-        public static void CreateUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
+        private static T CreateUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
-            GetOrCreateGameObject(Desc, (Obj) =>
+            var Obj = GetOrCreateGameObject(Desc);
+            if (Obj == null)
             {
-                CreateUI<T>(Obj, Script, Desc, Params);
-            });
+                return null;
+            }
+            return CreateUI<T>(Obj, Script, Desc, Params);
         }
 
-        public static void CreateUI<T>(Transform Obj, UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
+        public static T CreateUI<T>(Transform Obj, UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
             var Script = new T();
-            CreateUI<T>(Obj, Script, Desc, Params);
+            return CreateUI<T>(Obj, Script, Desc, Params);
         }
 
-        public static void CreateUI<T>(Transform Obj, T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
+        public static T CreateUI<T>(Transform Obj, T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
             Obj.name = $"{Desc.PrefabName}<{Script.ID}>";
             Obj.SetParent(CanvasNormalTransform, false);
@@ -303,6 +337,7 @@ namespace LiteFramework.Game.UI
 
             OpenList_.Add(Script);
             Script.Open(Params);
+            return Script;
         }
 
         private static void ResortUIList()

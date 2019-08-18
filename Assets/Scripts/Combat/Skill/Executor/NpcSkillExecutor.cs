@@ -19,13 +19,25 @@ namespace LiteMore.Combat.Skill.Executor
                 return false;
             }
 
-            if (Master.IsValidTarget())
+            var TargetList = Args["TargetList"] as List<BaseNpc>;
+            if (TargetList == null || TargetList.Count == 0)
             {
-                var Damage = CombatManager.Calculator.Calc(Master.CalcFinalAttr(NpcAttrIndex.Damage), 1);
-                Master.TargetNpc.OnHitDamage(Master, "Atk", Damage);
-                return true;
+                return false;
             }
-            return false;
+
+            foreach (var Target in TargetList)
+            {
+                if (!Target.IsValid())
+                {
+                    continue;
+                }
+
+                var Damage = CombatManager.Calculator.Calc(Master.CalcFinalAttr(NpcAttrIndex.Damage), 1);
+                Target.OnHitDamage(Master, "Atk", Damage);
+                Target.TryToPlayHitSfx((string)Args["HitSfx"]);
+            }
+
+            return true;
         }
     }
 
@@ -42,20 +54,23 @@ namespace LiteMore.Combat.Skill.Executor
                 return false;
             }
 
-            if (Master.IsValidTarget())
+            var TargetList = Args["TargetList"] as List<BaseNpc>;
+            if (TargetList == null || TargetList.Count == 0)
             {
-                var TargetList = LockingHelper.Find(Master, new LockingRule(LockTeamType.Enemy, LockNpcType.InDistance), Args["Radius"]);
-                if (TargetList.Count > 0)
-                {
-                    foreach (var Target in TargetList)
-                    {
-                        Target.ForceTarget(Master);
-                    }
-
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            foreach (var Target in TargetList)
+            {
+                if (!Target.IsValid())
+                {
+                    continue;
+                }
+
+                Target.ForceTarget(Master);
+            }
+
+            return true;
         }
     }
 

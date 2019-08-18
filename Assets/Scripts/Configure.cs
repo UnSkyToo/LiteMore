@@ -16,7 +16,7 @@ namespace LiteMore
         public static readonly Transform LabelRoot = CombatRoot.Find("Label").transform;
 
         public static readonly Transform UIRoot = CanvasRoot.Find("UI").transform;
-        public static readonly Transform SkillCancel = UIRoot.Find("SkillCancel").transform;
+        public static readonly RectTransform SkillCancel = UIRoot.Find("MainSkillCancel").GetComponent<RectTransform>();
 
 #if UNITY_EDITOR
         public static readonly string CacheFilePath = $"{Application.dataPath}/cache.txt";
@@ -36,7 +36,5 @@ namespace LiteMore
 
         public static readonly Vector2 CoreBasePosition = new Vector2(WindowRight - 262.0f / 2.0f, 0);
         public static readonly Vector2 CoreTopPosition = new Vector2(WindowRight - 262.0f / 2.0f, 233.0f / 2.0f - 20);
-
-        public static readonly Rect SkillCancelRect = new Rect(SkillCancel.GetComponent<RectTransform>().anchoredPosition, SkillCancel.GetComponent<RectTransform>().sizeDelta);
     }
 }

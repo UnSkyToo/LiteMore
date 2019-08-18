@@ -79,6 +79,12 @@ namespace LiteFramework.Game.Asset
             return false;
         }
 
+        public void PreloadAsset<T>(string AssetPath) where T : UnityEngine.Object
+        {
+            var AssetType = GetAssetTypeWithName(AssetPath);
+            LoadAssetSync<T>(AssetType, AssetPath);
+        }
+
         protected virtual bool LoadAssetAsync<T>(AssetCacheType AssetType, string AssetPath, Action Callback = null) where T : UnityEngine.Object
         {
             AssetPath = AssetPath.ToLower();

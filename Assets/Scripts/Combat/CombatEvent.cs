@@ -1,4 +1,5 @@
-﻿using LiteFramework.Core.Event;
+﻿using System.Collections.Generic;
+using LiteFramework.Core.Event;
 using LiteMore.Combat.Npc;
 using UnityEngine;
 
@@ -37,14 +38,14 @@ namespace LiteMore.Combat
 
     public class NpcSkillEvent : CombatEvent
     {
-        public uint TargetID { get; }
         public uint SkillID { get; }
+        public List<BaseNpc> TargetList { get; }
 
-        public NpcSkillEvent(uint MasterID, CombatTeam MasterTeam, uint TargetID, uint SkillID)
+        public NpcSkillEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, List<BaseNpc> TargetList)
             : base(MasterID, MasterTeam)
         {
-            this.TargetID = TargetID;
             this.SkillID = SkillID;
+            this.TargetList = TargetList;
         }
     }
 
@@ -72,12 +73,14 @@ namespace LiteMore.Combat
     public class NpcHitTargetEvent : CombatEvent
     {
         public uint SkillID { get; }
+        public List<BaseNpc> TargetList { get; }
         public string HitSfx { get; }
 
-        public NpcHitTargetEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, string HitSfx)
+        public NpcHitTargetEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, List<BaseNpc> TargetList, string HitSfx)
             : base(MasterID, MasterTeam)
         {
             this.SkillID = SkillID;
+            this.TargetList = TargetList;
             this.HitSfx = HitSfx;
         }
     }

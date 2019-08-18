@@ -10,11 +10,17 @@
         Attacker, // 攻击自己的人
     }
 
+    public enum LockRangeType : byte
+    {
+        All, // 全部距离的人
+        InDistance, // 指定距离内的人
+        InShape, // 指定范围内的人
+    }
+
     public enum LockNpcType : byte
     {
         All, // 列表内所有人
         Nearest, // 列表内最近的人
-        InDistance, // 列表内指定距离内的人
         CurHpMinimum, // 列表内当前生命值最少
         CurHpMaximum, // 列表内当前生命值最多
         MaxHpMinimum, // 列表内最大生命值最少

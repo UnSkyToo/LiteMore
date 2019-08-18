@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Event;
 using LiteFramework.Game.Asset;
 using LiteMore.Combat.Npc;
 using UnityEngine;
@@ -8,12 +9,10 @@ namespace LiteMore.Combat.Skill
 {
     public static class SkillManager
     {
-        private static Transform SkillRoot_;
         private static readonly List<BaseSkill> SkillList_ = new List<BaseSkill>();
 
         public static bool Startup()
         {
-            SkillRoot_ = GameObject.Find("Skill").transform;
             SkillList_.Clear();
 
             return true;
@@ -68,27 +67,22 @@ namespace LiteMore.Combat.Skill
             return null;
         }
 
-        private static Transform CreateMainSkillObject(string ResName)
+        private static Transform CreateMainSkillObject(Transform Parent, string ResName)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/skillicon.prefab");
-            Obj.transform.SetParent(SkillRoot_, false);
+            Obj.transform.SetParent(Parent, false);
             Obj.GetComponent<Image>().sprite = AssetManager.CreateAssetSync<Sprite>(ResName);
             Obj.transform.Find("Mask").GetComponent<Image>().sprite = AssetManager.CreateAssetSync<Sprite>(ResName);
 
             return Obj.transform;
         }
 
-        public static MainSkill AddMainSkill(SkillDescriptor Desc)
+        private static void AddSkill(BaseSkill Skill)
         {
-            var Obj = CreateMainSkillObject(Desc.Icon);
-
-            var Entity = new MainSkill(Obj, Desc);
-            SkillList_.Add(Entity);
-
-            return Entity;
+            SkillList_.Add(Skill);
         }
 
-        public static void RemoveMainSkill(MainSkill Skill)
+        public static void RemoveSkill(BaseSkill Skill)
         {
             if (Skill == null)
             {
@@ -97,26 +91,6 @@ namespace LiteMore.Combat.Skill
 
             Skill.Dispose();
             SkillList_.Remove(Skill);
-        }
-
-        public static NpcSkill AddNpcSkill(SkillDescriptor Desc, BaseNpc Master)
-        {
-            var Entity = new NpcSkill(Desc, Master);
-            SkillList_.Add(Entity);
-            return Entity;
-        }
-
-        public static PassiveSkill AddPassiveSkill(SkillDescriptor Desc, BaseNpc Master, float SustainTime)
-        {
-            var Entity = new PassiveSkill(Desc, Master, SustainTime);
-            SkillList_.Add(Entity);
-            Entity.Use(null);
-            return Entity;
-        }
-
-        public static void RemovePassiveSkill(PassiveSkill Skill)
-        {
-            Skill.IsAlive = false;
         }
 
         public static bool CanUseSkill(uint SkillID)
@@ -128,6 +102,30 @@ namespace LiteMore.Combat.Skill
             }
 
             return Skill.CanUse();
+        }
+
+        public static MainSkill AddMainSkill(SkillDescriptor Desc, BaseNpc Master, Transform Parent)
+        {
+            var Obj = CreateMainSkillObject(Parent, Desc.Icon);
+
+            var Entity = new MainSkill(Obj, Desc, Master);
+            AddSkill(Entity);
+            return Entity;
+        }
+
+        public static NpcSkill AddNpcSkill(SkillDescriptor Desc, BaseNpc Master)
+        {
+            var Entity = new NpcSkill(Desc, Master);
+            AddSkill(Entity);
+            return Entity;
+        }
+
+        public static PassiveSkill AddPassiveSkill(SkillDescriptor Desc, BaseNpc Master, float SustainTime)
+        {
+            var Entity = new PassiveSkill(Desc, Master, SustainTime);
+            AddSkill(Entity);
+            Entity.Use(null);
+            return Entity;
         }
     }
 }

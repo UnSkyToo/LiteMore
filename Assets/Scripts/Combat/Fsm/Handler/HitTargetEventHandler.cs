@@ -1,4 +1,6 @@
-﻿using LiteMore.Combat.Label;
+﻿using System.Collections.Generic;
+using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 using UnityEngine;
@@ -21,7 +23,12 @@ namespace LiteMore.Combat.Fsm.Handler
             }
 
             var Attacker = NpcManager.FindNpc(Evt.MasterTeam, Evt.MasterID);
-            if (Attacker == null || !Attacker.IsValidTarget())
+            if (Attacker == null)
+            {
+                return false;
+            }
+
+            if (Evt.TargetList == null || Evt.TargetList.Count == 0)
             {
                 return false;
             }
@@ -32,8 +39,7 @@ namespace LiteMore.Combat.Fsm.Handler
                 return false;
             }
 
-            Attacker.TargetNpc.TryToPlayHitSfx(Evt.HitSfx);
-            if ((Skill as NpcSkill).Use(null))
+            if ((Skill as NpcSkill).Use(new Dictionary<string, object>(){{"HitSfx", Evt.HitSfx}, {"TargetList", Evt.TargetList}}))
             {
                 if (Skill.SkillID != 3001)
                 {

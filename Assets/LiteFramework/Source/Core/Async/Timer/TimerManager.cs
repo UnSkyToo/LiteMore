@@ -36,6 +36,7 @@ namespace LiteFramework.Core.Async.Timer
         {
             var NewTimer = new TimerEntity(Interval, Count);
             NewTimer.OnTick += OnTick;
+            TimerList_.Add(NewTimer);
             return NewTimer;
         }
 
@@ -44,6 +45,7 @@ namespace LiteFramework.Core.Async.Timer
             var NewTimer = new TimerEntity(Interval, Count);
             NewTimer.OnTick += OnTick;
             NewTimer.OnEnd += OnEnd;
+            TimerList_.Add(NewTimer);
             return NewTimer;
         }
 

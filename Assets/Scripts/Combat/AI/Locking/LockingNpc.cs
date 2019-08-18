@@ -11,7 +11,6 @@ namespace LiteMore.Combat.AI.Locking
         {
             {LockNpcType.All, Find_All},
             {LockNpcType.Nearest, Find_Nearest},
-            {LockNpcType.InDistance, Find_InDistance},
             {LockNpcType.CurHpMinimum, Find_CurHpMinimum},
             {LockNpcType.CurHpMaximum, Find_CurHpMaximum},
             {LockNpcType.MaxHpMinimum, Find_MaxHpMinimum},
@@ -49,23 +48,6 @@ namespace LiteMore.Combat.AI.Locking
             }
 
             return new List<BaseNpc> {Target};
-        }
-
-        private static List<BaseNpc> Find_InDistance(List<BaseNpc> List, BaseNpc Master, object Args)
-        {
-            var Result = new List<BaseNpc>();
-            var Range = (float) Args;
-
-            foreach (var Npc in List)
-            {
-                var Dist = Vector2.Distance(Master.Position, Npc.Position);
-                if (Dist < Range)
-                {
-                    Result.Add(Npc);
-                }
-            }
-
-            return Result;
         }
 
         private static List<BaseNpc> Find_CurHpMinimum(List<BaseNpc> List, BaseNpc Master, object Args)

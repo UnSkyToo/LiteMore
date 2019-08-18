@@ -10,6 +10,16 @@ namespace LiteMore.Combat.Npc
         protected readonly BaseFsm Fsm_;
         private int HitSfxInterval_;
 
+        public uint RegisterMsg(string Animation, float Percent, CombatMsgCode MsgCode)
+        {
+            return Animation_.RegisterMsg(Animation, Percent, MsgCode, OnMsgCode);
+        }
+
+        public void UnRegisterMsg(uint ID)
+        {
+            Animation_.UnRegisterMsg(ID);
+        }
+
         public void PlayAnimation(string AnimName, bool IsLoop)
         {
             Animation_.Play(AnimName, IsLoop);
@@ -43,6 +53,14 @@ namespace LiteMore.Combat.Npc
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void TurnToTarget()
+        {
+            if (IsValidTarget())
+            {
+                SetDirection(CombatHelper.CalcDirection(Position, TargetNpc.Position));
             }
         }
 

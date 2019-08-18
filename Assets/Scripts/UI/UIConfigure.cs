@@ -16,6 +16,7 @@ namespace LiteMore.UI
             {typeof(MainUI), new UIDescriptor("UI/MainUI", false, true)},
             {typeof(DpsUI), new UIDescriptor("UI/DpsUI", false, false)},
             {typeof(QuickControlUI), new UIDescriptor("UI/QuickControlUI", false, true)},
+            {typeof(JoystickUI), new UIDescriptor("UI/JoystickUI", false, false)},
         };
     }
 }

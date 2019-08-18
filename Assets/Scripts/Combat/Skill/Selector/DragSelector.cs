@@ -1,4 +1,5 @@
-﻿using LiteFramework.Game.Asset;
+﻿using System.Collections.Generic;
+using LiteFramework.Game.Asset;
 using LiteFramework.Game.UI;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace LiteMore.Combat.Skill.Selector
     {
         protected bool IsDrag_;
         protected string DragResName_;
+        protected float DragRadius_;
+        protected RectTransform DragCancelObj_;
+        protected Rect DragCancelRect_;
         protected Transform DragObj_;
         protected SpriteRenderer DragObjRender_;
 
@@ -19,25 +23,22 @@ namespace LiteMore.Combat.Skill.Selector
             DragObj_ = null;
         }
 
-        protected override void OnBindSkill()
+        protected override void OnBindCarrier(Dictionary<string, object> Args)
         {
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.BeginDrag, BeginDrag);
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.Drag, Drag);
-            UIEventTriggerListener.Get(Skill_.IconTransform).AddCallback(UIEventType.EndDrag, EndDrag);
+            DragRadius_ = (float)Args["Radius"];
+            DragCancelObj_ = (RectTransform)Args["CancelObj"];
+            DragCancelRect_ = new Rect(DragCancelObj_.anchoredPosition, DragCancelObj_.sizeDelta);
+            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.BeginDrag, BeginDrag);
+            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Drag, Drag);
+            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.EndDrag, EndDrag);
         }
 
         public override void Dispose()
         {
-            UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.BeginDrag, BeginDrag);
-            UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.Drag, Drag);
-            UIEventTriggerListener.Get(Skill_.IconTransform).RemoveCallback(UIEventType.EndDrag, EndDrag);
+            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.BeginDrag, BeginDrag);
+            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.Drag, Drag);
+            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.EndDrag, EndDrag);
             DestroyDragObject();
-        }
-
-        public override void Recreated()
-        {
-            DestroyDragObject();
-            CreateDragObject();
         }
 
         private void CreateDragObject()
@@ -52,7 +53,7 @@ namespace LiteMore.Combat.Skill.Selector
             DragObj_.localPosition = Vector3.zero;
             DragObjRender_ = DragObj_.GetComponent<SpriteRenderer>();
             DragObjRender_.color = Color.green;
-            DragObjRender_.size = new Vector2(Skill_.Radius * 2, Skill_.Radius * 2);
+            DragObjRender_.size = new Vector2(DragRadius_ * 2, DragRadius_ * 2);
         }
 
         private void DestroyDragObject()
@@ -68,7 +69,7 @@ namespace LiteMore.Combat.Skill.Selector
 
         private void BeginDrag(GameObject Sender, Vector2 Pos)
         {
-            if (!Skill_.CanUse())
+            if (!CanUse())
             {
                 return;
             }
@@ -76,7 +77,7 @@ namespace LiteMore.Combat.Skill.Selector
             IsDrag_ = true;
             CreateDragObject();
 
-            Configure.SkillCancel.gameObject.SetActive(true);
+            DragCancelObj_.gameObject.SetActive(true);
             OnBeginDrag(Pos);
         }
 
@@ -89,7 +90,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            if (Configure.SkillCancelRect.Contains(Pos))
+            if (DragCancelRect_.Contains(Pos))
             {
                 DragObjRender_.color = Color.red;
             }
@@ -107,15 +108,15 @@ namespace LiteMore.Combat.Skill.Selector
         {
             IsDrag_ = false;
             OnEndDrag(Pos);
-            Configure.SkillCancel.gameObject.SetActive(false);
+            DragCancelObj_.gameObject.SetActive(false);
             DestroyDragObject();
 
-            if (Configure.SkillCancelRect.Contains(Pos))
+            if (DragCancelRect_.Contains(Pos))
             {
                 return;
             }
 
-            if (!Skill_.CanUse())
+            if (!CanUse())
             {
                 return;
             }

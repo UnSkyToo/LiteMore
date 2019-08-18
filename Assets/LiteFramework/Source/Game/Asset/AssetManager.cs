@@ -27,6 +27,16 @@ namespace LiteFramework.Game.Asset
             Loader_.Tick(DeltaTime);
         }
 
+        public static bool AssetCacheExisted(string AssetPath)
+        {
+            return Loader_.AssetCacheExisted(AssetPath);
+        }
+
+        public static void PreloadAsset<T>(string AssetPath) where T : UnityEngine.Object
+        {
+            Loader_.PreloadAsset<T>(AssetPath);
+        }
+
         public static void CreateAssetAsync<T>(string BundlePath, string AssetName, Action<T> Callback = null) where T : UnityEngine.Object
         {
             Loader_.CreateAssetAsync<T>(BundlePath, AssetName, Callback);

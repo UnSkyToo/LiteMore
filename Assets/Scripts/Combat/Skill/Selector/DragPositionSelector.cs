@@ -25,10 +25,10 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnDragSpell(Vector2 Pos)
         {
-            Skill_.Use(new Dictionary<string, object>
+            Used(new Dictionary<string, object>
             {
                 {"Position", Pos},
-                {"Radius", Skill_.Radius},
+                {"Radius", DragRadius_},
             });
         }
     }

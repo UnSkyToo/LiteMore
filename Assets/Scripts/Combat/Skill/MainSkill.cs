@@ -1,8 +1,8 @@
-﻿using LiteFramework.Core.Event;
+﻿using System.Collections.Generic;
 using LiteFramework.Game.Asset;
+using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill.Selector;
 using LiteMore.Helper;
-using LiteMore.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,8 +21,8 @@ namespace LiteMore.Combat.Skill
         private readonly Text CDText_;
         private readonly Text NameText_;
 
-        public MainSkill(Transform Trans, SkillDescriptor Desc)
-            : base(Desc, PlayerManager.Master)
+        public MainSkill(Transform Trans, SkillDescriptor Desc, BaseNpc Master)
+            : base(Desc, Master)
         {
             IconTransform = Trans;
             Icon = Desc.Icon;
@@ -43,7 +43,13 @@ namespace LiteMore.Combat.Skill
             TipsHelper.AddTips(IconTransform, () => Tips);
 
             Selector_ = Desc.Selector;
-            Selector_.BindSkill(this);
+            Selector_.BindCarrier(IconTransform, () => Master.CalcFinalAttr(NpcAttrIndex.Mp) >= Cost, new Dictionary<string, object>()
+            {
+                {"Radius", Radius},
+                {"CancelObj", Configure.SkillCancel},
+                {"OriginPos", Configure.CoreBasePosition},
+            });
+            Selector_.OnUsed += (Args) => { Use(Args); };
         }
 
         public override void Dispose()
@@ -58,7 +64,7 @@ namespace LiteMore.Combat.Skill
             base.Tick(DeltaTime);
             Selector_?.Tick(DeltaTime);
 
-            if (PlayerManager.Player.Mp < Cost)
+            if (Master.CalcFinalAttr(NpcAttrIndex.Mp) < Cost)
             {
                 BG_.SetActive(true);
             }

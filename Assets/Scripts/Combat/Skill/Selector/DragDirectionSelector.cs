@@ -6,12 +6,17 @@ namespace LiteMore.Combat.Skill.Selector
 {
     public class DragDirectionSelector : DragSelector
     {
-        private readonly Vector2 OriginPos_;
+        private Vector2 OriginPos_;
 
-        public DragDirectionSelector(string DragResName, Vector2 OriginPos)
+        public DragDirectionSelector(string DragResName)
             : base(SelectorMode.DragDirection, DragResName)
         {
-            OriginPos_ = OriginPos;
+        }
+
+        protected override void OnBindCarrier(Dictionary<string, object> Args)
+        {
+            base.OnBindCarrier(Args);
+            OriginPos_ = (Vector2)Args["OriginPos"];
         }
 
         protected override void OnBeginDrag(Vector2 Pos)
@@ -31,7 +36,7 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnDragSpell(Vector2 Pos)
         {
-            Skill_.Use(new Dictionary<string, object>
+            Used(new Dictionary<string, object>
             {
                 {"Direction", (Pos - OriginPos_).normalized},
             });

@@ -15,6 +15,7 @@ namespace LiteMore.Combat.Npc
             AIData_.Enabled = true;
             AIData_.Attacker = this;
             AIData_.Node = AIFactory.CreateNormalAI();
+            AIData_.SkillID = 0;
         }
 
         public override void Tick(float DeltaTime)
@@ -41,6 +42,11 @@ namespace LiteMore.Combat.Npc
                     AIData_.Node.Tick(AIData_);
                 }
             }
+        }
+
+        public void EnableAI(bool Enabled)
+        {
+            AIData_.Enabled = Enabled;
         }
     }
 }

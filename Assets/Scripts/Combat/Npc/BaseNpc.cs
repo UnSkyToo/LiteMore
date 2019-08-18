@@ -31,10 +31,11 @@ namespace LiteMore.Combat.Npc
             Direction = NpcDirection.None;
             AttackerNpc = null;
             TargetNpc = null;
+            TargetPos = Vector2.zero;
+            IsForceMove = false;
 
             Animation_ = new NpcAnimation(Trans.GetComponent<Animator>());
-            Animation_.RegisterMsg("Attack", 0.25f, CombatMsgCode.Atk, OnMsgCode);
-            //Animation_.RegisterMsg("Attack", 0.25f, CombatMsgCode.Effect, OnMsgCode);
+            RegisterMsg("Attack", 0.25f, CombatMsgCode.Atk);
 
             Fsm_ = new BaseFsm(this);
             Fsm_.ChangeToIdleState();
@@ -43,7 +44,6 @@ namespace LiteMore.Combat.Npc
             Bar_.SetMaxHp(CalcFinalAttr(NpcAttrIndex.MaxHp));
             Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
 
-            TargetPos = Vector2.zero;
             HitSfxInterval_ = 0;
             LockedList_ = new List<BaseBullet>();
 
@@ -78,7 +78,6 @@ namespace LiteMore.Combat.Npc
             Fsm_.OnMsgCode(Animation, MsgCode);
         }
 
-        
         public void RegisterHandler(BaseNpcHandler Handler)
         {
             if (HandlerList_.Contains(Handler))
@@ -191,14 +190,6 @@ namespace LiteMore.Combat.Npc
         public void SetDead()
         {
             IsAlive = false;
-        }
-
-        public void TurnToTarget()
-        {
-            if (IsValidTarget())
-            {
-                SetDirection(CombatHelper.CalcDirection(Position, TargetNpc.Position));
-            }
         }
     }
 }

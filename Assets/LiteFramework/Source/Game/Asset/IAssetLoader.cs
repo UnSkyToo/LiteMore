@@ -9,6 +9,9 @@ namespace LiteFramework.Game.Asset
         void Shutdown();
         void Tick(float DeltaTime);
 
+        bool AssetCacheExisted(string AssetPath);
+        void PreloadAsset<T>(string AssetPath) where T : UnityEngine.Object;
+
         void CreateAssetAsync<T>(string BundlePath, string AssetName, Action<T> Callback = null) where T : UnityEngine.Object;
         void CreateAssetAsync<T>(string BundlePath, Action<T> Callback = null) where T : UnityEngine.Object;
         T CreateAssetSync<T>(string BundlePath, string AssetName) where T : UnityEngine.Object;
