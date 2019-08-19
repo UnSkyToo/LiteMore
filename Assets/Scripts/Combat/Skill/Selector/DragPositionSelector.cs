@@ -10,6 +10,11 @@ namespace LiteMore.Combat.Skill.Selector
         {
         }
 
+        public override BaseSelector Clone()
+        {
+            return new DragPositionSelector(DragResName_);
+        }
+
         protected override void OnBeginDrag(Vector2 Pos)
         {
         }
@@ -25,11 +30,8 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnDragSpell(Vector2 Pos)
         {
-            Used(new Dictionary<string, object>
-            {
-                {"Position", Pos},
-                {"Radius", DragRadius_},
-            });
+            Args_.Position = Pos;
+            Used();
         }
     }
 }

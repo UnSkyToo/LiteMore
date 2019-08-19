@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteMore.Combat.Npc;
+﻿using LiteMore.Combat.Npc;
 
 namespace LiteMore.Combat.AI.BehaviorTree
 {

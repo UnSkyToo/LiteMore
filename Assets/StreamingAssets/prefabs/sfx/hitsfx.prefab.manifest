@@ -3,7 +3,7 @@ CRC: 1757969624
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 16130892ca896064337e0cc46460d9f9
+    Hash: 45443d2d75e0fc831f98784b4753323b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2495b201d674e914a98a58ad8df6283a
@@ -28,5 +28,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Sfx/HitSfx.prefab
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/sfx/hitsfx.controller
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/sfx.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/hitsfx.controller
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/sfx.png

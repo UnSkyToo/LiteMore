@@ -1,32 +1,46 @@
-﻿using System.Collections.Generic;
-using LiteFramework.Helper;
+﻿using LiteFramework.Helper;
+using LiteMore.Combat.Npc;
 using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
 {
     public class DragDirectionSelector : DragSelector
     {
-        private Vector2 OriginPos_;
+        private BaseNpc Master_;
+        private Vector2 DragBeginPos_;
 
         public DragDirectionSelector(string DragResName)
             : base(SelectorMode.DragDirection, DragResName)
         {
         }
 
-        protected override void OnBindCarrier(Dictionary<string, object> Args)
+        public override BaseSelector Clone()
         {
-            base.OnBindCarrier(Args);
-            OriginPos_ = (Vector2)Args["OriginPos"];
+            return new DragDirectionSelector(DragResName_);
+        }
+
+        protected override void OnBindCarrier()
+        {
+            base.OnBindCarrier();
+            Master_ = Args_.Skill.Master;
+        }
+
+        public override void Tick(float DeltaTime)
+        {
+            if (IsDrag_)
+            {
+                DragObj_.localPosition = Master_.Position;
+            }
         }
 
         protected override void OnBeginDrag(Vector2 Pos)
         {
+            DragBeginPos_ = Pos;
         }
 
         protected override void OnDrag(Vector2 Pos)
         {
-            var Angle = MathHelper.GetUnityAngle(OriginPos_, Pos);
-            DragObj_.localPosition = OriginPos_;
+            var Angle = MathHelper.GetUnityAngle(DragBeginPos_, Pos);
             DragObj_.localRotation = Quaternion.AngleAxis(Angle, Vector3.forward);
         }
 
@@ -36,10 +50,8 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnDragSpell(Vector2 Pos)
         {
-            Used(new Dictionary<string, object>
-            {
-                {"Direction", (Pos - OriginPos_).normalized},
-            });
+            Args_.Direction = (Pos - DragBeginPos_).normalized;
+            Used();
         }
     }
 }

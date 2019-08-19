@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Skill;
+using UnityEngine;
 
 namespace LiteMore.Combat.AI.Locking
 {
@@ -23,23 +25,31 @@ namespace LiteMore.Combat.AI.Locking
 
     public static class LockingHelper
     {
-        public static List<BaseNpc> Find(BaseNpc Master, LockingRule Rule, object Args)
+        public static List<BaseNpc> Find(BaseSkill Skill, LockingRule Rule)
         {
-            var List = LockingTeam.Find(Master, Rule.TeamType, Args);
-            List = LockingRange.Find(List, Master, Rule.RangeType, Args);
-            return LockingNpc.Find(List, Master, Rule.NpcType, Args);
+            var List = LockingTeam.Find(Skill, Rule.TeamType);
+            List = LockingRange.Find(List, Skill, Rule.RangeType);
+            return LockingNpc.Find(List, Skill, Rule.NpcType);
         }
 
         public static BaseNpc FindNearest(BaseNpc Master)
         {
-            var List = Find(Master, LockingRule.Nearest, null);
+            var List = NpcManager.GetNpcList(Master.Team.Opposite());
 
-            if (List.Count > 0)
+            var Value = float.MaxValue;
+            BaseNpc Target = null;
+
+            foreach (var Npc in List)
             {
-                return List[0];
+                var Dist = Vector2.Distance(Master.Position, Npc.Position);
+                if (Dist < Value)
+                {
+                    Value = Dist;
+                    Target = Npc;
+                }
             }
 
-            return null;
+            return Target;
         }
     }
 }

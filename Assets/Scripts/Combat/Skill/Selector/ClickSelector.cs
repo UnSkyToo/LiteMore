@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteFramework.Game.UI;
+﻿using LiteFramework.Game.UI;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -10,7 +9,12 @@ namespace LiteMore.Combat.Skill.Selector
         {
         }
 
-        protected override void OnBindCarrier(Dictionary<string, object> Args)
+        public override BaseSelector Clone()
+        {
+            return new ClickSelector();
+        }
+
+        protected override void OnBindCarrier()
         {
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Click, OnClick);
         }
@@ -27,7 +31,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            Used(null);
+            Used();
         }
     }
 }

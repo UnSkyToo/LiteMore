@@ -11,20 +11,15 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_3001 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Master = Args["Master"] as BaseNpc;
+            var Master = Args.Skill.Master;
             if (Master == null)
             {
                 return false;
             }
 
-            var TargetList = Args["TargetList"] as List<BaseNpc>;
-            if (TargetList == null || TargetList.Count == 0)
-            {
-                return false;
-            }
-
+            var TargetList = LockingHelper.Find(Args.Skill, Args.LockRule);
             foreach (var Target in TargetList)
             {
                 if (!Target.IsValid())
@@ -34,7 +29,7 @@ namespace LiteMore.Combat.Skill.Executor
 
                 var Damage = CombatManager.Calculator.Calc(Master.CalcFinalAttr(NpcAttrIndex.Damage), 1);
                 Target.OnHitDamage(Master, "Atk", Damage);
-                Target.TryToPlayHitSfx((string)Args["HitSfx"]);
+                Target.TryToPlayHitSfx(Args.HitSfx);
             }
 
             return true;
@@ -46,20 +41,15 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_3002 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Master = Args["Master"] as BaseNpc;
+            var Master = Args.Skill.Master;
             if (Master == null)
             {
                 return false;
             }
 
-            var TargetList = Args["TargetList"] as List<BaseNpc>;
-            if (TargetList == null || TargetList.Count == 0)
-            {
-                return false;
-            }
-
+            var TargetList = LockingHelper.Find(Args.Skill, Args.LockRule);
             foreach (var Target in TargetList)
             {
                 if (!Target.IsValid())
@@ -79,9 +69,9 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_3003 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Master = Args["Master"] as BaseNpc;
+            var Master = Args.Skill.Master;
             if (Master == null)
             {
                 return false;

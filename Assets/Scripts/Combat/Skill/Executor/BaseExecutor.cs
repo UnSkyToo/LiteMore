@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace LiteMore.Combat.Skill.Executor
+﻿namespace LiteMore.Combat.Skill.Executor
 {
     public abstract class BaseExecutor
     {
@@ -8,6 +6,6 @@ namespace LiteMore.Combat.Skill.Executor
         {
         }
 
-        public abstract bool Execute(Dictionary<string, object> Args);
+        public abstract bool Execute(SkillArgs Args);
     }
 }

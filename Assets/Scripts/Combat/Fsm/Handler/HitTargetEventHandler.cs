@@ -16,7 +16,7 @@ namespace LiteMore.Combat.Fsm.Handler
 
         public override bool OnCombatEvent(CombatEvent Event)
         {
-            var Evt = Event as NpcHitTargetEvent;
+            /*var Evt = Event as NpcHitTargetEvent;
             if (Evt == null)
             {
                 return false;
@@ -47,7 +47,7 @@ namespace LiteMore.Combat.Fsm.Handler
                 }
 
                 return true;
-            }
+            }*/
 
             return false;
         }

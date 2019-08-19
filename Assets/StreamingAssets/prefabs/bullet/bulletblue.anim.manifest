@@ -3,7 +3,7 @@ CRC: 1074316550
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9ecea61c5a41057e71c339aa4e181dd5
+    Hash: 22eedfcd56c72ac502ca9b913da52865
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Bullet/BulletBlue.anim
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bullet.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bullet.png

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LiteMore.Combat.AI;
 using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
@@ -11,10 +10,10 @@ namespace LiteMore.Combat.Skill.Executor
 {
     public class SkillExecutor_2001 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
             var BulletDesc = new LaserBulletDescriptor(
-                new BaseBulletDescriptor((string)(Args["Name"]), Configure.CoreTopPosition, CombatTeam.A, 100),
+                new BaseBulletDescriptor(Args.Skill.Name, Configure.CoreTopPosition, CombatTeam.A, 100),
                 180, 360, 300, 500);
             BulletManager.AddLaserBullet(BulletDesc);
             return true;
@@ -23,9 +22,9 @@ namespace LiteMore.Combat.Skill.Executor
 
     public class SkillExecutor_2002 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            EmitterManager.AddEmitter(new BulletCircleEmitter((string)(Args["Name"]))
+            EmitterManager.AddEmitter(new BulletCircleEmitter(Args.Skill.Name)
             {
                 Master = PlayerManager.Master,
                 Team = CombatTeam.A,
@@ -46,9 +45,9 @@ namespace LiteMore.Combat.Skill.Executor
 
     public class SkillExecutor_2003 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            EmitterManager.AddEmitter(new NpcCircleEmitter((string)(Args["Name"]))
+            EmitterManager.AddEmitter(new NpcCircleEmitter(Args.Skill.Name)
             {
                 Team = CombatTeam.B,
                 TriggerCount = 1,
@@ -69,14 +68,11 @@ namespace LiteMore.Combat.Skill.Executor
 
     public class SkillExecutor_2004 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Pos = (Vector2)Args["Position"];
-            var Radius = (float)Args["Radius"];
-
             var BulletDesc = new BombBulletDescriptor(
-                new BaseBulletDescriptor((string)(Args["Name"]), new Vector2(Pos.x, 400), CombatTeam.A, 500),
-                Pos, 200, Radius);
+                new BaseBulletDescriptor(Args.Skill.Name, new Vector2(Args.Position.x, 400), CombatTeam.A, 500),
+                Args.Position, 200, Args.Skill.Radius);
 
             BulletManager.AddBombBullet(BulletDesc);
             return true;
@@ -85,13 +81,11 @@ namespace LiteMore.Combat.Skill.Executor
 
     public class SkillExecutor_2005 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Dir = (Vector2)Args["Direction"];
-
             var BulletDesc = new BackBulletDescriptor(
-                new BaseBulletDescriptor((string)(Args["Name"]), new Vector2(Configure.CoreTopPosition.x - 50, 0), CombatTeam.A, 1),
-                Dir, Configure.WindowWidth,
+                new BaseBulletDescriptor(Args.Skill.Name, Args.Skill.Master.Position, CombatTeam.A, 1),
+                Args.Direction, Configure.WindowWidth,
                 new Vector2(400, 82),
                 200);
 
@@ -102,15 +96,12 @@ namespace LiteMore.Combat.Skill.Executor
 
     public class SkillExecutor_2006 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Pos = (Vector2)Args["Position"];
-            var Radius = (float)Args["Radius"];
-
             var BulletDesc = new AttrTriggerBulletDescriptor(
                 new BaseTriggerBulletDescriptor(
-                    new BaseBulletDescriptor((string)(Args["Name"]), Pos, CombatTeam.A, 1),
-                    Radius,
+                    new BaseBulletDescriptor(Args.Skill.Name, Args.Position, CombatTeam.A, 1),
+                    Args.Skill.Radius,
                     0.5f,
                     20,
                     new Color(90.0f / 255.0f, 220.0f / 255.0f, 1.0f)),
@@ -126,27 +117,27 @@ namespace LiteMore.Combat.Skill.Executor
 
     public class SkillExecutor_2007 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            var Npc = NpcManager.AddNpc((string)(Args["Name"]), Configure.CoreBasePosition, CombatTeam.A,
+            var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition, CombatTeam.A,
                 NpcManager.GenerateInitAttr(200, 500, 0, 50, 0, 100, 100));
             Npc.Scale = new Vector2(3, 3);
-            Npc.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3002), Npc)); // 嘲讽-主动
-            Npc.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3003), Npc)); // 分身-主动
-            Npc.AddSkill(SkillManager.AddPassiveSkill(SkillLibrary.Get(1001), Npc, -1)); // 荆棘-被动
+            Npc.AddNpcSkill(3002); // 嘲讽-主动
+            Npc.AddNpcSkill(3003); // 分身-主动
+            Npc.AddPassiveSkill(1001, -1); // 荆棘-被动
             return true;
         }
     }
 
     public class SkillExecutor_2008 : BaseExecutor
     {
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
             var Target = LockingHelper.FindNearest(PlayerManager.Master);
             if (Target != null)
             {
                 BulletManager.AddTrackBullet(new TrackBulletDescriptor(
-                    new BaseBulletDescriptor((string)(Args["Name"]), Configure.CoreTopPosition, CombatTeam.A, 1),
+                    new BaseBulletDescriptor(Args.Skill.Name, Configure.CoreTopPosition, CombatTeam.A, 1),
                     "Blue",
                     Target,
                     1500));

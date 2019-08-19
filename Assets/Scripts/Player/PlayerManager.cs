@@ -43,14 +43,16 @@ namespace LiteMore.Player
             EventManager.Register<NpcDieEvent>(OnNpcDieEvent);
 
             UIManager.OpenUI<MainUI>();
-            //UIManager.OpenUI<DpsUI>();
+            UIManager.OpenUI<DpsUI>();
             //UIManager.OpenUI<QuickControlUI>();
             var UI = UIManager.OpenUI<JoystickUI>();
             var S = NpcManager.AddNpc("s", new Vector2(0, 0), CombatTeam.A, NpcManager.GenerateInitAttr(200, 1000, 0, 50, 1, 50, 50));
             S.Scale = new Vector2(3, 3);
             ((AINpc) S).EnableAI(false);
 
-            //S.AddSkill(SkillManager.AddNpcSkill(SkillLibrary.Get(3002)));
+            S.AddNpcSkill(3002);
+            S.AddNpcSkill(2006).Cost = 0;
+            S.AddNpcSkill(2005).Cost = 0;
 
             UI.OnJoystickMoveEvent += (IsStop, Dir, Strength) =>
             {
@@ -60,13 +62,14 @@ namespace LiteMore.Player
                 }
                 else
                 {
-                    S.MoveTo(Dir * Strength * 1000, true);
+                    S.MoveTo(Dir * 1000, true);
                 }
             };
 
-            var C = new ClickSelector();
-            C.OnUsed += (Args) => { S.UseSkill(3001); };
-            //UI.BindSkill(0, C, S.GetSkillList()[0], () => S.CanUseSkill(S.GetSkillList()[0].SkillID), null);
+            UI.BindSkill(0, S.GetSkill(3001));
+            UI.BindSkill(1, S.GetSkill(3002));
+            UI.BindSkill(2, S.GetSkill(2006));
+            UI.BindSkill(3, S.GetSkill(2005));
 
             //CreateMainEmitter();
             //WaveManager.LoadWave((uint)Player.Wave);

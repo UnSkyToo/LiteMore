@@ -16,6 +16,7 @@ namespace LiteFramework.Game.UI
             if (Listener == null)
             {
                 Listener = Obj.gameObject.AddComponent<UIEventTriggerListener>();
+                Listener.name = Obj.name;
             }
 
             Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = true;

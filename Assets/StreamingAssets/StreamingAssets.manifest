@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 37193384
+CRC: 337396062
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -12,78 +12,91 @@ AssetBundleManifest:
       Name: audio/tf_arrow_hit.mp3
       Dependencies: {}
     Info_3:
+      Name: audio/tf_paodan_attack.mp3
+      Dependencies: {}
+    Info_4:
+      Name: audio/tf_paodan_hit.mp3
+      Dependencies: {}
+    Info_5:
       Name: materials/cline.mat
       Dependencies:
         Dependency_0: materials/cline.shader
         Dependency_1: textures/m.png
-    Info_4:
+    Info_6:
       Name: materials/cline.shader
       Dependencies: {}
-    Info_5:
+    Info_7:
       Name: prefabs/bv0.prefab
       Dependencies:
         Dependency_0: textures/bv0.png
-    Info_6:
+    Info_8:
       Name: prefabs/bv1.prefab
       Dependencies:
         Dependency_0: textures/bv1.png
-    Info_7:
+    Info_9:
       Name: prefabs/hpbar.prefab
       Dependencies:
         Dependency_0: textures/ui.png
-    Info_8:
+    Info_10:
       Name: prefabs/line.prefab
       Dependencies: {}
-    Info_9:
+    Info_11:
       Name: prefabs/mpbar.prefab
       Dependencies:
         Dependency_0: textures/ui.png
-    Info_10:
+    Info_12:
+      Name: prefabs/newskillicon.prefab
+      Dependencies:
+        Dependency_0: textures/atals/frm_pinzhi_yuanxing_lansedi.png
+        Dependency_1: textures/atals/frm_pinzhi_yuanxing_lansekuang.png
+        Dependency_2: textures/icon/skill1.png
+    Info_13:
       Name: prefabs/num.prefab
       Dependencies: {}
-    Info_11:
+    Info_14:
       Name: prefabs/skillicon.prefab
       Dependencies:
-        Dependency_0: textures/atals/frm_pinzhi_lan.png
-        Dependency_1: textures/icon/skill1.png
-    Info_12:
+        Dependency_0: textures/atals/frm_pinzhi_di_lan.png
+        Dependency_1: textures/atals/frm_pinzhi_lan.png
+        Dependency_2: textures/icon/skill1.png
+    Info_15:
       Name: prefabs/bullet/bullet.controller
       Dependencies:
         Dependency_0: prefabs/bullet/bulletblue.anim
         Dependency_1: prefabs/bullet/bulletred.anim
-    Info_13:
+    Info_16:
       Name: prefabs/bullet/bullet.prefab
       Dependencies:
         Dependency_0: prefabs/bullet/bullet.controller
         Dependency_1: textures/bullet.png
-    Info_14:
+    Info_17:
       Name: prefabs/bullet/bulletback.prefab
       Dependencies:
         Dependency_0: textures/backbullet.png
-    Info_15:
+    Info_18:
       Name: prefabs/bullet/bulletblue.anim
       Dependencies:
         Dependency_0: textures/bullet.png
-    Info_16:
+    Info_19:
       Name: prefabs/bullet/bulletbomb.prefab
       Dependencies:
         Dependency_0: textures/bossair1.png
-    Info_17:
+    Info_20:
       Name: prefabs/bullet/bulletlaser.prefab
       Dependencies: {}
-    Info_18:
+    Info_21:
       Name: prefabs/bullet/bulletred.anim
       Dependencies:
         Dependency_0: textures/bullet.png
-    Info_19:
+    Info_22:
       Name: prefabs/bullet/bullettrigger.prefab
       Dependencies:
         Dependency_0: textures/bv0.png
-    Info_20:
+    Info_23:
       Name: prefabs/npc/core/core.controller
       Dependencies:
         Dependency_0: prefabs/npc/core/core_idle.anim
-    Info_21:
+    Info_24:
       Name: prefabs/npc/core/core.prefab
       Dependencies:
         Dependency_0: prefabs/hpbar.prefab
@@ -91,40 +104,40 @@ AssetBundleManifest:
         Dependency_2: prefabs/npc/core/core.controller
         Dependency_3: textures/build.png
         Dependency_4: textures/ui.png
-    Info_22:
+    Info_25:
       Name: prefabs/npc/core/core_idle.anim
       Dependencies:
         Dependency_0: textures/build.png
-    Info_23:
+    Info_26:
       Name: prefabs/npc/r2/r2.controller
       Dependencies:
         Dependency_0: prefabs/npc/r2/r2_attack.anim
         Dependency_1: prefabs/npc/r2/r2_die.anim
         Dependency_2: prefabs/npc/r2/r2_idle.anim
         Dependency_3: prefabs/npc/r2/r2_walk.anim
-    Info_24:
+    Info_27:
       Name: prefabs/npc/r2/r2.prefab
       Dependencies:
         Dependency_0: prefabs/npc/r2/r2.controller
         Dependency_1: textures/r2.png
         Dependency_2: textures/ui.png
-    Info_25:
+    Info_28:
       Name: prefabs/npc/r2/r2_attack.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_26:
+    Info_29:
       Name: prefabs/npc/r2/r2_die.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_27:
+    Info_30:
       Name: prefabs/npc/r2/r2_idle.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_28:
+    Info_31:
       Name: prefabs/npc/r2/r2_walk.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_29:
+    Info_32:
       Name: prefabs/sfx/bombsfx.anim
       Dependencies:
         Dependency_0: textures/bomb/bomb_0.png
@@ -136,199 +149,309 @@ AssetBundleManifest:
         Dependency_6: textures/bomb/bomb_6.png
         Dependency_7: textures/bomb/bomb_7.png
         Dependency_8: textures/bomb/bomb_8.png
-    Info_30:
+    Info_33:
       Name: prefabs/sfx/bombsfx.controller
       Dependencies:
         Dependency_0: prefabs/sfx/bombsfx.anim
-    Info_31:
+    Info_34:
       Name: prefabs/sfx/bombsfx.prefab
       Dependencies:
         Dependency_0: prefabs/sfx/bombsfx.controller
         Dependency_1: textures/bomb/bomb_0.png
-    Info_32:
+    Info_35:
       Name: prefabs/sfx/goldsfx.anim
       Dependencies:
         Dependency_0: textures/item.png
-    Info_33:
+    Info_36:
       Name: prefabs/sfx/goldsfx.controller
       Dependencies:
         Dependency_0: prefabs/sfx/goldsfx.anim
-    Info_34:
+    Info_37:
       Name: prefabs/sfx/goldsfx.prefab
       Dependencies:
         Dependency_0: prefabs/sfx/goldsfx.controller
         Dependency_1: textures/item.png
-    Info_35:
+    Info_38:
       Name: prefabs/sfx/hitsfx.anim
       Dependencies:
         Dependency_0: textures/sfx.png
-    Info_36:
+    Info_39:
       Name: prefabs/sfx/hitsfx.controller
       Dependencies:
         Dependency_0: prefabs/sfx/hitsfx.anim
-    Info_37:
+    Info_40:
       Name: prefabs/sfx/hitsfx.prefab
       Dependencies:
         Dependency_0: prefabs/sfx/hitsfx.controller
         Dependency_1: textures/sfx.png
-    Info_38:
+    Info_41:
       Name: textures/backbullet.png
       Dependencies: {}
-    Info_39:
+    Info_42:
       Name: textures/bossair1.png
       Dependencies: {}
-    Info_40:
+    Info_43:
       Name: textures/build.png
       Dependencies: {}
-    Info_41:
+    Info_44:
       Name: textures/bullet.png
       Dependencies: {}
-    Info_42:
+    Info_45:
       Name: textures/button.png
       Dependencies: {}
-    Info_43:
+    Info_46:
       Name: textures/bv0.png
       Dependencies: {}
-    Info_44:
+    Info_47:
       Name: textures/bv1.png
       Dependencies: {}
-    Info_45:
+    Info_48:
       Name: textures/item.png
       Dependencies: {}
-    Info_46:
-      Name: textures/m.png
-      Dependencies: {}
-    Info_47:
-      Name: textures/r2.png
-      Dependencies: {}
-    Info_48:
-      Name: textures/sfx.png
-      Dependencies: {}
     Info_49:
-      Name: textures/ui.png
+      Name: textures/joystick_bg.png
       Dependencies: {}
     Info_50:
-      Name: textures/atals/frm_pinzhi_bai.png
+      Name: textures/joystick_gab.png
       Dependencies: {}
     Info_51:
-      Name: textures/atals/frm_pinzhi_cheng.png
+      Name: textures/m.png
       Dependencies: {}
     Info_52:
-      Name: textures/atals/frm_pinzhi_lan.png
+      Name: textures/r2.png
       Dependencies: {}
     Info_53:
-      Name: textures/atals/frm_pinzhi_lv.png
+      Name: textures/sfx.png
       Dependencies: {}
     Info_54:
-      Name: textures/atals/frm_pinzhi_tongyong.png
+      Name: textures/ui.png
       Dependencies: {}
     Info_55:
-      Name: textures/atals/frm_pinzhi_zi.png
+      Name: textures/atals/frm_pinzhi_bai.png
       Dependencies: {}
     Info_56:
-      Name: textures/atals/pic_jia.png
+      Name: textures/atals/frm_pinzhi_cheng.png
       Dependencies: {}
     Info_57:
-      Name: textures/atals/pic_shengjie_chengse.png
+      Name: textures/atals/frm_pinzhi_di_bai.png
       Dependencies: {}
     Info_58:
-      Name: textures/atals/pic_shengjie_lan.png
+      Name: textures/atals/frm_pinzhi_di_cheng.png
       Dependencies: {}
     Info_59:
-      Name: textures/atals/pic_shengjie_lv.png
+      Name: textures/atals/frm_pinzhi_di_lan.png
       Dependencies: {}
     Info_60:
-      Name: textures/atals/pic_shengjie_zi.png
+      Name: textures/atals/frm_pinzhi_di_lv.png
       Dependencies: {}
     Info_61:
-      Name: textures/atals/pic_xinxidi01.png
+      Name: textures/atals/frm_pinzhi_di_tongyong.png
       Dependencies: {}
     Info_62:
-      Name: textures/atals/pic_xuanzhongkuang_bian.png
+      Name: textures/atals/frm_pinzhi_di_zi.png
       Dependencies: {}
     Info_63:
-      Name: textures/atals/tips.png
+      Name: textures/atals/frm_pinzhi_lan.png
       Dependencies: {}
     Info_64:
-      Name: textures/bomb/bomb_0.png
+      Name: textures/atals/frm_pinzhi_lv.png
       Dependencies: {}
     Info_65:
-      Name: textures/bomb/bomb_1.png
+      Name: textures/atals/frm_pinzhi_tongyong.png
       Dependencies: {}
     Info_66:
-      Name: textures/bomb/bomb_2.png
+      Name: textures/atals/frm_pinzhi_yuanxing_baisedi.png
       Dependencies: {}
     Info_67:
-      Name: textures/bomb/bomb_3.png
+      Name: textures/atals/frm_pinzhi_yuanxing_baisekuang.png
       Dependencies: {}
     Info_68:
-      Name: textures/bomb/bomb_4.png
+      Name: textures/atals/frm_pinzhi_yuanxing_chengsedi.png
       Dependencies: {}
     Info_69:
-      Name: textures/bomb/bomb_5.png
+      Name: textures/atals/frm_pinzhi_yuanxing_chengsekuang.png
       Dependencies: {}
     Info_70:
-      Name: textures/bomb/bomb_6.png
+      Name: textures/atals/frm_pinzhi_yuanxing_lansedi.png
       Dependencies: {}
     Info_71:
-      Name: textures/bomb/bomb_7.png
+      Name: textures/atals/frm_pinzhi_yuanxing_lansekuang.png
       Dependencies: {}
     Info_72:
-      Name: textures/bomb/bomb_8.png
+      Name: textures/atals/frm_pinzhi_yuanxing_lvsedi.png
       Dependencies: {}
     Info_73:
-      Name: textures/icon/b1_metal.png
+      Name: textures/atals/frm_pinzhi_yuanxing_lvsekuang.png
       Dependencies: {}
     Info_74:
-      Name: textures/icon/b2_wood.png
+      Name: textures/atals/frm_pinzhi_yuanxing_wupingzhidi.png
       Dependencies: {}
     Info_75:
-      Name: textures/icon/b3_water.png
+      Name: textures/atals/frm_pinzhi_yuanxing_wupinzhikuang.png
       Dependencies: {}
     Info_76:
-      Name: textures/icon/b4_fire.png
+      Name: textures/atals/frm_pinzhi_yuanxing_zise.png
       Dependencies: {}
     Info_77:
-      Name: textures/icon/b5_earth.png
+      Name: textures/atals/frm_pinzhi_yuanxing_zisekuang.png
       Dependencies: {}
     Info_78:
-      Name: textures/icon/skill1.png
+      Name: textures/atals/frm_pinzhi_zi.png
       Dependencies: {}
     Info_79:
-      Name: textures/icon/skill2.png
+      Name: textures/atals/pic_jia.png
       Dependencies: {}
     Info_80:
-      Name: textures/icon/skill3.png
+      Name: textures/atals/pic_shengjie_chengse.png
       Dependencies: {}
     Info_81:
-      Name: textures/icon/skill4.png
+      Name: textures/atals/pic_shengjie_lan.png
       Dependencies: {}
     Info_82:
-      Name: textures/icon/skill5.png
+      Name: textures/atals/pic_shengjie_lv.png
       Dependencies: {}
     Info_83:
-      Name: textures/icon/skill6.png
+      Name: textures/atals/pic_shengjie_zi.png
       Dependencies: {}
     Info_84:
-      Name: textures/icon/skill7.png
+      Name: textures/atals/pic_xinxidi01.png
       Dependencies: {}
     Info_85:
-      Name: textures/icon/skill8.png
+      Name: textures/atals/pic_xuanzhongkuang_bian.png
       Dependencies: {}
     Info_86:
-      Name: ui/dpsui.prefab
+      Name: textures/atals/tips.png
       Dependencies: {}
     Info_87:
-      Name: ui/gameoverui.prefab
+      Name: textures/bomb/bomb_0.png
       Dependencies: {}
     Info_88:
+      Name: textures/bomb/bomb_1.png
+      Dependencies: {}
+    Info_89:
+      Name: textures/bomb/bomb_2.png
+      Dependencies: {}
+    Info_90:
+      Name: textures/bomb/bomb_3.png
+      Dependencies: {}
+    Info_91:
+      Name: textures/bomb/bomb_4.png
+      Dependencies: {}
+    Info_92:
+      Name: textures/bomb/bomb_5.png
+      Dependencies: {}
+    Info_93:
+      Name: textures/bomb/bomb_6.png
+      Dependencies: {}
+    Info_94:
+      Name: textures/bomb/bomb_7.png
+      Dependencies: {}
+    Info_95:
+      Name: textures/bomb/bomb_8.png
+      Dependencies: {}
+    Info_96:
+      Name: textures/icon/b1_metal.png
+      Dependencies: {}
+    Info_97:
+      Name: textures/icon/b2_wood.png
+      Dependencies: {}
+    Info_98:
+      Name: textures/icon/b3_water.png
+      Dependencies: {}
+    Info_99:
+      Name: textures/icon/b4_fire.png
+      Dependencies: {}
+    Info_100:
+      Name: textures/icon/b5_earth.png
+      Dependencies: {}
+    Info_101:
+      Name: textures/icon/skill1.png
+      Dependencies: {}
+    Info_102:
+      Name: textures/icon/skill2.png
+      Dependencies: {}
+    Info_103:
+      Name: textures/icon/skill3.png
+      Dependencies: {}
+    Info_104:
+      Name: textures/icon/skill4.png
+      Dependencies: {}
+    Info_105:
+      Name: textures/icon/skill5.png
+      Dependencies: {}
+    Info_106:
+      Name: textures/icon/skill6.png
+      Dependencies: {}
+    Info_107:
+      Name: textures/icon/skill7.png
+      Dependencies: {}
+    Info_108:
+      Name: textures/icon/skill8.png
+      Dependencies: {}
+    Info_109:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_dong.png
+      Dependencies: {}
+    Info_110:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_gongsun.png
+      Dependencies: {}
+    Info_111:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_huang.png
+      Dependencies: {}
+    Info_112:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_kong.png
+      Dependencies: {}
+    Info_113:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_liu.png
+      Dependencies: {}
+    Info_114:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_ma.png
+      Dependencies: {}
+    Info_115:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_shi.png
+      Dependencies: {}
+    Info_116:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_shu.png
+      Dependencies: {}
+    Info_117:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_tao.png
+      Dependencies: {}
+    Info_118:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_wei.png
+      Dependencies: {}
+    Info_119:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_wu.png
+      Dependencies: {}
+    Info_120:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_yuan.png
+      Dependencies: {}
+    Info_121:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_zhang.png
+      Dependencies: {}
+    Info_122:
+      Name: textures/temp/pic_shijie_chengchicaidan_vs_zhongli.png
+      Dependencies: {}
+    Info_123:
+      Name: ui/coreskilllistui.prefab
+      Dependencies: {}
+    Info_124:
+      Name: ui/dpsui.prefab
+      Dependencies: {}
+    Info_125:
+      Name: ui/gameoverui.prefab
+      Dependencies: {}
+    Info_126:
+      Name: ui/joystickui.prefab
+      Dependencies:
+        Dependency_0: textures/joystick_bg.png
+        Dependency_1: textures/joystick_gab.png
+    Info_127:
       Name: ui/mainui.prefab
       Dependencies:
         Dependency_0: textures/atals/pic_jia.png
         Dependency_1: textures/atals/pic_shengjie_chengse.png
         Dependency_2: textures/atals/pic_shengjie_lv.png
         Dependency_3: textures/atals/pic_shengjie_zi.png
-    Info_89:
+    Info_128:
       Name: ui/quickcontrolui.prefab
       Dependencies:
         Dependency_0: textures/atals/frm_pinzhi_bai.png
@@ -338,10 +461,10 @@ AssetBundleManifest:
         Dependency_4: textures/icon/b4_fire.png
         Dependency_5: textures/icon/b5_earth.png
         Dependency_6: textures/icon/skill1.png
-    Info_90:
+    Info_129:
       Name: ui/tipsui.prefab
       Dependencies:
         Dependency_0: textures/atals/tips.png
-    Info_91:
+    Info_130:
       Name: ui/toastui.prefab
       Dependencies: {}

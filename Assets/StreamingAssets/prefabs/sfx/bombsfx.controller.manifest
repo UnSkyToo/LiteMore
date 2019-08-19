@@ -3,7 +3,7 @@ CRC: 3811086359
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 24a881853cf49c7ce84c306eff250919
+    Hash: 9c854342ea2a267c699ec5c9fadd6cfb
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Sfx/BombSfx.controller
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/sfx/bombsfx.anim
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/bombsfx.anim

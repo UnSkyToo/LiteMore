@@ -3,7 +3,7 @@ CRC: 2073759137
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d67820c4368047069926aaf7218fc581
+    Hash: e10a167f3ff71d6a14523e58c249ab82
   TypeTreeHash:
     serializedVersion: 2
     Hash: 937be2cb4ab45ebf2f57b60738bbf342
@@ -38,10 +38,10 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/UI/QuickControlUI.prefab
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_bai.png
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/b1_metal.png
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/b2_wood.png
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/b3_water.png
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/b4_fire.png
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/b5_earth.png
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_bai.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/b1_metal.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/b2_wood.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/b3_water.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/b4_fire.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/b5_earth.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png

@@ -20,6 +20,11 @@ namespace LiteMore.Combat.Npc
             Animation_.UnRegisterMsg(ID);
         }
 
+        public bool HasAnimation(string AnimName)
+        {
+            return Animation_.HasAnimation(AnimName);
+        }
+
         public void PlayAnimation(string AnimName, bool IsLoop)
         {
             Animation_.Play(AnimName, IsLoop);

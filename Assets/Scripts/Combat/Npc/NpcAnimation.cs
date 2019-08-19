@@ -125,6 +125,18 @@ namespace LiteMore.Combat.Npc
             return GetAnimationTime() >= 1.0f;
         }
 
+        public bool HasAnimation(string AnimName)
+        {
+            foreach (var Clip in Animator_.runtimeAnimatorController.animationClips)
+            {
+                if (Clip.name.ToLower().Contains(AnimName.ToLower()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private float GetAnimationTime()
         {
             var Info = Animator_.GetCurrentAnimatorStateInfo(0);

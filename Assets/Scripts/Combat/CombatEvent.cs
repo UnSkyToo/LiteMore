@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Skill;
 using UnityEngine;
 
 namespace LiteMore.Combat
@@ -39,13 +40,13 @@ namespace LiteMore.Combat
     public class NpcSkillEvent : CombatEvent
     {
         public uint SkillID { get; }
-        public List<BaseNpc> TargetList { get; }
+        public SkillArgs Args { get; }
 
-        public NpcSkillEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, List<BaseNpc> TargetList)
+        public NpcSkillEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, SkillArgs Args)
             : base(MasterID, MasterTeam)
         {
             this.SkillID = SkillID;
-            this.TargetList = TargetList;
+            this.Args = Args;
         }
     }
 
@@ -70,21 +71,6 @@ namespace LiteMore.Combat
         }
     }
 
-    public class NpcHitTargetEvent : CombatEvent
-    {
-        public uint SkillID { get; }
-        public List<BaseNpc> TargetList { get; }
-        public string HitSfx { get; }
-
-        public NpcHitTargetEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, List<BaseNpc> TargetList, string HitSfx)
-            : base(MasterID, MasterTeam)
-        {
-            this.SkillID = SkillID;
-            this.TargetList = TargetList;
-            this.HitSfx = HitSfx;
-        }
-    }
-
     public class NpcDamageEvent : CombatEvent
     {
         public uint AttackerID { get; }
@@ -99,6 +85,19 @@ namespace LiteMore.Combat
             this.SourceName = SourceName;
             this.Damage = Damage;
             this.RealValue = RealValue;
+        }
+    }
+
+    public class NpcSkillChangedEvent : CombatEvent
+    {
+        public uint SkillID { get; }
+        public bool IsAdd { get; }
+
+        public NpcSkillChangedEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, bool IsAdd)
+            : base(MasterID, MasterTeam)
+        {
+            this.SkillID = SkillID;
+            this.IsAdd = IsAdd;
         }
     }
 }

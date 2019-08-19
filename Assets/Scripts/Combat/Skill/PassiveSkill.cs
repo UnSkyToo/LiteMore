@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteFramework.Core.Event;
-using LiteMore.Combat.Npc;
+﻿using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill.Executor;
 
 namespace LiteMore.Combat.Skill
@@ -39,7 +37,7 @@ namespace LiteMore.Combat.Skill
         public override void Dispose()
         {
             IsSustain_ = false;
-            PassiveExecutor_?.Cancel(CreateExecutorArgs(null));
+            PassiveExecutor_?.Cancel(null);
         }
 
         public override bool CanUse()
@@ -47,7 +45,7 @@ namespace LiteMore.Combat.Skill
             return !IsSustain_;
         }
 
-        public override bool Use(Dictionary<string, object> Args)
+        public override bool Use(SkillArgs Args)
         {
             if (!CanUse())
             {
@@ -59,7 +57,7 @@ namespace LiteMore.Combat.Skill
                 return false;
             }
 
-            if (PassiveExecutor_.Execute(CreateExecutorArgs(Args)))
+            if (PassiveExecutor_.Execute(Args))
             {
                 IsSustain_ = true;
             }

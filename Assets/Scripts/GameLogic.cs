@@ -1,4 +1,5 @@
 ﻿using LiteFramework;
+using LiteFramework.Core.Log;
 using LiteFramework.Game.Audio;
 using LiteFramework.Game.Logic;
 using LiteFramework.Game.UI;
@@ -23,6 +24,8 @@ namespace LiteMore
 
         public bool Startup()
         {
+            Input.multiTouchEnabled = true;
+
             LocalCache.LoadCache();
             LocalData.Generate();
             Lang.Load();
@@ -68,21 +71,19 @@ namespace LiteMore
 
         private static void TestSkill()
         {
-            var SkillParent = UIManager.FindUI<MainUI>()?.GetSkillListParent();
-
-            SkillManager.AddMainSkill(SkillLibrary.Get(2001), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2002), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2003), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2004), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2005), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2006), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2007), PlayerManager.Master, SkillParent);
-            SkillManager.AddMainSkill(SkillLibrary.Get(2008), PlayerManager.Master, SkillParent);
+            PlayerManager.Master.AddNpcSkill(2001, false);
+            PlayerManager.Master.AddNpcSkill(2002, false);
+            PlayerManager.Master.AddNpcSkill(2003, false);
+            PlayerManager.Master.AddNpcSkill(2004, false);
+            PlayerManager.Master.AddNpcSkill(2005, false);
+            PlayerManager.Master.AddNpcSkill(2006, false);
+            PlayerManager.Master.AddNpcSkill(2007, false);
+            PlayerManager.Master.AddNpcSkill(2008, false);
 
             NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
                 NpcManager.GenerateInitAttr(10, 1000, 0, 50, 1, 20, 20)).Scale = new Vector2(2, 2);
 
-            SkillManager.AddPassiveSkill(SkillLibrary.Get(1005), PlayerManager.Master, -1);
+            PlayerManager.Master.AddPassiveSkill(1005, -1, true);
         }
     }
 }

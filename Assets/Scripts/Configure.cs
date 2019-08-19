@@ -16,7 +16,6 @@ namespace LiteMore
         public static readonly Transform LabelRoot = CombatRoot.Find("Label").transform;
 
         public static readonly Transform UIRoot = CanvasRoot.Find("UI").transform;
-        public static readonly RectTransform SkillCancel = UIRoot.Find("MainSkillCancel").GetComponent<RectTransform>();
 
 #if UNITY_EDITOR
         public static readonly string CacheFilePath = $"{Application.dataPath}/cache.txt";

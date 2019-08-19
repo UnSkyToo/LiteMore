@@ -3,7 +3,7 @@ CRC: 2656258117
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ae242b6edd67ba41830355f9507ef51b
+    Hash: 437518491c01b62e716a509b0f3f8dec
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -24,4 +24,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Bullet/BulletBomb.prefab
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/bossair1.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bossair1.png

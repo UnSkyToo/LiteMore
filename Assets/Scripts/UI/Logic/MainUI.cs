@@ -1,11 +1,15 @@
-﻿using LiteFramework;
+﻿using System.Collections.Generic;
+using LiteFramework;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Motion;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
+using LiteMore.Combat;
+using LiteMore.Combat.Skill;
 using LiteMore.Combat.Wave;
 using LiteMore.Helper;
 using LiteMore.Player;
+using LiteMore.UI.Item;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +20,7 @@ namespace LiteMore.UI.Logic
         private CoreInfoPart CoreInfo_;
         private WaveInfoPart WaveInfo_;
         private CoreUpPart CoreUp_;
-
-        private Transform SkillList_;
+        private SkillPart Skill_;
 
         private int TimeScale_ = 1;
 
@@ -33,7 +36,7 @@ namespace LiteMore.UI.Logic
             CoreInfo_ = new CoreInfoPart(FindChild("CoreInfo"));
             WaveInfo_ = new WaveInfoPart(FindChild("WaveInfo"));
             CoreUp_ = new CoreUpPart(FindChild("CoreUpInfo"));
-            SkillList_ = FindChild("SkillList");
+            Skill_ = new SkillPart(FindChild("SkillList"), FindComponent<RectTransform>("MainSkillCancel"));
 
             AddEventToChild("BtnDelete", () =>
             {
@@ -65,16 +68,17 @@ namespace LiteMore.UI.Logic
             });
         }
 
+        protected override void OnTick(float DeltaTime)
+        {
+            Skill_.Tick(DeltaTime);
+        }
+
         protected override void OnClose()
         {
             CoreInfo_.Dispose();
             WaveInfo_.Dispose();
             CoreUp_.Dispose();
-        }
-
-        public Transform GetSkillListParent()
-        {
-            return SkillList_;
+            Skill_.Dispose();
         }
 
         private class CoreInfoPart
@@ -92,9 +96,9 @@ namespace LiteMore.UI.Logic
                 MpText_ =  UIHelper.FindComponent<Text>(Trans, "Mp");
                 GemText_ = UIHelper.FindComponent<Text>(Trans, "Gem");
 
-                var TipsMsg = $"<color=red><size=30>生命值归零游戏结束</size></color>\n" +
-                              "<color=green><size=30>魔法值用于释放技能</size></color>\n" +
-                              "<color=yellow><size=30>宝石是通用货币</size></color>";
+                var TipsMsg = $"<color=red><size=30>Hp归零游戏结束</size></color>\n" +
+                              "<color=green><size=30>Mp用于释放技能</size></color>\n" +
+                              "<color=yellow><size=30>Gem是通用货币</size></color>";
                 TipsHelper.AddTips(Trans, () => TipsMsg);
 
                 EventManager.Register<CoreInfoChangeEvent>(OnCoreInfoChangeEvent);
@@ -109,9 +113,9 @@ namespace LiteMore.UI.Logic
 
             private void Refresh()
             {
-                HpText_.text = $"生命值:{(int)PlayerManager.Player.Hp}/{(int)PlayerManager.Player.MaxHp}(+{PlayerManager.Player.AddHp}/s)";
-                MpText_.text = $"魔法值:{(int)PlayerManager.Player.Mp}/{(int)PlayerManager.Player.MaxMp}(+{PlayerManager.Player.AddMp}/s)";
-                GemText_.text = $"金币:{PlayerManager.Player.Gem}";
+                HpText_.text = $"Hp:{(int)PlayerManager.Player.Hp}/{(int)PlayerManager.Player.MaxHp}(+{PlayerManager.Player.AddHp}/s)";
+                MpText_.text = $"Mp:{(int)PlayerManager.Player.Mp}/{(int)PlayerManager.Player.MaxMp}(+{PlayerManager.Player.AddMp}/s)";
+                GemText_.text = $"Gem:{PlayerManager.Player.Gem}";
                 LayoutRebuilder.ForceRebuildLayoutImmediate(Trans_);
             }
 
@@ -280,6 +284,69 @@ namespace LiteMore.UI.Logic
                 {
                     ToastHelper.Show($"宝石不足{PlayerManager.GetBulletCountCost()}，无法升级", Color.red);
                 }
+            }
+        }
+
+        private class SkillPart
+        {
+            private readonly Transform Trans_;
+            private readonly RectTransform CancelObj_;
+            private readonly List<SkillIconItem> SkillIconList_;
+
+            internal SkillPart(Transform Trans, RectTransform CancelObj)
+            {
+                Trans_ = Trans;
+                CancelObj_ = CancelObj;
+                SkillIconList_ = new List<SkillIconItem>();
+                EventManager.Register<NpcSkillChangedEvent>(OnNpcSkillChangedEvent);
+            }
+
+            internal void Dispose()
+            {
+                ClearAllSkillIcon();
+                EventManager.UnRegister<NpcSkillChangedEvent>(OnNpcSkillChangedEvent);
+            }
+
+            internal void Tick(float DeltaTime)
+            {
+                foreach (var Icon in SkillIconList_)
+                {
+                    Icon.Tick(DeltaTime);
+                }
+            }
+
+            private void Refresh()
+            {
+                ClearAllSkillIcon();
+
+                var SkillList = PlayerManager.Master.GetSkillList();
+                foreach (var Skill in SkillList)
+                {
+                    AddSkillIcon(Skill);
+                }
+            }
+
+            private void ClearAllSkillIcon()
+            {
+                foreach (var Icon in SkillIconList_)
+                {
+                    Icon.Dispose();
+                }
+                SkillIconList_.Clear();
+            }
+
+            private void AddSkillIcon(BaseSkill Skill)
+            {
+                if (Skill is NpcSkill)
+                {
+                    var Icon = new SkillIconItem(Trans_, Skill, CancelObj_, true);
+                    SkillIconList_.Add(Icon);
+                }
+            }
+
+            private void OnNpcSkillChangedEvent(NpcSkillChangedEvent Event)
+            {
+                Refresh();
             }
         }
     }

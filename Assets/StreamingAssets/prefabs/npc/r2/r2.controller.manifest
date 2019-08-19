@@ -3,7 +3,7 @@ CRC: 2647447342
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ccf1fe56ce1222d4354651d269f4e4fa
+    Hash: 8c93f6ceccfeee168f46b943b3533bb4
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -16,7 +16,7 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2.controller
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_attack.anim
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_die.anim
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_idle.anim
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_walk.anim
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_attack.anim
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_die.anim
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_idle.anim
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2_walk.anim

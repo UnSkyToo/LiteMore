@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using LiteMore.Core;
 using UnityEngine;
 
@@ -15,11 +14,10 @@ namespace LiteMore.Combat.Skill.Selector
 
     public abstract class BaseSelector : BaseEntity
     {
-        public event Action<Dictionary<string, object>> OnUsed; 
-
         public SelectorMode Mode { get; }
         protected Transform Carrier_;
-        private Func<bool> CanUseFunc_;
+        protected SkillArgs Args_;
+        protected Action<SkillArgs> OnUsed_;
 
         protected BaseSelector(SelectorMode Mode)
             : base($"Selector {Mode}")
@@ -27,7 +25,9 @@ namespace LiteMore.Combat.Skill.Selector
             this.Mode = Mode;
         }
 
-        public void BindCarrier(Transform Carrier, Func<bool> CanUseFunc, Dictionary<string, object> Args)
+        public abstract BaseSelector Clone();
+
+        public void BindCarrier(Transform Carrier, SkillArgs Args, Action<SkillArgs> OnUsed)
         {
             if (Carrier_ != null)
             {
@@ -35,11 +35,12 @@ namespace LiteMore.Combat.Skill.Selector
             }
 
             Carrier_ = Carrier;
-            CanUseFunc_ = CanUseFunc;
-            OnBindCarrier(Args);
+            Args_ = Args;
+            OnUsed_ = OnUsed;
+            OnBindCarrier();
         }
 
-        protected abstract void OnBindCarrier(Dictionary<string, object> Args);
+        protected abstract void OnBindCarrier();
 
         public override void Dispose()
         {
@@ -51,12 +52,12 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected bool CanUse()
         {
-            return !(CanUseFunc_ != null && CanUseFunc_?.Invoke() == false);
+            return Args_ != null && Args_.CanUse();
         }
 
-        protected void Used(Dictionary<string, object> Args)
+        protected void Used()
         {
-            OnUsed?.Invoke(Args);
+            OnUsed_.Invoke(Args_);
         }
     }
 }

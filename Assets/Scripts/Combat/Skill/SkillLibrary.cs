@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.Shape;
 using LiteMore.Combat.Skill.Executor;
 using LiteMore.Combat.Skill.Selector;
 
@@ -13,6 +14,7 @@ namespace LiteMore.Combat.Skill
         public float CD { get; }
         public int Cost { get; }
         public float Radius { get; }
+        public BaseShape Shape { get; }
         public LockingRule Rule { get; }
         public BaseExecutor Executor { get; }
         public BaseSelector Selector { get; }
@@ -39,13 +41,13 @@ namespace LiteMore.Combat.Skill
         {
             SkillList_.Clear();
 
-            Add(1001, "荆棘", LockingRule.Self, new SkillExecutor_1001());
-            Add(1002, "铠甲", LockingRule.Self, new SkillExecutor_1002());
-            Add(1003, "固守", LockingRule.Self, new SkillExecutor_1003());
-            Add(1004, "活力", LockingRule.Self, new SkillExecutor_1004());
-            Add(1005, "冥想", LockingRule.Self, new SkillExecutor_1005());
-            Add(1006, "清醒", LockingRule.Self, new SkillExecutor_1006());
-            Add(1007, "魔术", LockingRule.Self, new SkillExecutor_1007());
+            AddPassive(1001, "荆棘", LockingRule.Self, new SkillExecutor_1001());
+            AddPassive(1002, "铠甲", LockingRule.Self, new SkillExecutor_1002());
+            AddPassive(1003, "固守", LockingRule.Self, new SkillExecutor_1003());
+            AddPassive(1004, "活力", LockingRule.Self, new SkillExecutor_1004());
+            AddPassive(1005, "冥想", LockingRule.Self, new SkillExecutor_1005());
+            AddPassive(1006, "清醒", LockingRule.Self, new SkillExecutor_1006());
+            AddPassive(1007, "魔术", LockingRule.Self, new SkillExecutor_1007());
 
             Add(2001, "镭射激光", "skill1", 5, 30, 0, LockingRule.All, new SkillExecutor_2001(), new ClickSelector());
             Add(2002, "自动弹幕", "skill2", 5, 30, 0, LockingRule.All, new SkillExecutor_2002(), new ClickSelector());
@@ -56,9 +58,9 @@ namespace LiteMore.Combat.Skill
             Add(2007, "召唤援军", "skill7", 5, 30, 0, LockingRule.All, new SkillExecutor_2007(), new ClickSelector());
             Add(2008, "持续子弹", "skill8", 0.1f, 2, 0, LockingRule.Nearest, new SkillExecutor_2008(), new PressedSelector());
 
-            Add(3001, "普攻", 1, 0, 0, new LockingRule(LockTeamType.Enemy, LockRangeType.InDistance, LockNpcType.Nearest), new SkillExecutor_3001());
-            Add(3002, "嘲讽", 5, 0, 300, new LockingRule(LockTeamType.Enemy, LockRangeType.InDistance, LockNpcType.All), new SkillExecutor_3002());
-            Add(3003, "影分身", 8, 0, 0, LockingRule.All, new SkillExecutor_3003());
+            Add(3001, "普攻", "skill1", 1, 0, 0, new LockingRule(LockTeamType.Enemy, LockRangeType.InDistance, LockNpcType.Nearest), new SkillExecutor_3001(), new ClickSelector());
+            Add(3002, "嘲讽", "skill2", 5, 0, 300, new LockingRule(LockTeamType.Enemy, LockRangeType.InDistance, LockNpcType.All), new SkillExecutor_3002(), new ClickSelector());
+            Add(3003, "影分身", "skill3", 8, 0, 0, LockingRule.All, new SkillExecutor_3003(), new ClickSelector());
         }
 
         public static void PatchQuickController(QuickController Controller)
@@ -93,14 +95,9 @@ namespace LiteMore.Combat.Skill
             SkillList_.Add(SkillID, new SkillDescriptor(SkillID, Name, $"textures/icon/{Icon}.png", CD, Cost, Radius, Rule, Executor, Selector));
         }
 
-        private static void Add(uint SkillID, string Name, LockingRule Rule, BaseExecutor Executor)
+        private static void AddPassive(uint SkillID, string Name, LockingRule Rule, BaseExecutor Executor)
         {
             Add(SkillID, Name, string.Empty, 0, 0, float.MaxValue, Rule, Executor, null);
-        }
-
-        private static void Add(uint SkillID, string Name, float CD, int Cost, float Radius, LockingRule Rule, BaseExecutor Executor)
-        {
-            Add(SkillID, Name, string.Empty, CD, Cost, Radius, Rule, Executor, null);
         }
     }
 }

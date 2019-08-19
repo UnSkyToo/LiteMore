@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
+using LiteFramework.Core.Log;
 using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Skill;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace LiteMore.Combat.Npc
 
         public bool CanUseSkill()
         {
-            if (!IsAlive || IsForceMove)
+            if (!IsAlive)
             {
                 return false;
             }
@@ -95,9 +96,61 @@ namespace LiteMore.Combat.Npc
             return SkillList_;
         }
 
-        public void AddSkill(BaseSkill Skill)
+        protected BaseSkill AddSkill(BaseSkill Skill, bool Notify = true)
         {
+            if (Skill == null)
+            {
+                return null;
+            }
+
             SkillList_.Add(Skill);
+
+            if (Notify)
+            {
+                EventManager.Send(new NpcSkillChangedEvent(ID, Team, Skill.SkillID, true));
+            }
+
+            return Skill;
+        }
+
+        public BaseSkill RemoveSkill(uint SkillID, bool Notify = true)
+        {
+            var Skill = GetSkill(SkillID);
+            if (Skill == null)
+            {
+                return null;
+            }
+
+            if (Notify)
+            {
+                EventManager.Send(new NpcSkillChangedEvent(ID, Team, SkillID, false));
+            }
+
+            SkillManager.RemoveSkill(Skill);
+            SkillList_.Remove(Skill);
+            return Skill;
+        }
+
+        public NpcSkill AddNpcSkill(uint SkillID, bool Notify = true)
+        {
+            var Skill = SkillManager.AddNpcSkill(SkillLibrary.Get(SkillID), this);
+            if (Skill == null)
+            {
+                return null;
+            }
+
+            return AddSkill(Skill, Notify) as NpcSkill;
+        }
+
+        public PassiveSkill AddPassiveSkill(uint SkillID, float SustainTime, bool Notify = true)
+        {
+            var Skill = SkillManager.AddPassiveSkill(SkillLibrary.Get(SkillID), this, SustainTime);
+            if (Skill == null)
+            {
+                return null;
+            }
+
+            return AddSkill(Skill, Notify) as PassiveSkill;
         }
 
         public BaseSkill GetSkill(uint SkillID)
@@ -113,32 +166,25 @@ namespace LiteMore.Combat.Npc
             return null;
         }
 
-        public void UseSkill(uint SkillID)
+        public SkillArgs CreateSkillArgs(uint SkillID)
         {
-            if (!CanUseSkill(SkillID))
+            return new SkillArgs(GetSkill(SkillID));
+        }
+
+        public void UseSkill(SkillArgs Args)
+        {
+            if (Args == null || Args.Skill == null)
+            {
+                LLogger.LWarning("Npc UseSkill, Args or Args.Skill is null");
+                return;
+            }
+
+            if (!CanUseSkill(Args.Skill.SkillID))
             {
                 return;
             }
 
-            var SkillDesc = SkillLibrary.Get(SkillID);
-            if (SkillDesc == null)
-            {
-                return;
-            }
-
-            object Args = null;
-            if (SkillDesc.Rule.RangeType == LockRangeType.InDistance)
-            {
-                Args = SkillDesc.Radius;
-            }
-
-            var Targets = LockingHelper.Find(this, SkillDesc.Rule, Args);
-            if (Targets.Count == 0)
-            {
-                return;
-            }
-
-            var Evt = new NpcSkillEvent(ID, Team, SkillID, Targets);
+            var Evt = new NpcSkillEvent(ID, Team, Args.Skill.SkillID, Args);
             EventManager.Send(Evt);
         }
 

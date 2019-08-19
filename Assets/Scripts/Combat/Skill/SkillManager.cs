@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using LiteFramework.Core.Event;
-using LiteFramework.Game.Asset;
 using LiteMore.Combat.Npc;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace LiteMore.Combat.Skill
 {
@@ -67,16 +63,6 @@ namespace LiteMore.Combat.Skill
             return null;
         }
 
-        private static Transform CreateMainSkillObject(Transform Parent, string ResName)
-        {
-            var Obj = AssetManager.CreatePrefabSync("prefabs/skillicon.prefab");
-            Obj.transform.SetParent(Parent, false);
-            Obj.GetComponent<Image>().sprite = AssetManager.CreateAssetSync<Sprite>(ResName);
-            Obj.transform.Find("Mask").GetComponent<Image>().sprite = AssetManager.CreateAssetSync<Sprite>(ResName);
-
-            return Obj.transform;
-        }
-
         private static void AddSkill(BaseSkill Skill)
         {
             SkillList_.Add(Skill);
@@ -104,17 +90,13 @@ namespace LiteMore.Combat.Skill
             return Skill.CanUse();
         }
 
-        public static MainSkill AddMainSkill(SkillDescriptor Desc, BaseNpc Master, Transform Parent)
-        {
-            var Obj = CreateMainSkillObject(Parent, Desc.Icon);
-
-            var Entity = new MainSkill(Obj, Desc, Master);
-            AddSkill(Entity);
-            return Entity;
-        }
-
         public static NpcSkill AddNpcSkill(SkillDescriptor Desc, BaseNpc Master)
         {
+            if (Desc == null || Master == null)
+            {
+                return null;
+            }
+
             var Entity = new NpcSkill(Desc, Master);
             AddSkill(Entity);
             return Entity;
@@ -122,9 +104,14 @@ namespace LiteMore.Combat.Skill
 
         public static PassiveSkill AddPassiveSkill(SkillDescriptor Desc, BaseNpc Master, float SustainTime)
         {
+            if (Desc == null || Master == null)
+            {
+                return null;
+            }
+
             var Entity = new PassiveSkill(Desc, Master, SustainTime);
             AddSkill(Entity);
-            Entity.Use(null);
+            Entity.Use(new SkillArgs(Entity));
             return Entity;
         }
     }

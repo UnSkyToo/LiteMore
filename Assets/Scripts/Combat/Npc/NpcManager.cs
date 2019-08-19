@@ -119,10 +119,7 @@ namespace LiteMore.Combat.Npc
             NpcList_[(int)Team].Add(Entity);
 
             Entity.Position = Position;
-
-            var NormalAtk = SkillManager.AddNpcSkill(SkillLibrary.Get(3001), Entity);
-            NormalAtk.Radius = Entity.CalcFinalAttr(NpcAttrIndex.Radius);
-            Entity.AddSkill(NormalAtk);
+            Entity.AddNpcSkill(3001).Radius = Entity.CalcFinalAttr(NpcAttrIndex.Radius);
 
             return Entity;
         }
@@ -148,7 +145,7 @@ namespace LiteMore.Combat.Npc
 
         public static List<BaseNpc> GetNpcList(CombatTeam Team)
         {
-            return NpcList_[(int)Team];
+            return new List<BaseNpc>(NpcList_[(int)Team]);
         }
 
         public static BaseNpc FindNpc(uint ID)

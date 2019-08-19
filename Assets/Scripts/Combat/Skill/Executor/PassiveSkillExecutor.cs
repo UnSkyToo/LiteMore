@@ -9,7 +9,7 @@ namespace LiteMore.Combat.Skill.Executor
 {
     public abstract class PassiveExecutor : BaseExecutor
     {
-        public abstract void Cancel(Dictionary<string, object> Args);
+        public abstract void Cancel(SkillArgs Args);
     }
 
     /// <summary>
@@ -17,27 +17,23 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_1001 : PassiveExecutor
     {
-        private string Name_;
-        private uint SkillID_;
-        private BaseNpc Master_;
+        private SkillArgs Args_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            Name_ = (string)(Args["Name"]);
-            SkillID_ = (uint)(Args["SkillID"]);
-            Master_ = Args["Master"] as BaseNpc;
+            Args_ = Args;
             EventManager.Register<NpcDamageEvent>(OnNpcDamageEvent);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
             EventManager.UnRegister<NpcDamageEvent>(OnNpcDamageEvent);
         }
 
         private void OnNpcDamageEvent(NpcDamageEvent Event)
         {
-            if (Event.MasterID != Master_.ID)
+            if (Event.MasterID != Args_.Skill.Master.ID)
             {
                 return;
             }
@@ -48,8 +44,8 @@ namespace LiteMore.Combat.Skill.Executor
                 return;
             }
 
-            var Level = Master_.GetSkillLevel(SkillID_);
-            Attacker.OnHitDamage(Master_, Name_, Event.RealValue * Level * 0.5f);
+            var Level = Args_.Skill.Master.GetSkillLevel(Args_.Skill.SkillID);
+            Attacker.OnHitDamage(Args_.Skill.Master, Args_.Skill.Name, Event.RealValue * Level * 0.5f);
         }
     }
 
@@ -60,14 +56,14 @@ namespace LiteMore.Combat.Skill.Executor
     {
         private SkillExecutor1002_NpcHandler Handler_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            Handler_ = new SkillExecutor1002_NpcHandler(100, (uint)(Args["SkillID"]), Args["Master"] as BaseNpc);
+            Handler_ = new SkillExecutor1002_NpcHandler(100, Args.Skill.SkillID, Args.Skill.Master);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
             PlayerManager.Master.UnRegisterHandler(Handler_);
         }
@@ -104,14 +100,14 @@ namespace LiteMore.Combat.Skill.Executor
     {
         private SkillExecutor1003_NpcHandler Handler_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            Handler_ = new SkillExecutor1003_NpcHandler(0, (uint)(Args["SkillID"]), Args["Master"] as BaseNpc);
+            Handler_ = new SkillExecutor1003_NpcHandler(0, Args.Skill.SkillID, Args.Skill.Master);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
             PlayerManager.Master.UnRegisterHandler(Handler_);
         }
@@ -147,18 +143,20 @@ namespace LiteMore.Combat.Skill.Executor
     public class SkillExecutor_1004 : PassiveExecutor
     {
         private BaseNpc Master_;
+        private uint SkillID_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args["Master"] as BaseNpc;
-            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
+            Master_ = Args.Skill.Master;
+            SkillID_ = Args.Skill.SkillID;
+            var Level = Master_.GetSkillLevel(SkillID_);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddHp, Level * 10);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
-            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
+            var Level = Master_.GetSkillLevel(SkillID_);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddHp, -Level * 10);
         }
     }
@@ -169,18 +167,20 @@ namespace LiteMore.Combat.Skill.Executor
     public class SkillExecutor_1005 : PassiveExecutor
     {
         private BaseNpc Master_;
+        private uint SkillID_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args["Master"] as BaseNpc;
-            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
+            Master_ = Args.Skill.Master;
+            SkillID_ = Args.Skill.SkillID;
+            var Level = Master_.GetSkillLevel(SkillID_);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddMp, Level * 10);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
-            var Level = Master_.GetSkillLevel((uint)Args["SkillID"]);
+            var Level = Master_.GetSkillLevel(SkillID_);
             PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddMp, -Level * 10);
         }
     }
@@ -190,18 +190,18 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_1006 : PassiveExecutor
     {
-        private uint SkillID_;
         private BaseNpc Master_;
+        private uint SkillID_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            SkillID_ = (uint)(Args["SkillID"]);
-            Master_ = Args["Master"] as BaseNpc;
+            Master_ = Args.Skill.Master;
+            SkillID_ = Args.Skill.SkillID;
             EventManager.Register<NpcSkillEvent>(OnNpcSkillEvent);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
             EventManager.UnRegister<NpcSkillEvent>(OnNpcSkillEvent);
         }
@@ -226,18 +226,18 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_1007 : PassiveExecutor
     {
-        private uint SkillID_;
         private BaseNpc Master_;
+        private uint SkillID_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            SkillID_ = (uint)(Args["SkillID"]);
-            Master_ = Args["Master"] as BaseNpc;
+            Master_ = Args.Skill.Master;
+            SkillID_ = Args.Skill.SkillID;
             EventManager.Register<NpcSkillEvent>(OnNpcSkillEvent);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
             EventManager.UnRegister<NpcSkillEvent>(OnNpcSkillEvent);
         }
@@ -257,18 +257,18 @@ namespace LiteMore.Combat.Skill.Executor
     /// </summary>
     public class SkillExecutor_1008 : PassiveExecutor
     {
-        private uint Level_;
         private BaseNpc Master_;
+        private uint Level_;
 
-        public override bool Execute(Dictionary<string, object> Args)
+        public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args["Master"] as BaseNpc;
-            Level_ = Master_.GetSkillLevel((uint)(Args["SkillID"]));
+            Master_ = Args.Skill.Master;
+            Level_ = Master_.GetSkillLevel(Args.Skill.SkillID);
             CombatManager.Calculator.AddGlobalPercent(0.05f * Level_);
             return true;
         }
 
-        public override void Cancel(Dictionary<string, object> Args)
+        public override void Cancel(SkillArgs Args)
         {
             CombatManager.Calculator.AddGlobalPercent(0.05f * Level_);
         }

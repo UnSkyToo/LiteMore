@@ -5,6 +5,14 @@ using UnityEngine;
 
 namespace LiteMore.Combat.AI
 {
+    public class CombatPrecondition_IsNotForceMove : BehaviorPrecondition
+    {
+        public override bool ExternalCondition(BehaviorInputData Input)
+        {
+            return !Input.Attacker.IsForceMove;
+        }
+    }
+
     public class CombatPrecondition_TryFindSkill : BehaviorPrecondition
     {
         public override bool ExternalCondition(BehaviorInputData Input)

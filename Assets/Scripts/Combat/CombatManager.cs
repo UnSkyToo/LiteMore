@@ -61,7 +61,6 @@ namespace LiteMore.Combat
             EventManager.Register<NpcSkillEvent>(OnCombatEvent);
             EventManager.Register<NpcDieEvent>(OnCombatEvent);
             EventManager.Register<NpcBackEvent>(OnCombatEvent);
-            EventManager.Register<NpcHitTargetEvent>(OnCombatEvent);
 
             return true;
         }
@@ -73,7 +72,6 @@ namespace LiteMore.Combat
             EventManager.UnRegister<NpcSkillEvent>(OnCombatEvent);
             EventManager.UnRegister<NpcDieEvent>(OnCombatEvent);
             EventManager.UnRegister<NpcBackEvent>(OnCombatEvent);
-            EventManager.UnRegister<NpcHitTargetEvent>(OnCombatEvent);
 
             WaveManager.Shutdown();
             SkillManager.Shutdown();

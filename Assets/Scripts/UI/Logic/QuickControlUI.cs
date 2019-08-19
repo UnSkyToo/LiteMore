@@ -17,7 +17,7 @@ namespace LiteMore.UI.Logic
         private Transform InputList_;
         private GameObject InputObj_;
 
-        private MainSkill CurrentSkill_;
+        private BaseSkill CurrentSkill_;
 
         public QuickControlUI()
             : base()
@@ -109,9 +109,8 @@ namespace LiteMore.UI.Logic
         private void OnQuickSucceed(QuickNode Node)
         {
             ResetQuickState();
-            SkillManager.RemoveSkill(CurrentSkill_);
-            var Desc = SkillLibrary.Get(Node.ID);
-            CurrentSkill_ = SkillManager.AddMainSkill(Desc, PlayerManager.Master, UIManager.FindUI<MainUI>()?.GetSkillListParent());
+            PlayerManager.Master.RemoveSkill(CurrentSkill_.SkillID, false);
+            CurrentSkill_ = PlayerManager.Master.AddNpcSkill(Node.ID);
         }
     }
 }

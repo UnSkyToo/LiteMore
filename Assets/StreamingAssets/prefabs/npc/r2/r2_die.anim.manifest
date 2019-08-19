@@ -3,7 +3,7 @@ CRC: 3048962711
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e070fee42dc7962c6d1769d5deafd525
+    Hash: e1559d032db91654360b79916ce9f132
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2_die.anim
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/r2.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png

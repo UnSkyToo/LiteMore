@@ -3,7 +3,7 @@ CRC: 2029730051
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b71316acd13153e73d11921658867275
+    Hash: 0c85696e6598a8f98501519866ed3b4a
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7ae14fe94a027e241fc5b0cce1b06d42
@@ -26,4 +26,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/MpBar.prefab
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/ui.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png

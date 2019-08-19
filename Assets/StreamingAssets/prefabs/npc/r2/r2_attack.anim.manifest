@@ -3,7 +3,7 @@ CRC: 630333688
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: bd8bac62f23d6d8768be7757f91569fc
+    Hash: 1061b4d083abbe16368dc9a74bb5fb83
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2_attack.anim
 Dependencies:
-- E:/Projects/Lite/LiteMore/Assets/StreamingAssets/textures/r2.png
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png

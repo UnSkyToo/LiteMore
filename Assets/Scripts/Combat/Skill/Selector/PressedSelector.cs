@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteFramework.Game.UI;
+﻿using LiteFramework.Game.UI;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -13,7 +12,12 @@ namespace LiteMore.Combat.Skill.Selector
             IsPressed_ = false;
         }
 
-        protected override void OnBindCarrier(Dictionary<string, object> Args)
+        public override BaseSelector Clone()
+        {
+            return new PressedSelector();
+        }
+
+        protected override void OnBindCarrier()
         {
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Down, () => { IsPressed_ = true; });
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Up, () => { IsPressed_ = false; });
@@ -36,7 +40,7 @@ namespace LiteMore.Combat.Skill.Selector
                     return;
                 }
 
-                Used(null);
+                Used();
             }
         }
     }

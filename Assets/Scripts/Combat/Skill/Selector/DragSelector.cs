@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteFramework.Game.Asset;
+﻿using LiteFramework.Game.Asset;
 using LiteFramework.Game.UI;
 using UnityEngine;
 
@@ -23,11 +22,11 @@ namespace LiteMore.Combat.Skill.Selector
             DragObj_ = null;
         }
 
-        protected override void OnBindCarrier(Dictionary<string, object> Args)
+        protected override void OnBindCarrier()
         {
-            DragRadius_ = (float)Args["Radius"];
-            DragCancelObj_ = (RectTransform)Args["CancelObj"];
-            DragCancelRect_ = new Rect(DragCancelObj_.anchoredPosition, DragCancelObj_.sizeDelta);
+            DragRadius_ = Args_.Skill.Radius;
+            DragCancelObj_ = Args_.CancelObj;
+            DragCancelRect_ = new Rect(new Vector2(DragCancelObj_.position.x, DragCancelObj_.position.y) - DragCancelObj_.sizeDelta / 2, DragCancelObj_.sizeDelta);
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.BeginDrag, BeginDrag);
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Drag, Drag);
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.EndDrag, EndDrag);

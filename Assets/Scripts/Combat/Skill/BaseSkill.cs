@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Shape;
 using LiteMore.Combat.Skill.Executor;
 using LiteMore.Core;
 
@@ -9,9 +10,12 @@ namespace LiteMore.Combat.Skill
     {
         public BaseNpc Master { get; }
         public uint SkillID { get; }
-        public float CD { get; }
-        public int Cost { get; }
+        public string Icon { get; }
+        public float CD { get; set; }
+        public int Cost { get; set; }
         public float Radius { get; set; }
+        public BaseShape Shape { get; }
+        public LockingRule Rule { get; }
         public float Time { get; protected set; }
         public bool IsCD { get; protected set; }
 
@@ -22,9 +26,12 @@ namespace LiteMore.Combat.Skill
         {
             this.Master = Master;
             this.SkillID = Desc.SkillID;
+            this.Icon = Desc.Icon;
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
             this.Radius = Desc.Radius;
+            this.Shape = Desc.Shape;
+            this.Rule = Desc.Rule;
             this.Time = 0;
             this.IsCD = false;
             this.Executor_ = Desc.Executor;
@@ -49,13 +56,13 @@ namespace LiteMore.Combat.Skill
             }
         }
 
-        public virtual void StartCD()
+        public void StartCD()
         {
             Time = CD;
             IsCD = Time > 0;
         }
 
-        public virtual void ClearCD()
+        public void ClearCD()
         {
             Time = 0;
             IsCD = false;
@@ -76,7 +83,7 @@ namespace LiteMore.Combat.Skill
             return true;
         }
 
-        public virtual bool Use(Dictionary<string, object> Args)
+        public virtual bool Use(SkillArgs Args)
         {
             if (!CanUse())
             {
@@ -88,7 +95,7 @@ namespace LiteMore.Combat.Skill
                 return false;
             }
 
-            if (Executor_.Execute(CreateExecutorArgs(Args)))
+            if (Executor_.Execute(Args))
             {
                 StartCD();
                 Master.AddAttr(NpcAttrIndex.Mp, -Cost);
@@ -96,34 +103,6 @@ namespace LiteMore.Combat.Skill
             }
 
             return false;
-        }
-
-        protected virtual Dictionary<string, object> CreateExecutorArgs(Dictionary<string, object> Args)
-        {
-            var BaseArgs = new Dictionary<string, object>();
-            BaseArgs.Add("Name", Name);
-            BaseArgs.Add("SkillID", SkillID);
-            BaseArgs.Add("CD", CD);
-            BaseArgs.Add("Cost", Cost);
-            BaseArgs.Add("Master", Master);
-            BaseArgs.Add("Radius", Radius);
-
-            if (Args != null)
-            {
-                foreach (var Entity in Args)
-                {
-                    if (BaseArgs.ContainsKey(Entity.Key))
-                    {
-                        BaseArgs[Entity.Key] = Entity.Value;
-                    }
-                    else
-                    {
-                        BaseArgs.Add(Entity.Key, Entity.Value);
-                    }
-                }
-            }
-
-            return BaseArgs;
         }
     }
 }

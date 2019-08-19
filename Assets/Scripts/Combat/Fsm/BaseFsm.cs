@@ -26,7 +26,7 @@ namespace LiteMore.Combat.Fsm
             };
 
             this.HandlerList_ = new List<BaseFsmHandler>();
-            RegisterHandler(new HitTargetEventHandler(this));
+            //RegisterHandler(new HitTargetEventHandler(this));
         }
 
         public void Tick(float DeltaTime)
