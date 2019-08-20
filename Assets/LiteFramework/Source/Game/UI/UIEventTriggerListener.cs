@@ -7,6 +7,7 @@ namespace LiteFramework.Game.UI
 {
     public class UIEventTriggerListener : EventTrigger
     {
+        private bool OriginRaycastTarget_ = false;
         private readonly Action<GameObject, Vector2>[] EventCallback_ = new Action<GameObject, Vector2>[(int)UIEventType.Count];
         private readonly Action[] EventCallbackEx_ = new Action[(int)UIEventType.Count];
 
@@ -16,10 +17,11 @@ namespace LiteFramework.Game.UI
             if (Listener == null)
             {
                 Listener = Obj.gameObject.AddComponent<UIEventTriggerListener>();
+                Listener.OriginRaycastTarget_ = Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget;
+                Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = true;
                 Listener.name = Obj.name;
             }
 
-            Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = true;
             return Listener;
         }
 
@@ -28,7 +30,7 @@ namespace LiteFramework.Game.UI
             var Listener = Obj.GetComponent<UIEventTriggerListener>();
             if (Listener != null)
             {
-                Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = false;
+                Obj.GetComponent<UnityEngine.UI.Graphic>().raycastTarget = Listener.OriginRaycastTarget_;
                 UnityEngine.Object.DestroyImmediate(Listener);
             }
         }

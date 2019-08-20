@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteMore.Combat.Npc;
-using LiteMore.Combat.Shape;
 using LiteMore.Combat.Skill;
 using UnityEngine;
 
-namespace LiteMore.Combat.AI.Locking
+namespace LiteMore.Combat.AI.Filter
 {
-    public static class LockingRange
+    public static class FilterRange
     {
-        private static readonly Dictionary<LockRangeType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<LockRangeType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>>
+        private static readonly Dictionary<FilterRangeType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<FilterRangeType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>>
         {
-            {LockRangeType.All, Find_All},
-            {LockRangeType.InDistance, Find_InDistance},
-            {LockRangeType.InShape, Find_InShape},
+            {FilterRangeType.All, Find_All},
+            {FilterRangeType.InDistance, Find_InDistance},
+            {FilterRangeType.InShape, Find_InShape},
         };
 
-        public static List<BaseNpc> Find(List<BaseNpc> List, BaseSkill Skill, LockRangeType Type)
+        public static List<BaseNpc> Find(List<BaseNpc> List, BaseSkill Skill, FilterRangeType Type)
         {
             return FuncList_[Type].Invoke(List, Skill);
         }
@@ -34,7 +33,7 @@ namespace LiteMore.Combat.AI.Locking
             foreach (var Npc in List)
             {
                 var Dist = Vector2.Distance(Skill.Master.Position, Npc.Position);
-                if (Dist < Range + Npc.CalcFinalAttr(NpcAttrIndex.Radius))
+                if (Dist <= Range + CombatHelper.GetNpcHitRange(Npc))
                 {
                     Result.Add(Npc);
                 }

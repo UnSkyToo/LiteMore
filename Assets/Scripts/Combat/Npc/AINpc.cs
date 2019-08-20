@@ -6,9 +6,9 @@ namespace LiteMore.Combat.Npc
 {
     public class AINpc : BaseNpc
     {
-        protected readonly BehaviorInputData AIData_;
+        private readonly BehaviorInputData AIData_;
 
-        public AINpc(string Name, Transform Trans, CombatTeam Team, NpcAttribute InitAttr)
+        public AINpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
             : base(Name, Trans, Team, InitAttr)
         {
             AIData_ = new BehaviorInputData();
@@ -21,11 +21,7 @@ namespace LiteMore.Combat.Npc
         public override void Tick(float DeltaTime)
         {
             base.Tick(DeltaTime);
-            UpdateAI(DeltaTime);
-        }
 
-        protected void UpdateAI(float DeltaTime)
-        {
             if (!AIData_.Enabled)
             {
                 return;

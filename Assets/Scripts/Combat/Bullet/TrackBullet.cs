@@ -79,7 +79,7 @@ namespace LiteMore.Combat.Bullet
                 T = 1.0f;
                 IsMove = false;
 
-                Target_.OnBulletHit(this);
+                Target_.Action.OnBulletHit(this);
                 LiteFramework.Game.Audio.AudioManager.PlaySound("audio/tf_paodan_hit.mp3");
                 //LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
                 IsAlive = false;
@@ -92,7 +92,7 @@ namespace LiteMore.Combat.Bullet
         private void Attack(BaseNpc Target)
         {
             Target_ = Target;
-            Target_.OnLocking(this);
+            Target_.Action.OnLocking(this);
             MoveTo(Target_.Position);
         }
 

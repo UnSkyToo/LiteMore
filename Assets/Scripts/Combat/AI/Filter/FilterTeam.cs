@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 
-namespace LiteMore.Combat.AI.Locking
+namespace LiteMore.Combat.AI.Filter
 {
-    public static class LockingTeam
+    public static class FilterTeam
     {
-        private static readonly Dictionary<LockTeamType, Func<BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<LockTeamType, Func<BaseSkill, List<BaseNpc>>>
+        private static readonly Dictionary<FilterTeamType, Func<BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<FilterTeamType, Func<BaseSkill, List<BaseNpc>>>
         {
-            {LockTeamType.Self, Find_Self},
-            {LockTeamType.Team, Find_Team},
-            {LockTeamType.TeamExceptSelf, Find_TeamExceptSelf},
-            {LockTeamType.Enemy, Find_Enemy},
-            {LockTeamType.All, Find_All},
-            {LockTeamType.Attacker, Find_Attacker},
+            {FilterTeamType.Self, Find_Self},
+            {FilterTeamType.Team, Find_Team},
+            {FilterTeamType.TeamExceptSelf, Find_TeamExceptSelf},
+            {FilterTeamType.Enemy, Find_Enemy},
+            {FilterTeamType.All, Find_All},
+            {FilterTeamType.Attacker, Find_Attacker},
         };
 
-        public static List<BaseNpc> Find(BaseSkill Skill, LockTeamType Type)
+        public static List<BaseNpc> Find(BaseSkill Skill, FilterTeamType Type)
         {
             var NpcList = FuncList_[Type].Invoke(Skill);
             var Result = new List<BaseNpc>();
@@ -68,7 +68,7 @@ namespace LiteMore.Combat.AI.Locking
         private static List<BaseNpc> Find_Attacker(BaseSkill Skill)
         {
             var Result = new List<BaseNpc>();
-            if (Skill.Master.IsValidAttacker())
+            if (Skill.Master.Action.IsValidAttacker())
             {
                 Result.Add(Skill.Master);
             }

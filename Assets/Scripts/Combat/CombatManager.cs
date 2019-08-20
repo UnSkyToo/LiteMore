@@ -97,10 +97,9 @@ namespace LiteMore.Combat
 
         private static void OnCombatEvent(CombatEvent Event)
         {
-            var Master = NpcManager.FindNpc(Event.MasterTeam, Event.MasterID);
-            if (Master != null && Master.IsAlive)
+            if (Event.Master != null && Event.Master.IsAlive)
             {
-                Master.OnCombatEvent(Event);
+                Event.Master.Actor.OnCombatEvent(Event);
             }
         }
     }

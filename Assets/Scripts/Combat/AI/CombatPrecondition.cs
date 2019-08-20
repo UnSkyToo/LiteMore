@@ -1,5 +1,5 @@
 ﻿using LiteMore.Combat.AI.BehaviorTree;
-using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Skill;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            return !Input.Attacker.IsForceMove;
+            return !Input.Attacker.Action.IsForceMove;
         }
     }
 
@@ -17,23 +17,23 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            if (!Input.Attacker.CanUseSkill())
+            if (!Input.Attacker.Skill.CanUseSkill())
             {
                 return false;
             }
 
-            var NextSkill = Input.Attacker.GetSkill(Input.SkillID);
+            var NextSkill = Input.Attacker.Skill.GetSkill(Input.SkillID);
             if (NextSkill != null && NextSkill.CanUse())
             {
                 return true;
             }
 
-            var SkillList = Input.Attacker.GetSkillList();
-            for (var Index = SkillList.Count - 1; Index >= 0; --Index)
+            var SkillList = Input.Attacker.Skill.GetSkillList();
+            foreach (var Skill in SkillList)
             {
-                if (SkillList[Index].CanUse())
+                if (Skill.Type != SkillType.Passive && Skill.CanUse())
                 {
-                    NextSkill = SkillList[Index];
+                    NextSkill = Skill;
                     break;
                 }
             }
@@ -53,13 +53,13 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            if (Input.Attacker.IsValidTarget())
+            if (Input.Attacker.Action.IsValidTarget())
             {
                 return true;
             }
 
-            Input.Attacker.TargetNpc = LockingHelper.FindNearest(Input.Attacker);
-            return Input.Attacker.TargetNpc != null;
+            Input.Attacker.Action.TargetNpc = FilterHelper.FindNearest(Input.Attacker);
+            return Input.Attacker.Action.TargetNpc != null;
         }
     }
 
@@ -67,7 +67,7 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            if (CombatHelper.IsAttackRange(Input.Attacker, Input.Attacker.TargetNpc))
+            if (CombatHelper.InAttackRange(Input.Attacker, Input.Attacker.Action.TargetNpc))
             {
                 return true;
             }
@@ -80,7 +80,7 @@ namespace LiteMore.Combat.AI
     {
         public override bool ExternalCondition(BehaviorInputData Input)
         {
-            if (!CombatHelper.IsAttackRange(Input.Attacker, Input.Attacker.TargetNpc))
+            if (!CombatHelper.InAttackRange(Input.Attacker, Input.Attacker.Action.TargetNpc))
             {
                 return true;
             }

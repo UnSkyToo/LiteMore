@@ -1,4 +1,4 @@
-﻿using LiteMore.Combat.AI.Locking;
+﻿using LiteMore.Combat.AI.Filter;
 using UnityEngine;
 
 namespace LiteMore.Combat.Skill
@@ -8,7 +8,7 @@ namespace LiteMore.Combat.Skill
         public BaseSkill Skill { get; }
         public Vector2 Position { get; set; }
         public Vector2 Direction { get; set; }
-        public LockingRule LockRule { get; set; }
+        public FilterRule LockRule { get; set; }
         public RectTransform CancelObj { get; set; }
         public string HitSfx { get; set; }
 

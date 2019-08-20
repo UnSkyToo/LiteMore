@@ -1,15 +1,12 @@
 ﻿using LiteFramework;
 using LiteFramework.Core.Event;
-using LiteFramework.Core.Log;
 using LiteFramework.Game.UI;
 using LiteMore.Cache;
 using LiteMore.Combat;
-using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
-using LiteMore.Combat.Skill;
-using LiteMore.Combat.Skill.Selector;
 using LiteMore.Combat.Wave;
 using LiteMore.Data;
 using LiteMore.UI;
@@ -37,39 +34,15 @@ namespace LiteMore.Player
             Dps_ = new PlayerDps(0.5f);
 
             CoreNpc_ = NpcManager.AddCoreNpc("Core", Configure.CoreBasePosition, NpcManager.GenerateCoreNpcAttr());
-            CoreNpc_.Attr.AttrChanged += OnCoreAttrChanged;
 
             EventManager.Register<NpcDamageEvent>(OnNpcDamageEvent);
             EventManager.Register<NpcDieEvent>(OnNpcDieEvent);
+            EventManager.Register<NpcAttrChangedEvent>(OnCoreAttrChanged);
 
             UIManager.OpenUI<MainUI>();
             UIManager.OpenUI<DpsUI>();
+            UIManager.OpenUI<MainOperatorUI>();
             //UIManager.OpenUI<QuickControlUI>();
-            var UI = UIManager.OpenUI<JoystickUI>();
-            var S = NpcManager.AddNpc("s", new Vector2(0, 0), CombatTeam.A, NpcManager.GenerateInitAttr(200, 1000, 0, 50, 1, 50, 50));
-            S.Scale = new Vector2(3, 3);
-            ((AINpc) S).EnableAI(false);
-
-            S.AddNpcSkill(3002);
-            S.AddNpcSkill(2006).Cost = 0;
-            S.AddNpcSkill(2005).Cost = 0;
-
-            UI.OnJoystickMoveEvent += (IsStop, Dir, Strength) =>
-            {
-                if (IsStop)
-                {
-                    S.StopMove();
-                }
-                else
-                {
-                    S.MoveTo(Dir * 1000, true);
-                }
-            };
-
-            UI.BindSkill(0, S.GetSkill(3001));
-            UI.BindSkill(1, S.GetSkill(3002));
-            UI.BindSkill(2, S.GetSkill(2006));
-            UI.BindSkill(3, S.GetSkill(2005));
 
             //CreateMainEmitter();
             //WaveManager.LoadWave((uint)Player.Wave);
@@ -82,10 +55,11 @@ namespace LiteMore.Player
         {
             EventManager.UnRegister<NpcDamageEvent>(OnNpcDamageEvent);
             EventManager.UnRegister<NpcDieEvent>(OnNpcDieEvent);
+            EventManager.UnRegister<NpcAttrChangedEvent>(OnCoreAttrChanged);
             Player_.SaveToCache();
 
-            UIManager.CloseUI<JoystickUI>();
             //UIManager.CloseUI<QuickControlUI>();
+            UIManager.CloseUI<MainOperatorUI>();
             UIManager.CloseUI<DpsUI>();
             UIManager.CloseUI<MainUI>();
         }
@@ -113,7 +87,7 @@ namespace LiteMore.Player
 
         private static void OnNpcDamageEvent(NpcDamageEvent Event)
         {
-            if (Event.MasterTeam == CombatTeam.B)
+            if (Event.Master.Team == CombatTeam.B)
             {
                 Dps_.ApplyDamage(Event.SourceName, Event.Damage);
             }
@@ -121,14 +95,10 @@ namespace LiteMore.Player
 
         private static void OnNpcDieEvent(NpcDieEvent Event)
         {
-            if (Event.MasterTeam == CombatTeam.B)
+            if (Event.Master.Team == CombatTeam.B)
             {
-                var Npc = NpcManager.FindNpc(Event.MasterTeam, Event.MasterID);
-                if (Npc != null)
-                {
-                    AddGem((int)Npc.CalcFinalAttr(NpcAttrIndex.Gem));
-                    SfxManager.AddSfx("prefabs/sfx/goldsfx.prefab", Npc.Position);
-                }
+                AddGem((int)Event.Master.CalcFinalAttr(NpcAttrIndex.Gem));
+                SfxManager.AddSfx("prefabs/sfx/goldsfx.prefab", Event.Master.Position);
             }
         }
 
@@ -154,7 +124,7 @@ namespace LiteMore.Player
             UIEventTriggerListener.Remove(GameObject.Find("Touch").transform);
             UIEventTriggerListener.Get(GameObject.Find("Touch").transform).AddCallback(UIEventType.Click, () =>
             {
-                var Target = LockingHelper.FindNearest(Master);
+                var Target = FilterHelper.FindNearest(Master);
                 if (Target != null)
                 {
                     var Desc = new TrackBulletDescriptor(
@@ -166,32 +136,37 @@ namespace LiteMore.Player
             });
         }
 
-        private static void OnCoreAttrChanged(NpcAttrIndex Index)
+        private static void OnCoreAttrChanged(NpcAttrChangedEvent Event)
         {
-            switch (Index)
+            if (Event.Master.ID != Master.ID)
+            {
+                return;
+            }
+
+            switch (Event.Index)
             {
                 case NpcAttrIndex.Hp:
-                    Player_.Hp = CoreNpc_.CalcFinalAttr(Index);
+                    Player_.Hp = CoreNpc_.CalcFinalAttr(Event.Index);
                     EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.MaxHp:
-                    Player_.MaxHp = CoreNpc_.CalcFinalAttr(Index);
+                    Player_.MaxHp = CoreNpc_.CalcFinalAttr(Event.Index);
                     EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.AddHp:
-                    Player_.AddHp = CoreNpc_.CalcFinalAttr(Index);
+                    Player_.AddHp = CoreNpc_.CalcFinalAttr(Event.Index);
                     EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.Mp:
-                    Player_.Mp = CoreNpc_.CalcFinalAttr(Index);
+                    Player_.Mp = CoreNpc_.CalcFinalAttr(Event.Index);
                     EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.MaxMp:
-                    Player_.MaxMp = CoreNpc_.CalcFinalAttr(Index);
+                    Player_.MaxMp = CoreNpc_.CalcFinalAttr(Event.Index);
                     EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 case NpcAttrIndex.AddMp:
-                    Player_.AddMp = CoreNpc_.CalcFinalAttr(Index);
+                    Player_.AddMp = CoreNpc_.CalcFinalAttr(Event.Index);
                     EventManager.Send<CoreInfoChangeEvent>();
                     break;
                 default:
@@ -203,16 +178,6 @@ namespace LiteMore.Player
         {
             Player_.Gem += Value;
             EventManager.Send<CoreInfoChangeEvent>();
-        }
-
-        public static void AddHp(float Value)
-        {
-            CoreNpc_.Attr.AddValue(NpcAttrIndex.Hp, Value);
-        }
-
-        public static void AddMp(float Value)
-        {
-            CoreNpc_.Attr.AddValue(NpcAttrIndex.Mp, Value);
         }
 
         public static void AddWave()

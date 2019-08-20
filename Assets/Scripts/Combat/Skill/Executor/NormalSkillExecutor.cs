@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using LiteMore.Combat.AI.Locking;
+using LiteFramework.Helper;
+using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Npc;
@@ -8,6 +9,9 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Executor
 {
+    /// <summary>
+    /// 镭射激光
+    /// </summary>
     public class SkillExecutor_2001 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
@@ -20,6 +24,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
+    /// <summary>
+    /// 自动弹幕
+    /// </summary>
     public class SkillExecutor_2002 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
@@ -43,6 +50,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
+    /// <summary>
+    /// 放马过来
+    /// </summary>
     public class SkillExecutor_2003 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
@@ -66,6 +76,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
+    /// <summary>
+    /// 天降正义
+    /// </summary>
     public class SkillExecutor_2004 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
@@ -79,6 +92,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
+    /// <summary>
+    /// 速速退散
+    /// </summary>
     public class SkillExecutor_2005 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
@@ -94,6 +110,9 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
+    /// <summary>
+    /// 减速陷阱
+    /// </summary>
     public class SkillExecutor_2006 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
@@ -115,25 +134,32 @@ namespace LiteMore.Combat.Skill.Executor
         }
     }
 
+    /// <summary>
+    /// 召唤援军
+    /// </summary>
     public class SkillExecutor_2007 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
         {
             var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition, CombatTeam.A,
-                NpcManager.GenerateInitAttr(200, 500, 0, 50, 0, 100, 100));
+                NpcManager.GenerateInitAttr(200, 500, 0, 100, 10, 50, 0, 30, 30));
             Npc.Scale = new Vector2(3, 3);
-            Npc.AddNpcSkill(3002); // 嘲讽-主动
-            Npc.AddNpcSkill(3003); // 分身-主动
-            Npc.AddPassiveSkill(1001, -1); // 荆棘-被动
+            Npc.Skill.AddNpcSkill(2006); // 减速陷阱-主动
+            Npc.Skill.AddNpcSkill(2009); // 嘲讽-主动
+            Npc.Skill.AddNpcSkill(2010); // 分身-主动
+            Npc.Skill.AddPassiveSkill(3001, -1); // 荆棘-被动
             return true;
         }
     }
 
+    /// <summary>
+    /// 持续子弹
+    /// </summary>
     public class SkillExecutor_2008 : BaseExecutor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var Target = LockingHelper.FindNearest(PlayerManager.Master);
+            var Target = FilterHelper.FindNearest(PlayerManager.Master);
             if (Target != null)
             {
                 BulletManager.AddTrackBullet(new TrackBulletDescriptor(
@@ -145,6 +171,54 @@ namespace LiteMore.Combat.Skill.Executor
             }
 
             return false;
+        }
+    }
+
+    /// <summary>
+    /// 嘲讽
+    /// </summary>
+    public class SkillExecutor_2009 : BaseExecutor
+    {
+        public override bool Execute(SkillArgs Args)
+        {
+            var Master = Args.Skill.Master;
+            if (Master == null)
+            {
+                return false;
+            }
+
+            var TargetList = FilterHelper.Find(Args.Skill, Args.LockRule);
+            foreach (var Target in TargetList)
+            {
+                if (!Target.IsValid())
+                {
+                    continue;
+                }
+
+                Target.Action.ForceTarget(Master);
+            }
+
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// 分身
+    /// </summary>
+    public class SkillExecutor_2010 : BaseExecutor
+    {
+        public override bool Execute(SkillArgs Args)
+        {
+            var Master = Args.Skill.Master;
+            if (Master == null)
+            {
+                return false;
+            }
+
+            var Slave = NpcManager.AddNpc($"{Master.Name}_clone", Master.Position + UnityHelper.RandVec2(100), Master.Team, Master.Data.Attr.GetValues());
+            Slave.Scale = Master.Scale;
+            Slave.Actor.SetDirection(Master.Actor.Direction);
+            return true;
         }
     }
 }

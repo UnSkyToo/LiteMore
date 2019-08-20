@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Game.Asset;
-using LiteMore.Combat.Skill;
 using LiteMore.Player;
 using UnityEngine;
 
@@ -71,29 +70,29 @@ namespace LiteMore.Combat.Npc
         // MpAdd,      // 魔法恢复
         // Damage,     // 伤害
         // Gem,        // 死亡奖励宝石
-        // Range,      // 攻击范围
-        // Radius,     // 可攻击半径
-        public static NpcAttribute GenerateInitAttr(float Speed, float MaxHp, float MaxMp, float Damage, float Gem, float Range, float Radius)
+        // AtkRange,   // 攻击范围
+        // HitRange,   // 受击范围
+        public static float[] GenerateInitAttr(float Speed, float MaxHp, float HpAdd, float MaxMp, float MpAdd, float Damage, float Gem, float AtkRange, float HitRange)
         {
-            return new NpcAttribute(new float[]
+            return new float[]
             {
                 Speed,
                 MaxHp,
                 MaxHp,
-                0,
+                HpAdd,
                 MaxMp,
                 MaxMp,
-                0,
+                MpAdd,
                 Damage,
                 Gem,
-                Range,
-                Radius,
-            });
+                AtkRange,
+                HitRange,
+            };
         }
 
-        public static NpcAttribute GenerateCoreNpcAttr()
+        public static float[] GenerateCoreNpcAttr()
         {
-            return new NpcAttribute(new float[]
+            return new float[]
             {
                 0,
                 PlayerManager.Player.Hp,
@@ -106,10 +105,10 @@ namespace LiteMore.Combat.Npc
                 0,
                 0,
                 50,
-            });
+            };
         }
 
-        public static BaseNpc AddNpc(string Name, Vector2 Position, CombatTeam Team, NpcAttribute InitAttr)
+        public static AINpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/npc/r2/r2.prefab");
             Obj.transform.SetParent(Configure.NpcRoot, false);
@@ -119,12 +118,12 @@ namespace LiteMore.Combat.Npc
             NpcList_[(int)Team].Add(Entity);
 
             Entity.Position = Position;
-            Entity.AddNpcSkill(3001).Radius = Entity.CalcFinalAttr(NpcAttrIndex.Radius);
+            Entity.Skill.AddNpcSkill(1001).Radius = CombatHelper.GetNpcAtkRange(Entity);
 
             return Entity;
         }
 
-        public static CoreNpc AddCoreNpc(string Name, Vector2 Position, NpcAttribute InitAttr)
+        public static CoreNpc AddCoreNpc(string Name, Vector2 Position, float[] InitAttr)
         {
             if (CoreNpc_ != null)
             {

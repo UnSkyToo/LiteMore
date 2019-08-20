@@ -9,7 +9,7 @@
 
         public override void OnEnter(CombatEvent Event)
         {
-            Fsm.Master.PlayAnimation("Idle", true);
+            Fsm.Master.Actor.PlayAnimation("Idle", true);
         }
 
         public override void OnCombatEvent(CombatEvent Event)

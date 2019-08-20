@@ -1,28 +1,18 @@
-﻿namespace LiteMore.Combat.Npc
+﻿namespace LiteMore.Combat.Npc.Module
 {
-    public partial class BaseNpc
+    public class NpcDataModule : BaseNpcModule
     {
         public NpcAttribute Attr { get; }
         private int State_;
 
-        public float CalcFinalAttr(NpcAttrIndex Index)
+        public NpcDataModule(BaseNpc Master, float[] InitAttr, int State)
+            : base(Master)
         {
-            return Attr.CalcFinalValue(Index);
+            this.Attr = new NpcAttribute(Master, InitAttr);
+            this.State_ = State;
         }
 
-        public float AddAttr(NpcAttrIndex Index, float Value)
-        {
-            var RealValue = Value;
-            foreach (var Handler in HandlerList_)
-            {
-                RealValue = Handler.OnAddAttr(Index, RealValue);
-            }
-
-            Attr.AddValue(Index, RealValue);
-            return Value;
-        }
-
-        private void UpdateAttr(float DeltaTime)
+        public override void Tick(float DeltaTime)
         {
             var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
             var MaxHp = Attr.CalcFinalValue(NpcAttrIndex.MaxHp);
@@ -41,28 +31,19 @@
             Attr.SetValue(NpcAttrIndex.Mp, Mp);
         }
 
-        private void OnAttrChanged(NpcAttrIndex Index)
+        public float CalcFinalAttr(NpcAttrIndex Index)
         {
-            switch (Index)
-            {
-                case NpcAttrIndex.MaxHp:
-                    Bar_.SetMaxHp(Attr.CalcFinalValue(NpcAttrIndex.MaxHp));
-                    break;
-                case NpcAttrIndex.MaxMp:
-                    Bar_.SetMaxMp(Attr.CalcFinalValue(NpcAttrIndex.MaxMp));
-                    break;
-                case NpcAttrIndex.Speed:
-                    MoveTo(TargetPos);
-                    break;
-                case NpcAttrIndex.Hp:
-                    if (Attr.CalcFinalValue(NpcAttrIndex.Hp) <= 0)
-                    {
-                        Dead();
-                    }
-                    break;
-                default:
-                    break;
-            }
+            return Attr.CalcFinalValue(Index);
+        }
+
+        public void AddAttr(NpcAttrIndex Index, float Value, bool Notify = true)
+        {
+            Attr.AddValue(Index, Value, Notify);
+        }
+
+        public void SetAttr(NpcAttrIndex Index, float Value, bool Notify = true)
+        {
+            Attr.SetValue(Index, Value, Notify);
         }
 
         public bool IsState(NpcState State)
@@ -104,7 +85,7 @@
         {
             if (State == NpcState.Dizzy)
             {
-                Fsm_.ChangeToIdleState();
+                Master.Actor.ChangeToIdleState();
             }
 
             State_ &= (~(int)State);

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteMore.Combat.Npc.Handler;
+﻿using LiteMore.Combat.Npc.Handler;
 using LiteFramework.Core.Event;
 using LiteMore.Combat.Npc;
 using LiteMore.Player;
@@ -15,7 +14,7 @@ namespace LiteMore.Combat.Skill.Executor
     /// <summary>
     /// 荆棘：受到攻击反弹受到伤害的（50%，100%，150%，200%，250%）伤害
     /// </summary>
-    public class SkillExecutor_1001 : PassiveExecutor
+    public class SkillExecutor_3001 : PassiveExecutor
     {
         private SkillArgs Args_;
 
@@ -33,7 +32,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         private void OnNpcDamageEvent(NpcDamageEvent Event)
         {
-            if (Event.MasterID != Args_.Skill.Master.ID)
+            if (Event.Master.ID != Args_.Skill.Master.ID)
             {
                 return;
             }
@@ -44,7 +43,7 @@ namespace LiteMore.Combat.Skill.Executor
                 return;
             }
 
-            var Level = Args_.Skill.Master.GetSkillLevel(Args_.Skill.SkillID);
+            var Level = Args_.Skill.Master.Skill.GetSkillLevel(Args_.Skill.SkillID);
             Attacker.OnHitDamage(Args_.Skill.Master, Args_.Skill.Name, Event.RealValue * Level * 0.5f);
         }
     }
@@ -52,13 +51,13 @@ namespace LiteMore.Combat.Skill.Executor
     /// <summary>
     /// 固守：减少受到伤害的（50%，60%，70%，80%，90%）
     /// </summary>
-    public class SkillExecutor_1002 : PassiveExecutor
+    public class SkillExecutor_3002 : PassiveExecutor
     {
-        private SkillExecutor1002_NpcHandler Handler_;
+        private SkillExecutor3002_NpcHandler Handler_;
 
         public override bool Execute(SkillArgs Args)
         {
-            Handler_ = new SkillExecutor1002_NpcHandler(100, Args.Skill.SkillID, Args.Skill.Master);
+            Handler_ = new SkillExecutor3002_NpcHandler(100, Args.Skill.SkillID, Args.Skill.Master);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
@@ -68,12 +67,12 @@ namespace LiteMore.Combat.Skill.Executor
             PlayerManager.Master.UnRegisterHandler(Handler_);
         }
 
-        private class SkillExecutor1002_NpcHandler : BaseNpcHandler
+        private class SkillExecutor3002_NpcHandler : BaseNpcHandler
         {
             private readonly uint SkillID_;
             private readonly BaseNpc Master_;
 
-            public SkillExecutor1002_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
+            public SkillExecutor3002_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
                 : base(Priority)
             {
                 SkillID_ = SkillID;
@@ -87,7 +86,7 @@ namespace LiteMore.Combat.Skill.Executor
                     return Value;
                 }
 
-                var Level = Master_.GetSkillLevel(SkillID_);
+                var Level = Master_.Skill.GetSkillLevel(SkillID_);
                 return Value * (1 - (0.4f + 0.1f * Level));
             }
         }
@@ -96,13 +95,13 @@ namespace LiteMore.Combat.Skill.Executor
     /// <summary>
     /// 铠甲：固定减少（10,20,30,40,50）点受到的伤害
     /// </summary>
-    public class SkillExecutor_1003 : PassiveExecutor
+    public class SkillExecutor_3003 : PassiveExecutor
     {
-        private SkillExecutor1003_NpcHandler Handler_;
+        private SkillExecutor3003_NpcHandler Handler_;
 
         public override bool Execute(SkillArgs Args)
         {
-            Handler_ = new SkillExecutor1003_NpcHandler(0, Args.Skill.SkillID, Args.Skill.Master);
+            Handler_ = new SkillExecutor3003_NpcHandler(0, Args.Skill.SkillID, Args.Skill.Master);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
@@ -112,12 +111,12 @@ namespace LiteMore.Combat.Skill.Executor
             PlayerManager.Master.UnRegisterHandler(Handler_);
         }
 
-        private class SkillExecutor1003_NpcHandler : BaseNpcHandler
+        private class SkillExecutor3003_NpcHandler : BaseNpcHandler
         {
             private readonly uint SkillID_;
             private readonly BaseNpc Master_;
 
-            public SkillExecutor1003_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
+            public SkillExecutor3003_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
                 : base(Priority)
             {
                 SkillID_ = SkillID;
@@ -131,7 +130,7 @@ namespace LiteMore.Combat.Skill.Executor
                     return Value;
                 }
 
-                var Level = Master_.GetSkillLevel(SkillID_);
+                var Level = Master_.Skill.GetSkillLevel(SkillID_);
                 return Mathf.Clamp(Value + 10 * Level, Value, 0);
             }
         }
@@ -140,7 +139,7 @@ namespace LiteMore.Combat.Skill.Executor
     /// <summary>
     /// 活力：提高每秒生命恢复（10，20，30，40，50）
     /// </summary>
-    public class SkillExecutor_1004 : PassiveExecutor
+    public class SkillExecutor_3004 : PassiveExecutor
     {
         private BaseNpc Master_;
         private uint SkillID_;
@@ -149,22 +148,22 @@ namespace LiteMore.Combat.Skill.Executor
         {
             Master_ = Args.Skill.Master;
             SkillID_ = Args.Skill.SkillID;
-            var Level = Master_.GetSkillLevel(SkillID_);
-            PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddHp, Level * 10);
+            var Level = Master_.Skill.GetSkillLevel(SkillID_);
+            Master_.Data.Attr.ApplyBase(NpcAttrIndex.AddHp, Level * 10);
             return true;
         }
 
         public override void Cancel(SkillArgs Args)
         {
-            var Level = Master_.GetSkillLevel(SkillID_);
-            PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddHp, -Level * 10);
+            var Level = Master_.Skill.GetSkillLevel(SkillID_);
+            Master_.Data.Attr.ApplyBase(NpcAttrIndex.AddHp, -Level * 10);
         }
     }
 
     /// <summary>
     /// 冥想：提高每秒能量恢复（10，20，30，40，50）
     /// </summary>
-    public class SkillExecutor_1005 : PassiveExecutor
+    public class SkillExecutor_3005 : PassiveExecutor
     {
         private BaseNpc Master_;
         private uint SkillID_;
@@ -173,22 +172,22 @@ namespace LiteMore.Combat.Skill.Executor
         {
             Master_ = Args.Skill.Master;
             SkillID_ = Args.Skill.SkillID;
-            var Level = Master_.GetSkillLevel(SkillID_);
-            PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddMp, Level * 10);
+            var Level = Master_.Skill.GetSkillLevel(SkillID_);
+            Master_.Data.Attr.ApplyBase(NpcAttrIndex.AddMp, Level * 10);
             return true;
         }
 
         public override void Cancel(SkillArgs Args)
         {
-            var Level = Master_.GetSkillLevel(SkillID_);
-            PlayerManager.Master.Attr.ApplyBase(NpcAttrIndex.AddMp, -Level * 10);
+            var Level = Master_.Skill.GetSkillLevel(SkillID_);
+            Master_.Data.Attr.ApplyBase(NpcAttrIndex.AddMp, -Level * 10);
         }
     }
 
     /// <summary>
     /// 清醒：每次释放技能有（10%，20%，30%，40%，50%）概率返还能量(5，10，15，20，25)
     /// </summary>
-    public class SkillExecutor_1006 : PassiveExecutor
+    public class SkillExecutor_3006 : PassiveExecutor
     {
         private BaseNpc Master_;
         private uint SkillID_;
@@ -208,12 +207,12 @@ namespace LiteMore.Combat.Skill.Executor
 
         private void OnNpcSkillEvent(NpcSkillEvent Event)
         {
-            if (Event.MasterID != Master_.ID)
+            if (Event.Master.ID != Master_.ID)
             {
                 return;
             }
 
-            var Level = Master_.GetSkillLevel(SkillID_);
+            var Level = Master_.Skill.GetSkillLevel(SkillID_);
             if (Random.Range(0, 100) < Level * 10)
             {
                 Master_.AddAttr(NpcAttrIndex.Mp, Level * 5);
@@ -224,7 +223,7 @@ namespace LiteMore.Combat.Skill.Executor
     /// <summary>
     /// 魔术：每次释放技能有（5%，10%，15%，20%，25%）概率不进入冷却
     /// </summary>
-    public class SkillExecutor_1007 : PassiveExecutor
+    public class SkillExecutor_3007 : PassiveExecutor
     {
         private BaseNpc Master_;
         private uint SkillID_;
@@ -244,7 +243,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         private void OnNpcSkillEvent(NpcSkillEvent Event)
         {
-            var Level = Master_.GetSkillLevel(SkillID_);
+            var Level = Master_.Skill.GetSkillLevel(SkillID_);
             if (Random.Range(0, 100) < Level * 5)
             {
                 SkillManager.FindSkill(Event.SkillID)?.ClearCD();
@@ -255,15 +254,13 @@ namespace LiteMore.Combat.Skill.Executor
     /// <summary>
     /// 大师：提高所有主动技能（5%，10%，15%，20%，30%）效果
     /// </summary>
-    public class SkillExecutor_1008 : PassiveExecutor
+    public class SkillExecutor_3008 : PassiveExecutor
     {
-        private BaseNpc Master_;
         private uint Level_;
 
         public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args.Skill.Master;
-            Level_ = Master_.GetSkillLevel(Args.Skill.SkillID);
+            Level_ = Args.Skill.Master.Skill.GetSkillLevel(Args.Skill.SkillID);
             CombatManager.Calculator.AddGlobalPercent(0.05f * Level_);
             return true;
         }

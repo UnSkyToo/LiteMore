@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using LiteFramework.Core.Event;
+﻿using LiteFramework.Core.Event;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 using UnityEngine;
@@ -8,20 +7,29 @@ namespace LiteMore.Combat
 {
     public abstract class CombatEvent : BaseEvent
     {
-        public uint MasterID { get; }
-        public CombatTeam MasterTeam { get; }
+        public BaseNpc Master { get; }
 
-        protected CombatEvent(uint MasterID, CombatTeam MasterTeam)
+        protected CombatEvent(BaseNpc Master)
         {
-            this.MasterID = MasterID;
-            this.MasterTeam = MasterTeam;
+            this.Master = Master;
+        }
+    }
+
+    public class NpcAttrChangedEvent : CombatEvent
+    {
+        public NpcAttrIndex Index { get; }
+
+        public NpcAttrChangedEvent(BaseNpc Master, NpcAttrIndex Index)
+            : base(Master)
+        {
+            this.Index = Index;
         }
     }
 
     public class NpcIdleEvent : CombatEvent
     {
-        public NpcIdleEvent(uint MasterID, CombatTeam MasterTeam)
-            : base(MasterID, MasterTeam)
+        public NpcIdleEvent(BaseNpc Master)
+            : base(Master)
         {
         }
     }
@@ -30,8 +38,8 @@ namespace LiteMore.Combat
     {
         public Vector2 TargetPos { get; }
 
-        public NpcWalkEvent(uint MasterID, CombatTeam MasterTeam, Vector2 TargetPos)
-            : base(MasterID, MasterTeam)
+        public NpcWalkEvent(BaseNpc Master, Vector2 TargetPos)
+            : base(Master)
         {
             this.TargetPos = TargetPos;
         }
@@ -42,8 +50,8 @@ namespace LiteMore.Combat
         public uint SkillID { get; }
         public SkillArgs Args { get; }
 
-        public NpcSkillEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, SkillArgs Args)
-            : base(MasterID, MasterTeam)
+        public NpcSkillEvent(BaseNpc Master, uint SkillID, SkillArgs Args)
+            : base(Master)
         {
             this.SkillID = SkillID;
             this.Args = Args;
@@ -52,8 +60,8 @@ namespace LiteMore.Combat
 
     public class NpcDieEvent : CombatEvent
     {
-        public NpcDieEvent(uint MasterID, CombatTeam MasterTeam)
-            : base(MasterID, MasterTeam)
+        public NpcDieEvent(BaseNpc Master)
+            : base(Master)
         {
         }
     }
@@ -63,8 +71,8 @@ namespace LiteMore.Combat
         public Vector2 BackPos { get; }
         public float BackTime { get; }
 
-        public NpcBackEvent(uint MasterID, CombatTeam MasterTeam, Vector2 BackPos, float BackTime)
-            : base(MasterID, MasterTeam)
+        public NpcBackEvent(BaseNpc Master, Vector2 BackPos, float BackTime)
+            : base(Master)
         {
             this.BackPos = BackPos;
             this.BackTime = BackTime;
@@ -78,8 +86,8 @@ namespace LiteMore.Combat
         public float Damage { get; }
         public float RealValue { get; }
 
-        public NpcDamageEvent(uint MasterID, CombatTeam MasterTeam, uint AttackerID, string SourceName, float Damage, float RealValue)
-            : base(MasterID, MasterTeam)
+        public NpcDamageEvent(BaseNpc Master, uint AttackerID, string SourceName, float Damage, float RealValue)
+            : base(Master)
         {
             this.AttackerID = AttackerID;
             this.SourceName = SourceName;
@@ -93,8 +101,8 @@ namespace LiteMore.Combat
         public uint SkillID { get; }
         public bool IsAdd { get; }
 
-        public NpcSkillChangedEvent(uint MasterID, CombatTeam MasterTeam, uint SkillID, bool IsAdd)
-            : base(MasterID, MasterTeam)
+        public NpcSkillChangedEvent(BaseNpc Master, uint SkillID, bool IsAdd)
+            : base(Master)
         {
             this.SkillID = SkillID;
             this.IsAdd = IsAdd;

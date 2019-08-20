@@ -5,23 +5,23 @@ namespace LiteMore.Combat.Npc
 {
     public class NpcBar
     {
-        private readonly BaseNpc Npc_;
+        private readonly BaseNpc Master_;
         private readonly Slider HpBar_;
         private readonly Slider MpBar_;
 
-        public NpcBar(BaseNpc Npc)
+        public NpcBar(BaseNpc Master)
         {
-            Npc_ = Npc;
-            HpBar_ = Npc_.GetComponent<Slider>("HpBar");
+            Master_ = Master;
+            HpBar_ = Master_.GetComponent<Slider>("HpBar");
             HpBar_.minValue = 0;
-            MpBar_ = Npc_.GetComponent<Slider>("MpBar");
+            MpBar_ = Master_.GetComponent<Slider>("MpBar");
             MpBar_.minValue = 0;
         }
 
         public void Tick(float DeltaTime)
         {
-            HpBar_.value = Npc_.CalcFinalAttr(NpcAttrIndex.Hp);
-            MpBar_.value = Npc_.CalcFinalAttr(NpcAttrIndex.Mp);
+            HpBar_.value = Master_.CalcFinalAttr(NpcAttrIndex.Hp);
+            MpBar_.value = Master_.CalcFinalAttr(NpcAttrIndex.Mp);
         }
 
         public void SetMaxHp(float MaxHp)

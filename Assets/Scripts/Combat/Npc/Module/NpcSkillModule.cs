@@ -1,68 +1,32 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
-using LiteMore.Combat.AI.Locking;
 using LiteMore.Combat.Skill;
-using UnityEngine;
 
-namespace LiteMore.Combat.Npc
+namespace LiteMore.Combat.Npc.Module
 {
-    public partial class BaseNpc
+    public class NpcSkillModule : BaseNpcModule
     {
-        public BaseNpc AttackerNpc { get; set; }
-        public BaseNpc TargetNpc { get; set; }
-        public Vector2 TargetPos { get; protected set; }
-        public bool IsForceMove { get; protected set; }
-
         protected List<BaseSkill> SkillList_ = new List<BaseSkill>();
 
-        public void Back(float Distance, float Speed)
+        public NpcSkillModule(BaseNpc Master)
+            : base(Master)
         {
-            Back((Position - TargetPos).normalized * Distance, Speed);
-        }
-
-        public void Back(Vector2 Offset, float Speed)
-        {
-            if (IsStatic)
-            {
-                return;
-            }
-
-            var BackPos = Position + Offset;
-            EventManager.Send(new NpcBackEvent(ID, Team, BackPos, Offset.magnitude / Speed));
-        }
-
-        public void StopMove()
-        {
-            Fsm_.ChangeToIdleState();
-            IsForceMove = false;
-        }
-
-        public void MoveTo(Vector2 TargetPos, bool IsForceMove = false)
-        {
-            if (IsStatic)
-            {
-                return;
-            }
-
-            this.TargetPos = TargetPos;
-            this.IsForceMove = IsForceMove;
-            EventManager.Send(new NpcWalkEvent(ID, Team, TargetPos));
         }
 
         public bool CanUseSkill()
         {
-            if (!IsAlive)
+            if (!Master.IsAlive)
             {
                 return false;
             }
 
-            if (IsState(NpcState.Dizzy))
+            if (Master.Data.IsState(NpcState.Dizzy))
             {
                 return false;
             }
 
-            if (IsFsmState(FsmStateName.Idle) || IsFsmState(FsmStateName.Walk))
+            if (Master.Actor.IsFsmState(FsmStateName.Idle) || Master.Actor.IsFsmState(FsmStateName.Walk))
             {
                 return true;
             }
@@ -96,7 +60,7 @@ namespace LiteMore.Combat.Npc
             return SkillList_;
         }
 
-        protected BaseSkill AddSkill(BaseSkill Skill, bool Notify = true)
+        protected BaseSkill AddSkill(BaseSkill Skill, bool Notify)
         {
             if (Skill == null)
             {
@@ -104,36 +68,49 @@ namespace LiteMore.Combat.Npc
             }
 
             SkillList_.Add(Skill);
+            SkillList_.Sort((A, B) =>
+            {
+                if (A.Priority > B.Priority)
+                {
+                    return -1;
+                }
+
+                if (A.Priority < B.Priority)
+                {
+                    return 1;
+                }
+
+                return 0;
+            });
 
             if (Notify)
             {
-                EventManager.Send(new NpcSkillChangedEvent(ID, Team, Skill.SkillID, true));
+                EventManager.Send(new NpcSkillChangedEvent(Master, Skill.SkillID, true));
             }
 
             return Skill;
         }
 
-        public BaseSkill RemoveSkill(uint SkillID, bool Notify = true)
+        public void RemoveSkill(uint SkillID, bool Notify = false)
         {
             var Skill = GetSkill(SkillID);
             if (Skill == null)
             {
-                return null;
+                return;
             }
 
             if (Notify)
             {
-                EventManager.Send(new NpcSkillChangedEvent(ID, Team, SkillID, false));
+                EventManager.Send(new NpcSkillChangedEvent(Master, SkillID, false));
             }
 
             SkillManager.RemoveSkill(Skill);
             SkillList_.Remove(Skill);
-            return Skill;
         }
 
-        public NpcSkill AddNpcSkill(uint SkillID, bool Notify = true)
+        public NpcSkill AddNpcSkill(uint SkillID, bool Notify = false)
         {
-            var Skill = SkillManager.AddNpcSkill(SkillLibrary.Get(SkillID), this);
+            var Skill = SkillManager.AddNpcSkill(SkillLibrary.Get(SkillID), Master);
             if (Skill == null)
             {
                 return null;
@@ -142,9 +119,9 @@ namespace LiteMore.Combat.Npc
             return AddSkill(Skill, Notify) as NpcSkill;
         }
 
-        public PassiveSkill AddPassiveSkill(uint SkillID, float SustainTime, bool Notify = true)
+        public PassiveSkill AddPassiveSkill(uint SkillID, float SustainTime, bool Notify = false)
         {
-            var Skill = SkillManager.AddPassiveSkill(SkillLibrary.Get(SkillID), this, SustainTime);
+            var Skill = SkillManager.AddPassiveSkill(SkillLibrary.Get(SkillID), Master, SustainTime);
             if (Skill == null)
             {
                 return null;
@@ -184,23 +161,8 @@ namespace LiteMore.Combat.Npc
                 return;
             }
 
-            var Evt = new NpcSkillEvent(ID, Team, Args.Skill.SkillID, Args);
+            var Evt = new NpcSkillEvent(Master, Args.Skill.SkillID, Args);
             EventManager.Send(Evt);
-        }
-
-        public bool IsValidAttacker()
-        {
-            return AttackerNpc != null && AttackerNpc.IsValid();
-        }
-
-        public bool IsValidTarget()
-        {
-            return TargetNpc != null && TargetNpc.IsValid();
-        }
-
-        public void ForceTarget(BaseNpc Target)
-        {
-            TargetNpc = Target;
         }
     }
 }

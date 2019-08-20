@@ -7,23 +7,22 @@ namespace LiteMore.Combat.AI
     {
         protected override void OnEnter(BehaviorInputData Input)
         {
-            if (!Input.Attacker.IsFsmState(FsmStateName.Walk))
+            if (!Input.Attacker.Actor.IsFsmState(FsmStateName.Walk))
             {
-                if (Input.Attacker.IsValidTarget())
+                if (Input.Attacker.Action.IsValidTarget())
                 {
-                    Input.Attacker.MoveTo(Input.Attacker.TargetNpc.Position);
+                    Input.Attacker.Action.MoveTo(Input.Attacker.Action.TargetNpc.Position);
                 }
             }
         }
 
         protected override BehaviorRunningState OnExecute(BehaviorInputData Input)
         {
-            if (Input.Attacker.IsFsmState(FsmStateName.Walk) && Input.Attacker.IsValidTarget())
+            if (Input.Attacker.Actor.IsFsmState(FsmStateName.Walk) && Input.Attacker.Action.IsValidTarget())
             {
-                var Dist = Vector2.Distance(Input.Attacker.TargetPos, Input.Attacker.TargetNpc.Position);
-                if (Dist > Input.Attacker.CalcFinalAttr(NpcAttrIndex.Range))
+                if (!CombatHelper.InAttackRange(Input.Attacker, Input.Attacker.Action.TargetNpc))
                 {
-                    Input.Attacker.MoveTo(Input.Attacker.TargetNpc.Position);
+                    Input.Attacker.Action.MoveTo(Input.Attacker.Action.TargetNpc.Position);
                 }
 
                 return BehaviorRunningState.Running;
@@ -37,12 +36,15 @@ namespace LiteMore.Combat.AI
     {
         protected override void OnEnter(BehaviorInputData Input)
         {
-            Input.Attacker.UseSkill(Input.Attacker.CreateSkillArgs(Input.SkillID));
+            var Args = Input.Attacker.Skill.CreateSkillArgs(Input.SkillID);
+            Args.Position = Input.Attacker.Action.TargetNpc.Position;
+            Args.Direction = (Input.Attacker.Action.TargetNpc.Position - Input.Attacker.Position).normalized;
+            Input.Attacker.Skill.UseSkill(Args);
         }
 
         protected override BehaviorRunningState OnExecute(BehaviorInputData Input)
         {
-            if (Input.Attacker.IsFsmState(FsmStateName.Skill))
+            if (Input.Attacker.Actor.IsFsmState(FsmStateName.Skill))
             {
                 return BehaviorRunningState.Running;
             }

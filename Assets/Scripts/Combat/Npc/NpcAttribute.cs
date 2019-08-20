@@ -1,4 +1,4 @@
-﻿using System;
+﻿using LiteFramework.Core.Event;
 
 namespace LiteMore.Combat.Npc
 {
@@ -21,14 +21,14 @@ namespace LiteMore.Combat.Npc
     /// </summary>
     public class NpcAttribute
     {
-        public event Action<NpcAttrIndex> AttrChanged; 
-
+        private readonly BaseNpc Master_;
         private readonly float[] Value_;
         private readonly float[] Percent_;
         private readonly float[] Base_;
 
-        public NpcAttribute(float[] Attrs)
+        public NpcAttribute(BaseNpc Master, float[] Attrs)
         {
+            Master_ = Master;
             Value_ = new float[(int)NpcAttrIndex.Count];
             Percent_ = new float[(int)NpcAttrIndex.Count];
             Base_ = new float[(int)NpcAttrIndex.Count];
@@ -48,17 +48,9 @@ namespace LiteMore.Combat.Npc
             }
         }
 
-        public NpcAttribute(NpcAttribute Other)
+        public float[] GetValues()
         {
-            Value_ = new float[(int)NpcAttrIndex.Count];
-            Percent_ = new float[(int)NpcAttrIndex.Count];
-            Base_ = new float[(int)NpcAttrIndex.Count];
-            for (var Index = 0; Index < Value_.Length; ++Index)
-            {
-                Value_[Index] = Other.Value_[Index];
-                Percent_[Index] = Other.Percent_[Index];
-                Base_[Index] = Other.Base_[Index];
-            }
+            return Value_;
         }
 
         public float CalcFinalValue(NpcAttrIndex Index)
@@ -69,19 +61,13 @@ namespace LiteMore.Combat.Npc
         public void SetValue(NpcAttrIndex Index, float Value, bool NotifyEvent = true)
         {
             Value_[(int)Index] = Value;
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Index);
-            }
+            TrySendAttrChangeEvent(Index, NotifyEvent);
         }
 
         public void AddValue(NpcAttrIndex Index, float Value, bool NotifyEvent = true)
         {
             Value_[(int)Index] += Value;
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Index);
-            }
+            TrySendAttrChangeEvent(Index, NotifyEvent);
         }
 
         public float GetValue(NpcAttrIndex Index)
@@ -93,30 +79,21 @@ namespace LiteMore.Combat.Npc
         {
             Percent_[(int)Index] = 1;
             Base_[(int)Index] = 0;
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Index);
-            }
+            TrySendAttrChangeEvent(Index, NotifyEvent);
         }
 
         public void ApplyModify(NpcAttrModifyInfo Info, bool NotifyEvent = true)
         {
             ApplyPercent(Info.Index, Info.Percent, false);
             ApplyBase(Info.Index, Info.Base, false);
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Info.Index);
-            }
+            TrySendAttrChangeEvent(Info.Index, NotifyEvent);
         }
 
         public void RestoreModify(NpcAttrModifyInfo Info, bool NotifyEvent = true)
         {
             ApplyPercent(Info.Index, 1.0f / Info.Percent, false);
             ApplyBase(Info.Index, -Info.Base, false);
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Info.Index);
-            }
+            TrySendAttrChangeEvent(Info.Index, NotifyEvent);
         }
 
         /// <summary>
@@ -125,10 +102,7 @@ namespace LiteMore.Combat.Npc
         public void ApplyPercent(NpcAttrIndex Index, float Percent, bool NotifyEvent = true)
         {
             Percent_[(int)Index] *= Percent;
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Index);
-            }
+            TrySendAttrChangeEvent(Index, NotifyEvent);
         }
 
         public float GetPercent(NpcAttrIndex Index)
@@ -142,15 +116,22 @@ namespace LiteMore.Combat.Npc
         public void ApplyBase(NpcAttrIndex Index, float Value, bool NotifyEvent = true)
         {
             Base_[(int)Index] += Value;
-            if (NotifyEvent)
-            {
-                AttrChanged?.Invoke(Index);
-            }
+            TrySendAttrChangeEvent(Index, NotifyEvent);
         }
 
         public float GetBase(NpcAttrIndex Index)
         {
             return Base_[(int)Index];
+        }
+
+        private void TrySendAttrChangeEvent(NpcAttrIndex Index, bool NotifyEvent)
+        {
+            if (!NotifyEvent)
+            {
+                return;
+            }
+
+            EventManager.Send(new NpcAttrChangedEvent(Master_, Index));
         }
     }
 }

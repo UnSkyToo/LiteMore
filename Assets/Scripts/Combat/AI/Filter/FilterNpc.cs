@@ -4,26 +4,26 @@ using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 using UnityEngine;
 
-namespace LiteMore.Combat.AI.Locking
+namespace LiteMore.Combat.AI.Filter
 {
-    public static class LockingNpc
+    public static class FilterNpc
     {
-        private static readonly Dictionary<LockNpcType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<LockNpcType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>>
+        private static readonly Dictionary<FilterNpcType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<FilterNpcType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>>
         {
-            {LockNpcType.All, Find_All},
-            {LockNpcType.Nearest, Find_Nearest},
-            {LockNpcType.CurHpMinimum, Find_CurHpMinimum},
-            {LockNpcType.CurHpMaximum, Find_CurHpMaximum},
-            {LockNpcType.MaxHpMinimum, Find_MaxHpMinimum},
-            {LockNpcType.MaxHpMaximum, Find_MaxHpMaximum},
-            {LockNpcType.HpPercentMinimum, Find_HpPercentMinimum},
-            {LockNpcType.HpPercentMaximum, Find_HpPercentMaximum},
-            {LockNpcType.DamageMinimum, Find_DamageMinimum},
-            {LockNpcType.DamageMaximum, Find_DamageMaximum},
-            {LockNpcType.Random, Find_Random},
+            {FilterNpcType.All, Find_All},
+            {FilterNpcType.Nearest, Find_Nearest},
+            {FilterNpcType.CurHpMinimum, Find_CurHpMinimum},
+            {FilterNpcType.CurHpMaximum, Find_CurHpMaximum},
+            {FilterNpcType.MaxHpMinimum, Find_MaxHpMinimum},
+            {FilterNpcType.MaxHpMaximum, Find_MaxHpMaximum},
+            {FilterNpcType.HpPercentMinimum, Find_HpPercentMinimum},
+            {FilterNpcType.HpPercentMaximum, Find_HpPercentMaximum},
+            {FilterNpcType.DamageMinimum, Find_DamageMinimum},
+            {FilterNpcType.DamageMaximum, Find_DamageMaximum},
+            {FilterNpcType.Random, Find_Random},
         };
 
-        public static List<BaseNpc> Find(List<BaseNpc> List, BaseSkill Skill, LockNpcType Type)
+        public static List<BaseNpc> Find(List<BaseNpc> List, BaseSkill Skill, FilterNpcType Type)
         {
             return FuncList_[Type].Invoke(List, Skill);
         }

@@ -1,55 +1,56 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
-using LiteMore.Combat.Bullet;
-using LiteMore.Combat.Fsm;
 using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc.Handler;
+using LiteMore.Combat.Npc.Module;
 using LiteMore.Core;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc
 {
-    public partial class BaseNpc : GameEntity
+    public class BaseNpc : GameEntity
     {
-        public bool IsStatic { get; set; }
         public CombatTeam Team { get; protected set; }
+        public bool IsStatic { get; set; }
 
-        protected readonly NpcBar Bar_;
-        protected List<BaseBullet> LockedList_;
+        protected readonly List<BaseNpcModule> ModuleList_;
         protected readonly List<BaseNpcHandler> HandlerList_;
+        protected readonly NpcBar Bar_;
+        private int HitSfxInterval_;
 
-        public BaseNpc(string Name, Transform Trans, CombatTeam Team, NpcAttribute InitAttr)
+        public NpcDataModule Data { get; }
+        public NpcActorModule Actor { get; }
+        public NpcActionModule Action { get; }
+        public NpcSkillModule Skill { get; }
+
+        public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
             : base(Name, Trans)
         {
-            this.IsStatic = false;
             this.Team = Team;
+            this.IsStatic = false;
 
-            Attr = InitAttr;
-            Attr.AttrChanged += OnAttrChanged;
-            State_ = 0;
+            this.ModuleList_ = new List<BaseNpcModule>();
+            this.HandlerList_ = new List<BaseNpcHandler>();
 
-            Direction = NpcDirection.None;
-            AttackerNpc = null;
-            TargetNpc = null;
-            TargetPos = Vector2.zero;
-            IsForceMove = false;
+            EventManager.Register<NpcAttrChangedEvent>(OnNpcAttrChangedEvent);
 
-            Animation_ = new NpcAnimation(Trans.GetComponent<Animator>());
-            RegisterMsg("Attack", 0.25f, CombatMsgCode.Atk);
+            this.Data = AddModule(new NpcDataModule(this, InitAttr, 0));
+            this.Actor = AddModule(new NpcActorModule(this));
+            this.Action = AddModule(new NpcActionModule(this));
+            this.Skill = AddModule(new NpcSkillModule(this));
 
-            Fsm_ = new BaseFsm(this);
-            Fsm_.ChangeToIdleState();
+            this.Bar_ = new NpcBar(this);
+            this.Bar_.SetMaxHp(CalcFinalAttr(NpcAttrIndex.MaxHp));
+            this.Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
+            this.HitSfxInterval_ = 0;
 
-            Bar_ = new NpcBar(this);
-            Bar_.SetMaxHp(CalcFinalAttr(NpcAttrIndex.MaxHp));
-            Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
+            Actor.RegisterMsg("Attack", 0.25f, CombatMsgCode.Atk);
+            Actor.ChangeToIdleState();
+        }
 
-            HitSfxInterval_ = 0;
-            LockedList_ = new List<BaseBullet>();
-
-            HandlerList_ = new List<BaseNpcHandler>();
-
-            SetDirection(NpcDirection.Right);
+        public override string ToString()
+        {
+            return $"{Name}-{Team}-{ID}";
         }
 
         public override void Tick(float DeltaTime)
@@ -59,23 +60,50 @@ namespace LiteMore.Combat.Npc
                 Handler.OnTick(DeltaTime);
             }
 
-            Animation_.Tick(DeltaTime);
-            Fsm_.Tick(DeltaTime);
-            Bar_.Tick(DeltaTime);
-            UpdateAttr(DeltaTime);
-            UpdateLockedList();
+            foreach (var Module in ModuleList_)
+            {
+                Module.Tick(DeltaTime);
+            }
+
             HitSfxInterval_--;
+            Bar_.Tick(DeltaTime);
             base.Tick(DeltaTime);
         }
 
-        public void OnCombatEvent(CombatEvent Event)
+        public override void Dispose()
         {
-            Fsm_.OnCombatEvent(Event);
+            EventManager.UnRegister<NpcAttrChangedEvent>(OnNpcAttrChangedEvent);
+
+            foreach (var Module in ModuleList_)
+            {
+                Module.Dispose();
+            }
+
+            base.Dispose();
         }
 
-        public void OnMsgCode(string Animation, CombatMsgCode MsgCode)
+        public T AddModule<T>(T Module) where T : BaseNpcModule
         {
-            Fsm_.OnMsgCode(Animation, MsgCode);
+            if (GetModule<T>() != null)
+            {
+                return GetModule<T>();
+            }
+
+            ModuleList_.Add(Module);
+            return Module;
+        }
+
+        public T GetModule<T>() where T : BaseNpcModule
+        {
+            foreach (var Module in ModuleList_)
+            {
+                if (Module is T MT)
+                {
+                    return MT;
+                }
+            }
+
+            return null;
         }
 
         public void RegisterHandler(BaseNpcHandler Handler)
@@ -109,82 +137,87 @@ namespace LiteMore.Combat.Npc
             HandlerList_.Remove(Handler);
         }
 
-        public bool IsValid()
+        private void OnNpcAttrChangedEvent(NpcAttrChangedEvent Event)
         {
-            return CanLocked();
-        }
-
-        private void UpdateLockedList()
-        {
-            for (var Index = LockedList_.Count - 1; Index >= 0; --Index)
-            {
-                if (!LockedList_[Index].IsAlive)
-                {
-                    LockedList_.RemoveAt(Index);
-                }
-            }
-        }
-
-        public void OnLocking(BaseBullet Attacker)
-        {
-            if (LockedList_.Contains(Attacker))
+            if (Event.Master.ID != ID)
             {
                 return;
             }
 
-            LockedList_.Add(Attacker);
-        }
-
-        public float CalcForecastHp()
-        {
-            var Hp = CalcFinalAttr(NpcAttrIndex.Hp);
-            foreach (var Attacker in LockedList_)
+            switch (Event.Index)
             {
-                if (Attacker.IsAlive)
-                {
-                    Hp -= Attacker.Damage;
-                }
+                case NpcAttrIndex.MaxHp:
+                    Bar_.SetMaxHp(CalcFinalAttr(NpcAttrIndex.MaxHp));
+                    break;
+                case NpcAttrIndex.MaxMp:
+                    Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
+                    break;
+                case NpcAttrIndex.Speed:
+                    Action.MoveTo(Action.TargetPos);
+                    break;
+                case NpcAttrIndex.Hp:
+                    if (CalcFinalAttr(NpcAttrIndex.Hp) <= 0)
+                    {
+                        Dead();
+                    }
+                    break;
+                default:
+                    break;
             }
-            return Hp;
         }
 
-        public virtual bool CanLocked()
+        public bool IsValid()
         {
-            return IsAlive && !IsFsmState(FsmStateName.Die) && CalcFinalAttr(NpcAttrIndex.Hp) > 0 && CalcForecastHp() > 0;
-        }
-
-        public void OnBulletHit(BaseBullet Collider)
-        {
-            LockedList_.Remove(Collider);
-            OnHitDamage(null, Collider.Name, Collider.Damage);
+            return IsAlive && !Actor.IsFsmState(FsmStateName.Die) && CalcFinalAttr(NpcAttrIndex.Hp) > 0;
         }
 
         public void OnHitDamage(BaseNpc Attacker, string SourceName, float Damage)
         {
-            if (IsFsmState(FsmStateName.Die))
+            if (Actor.IsFsmState(FsmStateName.Die))
             {
                 return;
             }
 
-            if (Attacker != null)
+            var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
+            EventManager.Send(new NpcDamageEvent(this, Attacker?.ID ?? 0, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
+            LabelManager.AddNumberLabel(Position, NumberLabelType.Float, Damage);
+        }
+
+        public void TryToPlayHitSfx(string HitSfx)
+        {
+            if (HitSfxInterval_ <= 0)
             {
-                AttackerNpc = Attacker;
+                SfxManager.AddSfx(HitSfx, Position);
+                HitSfxInterval_ = 8;
+            }
+        }
+
+        public float CalcFinalAttr(NpcAttrIndex Index)
+        {
+            return Data.CalcFinalAttr(Index);
+        }
+
+        public float AddAttr(NpcAttrIndex Index, float Value)
+        {
+            var RealValue = Value;
+            foreach (var Handler in HandlerList_)
+            {
+                RealValue = Handler.OnAddAttr(Index, RealValue);
             }
 
-            var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
-            EventManager.Send(new NpcDamageEvent(ID, Team, Attacker?.ID ?? 0, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
-            LabelManager.AddNumberLabel(Position, NumberLabelType.Float, Damage);
+            Data.AddAttr(Index, RealValue);
+            return Value;
         }
 
         public void Dead()
         {
-            if (IsFsmState(FsmStateName.Die))
+            if (Actor.IsFsmState(FsmStateName.Die))
             {
                 return;
             }
 
-            Attr.SetValue(NpcAttrIndex.Hp, 0, false);
-            EventManager.Send(new NpcDieEvent(ID, Team));
+            Data.SetAttr(NpcAttrIndex.Hp, 0, false);
+            EventManager.Send(new NpcDieEvent(this));
         }
 
         public void SetDead()

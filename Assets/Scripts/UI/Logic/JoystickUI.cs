@@ -1,6 +1,7 @@
-﻿using LiteFramework.Game.UI;
+﻿using System;
+using LiteFramework.Game.UI;
+using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
-using LiteMore.Combat.Skill.Selector;
 using LiteMore.UI.Item;
 using UnityEngine;
 
@@ -8,9 +9,6 @@ namespace LiteMore.UI.Logic
 {
     public class JoystickUI : BaseUI
     {
-        public delegate void JoystickMoveEventDelegate(bool IsStop, Vector2 Direction, float Strength);
-        public event JoystickMoveEventDelegate OnJoystickMoveEvent;
-
         public const float MinimumTouchDistance = 5;
 
         private RectTransform Slider_;
@@ -19,13 +17,12 @@ namespace LiteMore.UI.Logic
         private bool IsMove_;
         private Vector2 TouchPosition_;
         private Vector2 PreviousPos_;
+        private Action<bool, Vector2, float> MoveCallback_;
 
-        private readonly BaseSelector[] SelectorList_;
         private readonly SkillIconItem[] SkillIconList_;
 
         public JoystickUI()
         {
-            SelectorList_ = new BaseSelector[4];
             SkillIconList_ = new SkillIconItem[4];
         }
 
@@ -56,39 +53,73 @@ namespace LiteMore.UI.Logic
 
         protected override void OnClose()
         {
-            for (var Index = 0u; Index < 4; ++Index)
-            {
-                RemoveIcon(Index);
-            }
+            UnBindAll();
         }
 
-        private void RemoveIcon(uint Index)
+        public void BindMaster(BaseNpc Master)
         {
-            if (Index >= 4 || SkillIconList_[Index] == null)
-            {
-                return;
-            }
+            UnBindAll();
 
-            SkillIconList_[Index].Dispose();
-            SkillIconList_[Index] = null;
+            BindMove((IsStop, Dir, Strength) =>
+            {
+                if (IsStop)
+                {
+                    Master.Action.StopMove();
+                }
+                else
+                {
+                    Master.Action.MoveTo(Dir * 1000, true);
+                }
+            });
+
+            var SkillList = Master.Skill.GetSkillList();
+            for (var Index = SkillList.Count - 1; Index >= 0; --Index)
+            {
+                BindSkill((uint)(SkillList.Count - Index - 1), SkillList[Index]);
+            }
         }
 
-        public void BindSkill(uint Index, BaseSkill Skill)
+        private void BindSkill(uint Index, BaseSkill Skill)
         {
             if (Index >= 4 || Skill == null)
             {
                 return;
             }
 
-            if (SelectorList_[Index] != null)
-            {
-                RemoveIcon(Index);
-                SelectorList_[Index].Dispose();
-                SelectorList_[Index] = null;
-            }
-
+            UnBindSkill(Index);
             SkillIconList_[Index] = new SkillIconItem(FindChild($"Skill/Skill{Index+1}"), Skill, CancelObj_, false);
             SkillIconList_[Index].SetScaleToSize(FindComponent<RectTransform>($"Skill/Skill{Index+1}").sizeDelta);
+        }
+
+        private void UnBindSkill(uint Index)
+        {
+            if (Index >= 4)
+            {
+                return;
+            }
+
+            SkillIconList_[Index]?.Dispose();
+            SkillIconList_[Index] = null;
+        }
+
+        private void BindMove(Action<bool, Vector2, float> Callback)
+        {
+            MoveCallback_ = Callback;
+        }
+
+        private void UnBindMove()
+        {
+            MoveCallback_ = null;
+        }
+
+        public void UnBindAll()
+        {
+            for (var Index = 0u; Index < 4; ++Index)
+            {
+                UnBindSkill(Index);
+            }
+
+            UnBindMove();
         }
 
         private void OnTrayBeginDrag(GameObject Sender, Vector2 Pos)
@@ -111,7 +142,7 @@ namespace LiteMore.UI.Logic
                 var Offset = Pos - TouchPosition_;
                 var Len = Mathf.Clamp(Offset.magnitude, -TraySize_, TraySize_);
                 Slider_.anchoredPosition = (Offset.normalized * Len);
-                OnJoystickMoveEvent?.Invoke(false, Offset.normalized, Len / TraySize_);
+                MoveCallback_?.Invoke(false, Offset.normalized, Len / TraySize_);
             }
         }
 
@@ -119,7 +150,7 @@ namespace LiteMore.UI.Logic
         {
             Slider_.anchoredPosition = Vector2.zero;
             IsMove_ = false;
-            OnJoystickMoveEvent?.Invoke(true, Vector2.zero, 0);
+            MoveCallback_?.Invoke(true, Vector2.zero, 0);
         }
     }
 }

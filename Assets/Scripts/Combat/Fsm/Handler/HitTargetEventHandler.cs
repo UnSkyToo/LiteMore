@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LiteMore.Combat.AI.Locking;
+using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;

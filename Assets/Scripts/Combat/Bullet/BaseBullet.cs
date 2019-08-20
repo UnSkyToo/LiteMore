@@ -43,6 +43,11 @@ namespace LiteMore.Combat.Bullet
             this.Damage = Desc.Damage;
         }
 
+        public override string ToString()
+        {
+            return $"{Name}-{Type}-{Team}-{ID}";
+        }
+
         public override void Dispose()
         {
             BulletManager.DisposeBullet(this);

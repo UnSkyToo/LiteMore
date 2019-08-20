@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Log;
 using LiteMore.Combat.Npc;
 
 namespace LiteMore.Combat.Skill
@@ -97,6 +98,12 @@ namespace LiteMore.Combat.Skill
                 return null;
             }
 
+            if (Desc.Type == SkillType.Passive)
+            {
+                LLogger.LWarning($"need not passive desc, current is {Desc.Type}");
+                return null;
+            }
+
             var Entity = new NpcSkill(Desc, Master);
             AddSkill(Entity);
             return Entity;
@@ -106,6 +113,12 @@ namespace LiteMore.Combat.Skill
         {
             if (Desc == null || Master == null)
             {
+                return null;
+            }
+
+            if (Desc.Type != SkillType.Passive)
+            {
+                LLogger.LWarning($"need passive desc, current is {Desc.Type}");
                 return null;
             }
 

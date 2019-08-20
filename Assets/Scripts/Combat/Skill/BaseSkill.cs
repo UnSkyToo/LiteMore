@@ -1,4 +1,4 @@
-﻿using LiteMore.Combat.AI.Locking;
+﻿using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Shape;
 using LiteMore.Combat.Skill.Executor;
@@ -10,12 +10,14 @@ namespace LiteMore.Combat.Skill
     {
         public BaseNpc Master { get; }
         public uint SkillID { get; }
+        public SkillType Type { get; }
         public string Icon { get; }
         public float CD { get; set; }
         public int Cost { get; set; }
         public float Radius { get; set; }
+        public uint Priority { get; }
         public BaseShape Shape { get; }
-        public LockingRule Rule { get; }
+        public FilterRule Rule { get; }
         public float Time { get; protected set; }
         public bool IsCD { get; protected set; }
 
@@ -26,15 +28,22 @@ namespace LiteMore.Combat.Skill
         {
             this.Master = Master;
             this.SkillID = Desc.SkillID;
+            this.Type = Desc.Type;
             this.Icon = Desc.Icon;
             this.CD = Desc.CD;
             this.Cost = Desc.Cost;
             this.Radius = Desc.Radius;
+            this.Priority = Desc.Priority;
             this.Shape = Desc.Shape;
             this.Rule = Desc.Rule;
             this.Time = 0;
             this.IsCD = false;
             this.Executor_ = Desc.Executor;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}-{Type}-{SkillID}";
         }
 
         public override void Dispose()

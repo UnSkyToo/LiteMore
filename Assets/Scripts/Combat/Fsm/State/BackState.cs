@@ -23,7 +23,7 @@ namespace LiteMore.Combat.Fsm.State
                 return;
             }
 
-            Fsm.Master.PlayAnimation("Idle", true);
+            Fsm.Master.Actor.PlayAnimation("Idle", true);
             var Evt = (Event as NpcBackEvent);
 
             StartPos_ = Fsm.Master.Position;

@@ -1,6 +1,7 @@
 ﻿using LiteFramework.Game.Asset;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
+using LiteMore.Combat.Npc.Module;
 using LiteMore.Combat.Skill;
 using LiteMore.Player;
 using UnityEngine;
@@ -109,8 +110,8 @@ namespace LiteMore.UI.Logic
         private void OnQuickSucceed(QuickNode Node)
         {
             ResetQuickState();
-            PlayerManager.Master.RemoveSkill(CurrentSkill_.SkillID, false);
-            CurrentSkill_ = PlayerManager.Master.AddNpcSkill(Node.ID);
+            PlayerManager.Master.Skill.RemoveSkill(CurrentSkill_.SkillID, true);
+            CurrentSkill_ = PlayerManager.Master.Skill.AddNpcSkill(Node.ID);
         }
     }
 }

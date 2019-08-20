@@ -1,4 +1,4 @@
-﻿using LiteMore.Combat.AI.Locking;
+﻿using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Npc;
 using UnityEngine;
@@ -33,7 +33,7 @@ namespace LiteMore.Combat.Emitter
 
         protected override void OnEmitted(uint Cur, uint Max)
         {
-            var Target = LockingHelper.FindNearest(Master);
+            var Target = FilterHelper.FindNearest(Master);
             if (Target != null)
             {
                 var Radius = RadiusAttr.Get();

@@ -28,10 +28,26 @@ namespace LiteMore.Combat
             return NpcDirection.Left;
         }
 
-        public static bool IsAttackRange(BaseNpc Attacker, BaseNpc Target)
+        /// <summary>
+        /// 计算攻击范围
+        /// </summary>
+        public static float GetNpcAtkRange(BaseNpc Master)
+        {
+            return Master.CalcFinalAttr(NpcAttrIndex.AtkRange) * Master.Scale.x;
+        }
+
+        /// <summary>
+        /// 计算受击范围
+        /// </summary>
+        public static float GetNpcHitRange(BaseNpc Master)
+        {
+            return Master.CalcFinalAttr(NpcAttrIndex.HitRange) * Master.Scale.x;
+        }
+
+        public static bool InAttackRange(BaseNpc Attacker, BaseNpc Target)
         {
             var Dist = Vector2.Distance(Attacker.Position, Target.Position);
-            var Range = Attacker.CalcFinalAttr(NpcAttrIndex.Range) + Target.CalcFinalAttr(NpcAttrIndex.Radius);
+            var Range = GetNpcAtkRange(Attacker) + GetNpcHitRange(Target);
             return Dist <= Range;
         }
     }

@@ -29,8 +29,8 @@ namespace LiteMore.Combat.Fsm.State
             MoveTotalTime_ = (EndPos_ - BeginPos_).magnitude / Fsm.Master.CalcFinalAttr(NpcAttrIndex.Speed);
             IsMove_ = true;
 
-            Fsm.Master.PlayAnimation("Walk", true);
-            Fsm.Master.SetDirection(CombatHelper.CalcDirection(BeginPos_, EndPos_));
+            Fsm.Master.Actor.PlayAnimation("Walk", true);
+            Fsm.Master.Actor.SetDirection(CombatHelper.CalcDirection(BeginPos_, EndPos_));
         }
 
         public override void OnTick(float DeltaTime)

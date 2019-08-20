@@ -1,14 +1,39 @@
 ﻿using LiteMore.Combat.Fsm;
 using UnityEngine;
 
-namespace LiteMore.Combat.Npc
+namespace LiteMore.Combat.Npc.Module
 {
-    public partial class BaseNpc
+    public class NpcActorModule : BaseNpcModule
     {
-        public NpcDirection Direction { get; protected set; }
-        protected readonly NpcAnimation Animation_;
-        protected readonly BaseFsm Fsm_;
-        private int HitSfxInterval_;
+        public NpcDirection Direction { get; private set; }
+
+        private readonly BaseFsm Fsm_;
+        private readonly NpcAnimation Animation_;
+
+        public NpcActorModule(BaseNpc Master)
+            : base(Master)
+        {
+            Animation_ = new NpcAnimation(Master.GetComponent<Animator>());
+            Fsm_ = new BaseFsm(Master);
+
+            Direction = NpcDirection.Right;
+        }
+
+        public override void Tick(float DeltaTime)
+        {
+            Animation_.Tick(DeltaTime);
+            Fsm_.Tick(DeltaTime);
+        }
+
+        public void OnCombatEvent(CombatEvent Event)
+        {
+            Fsm_.OnCombatEvent(Event);
+        }
+
+        private void OnMsgCode(string Animation, CombatMsgCode MsgCode)
+        {
+            Fsm_.OnMsgCode(Animation, MsgCode);
+        }
 
         public uint RegisterMsg(string Animation, float Percent, CombatMsgCode MsgCode)
         {
@@ -40,6 +65,11 @@ namespace LiteMore.Combat.Npc
             return Fsm_.GetStateName() == StateName;
         }
 
+        public void ChangeToIdleState()
+        {
+            Fsm_.ChangeToIdleState();
+        }
+
         public void SetDirection(NpcDirection Dir)
         {
             if (Direction == Dir)
@@ -51,31 +81,19 @@ namespace LiteMore.Combat.Npc
             switch (Direction)
             {
                 case NpcDirection.Left:
-                    GetComponent<SpriteRenderer>().flipX = true;
+                    Master.GetComponent<SpriteRenderer>().flipX = true;
                     break;
                 case NpcDirection.Right:
-                    GetComponent<SpriteRenderer>().flipX = false;
+                    Master.GetComponent<SpriteRenderer>().flipX = false;
                     break;
                 default:
                     break;
             }
         }
 
-        public void TurnToTarget()
+        public void FaceToPosition(Vector2 TargetPosition)
         {
-            if (IsValidTarget())
-            {
-                SetDirection(CombatHelper.CalcDirection(Position, TargetNpc.Position));
-            }
-        }
-
-        public void TryToPlayHitSfx(string HitSfx)
-        {
-            if (HitSfxInterval_ <= 0)
-            {
-                SfxManager.AddSfx(HitSfx, Position);
-                HitSfxInterval_ = 8;
-            }
+            SetDirection(CombatHelper.CalcDirection(Master.Position, TargetPosition));
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace LiteMore.Combat.AI.Locking
+﻿namespace LiteMore.Combat.AI.Filter
 {
-    public enum LockTeamType : byte
+    public enum FilterTeamType : byte
     {
         Self, // 自己
         Team, // 己方所有人
@@ -10,14 +10,14 @@
         Attacker, // 攻击自己的人
     }
 
-    public enum LockRangeType : byte
+    public enum FilterRangeType : byte
     {
         All, // 全部距离的人
         InDistance, // 指定距离内的人
         InShape, // 指定范围内的人
     }
 
-    public enum LockNpcType : byte
+    public enum FilterNpcType : byte
     {
         All, // 列表内所有人
         Nearest, // 列表内最近的人

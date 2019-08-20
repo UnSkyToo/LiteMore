@@ -19,11 +19,6 @@ namespace LiteMore.Combat
             return Base * Percent * TypePercent * GlobalPercent;
         }
 
-        public float Calc(float Percent)
-        {
-            return Calc(PlayerManager.Master.CalcFinalAttr(NpcAttrIndex.Damage), Percent);
-        }
-
         public void AddTypePercent(float Value)
         {
             TypePercent += Value;

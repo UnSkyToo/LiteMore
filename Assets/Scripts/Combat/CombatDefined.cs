@@ -10,8 +10,8 @@
         /// 当前生命值
         /// </summary>
         Hp,
-        /// <summary>最大生命值
-        /// 
+        /// <summary>
+        /// 最大生命值
         /// </summary>
         MaxHp,
         /// <summary>
@@ -41,11 +41,11 @@
         /// <summary>
         /// 攻击范围
         /// </summary>
-        Range,
+        AtkRange,
         /// <summary>
-        /// 受击半径
+        /// 受击范围
         /// </summary>
-        Radius, 
+        HitRange,
         Count
     }
 

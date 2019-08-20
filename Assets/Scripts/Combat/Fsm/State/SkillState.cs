@@ -19,19 +19,31 @@ namespace LiteMore.Combat.Fsm.State
         {
             var Evt = Event as NpcSkillEvent;
             SkillID_ = Evt.SkillID;
-            Skill_ = Fsm.Master.GetSkill(SkillID_) as NpcSkill;
+            Skill_ = Fsm.Master.Skill.GetSkill(SkillID_) as NpcSkill;
             if (Skill_ == null)
             {
                 Fsm.ChangeToIdleState();
                 return;
             }
 
-            Args_ = Evt.Args ?? Fsm.Master.CreateSkillArgs(SkillID_);
+            Args_ = Evt.Args ?? Fsm.Master.Skill.CreateSkillArgs(SkillID_);
 
-            if (Fsm.Master.HasAnimation("Attack"))
+            if (Fsm.Master.Actor.HasAnimation("Attack"))
             {
-                Fsm.Master.PlayAnimation("Attack", false);
-                Fsm.Master.TurnToTarget();
+                Fsm.Master.Actor.PlayAnimation("Attack", false);
+
+                if (!Mathf.Approximately(0, Args_.Direction.sqrMagnitude))
+                {
+                    Fsm.Master.Actor.FaceToPosition(Fsm.Master.Position + Args_.Direction);
+                }
+                else if (!Mathf.Approximately(0, Args_.Position.sqrMagnitude))
+                {
+                    Fsm.Master.Actor.FaceToPosition(Args_.Position);
+                }
+                else if (Fsm.Master.Action.IsValidTarget())
+                {
+                    Fsm.Master.Actor.FaceToPosition(Fsm.Master.Action.TargetNpc.Position);
+                }
             }
             else
             {
@@ -42,7 +54,7 @@ namespace LiteMore.Combat.Fsm.State
 
         public override void OnTick(float DeltaTime)
         {
-            if (Fsm.Master.AnimationIsEnd())
+            if (Fsm.Master.Actor.AnimationIsEnd())
             {
                 Fsm.ChangeToIdleState();
                 return;
@@ -73,7 +85,7 @@ namespace LiteMore.Combat.Fsm.State
             if (Skill_.Use(Args_))
             {
                 // temp code : show skill name (ignore normal attack)
-                if (SkillID_ != 3001)
+                if (SkillID_ != 1001)
                 {
                     LabelManager.AddStringLabel(Fsm.Master.Position, Skill_.Name, Color.green, 30);
                 }

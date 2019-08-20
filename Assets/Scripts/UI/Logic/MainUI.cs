@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-using LiteFramework;
+﻿using LiteFramework;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Motion;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
-using LiteMore.Combat;
-using LiteMore.Combat.Skill;
 using LiteMore.Combat.Wave;
 using LiteMore.Helper;
 using LiteMore.Player;
-using LiteMore.UI.Item;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +16,6 @@ namespace LiteMore.UI.Logic
         private CoreInfoPart CoreInfo_;
         private WaveInfoPart WaveInfo_;
         private CoreUpPart CoreUp_;
-        private SkillPart Skill_;
 
         private int TimeScale_ = 1;
 
@@ -36,7 +31,6 @@ namespace LiteMore.UI.Logic
             CoreInfo_ = new CoreInfoPart(FindChild("CoreInfo"));
             WaveInfo_ = new WaveInfoPart(FindChild("WaveInfo"));
             CoreUp_ = new CoreUpPart(FindChild("CoreUpInfo"));
-            Skill_ = new SkillPart(FindChild("SkillList"), FindComponent<RectTransform>("MainSkillCancel"));
 
             AddEventToChild("BtnDelete", () =>
             {
@@ -68,17 +62,11 @@ namespace LiteMore.UI.Logic
             });
         }
 
-        protected override void OnTick(float DeltaTime)
-        {
-            Skill_.Tick(DeltaTime);
-        }
-
         protected override void OnClose()
         {
             CoreInfo_.Dispose();
             WaveInfo_.Dispose();
             CoreUp_.Dispose();
-            Skill_.Dispose();
         }
 
         private class CoreInfoPart
@@ -284,69 +272,6 @@ namespace LiteMore.UI.Logic
                 {
                     ToastHelper.Show($"宝石不足{PlayerManager.GetBulletCountCost()}，无法升级", Color.red);
                 }
-            }
-        }
-
-        private class SkillPart
-        {
-            private readonly Transform Trans_;
-            private readonly RectTransform CancelObj_;
-            private readonly List<SkillIconItem> SkillIconList_;
-
-            internal SkillPart(Transform Trans, RectTransform CancelObj)
-            {
-                Trans_ = Trans;
-                CancelObj_ = CancelObj;
-                SkillIconList_ = new List<SkillIconItem>();
-                EventManager.Register<NpcSkillChangedEvent>(OnNpcSkillChangedEvent);
-            }
-
-            internal void Dispose()
-            {
-                ClearAllSkillIcon();
-                EventManager.UnRegister<NpcSkillChangedEvent>(OnNpcSkillChangedEvent);
-            }
-
-            internal void Tick(float DeltaTime)
-            {
-                foreach (var Icon in SkillIconList_)
-                {
-                    Icon.Tick(DeltaTime);
-                }
-            }
-
-            private void Refresh()
-            {
-                ClearAllSkillIcon();
-
-                var SkillList = PlayerManager.Master.GetSkillList();
-                foreach (var Skill in SkillList)
-                {
-                    AddSkillIcon(Skill);
-                }
-            }
-
-            private void ClearAllSkillIcon()
-            {
-                foreach (var Icon in SkillIconList_)
-                {
-                    Icon.Dispose();
-                }
-                SkillIconList_.Clear();
-            }
-
-            private void AddSkillIcon(BaseSkill Skill)
-            {
-                if (Skill is NpcSkill)
-                {
-                    var Icon = new SkillIconItem(Trans_, Skill, CancelObj_, true);
-                    SkillIconList_.Add(Icon);
-                }
-            }
-
-            private void OnNpcSkillChangedEvent(NpcSkillChangedEvent Event)
-            {
-                Refresh();
             }
         }
     }

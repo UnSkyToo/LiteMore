@@ -22,7 +22,7 @@ namespace LiteMore.Combat.Fsm.State
 
         public override void OnEnter(CombatEvent Event)
         {
-            Fsm.Master.PlayAnimation("Die", false);
+            Fsm.Master.Actor.PlayAnimation("Die", false);
         }
 
         public override void OnTick(float DeltaTime)
@@ -44,7 +44,7 @@ namespace LiteMore.Combat.Fsm.State
                 return;
             }
 
-            if (Fsm.Master.AnimationIsEnd())
+            if (Fsm.Master.Actor.AnimationIsEnd())
             {
                 Fsm.Master.GetComponent<Animator>().speed = 0;
                 FadeOut_ = true;

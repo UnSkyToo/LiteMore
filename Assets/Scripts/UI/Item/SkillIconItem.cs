@@ -39,7 +39,7 @@ namespace LiteMore.UI.Item
             var Args = new SkillArgs(Skill) {CancelObj = CancelObj};
             Selector_.BindCarrier(IconTransform, Args, (SArgs) =>
             {
-                Skill.Master.UseSkill(SArgs);
+                Skill.Master.Skill.UseSkill(SArgs);
             });
         }
 

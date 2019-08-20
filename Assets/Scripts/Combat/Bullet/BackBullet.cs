@@ -1,6 +1,6 @@
 ﻿using LiteFramework.Helper;
-using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Npc.Module;
 using LiteMore.Combat.Shape;
 using UnityEngine;
 
@@ -74,16 +74,16 @@ namespace LiteMore.Combat.Bullet
 
             foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
             {
-                if (!Entity.CanLocked())
+                if (!Entity.Action.CanLocked())
                 {
                     continue;
                 }
 
                 if (Shape_.Contains(Entity.Position))
                 {
-                    Entity.OnBulletHit(this);
+                    Entity.Action.OnBulletHit(this);
                     //LabelManager.AddNumberLabel(Entity.Position, NumberLabelType.Float, Damage);
-                    Entity.Back((Entity.Position - Position).normalized * 30, 400);
+                    Entity.Action.Back((Entity.Position - Position).normalized * 30, 400);
                 }
             }
         }

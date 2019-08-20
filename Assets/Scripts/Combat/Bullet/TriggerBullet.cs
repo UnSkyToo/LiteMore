@@ -98,7 +98,7 @@ namespace LiteMore.Combat.Bullet
 
             foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
             {
-                if (!Entity.CanLocked())
+                if (!Entity.Action.CanLocked())
                 {
                     continue;
                 }
@@ -141,7 +141,7 @@ namespace LiteMore.Combat.Bullet
 
         protected override void OnNpcEnter(BaseNpc Target, uint TotalApplyCount)
         {
-            Target.OnBulletHit(this);
+            Target.Action.OnBulletHit(this);
             //LabelManager.AddNumberLabel(Target.Position, NumberLabelType.Bomb, Damage);
         }
 
@@ -184,7 +184,7 @@ namespace LiteMore.Combat.Bullet
         {
             foreach (var Modify in ModifyList_)
             {
-                Target.Attr.ApplyModify(Modify);
+                Target.Data.Attr.ApplyModify(Modify);
             }
         }
 
@@ -198,7 +198,7 @@ namespace LiteMore.Combat.Bullet
             {
                 foreach (var Modify in ModifyList_)
                 {
-                    Target.Attr.RestoreModify(Modify);
+                    Target.Data.Attr.RestoreModify(Modify);
                 }
             }
         }
