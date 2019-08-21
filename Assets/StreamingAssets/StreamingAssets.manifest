@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 337396062
+CRC: 3990031833
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -431,27 +431,24 @@ AssetBundleManifest:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_zhongli.png
       Dependencies: {}
     Info_123:
-      Name: ui/coreskilllistui.prefab
-      Dependencies: {}
-    Info_124:
       Name: ui/dpsui.prefab
       Dependencies: {}
-    Info_125:
+    Info_124:
       Name: ui/gameoverui.prefab
       Dependencies: {}
-    Info_126:
+    Info_125:
       Name: ui/joystickui.prefab
       Dependencies:
         Dependency_0: textures/joystick_bg.png
         Dependency_1: textures/joystick_gab.png
-    Info_127:
+    Info_126:
       Name: ui/mainui.prefab
       Dependencies:
         Dependency_0: textures/atals/pic_jia.png
         Dependency_1: textures/atals/pic_shengjie_chengse.png
         Dependency_2: textures/atals/pic_shengjie_lv.png
         Dependency_3: textures/atals/pic_shengjie_zi.png
-    Info_128:
+    Info_127:
       Name: ui/quickcontrolui.prefab
       Dependencies:
         Dependency_0: textures/atals/frm_pinzhi_bai.png
@@ -461,10 +458,231 @@ AssetBundleManifest:
         Dependency_4: textures/icon/b4_fire.png
         Dependency_5: textures/icon/b5_earth.png
         Dependency_6: textures/icon/skill1.png
-    Info_129:
+    Info_128:
       Name: ui/tipsui.prefab
       Dependencies:
         Dependency_0: textures/atals/tips.png
-    Info_130:
+    Info_129:
       Name: ui/toastui.prefab
+      Dependencies: {}
+    Info_130:
+      Name: prefabs/heroitem.prefab
+      Dependencies:
+        Dependency_0: textures/r2.png
+        Dependency_1: textures/atals/frm_pinzhi_di_tongyong.png
+        Dependency_2: textures/atals/frm_pinzhi_tongyong.png
+        Dependency_3: textures/atals/pic_xuanzhongkuang_bian.png
+    Info_131:
+      Name: textures/icon/attack1.png
+      Dependencies: {}
+    Info_132:
+      Name: textures/icon/skill10.png
+      Dependencies: {}
+    Info_133:
+      Name: textures/icon/skill9.png
+      Dependencies: {}
+    Info_134:
+      Name: ui/herolistui.prefab
+      Dependencies: {}
+    Info_135:
+      Name: ui/mainoperatorui.prefab
+      Dependencies: {}
+    Info_136:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@attack1.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
+    Info_137:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@idle.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
+    Info_138:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@run.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
+    Info_139:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/materials/2handed.mat
+    Info_140:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/materials/2handed.mat
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/textures/2handed.psd
+    Info_141:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
+        warrior animation controller.controller
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@attack1.fbx
+        Dependency_1: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@idle.fbx
+        Dependency_2: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@run.fbx
+    Info_142:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
+        warrior.prefab
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
+        Dependency_1: warrior pack bundle 2 free/2handed warrior mecanim animation/materials/2handed.mat
+        Dependency_2: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
+          warrior animation controller.controller
+    Info_143:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/scenes/2handed.unity
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
+          warrior.prefab
+    Info_144:
+      Name: warrior pack bundle 2 free/2handed warrior mecanim animation/textures/2handed.psd
+      Dependencies: {}
+    Info_145:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/animations/archer@attack1.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/characters/archer.fbx
+        Dependency_1: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/prefabs/archer warrior.prefab
+    Info_146:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/animations/archer@idle.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/characters/archer.fbx
+    Info_147:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/animations/archer@run.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/characters/archer.fbx
+    Info_148:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/characters/archer-arrow.fbx
+      Dependencies: {}
+    Info_149:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/characters/archer-bow.fbx
+      Dependencies: {}
+    Info_150:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/characters/archer.fbx
+      Dependencies: {}
+    Info_151:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/materials/archer.mat
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/textures/archer.psd
+    Info_152:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/prefabs/archer
+        warrior animation controller.controller
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/animations/archer@attack1.fbx
+        Dependency_1: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/animations/archer@idle.fbx
+        Dependency_2: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/animations/archer@run.fbx
+    Info_153:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/prefabs/archer
+        warrior.prefab
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/characters/archer-bow.fbx
+        Dependency_1: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/characters/archer.fbx
+        Dependency_2: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/materials/archer.mat
+        Dependency_3: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/prefabs/archer warrior animation controller.controller
+    Info_154:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/scenes/archer.unity
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
+          pack/prefabs/archer warrior.prefab
+    Info_155:
+      Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/textures/archer.psd
+      Dependencies: {}
+    Info_156:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/animations/knight@attack1.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/characters/knight.fbx
+    Info_157:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/animations/knight@idle.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/characters/knight.fbx
+    Info_158:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/animations/knight@run.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/characters/knight.fbx
+    Info_159:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/characters/knight.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/materials/knight.mat
+    Info_160:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/materials/knight.mat
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/textures/knight.psd
+    Info_161:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/prefabs/knight
+        warrior animation controller.controller
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/animations/knight@attack1.fbx
+        Dependency_1: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/animations/knight@idle.fbx
+        Dependency_2: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/animations/knight@run.fbx
+    Info_162:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/prefabs/knight
+        warrior.prefab
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/characters/knight.fbx
+        Dependency_1: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/materials/knight.mat
+        Dependency_2: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/prefabs/knight warrior animation controller.controller
+    Info_163:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/scenes/knight.unity
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
+          pack/prefabs/knight warrior.prefab
+    Info_164:
+      Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/textures/knight.psd
+      Dependencies: {}
+    Info_165:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@attack1.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
+    Info_166:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@idle.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
+    Info_167:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@run.fbx
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
+    Info_168:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
+      Dependencies: {}
+    Info_169:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/materials/mage.mat
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/textures/mage.psd
+    Info_170:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
+        warrior animation controller.controller
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@attack1.fbx
+        Dependency_1: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@idle.fbx
+        Dependency_2: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@run.fbx
+    Info_171:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
+        warrior.prefab
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
+        Dependency_1: warrior pack bundle 2 free/mage warrior mecanim animation pack/materials/mage.mat
+        Dependency_2: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
+          warrior animation controller.controller
+    Info_172:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/scenes/mage.unity
+      Dependencies:
+        Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
+          warrior.prefab
+    Info_173:
+      Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/textures/mage.psd
       Dependencies: {}

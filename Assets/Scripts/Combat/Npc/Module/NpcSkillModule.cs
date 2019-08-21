@@ -21,6 +21,11 @@ namespace LiteMore.Combat.Npc.Module
                 return false;
             }
 
+            if (Master.Action.IsForceMove)
+            {
+                return false;
+            }
+
             if (Master.Data.IsState(NpcState.Dizzy))
             {
                 return false;

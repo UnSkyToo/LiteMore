@@ -1,0 +1,39 @@
+ManifestFileVersion: 0
+CRC: 495436585
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: de3a8b387ddc89e07a622776cce91e32
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7644a758eae05cfd82dba56c958e5288
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7f7ef17c21ec457409514db055acb92a, type: 3}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Mage Warrior Mecanim Animation
+  Pack/Prefabs/Mage Warrior.prefab
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
+  warrior mecanim animation pack/characters/mage.fbx
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
+  warrior mecanim animation pack/materials/mage.mat
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
+  warrior mecanim animation pack/prefabs/mage warrior animation controller.controller

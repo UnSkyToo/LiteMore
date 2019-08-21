@@ -108,4 +108,12 @@ namespace LiteMore.Combat
             this.IsAdd = IsAdd;
         }
     }
+
+    public class NpcAddEvent : CombatEvent
+    {
+        public NpcAddEvent(BaseNpc Master)
+            : base(Master)
+        {
+        }
+    }
 }

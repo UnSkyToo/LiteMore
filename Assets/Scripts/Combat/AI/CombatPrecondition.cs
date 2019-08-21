@@ -1,18 +1,9 @@
 ﻿using LiteMore.Combat.AI.BehaviorTree;
 using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Skill;
-using UnityEngine;
 
 namespace LiteMore.Combat.AI
 {
-    public class CombatPrecondition_IsNotForceMove : BehaviorPrecondition
-    {
-        public override bool ExternalCondition(BehaviorInputData Input)
-        {
-            return !Input.Attacker.Action.IsForceMove;
-        }
-    }
-
     public class CombatPrecondition_TryFindSkill : BehaviorPrecondition
     {
         public override bool ExternalCondition(BehaviorInputData Input)

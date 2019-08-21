@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 3296031094
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 82ccd98a7803c435999c0e56af7a9164
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 636f904deb9792543e75032f9b1ef8f1
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Mage Warrior Mecanim Animation
+  Pack/Characters/Mage.FBX
+Dependencies: []

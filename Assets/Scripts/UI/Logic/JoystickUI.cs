@@ -72,10 +72,21 @@ namespace LiteMore.UI.Logic
                 }
             });
 
+            var BindIndex = 0u;
             var SkillList = Master.Skill.GetSkillList();
             for (var Index = SkillList.Count - 1; Index >= 0; --Index)
             {
-                BindSkill((uint)(SkillList.Count - Index - 1), SkillList[Index]);
+                if (SkillList[Index].Type == SkillType.Passive)
+                {
+                    continue;
+                }
+
+                BindSkill(BindIndex++, SkillList[Index]);
+
+                if (BindIndex >= 4)
+                {
+                    break;
+                }
             }
         }
 

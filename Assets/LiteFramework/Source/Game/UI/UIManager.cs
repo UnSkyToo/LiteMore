@@ -121,26 +121,26 @@ namespace LiteFramework.Game.UI
                 return null;
             }
 
-            return CreateUI<T>(LiteConfigure.UIDescList[ScriptType], Params);
+            return OpenUI<T>(LiteConfigure.UIDescList[ScriptType], Params);
         }
 
         public static T OpenUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
         {
-            if (Desc.OpenMore)
-            {
-                return CreateUI<T>(Desc, Params);
-            }
-
-            if (!IsOpened<T>())
-            {
-                return FindUI<T>();
-            }
-
-            return CreateUI<T>(Desc, Params);
+            return OpenUI(new T(), Desc, Params);
         }
 
         public static T OpenUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
+            if (Desc.OpenMore)
+            {
+                return CreateUI<T>(Script, Desc, Params);
+            }
+
+            if (IsOpened<T>())
+            {
+                return FindUI<T>();
+            }
+
             return CreateUI<T>(Script, Desc, Params);
         }
 
@@ -298,16 +298,6 @@ namespace LiteFramework.Game.UI
             return Obj.transform;
         }
 
-        private static T CreateUI<T>(UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
-        {
-            var Obj = GetOrCreateGameObject(Desc);
-            if (Obj == null)
-            {
-                return null;
-            }
-            return CreateUI<T>(Obj, Desc, Params);
-        }
-
         private static T CreateUI<T>(T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
             var Obj = GetOrCreateGameObject(Desc);
@@ -315,12 +305,6 @@ namespace LiteFramework.Game.UI
             {
                 return null;
             }
-            return CreateUI<T>(Obj, Script, Desc, Params);
-        }
-
-        public static T CreateUI<T>(Transform Obj, UIDescriptor Desc, params object[] Params) where T : BaseUI, new()
-        {
-            var Script = new T();
             return CreateUI<T>(Obj, Script, Desc, Params);
         }
 

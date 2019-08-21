@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3966182929
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: badc45aab3098e07eb8ff058c3162711
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: de5b6614feb6f94b0a6e2f2cfc56359c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Mage Warrior Mecanim Animation
+  Pack/Animations/Mage@Attack1.FBX
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
+  warrior mecanim animation pack/characters/mage.fbx

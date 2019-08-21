@@ -27,6 +27,8 @@ namespace LiteMore.UI.Logic
             CancelObj_.gameObject.SetActive(false);
             SkillIconList_ = new List<SkillIconItem>();
             EventManager.Register<NpcSkillChangedEvent>(OnNpcSkillChangedEvent);
+
+            Refresh();
         }
 
         protected override void OnClose()

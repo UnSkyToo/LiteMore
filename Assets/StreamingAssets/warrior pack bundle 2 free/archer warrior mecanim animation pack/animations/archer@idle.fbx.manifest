@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3737689291
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 48c2897438d838191f2e2dd234280eb8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: de5b6614feb6f94b0a6e2f2cfc56359c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
+  Pack/Animations/Archer@Idle.FBX
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/characters/archer.fbx

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Event;
 using LiteFramework.Game.Asset;
 using LiteMore.Player;
 using UnityEngine;
@@ -120,6 +121,7 @@ namespace LiteMore.Combat.Npc
             Entity.Position = Position;
             Entity.Skill.AddNpcSkill(1001).Radius = CombatHelper.GetNpcAtkRange(Entity);
 
+            EventManager.Send(new NpcAddEvent(Entity));
             return Entity;
         }
 
@@ -139,12 +141,23 @@ namespace LiteMore.Combat.Npc
             CoreNpc_.Position = Position;
             CoreNpc_.IsStatic = true;
 
+            EventManager.Send(new NpcAddEvent(CoreNpc_));
             return CoreNpc_;
         }
 
         public static List<BaseNpc> GetNpcList(CombatTeam Team)
         {
-            return new List<BaseNpc>(NpcList_[(int)Team]);
+            var Result = new List<BaseNpc>();
+
+            foreach (var Npc in NpcList_[(int)Team])
+            {
+                if (Npc.IsValid())
+                {
+                    Result.Add(Npc);
+                }
+            }
+
+            return Result;
         }
 
         public static BaseNpc FindNpc(uint ID)

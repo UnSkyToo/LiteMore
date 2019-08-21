@@ -1,5 +1,6 @@
 ﻿using LiteFramework.Game.Asset;
 using LiteFramework.Game.UI;
+using LiteFramework.Helper;
 using UnityEngine;
 
 namespace LiteMore.Combat.Skill.Selector
@@ -26,7 +27,8 @@ namespace LiteMore.Combat.Skill.Selector
         {
             DragRadius_ = Args_.Skill.Radius;
             DragCancelObj_ = Args_.CancelObj;
-            DragCancelRect_ = new Rect(new Vector2(DragCancelObj_.position.x, DragCancelObj_.position.y) - DragCancelObj_.sizeDelta / 2, DragCancelObj_.sizeDelta);
+            var CancelPos = UnityHelper.WorldPosToCanvasPos(DragCancelObj_.position);
+            DragCancelRect_ = new Rect(CancelPos - DragCancelObj_.sizeDelta / 2, DragCancelObj_.sizeDelta);
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.BeginDrag, BeginDrag);
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Drag, Drag);
             UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.EndDrag, EndDrag);

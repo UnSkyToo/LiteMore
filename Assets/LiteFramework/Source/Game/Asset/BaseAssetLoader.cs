@@ -376,6 +376,10 @@ namespace LiteFramework.Game.Asset
                     AssetCacheList_[AssetPath].DeleteAsset(Asset);
                 }
             }
+            else if (typeof(T) == typeof(UnityEngine.GameObject))
+            {
+                UnityEngine.Object.Destroy(Asset);
+            }
         }
 
         public void DeleteAsset(UnityEngine.GameObject Asset)

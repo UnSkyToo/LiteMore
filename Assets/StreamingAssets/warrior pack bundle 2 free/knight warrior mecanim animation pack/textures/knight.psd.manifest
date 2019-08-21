@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 2051574524
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1f8524b9f407fa4f9ebdc2330ac0ad16
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f19fbf085e00d23fbc8d6cf7b345590b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Knight Warrior Mecanim Animation
+  Pack/Textures/Knight.psd
+Dependencies: []

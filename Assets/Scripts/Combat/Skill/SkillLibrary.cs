@@ -45,7 +45,7 @@ namespace LiteMore.Combat.Skill
         {
             SkillList_.Clear();
 
-            Add(1001, SkillType.Attack, "普攻", "attack1", 1, 0, 0, 0, new FilterRule(FilterTeamType.Enemy, FilterRangeType.InDistance, FilterNpcType.Nearest), new SkillExecutor_1001(), new ClickSelector());
+            Add(1001, SkillType.Attack, "普攻", "attack1", 0.5f, 0, 0, 0, new FilterRule(FilterTeamType.Enemy, FilterRangeType.InDistance, FilterNpcType.Nearest), new SkillExecutor_1001(), new ClickSelector());
             
 
             Add(2001, SkillType.Normal, "镭射激光", "skill1", 5, 30, 0, 1, FilterRule.All, new SkillExecutor_2001(), new ClickSelector());

@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 2601086681
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5c444a34a3988f649656105ed60a3117
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f19fbf085e00d23fbc8d6cf7b345590b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
+  Pack/Textures/Archer.psd
+Dependencies: []

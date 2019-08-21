@@ -8,8 +8,7 @@ namespace LiteMore.Combat.AI
         {
             var Root = BehaviorFactory.CreatePrioritySelectorNode("Root", null, null);
 
-            var IsNotForceModeNode = BehaviorFactory.CreatePrioritySelectorNode("ForceMove", Root, new CombatPrecondition_IsNotForceMove());
-            var FindSkillNode = BehaviorFactory.CreatePrioritySelectorNode("FindSkill", IsNotForceModeNode, new CombatPrecondition_TryFindSkill());
+            var FindSkillNode = BehaviorFactory.CreatePrioritySelectorNode("FindSkill", Root, new CombatPrecondition_TryFindSkill());
             var FindSkillTargetNode = BehaviorFactory.CreatePrioritySelectorNode("FindSkillTarget", FindSkillNode, new CombatPrecondition_TryFindSkillTarget());
 
             var NearTargetNode = BehaviorFactory.CreatePrioritySelectorNode("NearTarget", FindSkillTargetNode, new CombatPrecondition_IsNearTarget());

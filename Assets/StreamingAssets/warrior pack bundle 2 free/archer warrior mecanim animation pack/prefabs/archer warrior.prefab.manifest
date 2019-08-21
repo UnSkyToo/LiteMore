@@ -1,0 +1,45 @@
+ManifestFileVersion: 0
+CRC: 868775304
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b3c61448e66c428ca69c9b72c0efa542
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 502a54e9133084a5288f4f2310977a44
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7f7ef17c21ec457409514db055acb92a, type: 3}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
+  Pack/Prefabs/Archer Warrior.prefab
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/characters/archer-bow.fbx
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/characters/archer.fbx
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/materials/archer.mat
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/prefabs/archer warrior animation controller.controller

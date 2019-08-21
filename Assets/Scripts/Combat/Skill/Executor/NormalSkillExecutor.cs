@@ -142,8 +142,8 @@ namespace LiteMore.Combat.Skill.Executor
         public override bool Execute(SkillArgs Args)
         {
             var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition, CombatTeam.A,
-                NpcManager.GenerateInitAttr(200, 500, 0, 100, 10, 50, 0, 30, 30));
-            Npc.Scale = new Vector2(3, 3);
+                NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 50, 0, 30, 30));
+            Npc.Scale = new Vector2(2, 2);
             Npc.Skill.AddNpcSkill(2006); // 减速陷阱-主动
             Npc.Skill.AddNpcSkill(2009); // 嘲讽-主动
             Npc.Skill.AddNpcSkill(2010); // 分身-主动

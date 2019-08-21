@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 1851865308
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ee84c2c034dae1c0b5b90ecfb8a2eb84
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fe397485c3cec1106b49e9ff95e8f8a2
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Materials/2Handed.mat
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
+  warrior mecanim animation/textures/2handed.psd

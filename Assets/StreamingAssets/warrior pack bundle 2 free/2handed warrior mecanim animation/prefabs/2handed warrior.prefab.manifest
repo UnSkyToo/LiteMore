@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 801993765
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 34da74a52bc376fa9de3ee63ed8d5877
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 502a54e9133084a5288f4f2310977a44
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7f7ef17c21ec457409514db055acb92a, type: 3}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Prefabs/2Handed
+  Warrior.prefab
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
+  warrior mecanim animation/characters/2handed.fbx
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
+  warrior mecanim animation/materials/2handed.mat
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
+  warrior mecanim animation/prefabs/2handed warrior animation controller.controller

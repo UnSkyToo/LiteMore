@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 3561953905
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bed086d5be94ad51232c3ec7f03172f1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f19fbf085e00d23fbc8d6cf7b345590b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Textures/2Handed.psd
+Dependencies: []

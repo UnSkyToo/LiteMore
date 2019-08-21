@@ -12,7 +12,7 @@ namespace LiteMore
 
         void Awake()
         {
-            Camera.main.orthographicSize = Screen.height / 2.0f;
+            Camera.main.orthographicSize = Screen.height / 100.0f / 2.0f;
             Style_ = new GUIStyle { fontSize = 30, normal = { background = null, textColor = Color.white } };
 
             try

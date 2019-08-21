@@ -57,6 +57,16 @@ namespace LiteFramework.Helper
             return Pos;
         }
 
+        public static Vector2 WorldPosToScreenPos(Vector3 WorldPos)
+        {
+            return RectTransformUtility.WorldToScreenPoint(Camera.main, WorldPos);
+        }
+
+        public static Vector2 WorldPosToCanvasPos(Vector3 WorldPos)
+        {
+            return ScreenPosToCanvasPos(WorldPosToScreenPos(WorldPos));
+        }
+
         public static Color RandColor()
         {
             return new Color(Random.value, Random.value, Random.value);

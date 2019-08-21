@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 166564990
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f2722c096ec7835e5ac1b2c622209934
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: de5b6614feb6f94b0a6e2f2cfc56359c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Animations/2Handed@Idle.FBX
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
+  warrior mecanim animation/characters/2handed.fbx

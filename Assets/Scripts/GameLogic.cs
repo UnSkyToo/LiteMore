@@ -81,7 +81,7 @@ namespace LiteMore
             PlayerManager.Master.Skill.AddNpcSkill(2008);
 
             NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
-                NpcManager.GenerateInitAttr(100, 1000, 0, 0, 0, 50, 1, 30, 30)).Scale = new Vector2(2, 2);
+                NpcManager.GenerateInitAttr(100, 10000, 10, 0, 0, 100, 1, 30, 30)).Scale = new Vector2(3, 3);
 
             PlayerManager.Master.Skill.AddPassiveSkill(3005, -1, true);
         }

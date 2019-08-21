@@ -41,7 +41,7 @@ namespace LiteMore.Player
 
             UIManager.OpenUI<MainUI>();
             UIManager.OpenUI<DpsUI>();
-            UIManager.OpenUI<MainOperatorUI>();
+            UIManager.OpenUI<HeroListUI>();
             //UIManager.OpenUI<QuickControlUI>();
 
             //CreateMainEmitter();
@@ -59,7 +59,7 @@ namespace LiteMore.Player
             Player_.SaveToCache();
 
             //UIManager.CloseUI<QuickControlUI>();
-            UIManager.CloseUI<MainOperatorUI>();
+            UIManager.CloseUI<HeroListUI>();
             UIManager.CloseUI<DpsUI>();
             UIManager.CloseUI<MainUI>();
         }

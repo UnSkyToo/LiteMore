@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1817115916
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 231500d16c43c698b48c2a6da6285b97
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: de5b6614feb6f94b0a6e2f2cfc56359c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
+  Pack/Animations/Archer@Attack1.FBX
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/characters/archer.fbx
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
+  warrior mecanim animation pack/prefabs/archer warrior.prefab

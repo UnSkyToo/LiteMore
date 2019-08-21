@@ -1,0 +1,35 @@
+ManifestFileVersion: 0
+CRC: 2890998880
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b71180d057fe2c5b87428b58a4991746
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb98d5c992adfa1e351ee0dc88aa3939
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
+  Pack/Characters/Archer.FBX
+Dependencies: []
