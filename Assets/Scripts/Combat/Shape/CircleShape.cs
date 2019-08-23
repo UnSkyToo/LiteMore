@@ -4,16 +4,14 @@ namespace LiteMore.Combat.Shape
 {
     public class CircleShape : BaseShape
     {
-        public Vector2 Center { get; set; }
         public float Radius { get; set; }
 
-        public CircleShape(Vector2 Center, float Radius)
+        public CircleShape(float Radius)
         {
-            this.Center = Center;
             this.Radius = Radius;
         }
 
-        public override bool Contains(Vector2 Position)
+        public override bool Contains(Vector2 Center, Vector2 Position, Quaternion Rotation)
         {
             return Vector2.Distance(Center, Position) <= Radius;
         }

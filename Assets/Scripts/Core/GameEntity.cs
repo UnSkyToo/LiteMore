@@ -15,7 +15,7 @@ namespace LiteMore.Core
             set
             {
                 Position_ = value;
-                Transform_.localPosition = value;
+                Transform_.localPosition = new Vector3(value.x, value.y, 1 - Mathf.Clamp(value.y / (float)Screen.height, -1, 1));
             }
         }
 

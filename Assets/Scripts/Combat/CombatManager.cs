@@ -1,4 +1,5 @@
 ﻿using LiteFramework.Core.Event;
+using LiteMore.Combat.Buff;
 using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Emitter;
 using LiteMore.Combat.Label;
@@ -49,6 +50,11 @@ namespace LiteMore.Combat
                 return false;
             }
 
+            if (!BuffManager.Startup())
+            {
+                return false;
+            }
+
             if (!WaveManager.Startup())
             {
                 return false;
@@ -74,6 +80,7 @@ namespace LiteMore.Combat
             EventManager.UnRegister<NpcBackEvent>(OnCombatEvent);
 
             WaveManager.Shutdown();
+            BuffManager.Shutdown();
             SkillManager.Shutdown();
             EmitterManager.Shutdown();
             BulletManager.Shutdown();
@@ -92,6 +99,7 @@ namespace LiteMore.Combat
             BulletManager.Tick(DeltaTime);
             EmitterManager.Tick(DeltaTime);
             SkillManager.Tick(DeltaTime);
+            BuffManager.Tick(DeltaTime);
             WaveManager.Tick(DeltaTime);
         }
 

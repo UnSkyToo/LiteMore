@@ -34,7 +34,7 @@ namespace LiteMore.Combat.Emitter
         {
             ObjOuter_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
             ObjOuter_.name = $"NpcRectOuter<{ID}>";
-            ObjOuter_.SetParent(Configure.EmitterRoot, false);
+            MapManager.AddToGroundLayer(ObjOuter_);
             ObjOuter_.localPosition = Vector3.zero;
 
             CallerOuter_ = new LineCaller(ObjOuter_.GetComponent<LineRenderer>());
@@ -76,7 +76,7 @@ namespace LiteMore.Combat.Emitter
         {
             ObjInner_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
             ObjInner_.name = $"NpcNormalInner<{ID}>";
-            ObjInner_.SetParent(Configure.EmitterRoot, false);
+            MapManager.AddToGroundLayer(ObjInner_);
             ObjInner_.localPosition = Vector3.zero;
 
             CallerInner_ = new LineCaller(ObjInner_.GetComponent<LineRenderer>());
@@ -84,7 +84,7 @@ namespace LiteMore.Combat.Emitter
 
             ObjOuter_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
             ObjOuter_.name = $"NpcNormalOuter<{ID}>";
-            ObjOuter_.SetParent(Configure.EmitterRoot, false);
+            MapManager.AddToGroundLayer(ObjOuter_);
             ObjOuter_.localPosition = Vector3.zero;
 
             CallerOuter_ = new LineCaller(ObjOuter_.GetComponent<LineRenderer>());

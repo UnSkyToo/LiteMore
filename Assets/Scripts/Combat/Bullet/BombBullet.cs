@@ -50,13 +50,13 @@ namespace LiteMore.Combat.Bullet
             IsBomb_ = false;
 
             RadiusObj_ = AssetManager.CreatePrefabSync("prefabs/bv0.prefab");
-            RadiusObj_.transform.SetParent(Configure.SfxRoot.transform, false);
+            MapManager.AddToGroundLayer(RadiusObj_.transform);
             RadiusObj_.transform.localPosition = TargetPos_;
             var SR = RadiusObj_.GetComponent<SpriteRenderer>();
             SR.color = Color.red;
             SR.size = new Vector2(Radius_ * 2, Radius_ * 2);
 
-            Shape_ = new CircleShape(Position, Radius_);
+            Shape_ = new CircleShape(Radius_);
         }
 
         public override void Dispose()
@@ -92,9 +92,7 @@ namespace LiteMore.Combat.Bullet
         private void Bomb()
         {
             IsBomb_ = true;
-            BombSfx_ = SfxManager.AddSfx("prefabs/sfx/bombsfx.prefab", Position);
-
-            Shape_.Center = Position;
+            BombSfx_ = SfxManager.PlaySkySfx(Position, "prefabs/sfx/bombsfx.prefab");
 
             foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
             {
@@ -103,7 +101,7 @@ namespace LiteMore.Combat.Bullet
                     continue;
                 }
 
-                if (Shape_.Contains(Entity.Position))
+                if (Shape_.Contains(Position, Entity.Position, Quaternion.identity))
                 {
                     Entity.Action.OnBulletHit(this);
                     //LabelManager.AddNumberLabel(Entity.Position, NumberLabelType.Bomb, Damage);

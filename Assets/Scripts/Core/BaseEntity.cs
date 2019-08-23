@@ -16,6 +16,6 @@ namespace LiteMore.Core
         }
 
         public abstract void Dispose();
-        public abstract void Tick(float Time);
+        public abstract void Tick(float DeltaTime);
     }
 }

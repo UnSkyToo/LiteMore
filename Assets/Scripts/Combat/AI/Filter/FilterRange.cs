@@ -49,7 +49,7 @@ namespace LiteMore.Combat.AI.Filter
 
             foreach (var Npc in List)
             {
-                if (Shape.Contains(Npc.Position))
+                if (Shape.Contains(Skill.Master.Position, Npc.Position, Skill.Master.GetRotation()))
                 {
                     Result.Add(Npc);
                 }

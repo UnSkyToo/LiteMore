@@ -50,7 +50,7 @@ namespace LiteMore.Combat.Skill.Selector
             }
 
             DragObj_ = AssetManager.CreatePrefabSync(DragResName_).transform;
-            DragObj_.SetParent(Configure.SfxRoot, false);
+            MapManager.AddToGroundLayer(DragObj_);
             DragObj_.localPosition = Vector3.zero;
             DragObjRender_ = DragObj_.GetComponent<SpriteRenderer>();
             DragObjRender_.color = Color.green;

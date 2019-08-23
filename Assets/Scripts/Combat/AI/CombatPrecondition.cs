@@ -49,7 +49,7 @@ namespace LiteMore.Combat.AI
                 return true;
             }
 
-            Input.Attacker.Action.TargetNpc = FilterHelper.FindNearest(Input.Attacker);
+            Input.Attacker.Action.SetTarget(FilterHelper.FindNearest(Input.Attacker));
             return Input.Attacker.Action.TargetNpc != null;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Game.Asset;
+using LiteMore.Combat.Npc;
 using LiteMore.Core;
 using UnityEngine;
 
@@ -74,17 +75,35 @@ namespace LiteMore.Combat
             }
         }
 
-        public static BaseSfx AddSfx(string ResName, Vector2 Position)
+        private static BaseSfx CreateSfx(string ResName)
         {
             var Obj = AssetManager.CreatePrefabSync(ResName);
-            Obj.transform.SetParent(Configure.SfxRoot, false);
-            Obj.transform.localPosition = Position;
-
             var Entity = new BaseSfx(ResName, Obj.transform);
             SfxList_.Add(Entity);
-            Entity.Position = Position;
-
             return Entity;
+        }
+
+        public static BaseSfx PlayNpcSfx(BaseNpc Master, bool IsFront, string ResName)
+        {
+            var Sfx = CreateSfx(ResName);
+            Sfx.Entity.SetParent(IsFront ? Master.FrontLayer : Master.BackLayer, false);
+            return Sfx;
+        }
+
+        public static BaseSfx PlayGroundSfx(Vector2 Position, string ResName)
+        {
+            var Sfx = CreateSfx(ResName);
+            MapManager.AddToGroundLayer(Sfx.Entity);
+            Sfx.Position = Position;
+            return Sfx;
+        }
+
+        public static BaseSfx PlaySkySfx(Vector2 Position, string ResName)
+        {
+            var Sfx = CreateSfx(ResName);
+            MapManager.AddToSkyLayer(Sfx.Entity);
+            Sfx.Position = Position;
+            return Sfx;
         }
     }
 }

@@ -98,7 +98,7 @@ namespace LiteMore.Player
             if (Event.Master.Team == CombatTeam.B)
             {
                 AddGem((int)Event.Master.CalcFinalAttr(NpcAttrIndex.Gem));
-                SfxManager.AddSfx("prefabs/sfx/goldsfx.prefab", Event.Master.Position);
+                SfxManager.PlayNpcSfx(Event.Master, true, "prefabs/sfx/goldsfx.prefab");
             }
         }
 

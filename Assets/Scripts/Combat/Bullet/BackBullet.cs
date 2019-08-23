@@ -44,7 +44,7 @@ namespace LiteMore.Combat.Bullet
             var Angle = MathHelper.GetUnityAngle(Direction_);
             Rotation = Quaternion.AngleAxis(Angle, Vector3.forward);
 
-            Shape_ = new RectShape(Position, Size_, Rotation);
+            Shape_ = new RectShape(Size_);
         }
 
         public override void Tick(float DeltaTime)
@@ -69,9 +69,6 @@ namespace LiteMore.Combat.Bullet
 
         private void CheckHit()
         {
-            Shape_.Center = Position;
-            //Shape_.Rotation = Rotation;
-
             foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
             {
                 if (!Entity.Action.CanLocked())
@@ -79,7 +76,7 @@ namespace LiteMore.Combat.Bullet
                     continue;
                 }
 
-                if (Shape_.Contains(Entity.Position))
+                if (Shape_.Contains(Position, Entity.Position, Rotation))
                 {
                     Entity.Action.OnBulletHit(this);
                     //LabelManager.AddNumberLabel(Entity.Position, NumberLabelType.Float, Damage);

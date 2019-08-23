@@ -18,11 +18,17 @@ namespace LiteMore.Combat
     public class NpcAttrChangedEvent : CombatEvent
     {
         public NpcAttrIndex Index { get; }
+        public float OldValue { get; }
+        public float NewValue { get; }
+        public float ChangeValue { get; }
 
-        public NpcAttrChangedEvent(BaseNpc Master, NpcAttrIndex Index)
+        public NpcAttrChangedEvent(BaseNpc Master, NpcAttrIndex Index, float OldValue, float NewValue)
             : base(Master)
         {
             this.Index = Index;
+            this.OldValue = OldValue;
+            this.NewValue = NewValue;
+            this.ChangeValue = NewValue - OldValue;
         }
     }
 

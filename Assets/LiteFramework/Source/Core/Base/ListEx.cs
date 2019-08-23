@@ -11,6 +11,8 @@ namespace LiteFramework.Core.Base
         private readonly List<T> AddList_;
         private readonly List<T> RemoveList_;
 
+        public int Count => Values_.Count;
+
         public ListEx()
         {
             Dirty_ = false;

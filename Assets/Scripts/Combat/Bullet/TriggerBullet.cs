@@ -37,7 +37,7 @@ namespace LiteMore.Combat.Bullet
         protected BaseTriggerBullet(Transform Trans, BaseTriggerBulletDescriptor Desc)
             : base(Trans, BulletType.Trigger, Desc.BaseBulletDesc)
         {
-            Shape_ = new CircleShape(Position, Desc.Radius);
+            Shape_ = new CircleShape(Desc.Radius);
 
             var SR = Trans.GetComponent<SpriteRenderer>();
             SR.color = Desc.CircleColor;
@@ -103,7 +103,7 @@ namespace LiteMore.Combat.Bullet
                     continue;
                 }
 
-                if (IsAlive && Shape_.Contains(Entity.Position))
+                if (IsAlive && Shape_.Contains(Position, Entity.Position, Rotation))
                 {
                     if (!NpcList_.ContainsKey(Entity))
                     {

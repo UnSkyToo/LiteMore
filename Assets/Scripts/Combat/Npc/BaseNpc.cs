@@ -4,6 +4,7 @@ using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc.Handler;
 using LiteMore.Combat.Npc.Module;
 using LiteMore.Core;
+using LiteMore.Helper;
 using UnityEngine;
 
 namespace LiteMore.Combat.Npc
@@ -23,6 +24,9 @@ namespace LiteMore.Combat.Npc
         public NpcActionModule Action { get; }
         public NpcSkillModule Skill { get; }
 
+        public Transform FrontLayer { get; }
+        public Transform BackLayer { get; }
+
         public BaseNpc(string Name, Transform Trans, CombatTeam Team, float[] InitAttr)
             : base(Name, Trans)
         {
@@ -32,6 +36,9 @@ namespace LiteMore.Combat.Npc
             this.ModuleList_ = new List<BaseNpcModule>();
             this.HandlerList_ = new List<BaseNpcHandler>();
 
+            FrontLayer = MiscHelper.CreateCanvasLayer(Trans, "Front", Configure.NpcFrontOrder);
+            BackLayer = MiscHelper.CreateCanvasLayer(Trans, "Back", Configure.NpcBackOrder);
+
             EventManager.Register<NpcAttrChangedEvent>(OnNpcAttrChangedEvent);
 
             this.Data = AddModule(new NpcDataModule(this, InitAttr, 0));
@@ -39,7 +46,7 @@ namespace LiteMore.Combat.Npc
             this.Action = AddModule(new NpcActionModule(this));
             this.Skill = AddModule(new NpcSkillModule(this));
 
-            this.Bar_ = new NpcBar(this);
+            this.Bar_ = new NpcBar(this, Trans.Find("Bar").localPosition);
             this.Bar_.SetMaxHp(CalcFinalAttr(NpcAttrIndex.MaxHp));
             this.Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
             this.HitSfxInterval_ = 0;
@@ -72,6 +79,9 @@ namespace LiteMore.Combat.Npc
 
         public override void Dispose()
         {
+            Object.Destroy(BackLayer.gameObject);
+            Object.Destroy(FrontLayer.gameObject);
+
             EventManager.UnRegister<NpcAttrChangedEvent>(OnNpcAttrChangedEvent);
 
             foreach (var Module in ModuleList_)
@@ -137,6 +147,11 @@ namespace LiteMore.Combat.Npc
             HandlerList_.Remove(Handler);
         }
 
+        public NpcBar GetBar()
+        {
+            return Bar_;
+        }
+
         private void OnNpcAttrChangedEvent(NpcAttrChangedEvent Event)
         {
             if (Event.Master.ID != ID)
@@ -156,6 +171,11 @@ namespace LiteMore.Combat.Npc
                     Action.MoveTo(Action.TargetPos);
                     break;
                 case NpcAttrIndex.Hp:
+                    if (Event.ChangeValue < 0)
+                    {
+                        LabelManager.AddNumberLabel(Position, NumberLabelType.Float, Event.ChangeValue);
+                    }
+
                     if (CalcFinalAttr(NpcAttrIndex.Hp) <= 0)
                     {
                         Dead();
@@ -180,14 +200,13 @@ namespace LiteMore.Combat.Npc
 
             var RealDamage = AddAttr(NpcAttrIndex.Hp, -Damage);
             EventManager.Send(new NpcDamageEvent(this, Attacker?.ID ?? 0, SourceName, Mathf.Abs(RealDamage), Mathf.Abs(Damage)));
-            LabelManager.AddNumberLabel(Position, NumberLabelType.Float, Damage);
         }
 
         public void TryToPlayHitSfx(string HitSfx)
         {
             if (HitSfxInterval_ <= 0)
             {
-                SfxManager.AddSfx(HitSfx, Position);
+                SfxManager.PlayNpcSfx(this, true, HitSfx);
                 HitSfxInterval_ = 8;
             }
         }
@@ -223,6 +242,11 @@ namespace LiteMore.Combat.Npc
         public void SetDead()
         {
             IsAlive = false;
+        }
+
+        public Quaternion GetRotation()
+        {
+            return Rotation;
         }
     }
 }

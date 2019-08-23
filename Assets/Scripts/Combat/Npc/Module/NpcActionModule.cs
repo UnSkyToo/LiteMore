@@ -7,7 +7,7 @@ namespace LiteMore.Combat.Npc.Module
 {
     public class NpcActionModule : BaseNpcModule
     {
-        public BaseNpc TargetNpc { get; set; }
+        public BaseNpc TargetNpc { get; private set; }
         public BaseNpc AttackerNpc { get; set; }
 
         public Vector2 TargetPos { get; private set; }
@@ -92,7 +92,7 @@ namespace LiteMore.Combat.Npc.Module
             return AttackerNpc != null && AttackerNpc.IsValid();
         }
 
-        public void ForceTarget(BaseNpc Target)
+        public void SetTarget(BaseNpc Target)
         {
             TargetNpc = Target;
         }

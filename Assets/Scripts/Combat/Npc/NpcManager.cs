@@ -112,13 +112,14 @@ namespace LiteMore.Combat.Npc
         public static AINpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr)
         {
             var Obj = AssetManager.CreatePrefabSync("prefabs/npc/r2/r2.prefab");
-            Obj.transform.SetParent(Configure.NpcRoot, false);
+            MapManager.AddToNpcLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 
             var Entity = new AINpc(Name, Obj.transform, Team, InitAttr);
             NpcList_[(int)Team].Add(Entity);
-
             Entity.Position = Position;
+            Entity.GetBar().SetScale(0.5f);
+
             Entity.Skill.AddNpcSkill(1001).Radius = CombatHelper.GetNpcAtkRange(Entity);
 
             EventManager.Send(new NpcAddEvent(Entity));
@@ -133,13 +134,14 @@ namespace LiteMore.Combat.Npc
             }
 
             var Obj = AssetManager.CreatePrefabSync("prefabs/npc/core/core.prefab");
-            Obj.transform.SetParent(Configure.NpcRoot, false);
+            MapManager.AddToNpcLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 
             CoreNpc_ = new CoreNpc(Name, Obj.transform, InitAttr);
             NpcList_[(int)CombatTeam.A].Add(CoreNpc_);
             CoreNpc_.Position = Position;
             CoreNpc_.IsStatic = true;
+            CoreNpc_.GetBar().SetScale(2.0f);
 
             EventManager.Send(new NpcAddEvent(CoreNpc_));
             return CoreNpc_;

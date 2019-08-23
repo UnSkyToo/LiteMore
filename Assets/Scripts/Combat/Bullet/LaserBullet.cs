@@ -44,7 +44,7 @@ namespace LiteMore.Combat.Bullet
             StepAngle_ = Desc.StepAngle;
             Radius_ = Desc.Radius;
 
-            Shape_ = new FanShape(Position, Radius_, BeginAngle_, BeginAngle_);
+            Shape_ = new FanShape(Radius_, BeginAngle_, BeginAngle_);
         }
 
         public override void Tick(float DeltaTime)
@@ -75,8 +75,6 @@ namespace LiteMore.Combat.Bullet
 
         private void CheckHit()
         {
-            Shape_.Center = Position;
-
             foreach (var Entity in NpcManager.GetNpcList(Team.Opposite()))
             {
                 if (!Entity.Action.CanLocked())
@@ -84,7 +82,7 @@ namespace LiteMore.Combat.Bullet
                     continue;
                 }
 
-                if (Shape_.Contains(Entity.Position))
+                if (Shape_.Contains(Position, Entity.Position, Quaternion.identity))
                 {
                     Entity.Action.OnBulletHit(this);
                     //LabelManager.AddNumberLabel(Entity.Position, NumberLabelType.Laser, Damage);

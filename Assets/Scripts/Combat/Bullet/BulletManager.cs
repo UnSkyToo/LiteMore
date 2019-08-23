@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Base;
 using LiteFramework.Core.ObjectPool;
 using LiteFramework.Game.Asset;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace LiteMore.Combat.Bullet
     public static class BulletManager
     {
         private static readonly Dictionary<BulletType, GameObjectPool> BulletPool_ = new Dictionary<BulletType, GameObjectPool>();
-        private static readonly List<BaseBullet> BulletList_ = new List<BaseBullet>();
+        private static readonly ListEx<BaseBullet> BulletList_ = new ListEx<BaseBullet>();
 
         public static bool Startup()
         {
@@ -40,16 +41,17 @@ namespace LiteMore.Combat.Bullet
 
         public static void Tick(float DeltaTime)
         {
-            for (var Index = BulletList_.Count - 1; Index >= 0; --Index)
+            foreach (var Entity in BulletList_)
             {
-                BulletList_[Index].Tick(DeltaTime);
+                Entity.Tick(DeltaTime);
 
-                if (!BulletList_[Index].IsAlive)
+                if (!Entity.IsAlive)
                 {
-                    BulletList_[Index].Dispose();
-                    BulletList_.RemoveAt(Index);
+                    Entity.Dispose();
+                    BulletList_.Remove(Entity);
                 }
             }
+            BulletList_.Flush();
         }
 
         public static void DisposeBullet(BaseBullet Bullet)
@@ -61,7 +63,7 @@ namespace LiteMore.Combat.Bullet
         private static GameObject CreateBullet(BulletType Type, Vector2 Position)
         {
             var Obj = BulletPool_[Type].Spawn();
-            Obj.transform.SetParent(Configure.BulletRoot, false);
+            MapManager.AddToSkyLayer(Obj.transform);
             Obj.transform.localPosition = Position;
             return Obj;
         }
