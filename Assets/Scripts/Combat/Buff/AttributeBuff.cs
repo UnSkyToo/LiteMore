@@ -3,17 +3,20 @@ using LiteMore.Combat.Npc;
 
 namespace LiteMore.Combat.Buff
 {
-    public struct AttributeBuffDescriptor
+    public class AttributeBuffDescriptor : BaseBuffDescriptor
     {
-        public BaseBuffDescriptor BaseDesc { get; }
         public uint TargetID { get; }
         public List<NpcAttrModifyInfo> ModifyList { get; }
+        public int MaxTriggerCount { get; }
+        public bool IsRefund { get; }
 
-        public AttributeBuffDescriptor(BaseBuffDescriptor BaseDesc, uint TargetID, List<NpcAttrModifyInfo> ModifyList)
+        public AttributeBuffDescriptor(string Name, float Duration, float Interval, float WaitTime, uint TargetID, List<NpcAttrModifyInfo> ModifyList, int MaxTriggerCount, bool IsRefund)
+            : base(Name, Duration, Interval, WaitTime)
         {
-            this.BaseDesc = BaseDesc;
             this.TargetID = TargetID;
             this.ModifyList = ModifyList;
+            this.MaxTriggerCount = MaxTriggerCount;
+            this.IsRefund = IsRefund;
         }
     }
 
@@ -21,13 +24,18 @@ namespace LiteMore.Combat.Buff
     {
         private readonly uint TargetID_;
         private readonly List<NpcAttrModifyInfo> ModifyList_;
+        private readonly int MaxTriggerCount_;
+        private readonly bool IsRefund_;
         private int TotalTriggerCount_;
 
         public AttributeBuff(AttributeBuffDescriptor Desc)
-            : base(BuffType.Attribute, Desc.BaseDesc)
+            : base(BuffType.Attribute, Desc)
         {
             this.TargetID_ = Desc.TargetID;
             this.ModifyList_ = Desc.ModifyList;
+            this.MaxTriggerCount_ = Desc.MaxTriggerCount;
+            this.IsRefund_ = Desc.IsRefund;
+            this.TotalTriggerCount_ = 0;
         }
 
         protected override void OnAttach()
@@ -36,17 +44,20 @@ namespace LiteMore.Combat.Buff
 
         protected override void OnDetach()
         {
-            var Master = NpcManager.FindNpc(TargetID_);
-            if (Master == null || !Master.IsValid())
+            if (IsRefund_)
             {
-                return;
-            }
-
-            for (var Index = 0; Index < TotalTriggerCount_; ++Index)
-            {
-                foreach (var Modify in ModifyList_)
+                var Master = NpcManager.FindNpc(TargetID_);
+                if (Master == null || !Master.IsValid())
                 {
-                    Master.Data.Attr.RestoreModify(Modify);
+                    return;
+                }
+
+                for (var Index = 0; Index < TotalTriggerCount_; ++Index)
+                {
+                    foreach (var Modify in ModifyList_)
+                    {
+                        Master.Data.Attr.RestoreModify(Modify);
+                    }
                 }
             }
         }
@@ -55,6 +66,11 @@ namespace LiteMore.Combat.Buff
         {
             var Master = NpcManager.FindNpc(TargetID_);
             if (Master == null || !Master.IsValid())
+            {
+                return;
+            }
+
+            if (MaxTriggerCount_ > 0 && TotalTriggerCount_ >= MaxTriggerCount_)
             {
                 return;
             }

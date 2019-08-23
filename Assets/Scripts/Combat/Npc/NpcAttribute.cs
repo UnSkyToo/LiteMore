@@ -55,14 +55,7 @@ namespace LiteMore.Combat.Npc
 
         public float CalcFinalValue(NpcAttrIndex Index)
         {
-            return GetValue(Index) * GetPercent(Index) + GetBase(Index);
-        }
-
-        public void SetValue(NpcAttrIndex Index, float Value, bool NotifyEvent = true)
-        {
-            var OldValue = CalcFinalValue(Index);
-            Value_[(int)Index] = Value;
-            TrySendAttrChangeEvent(Index, OldValue, NotifyEvent);
+            return (GetValue(Index) + GetBase(Index)) * GetPercent(Index);
         }
 
         public void AddValue(NpcAttrIndex Index, float Value, bool NotifyEvent = true)

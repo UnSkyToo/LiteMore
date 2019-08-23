@@ -89,6 +89,7 @@
     {
         A = 0,
         B = 1,
+        All = 2,
     }
 
     public enum CombatMsgCode : byte

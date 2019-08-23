@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Buff
 {
-    public struct BaseBuffDescriptor
+    public abstract class BaseBuffDescriptor
     {
         public string Name { get; }
         public float Duration { get; }
         public float Interval { get; }
         public float WaitTime { get; }
 
-        public BaseBuffDescriptor(string Name, float Duration, float Interval, float WaitTime)
+        protected BaseBuffDescriptor(string Name, float Duration, float Interval, float WaitTime)
         {
             this.Name = Name;
             this.Duration = Duration;
@@ -87,7 +87,7 @@ namespace LiteMore.Combat.Buff
             }
         }
 
-        private void Attach()
+        public void Attach()
         {
             OnAttach();
             Trigger();
@@ -95,14 +95,14 @@ namespace LiteMore.Combat.Buff
 
         protected abstract void OnAttach();
 
-        private void Detach()
+        public void Detach()
         {
             OnDetach();
         }
 
         protected abstract void OnDetach();
 
-        private void Trigger()
+        public void Trigger()
         {
             OnTrigger();
         }

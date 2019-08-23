@@ -163,16 +163,11 @@ namespace LiteMore.Combat.Skill.Executor
             var Target = FilterHelper.FindNearest(PlayerManager.Master);
             if (Target != null)
             {
-                /*BulletManager.AddTrackBullet(new TrackBulletDescriptor(
+                BulletManager.AddTrackBullet(new TrackBulletDescriptor(
                     new BaseBulletDescriptor(Args.Skill.Name, Configure.CoreTopPosition, CombatTeam.A, 1),
                     "Blue",
                     Target,
-                    1500));*/
-                BuffManager.AddBuff(new AttributeBuff(new AttributeBuffDescriptor(
-                    new BaseBuffDescriptor("AAA", 1, 0, 0), Target.ID, new List<NpcAttrModifyInfo>
-                    {
-                        new NpcAttrModifyInfo(NpcAttrIndex.Speed, 0.5f, 0),
-                    })));
+                    1500));
                 return true;
             }
 

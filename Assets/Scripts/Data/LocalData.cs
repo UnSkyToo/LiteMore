@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteMore.Combat.Buff;
 using LiteMore.Combat.Skill;
 
 namespace LiteMore.Data
@@ -23,6 +24,7 @@ namespace LiteMore.Data
 
             SkillList = new Dictionary<uint, SkillData>();
             SkillLibrary.Generate();
+            BuffLibrary.Generate();
         }
     }
 }

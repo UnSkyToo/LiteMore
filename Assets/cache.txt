@@ -1,8 +1,8 @@
 MaxHp`100
 AddHp`1
 MaxMp`100
-AddMp`980
-Gem`2087
+AddMp`1220
+Gem`2091
 Wave`1
 BulletDamageLevel`1
 BulletIntervalLevel`1

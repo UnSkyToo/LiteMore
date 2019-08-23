@@ -14,21 +14,21 @@
 
         public override void Tick(float DeltaTime)
         {
-            var Hp = Attr.CalcFinalValue(NpcAttrIndex.Hp) + Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
+            var AddHp = Attr.CalcFinalValue(NpcAttrIndex.AddHp) * DeltaTime;
             var MaxHp = Attr.CalcFinalValue(NpcAttrIndex.MaxHp);
-            if (Hp > MaxHp)
+            if (AddHp + Attr.CalcFinalValue(NpcAttrIndex.Hp) > MaxHp)
             {
-                Hp = MaxHp;
+                AddHp = MaxHp - Attr.CalcFinalValue(NpcAttrIndex.Hp);
             }
-            Attr.SetValue(NpcAttrIndex.Hp, Hp);
+            Attr.AddValue(NpcAttrIndex.Hp, AddHp);
 
-            var Mp = Attr.CalcFinalValue(NpcAttrIndex.Mp) + Attr.CalcFinalValue(NpcAttrIndex.AddMp) * DeltaTime;
+            var AddMp = Attr.CalcFinalValue(NpcAttrIndex.AddMp) * DeltaTime;
             var MaxMp = Attr.CalcFinalValue(NpcAttrIndex.MaxMp);
-            if (Mp > MaxMp)
+            if (AddMp + Attr.CalcFinalValue(NpcAttrIndex.Mp) > MaxMp)
             {
-                Mp = MaxMp;
+                AddMp = MaxMp - Attr.CalcFinalValue(NpcAttrIndex.Mp);
             }
-            Attr.SetValue(NpcAttrIndex.Mp, Mp);
+            Attr.AddValue(NpcAttrIndex.Mp, AddMp);
         }
 
         public float CalcFinalAttr(NpcAttrIndex Index)
@@ -39,11 +39,6 @@
         public void AddAttr(NpcAttrIndex Index, float Value, bool Notify = true)
         {
             Attr.AddValue(Index, Value, Notify);
-        }
-
-        public void SetAttr(NpcAttrIndex Index, float Value, bool Notify = true)
-        {
-            Attr.SetValue(Index, Value, Notify);
         }
 
         public bool IsState(NpcState State)

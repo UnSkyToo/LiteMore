@@ -235,7 +235,6 @@ namespace LiteMore.Combat.Npc
                 return;
             }
 
-            Data.SetAttr(NpcAttrIndex.Hp, 0, false);
             EventManager.Send(new NpcDieEvent(this));
         }
 

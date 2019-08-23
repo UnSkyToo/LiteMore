@@ -151,11 +151,32 @@ namespace LiteMore.Combat.Npc
         {
             var Result = new List<BaseNpc>();
 
-            foreach (var Npc in NpcList_[(int)Team])
+            if (Team == CombatTeam.All)
             {
-                if (Npc.IsValid())
+                foreach (var Npc in NpcList_[0])
                 {
-                    Result.Add(Npc);
+                    if (Npc.IsValid())
+                    {
+                        Result.Add(Npc);
+                    }
+                }
+
+                foreach (var Npc in NpcList_[1])
+                {
+                    if (Npc.IsValid())
+                    {
+                        Result.Add(Npc);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var Npc in NpcList_[(int) Team])
+                {
+                    if (Npc.IsValid())
+                    {
+                        Result.Add(Npc);
+                    }
                 }
             }
 

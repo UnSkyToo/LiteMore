@@ -52,5 +52,18 @@ namespace LiteMore.Combat.Buff
 
             Buff.IsAlive = false;
         }
+
+        public static BaseBuff CreateBuff(BaseBuffDescriptor Desc)
+        {
+            switch (Desc)
+            {
+                case AttributeBuffDescriptor AttrDesc:
+                    return new AttributeBuff(AttrDesc);
+                case TriggerBuffDescriptor TriggerDesc:
+                    return new TriggerBuff(TriggerDesc);
+                default:
+                    return null;
+            }
+        }
     }
 }
