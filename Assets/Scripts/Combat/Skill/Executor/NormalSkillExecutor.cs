@@ -118,19 +118,9 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var BulletDesc = new AttrTriggerBulletDescriptor(
-                new BaseTriggerBulletDescriptor(
-                    new BaseBulletDescriptor(Args.Skill.Name, Args.Position, CombatTeam.A, 1),
-                    Args.Skill.Radius,
-                    0.5f,
-                    20,
-                    new Color(90.0f / 255.0f, 220.0f / 255.0f, 1.0f)),
-                new List<NpcAttrModifyInfo>
-                {
-                    new NpcAttrModifyInfo(NpcAttrIndex.Speed, 0.5f, 0),
-                });
+            BuffManager.AddBuff(new TriggerBuff(new TriggerBuffDescriptor(Args.Skill.Name, 5, 0.5f, 0, true,
+                    new NpcAttrModifyInfo(NpcAttrIndex.Speed, 0.5f, 0), Args.Skill.Radius, 1), Args.Position, Args.Skill.Master.Team.Opposite()));
 
-            BulletManager.AddAttrTriggerBullet(BulletDesc);
             return true;
         }
     }

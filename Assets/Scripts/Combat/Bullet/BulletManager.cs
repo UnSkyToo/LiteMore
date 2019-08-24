@@ -108,16 +108,6 @@ namespace LiteMore.Combat.Bullet
             return Entity;
         }
 
-        public static AttrTriggerBullet AddAttrTriggerBullet(AttrTriggerBulletDescriptor Desc)
-        {
-            var Obj = CreateBullet(BulletType.Trigger, Desc.BaseTriggerDesc.BaseBulletDesc.Position);
-
-            var Entity = new AttrTriggerBullet(Obj.transform, Desc);
-            BulletList_.Add(Entity);
-
-            return Entity;
-        }
-
         public static int GetCount()
         {
             return BulletList_.Count;

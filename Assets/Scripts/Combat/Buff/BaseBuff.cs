@@ -1,5 +1,4 @@
 ﻿using LiteMore.Core;
-using UnityEngine;
 
 namespace LiteMore.Combat.Buff
 {
@@ -9,13 +8,15 @@ namespace LiteMore.Combat.Buff
         public float Duration { get; }
         public float Interval { get; }
         public float WaitTime { get; }
+        public bool IsRefund { get; }
 
-        protected BaseBuffDescriptor(string Name, float Duration, float Interval, float WaitTime)
+        protected BaseBuffDescriptor(string Name, float Duration, float Interval, float WaitTime, bool IsRefund)
         {
             this.Name = Name;
             this.Duration = Duration;
             this.Interval = Interval;
             this.WaitTime = WaitTime;
+            this.IsRefund = IsRefund;
         }
     }
 
@@ -26,8 +27,9 @@ namespace LiteMore.Combat.Buff
         private bool IsWait_;
         private float WaitTime_;
         private float DurationTime_;
-        private float Interval_;
+        private readonly float Interval_;
         private float IntervalTime_;
+        protected readonly bool IsRefund_;
 
         protected BaseBuff(BuffType Type, BaseBuffDescriptor Desc)
             : base(Desc.Name)
@@ -38,6 +40,7 @@ namespace LiteMore.Combat.Buff
             this.WaitTime_ = Desc.WaitTime;
             this.Interval_ = Desc.Interval;
             this.IntervalTime_ = 0;
+            this.IsRefund_ = Desc.IsRefund;
         }
 
         public override void Tick(float DeltaTime)

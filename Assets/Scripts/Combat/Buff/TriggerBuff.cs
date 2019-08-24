@@ -8,17 +8,17 @@ namespace LiteMore.Combat.Buff
 {
     public class TriggerBuffDescriptor : BaseBuffDescriptor
     {
-        public List<uint> BuffList { get; }
+        public NpcAttrModifyInfo Modify { get; }
         //public BaseShape Shape { get; }
         public float Radius { get; } // only support circle shape
-        public CombatTeam Team { get; }
+        public int MaxTriggerCount { get; }
 
-        public TriggerBuffDescriptor(string Name, float Duration, float Interval, float WaitTime, List<uint> BuffList, float Radius, CombatTeam Team)
-            : base(Name, Duration, Interval, WaitTime)
+        public TriggerBuffDescriptor(string Name, float Duration, float Interval, float WaitTime, bool IsRefund, NpcAttrModifyInfo Modify, float Radius, int MaxTriggerCount)
+            : base(Name, Duration, Interval, WaitTime, IsRefund)
         {
-            this.BuffList = BuffList;
+            this.Modify = Modify;
             this.Radius = Radius;
-            this.Team = Team;
+            this.MaxTriggerCount = MaxTriggerCount;
         }
     }
 
@@ -41,22 +41,25 @@ namespace LiteMore.Combat.Buff
 
         public Quaternion Rotation { get; set; }
 
-        private readonly Dictionary<BaseNpc, List<BaseBuff>> NpcList_;
+        private readonly Dictionary<BaseNpc, int> NpcList_;
         private readonly List<BaseNpc> NpcDieList_;
         private readonly CircleShape Shape_;
+        private readonly NpcAttrModifyInfo Modify_;
         private readonly CombatTeam Team_;
-        private readonly List<uint> BuffList_;
+        protected readonly int MaxTriggerCount_;
 
         private Transform Obj_;
 
-        public TriggerBuff(TriggerBuffDescriptor Desc)
+        public TriggerBuff(TriggerBuffDescriptor Desc, Vector2 Pos, CombatTeam Team)
             : base(BuffType.Trigger, Desc)
         {
-            NpcList_ = new Dictionary<BaseNpc, List<BaseBuff>>();
+            NpcList_ = new Dictionary<BaseNpc, int>();
             NpcDieList_ = new List<BaseNpc>();
             Shape_ = new CircleShape(Desc.Radius);
-            Team_ = Desc.Team;
-            BuffList_ = Desc.BuffList;
+            Modify_ = Desc.Modify;
+            MaxTriggerCount_ = Desc.MaxTriggerCount;
+            Team_ = Team;
+            Position_ = Pos;
         }
 
         protected override void OnAttach()
@@ -89,66 +92,70 @@ namespace LiteMore.Combat.Buff
             {
                 foreach (var Entity in NpcDieList_)
                 {
-                    OnNpcExit(Entity, NpcList_[Entity]);
+                    OnNpcExit(Entity);
                     NpcList_.Remove(Entity);
                 }
                 NpcDieList_.Clear();
             }
 
-            foreach (var Entity in NpcManager.GetNpcList(Team_))
+            var NpcList = NpcManager.GetNpcList(Team_);
+            foreach (var Entity in NpcList)
             {
                 if (IsAlive && Shape_.Contains(Position, Entity.Position, Rotation))
                 {
                     if (!NpcList_.ContainsKey(Entity))
                     {
-                        NpcList_.Add(Entity, new List<BaseBuff>());
-                        foreach (var BuffID in BuffList_)
-                        {
-                            var Desc = BuffLibrary.Get(BuffID);
-                            if (Desc != null)
-                            {
-                                NpcList_[Entity].Add(BuffManager.CreateBuff(Desc));
-                            }
-                        }
-                        OnNpcEnter(Entity, NpcList_[Entity]);
+                        NpcList_.Add(Entity, 0);
+                        OnNpcEnter(Entity);
                     }
                     else
                     {
-                        OnNpcStay(Entity, NpcList_[Entity]);
+                        OnNpcStay(Entity);
                     }
                 }
                 else
                 {
                     if (NpcList_.ContainsKey(Entity))
                     {
-                        OnNpcExit(Entity, NpcList_[Entity]);
+                        OnNpcExit(Entity);
                         NpcList_.Remove(Entity);
                     }
                 }
             }
         }
 
-        private void OnNpcEnter(BaseNpc Target, List<BaseBuff> BuffList)
+        private void OnNpcEnter(BaseNpc Target)
         {
-            foreach (var Buff in BuffList)
+            if (MaxTriggerCount_ > 0 && NpcList_[Target] >= MaxTriggerCount_)
             {
-                Buff.Attach();
+                return;
             }
+
+            NpcList_[Target]++;
+            Target.Data.Attr.ApplyModify(Modify_);
         }
 
-        private void OnNpcStay(BaseNpc Target, List<BaseBuff> BuffList)
+        private void OnNpcStay(BaseNpc Target)
         {
-            foreach (var Buff in BuffList)
+            if (MaxTriggerCount_ > 0 && NpcList_[Target] >= MaxTriggerCount_)
             {
-                Buff.Trigger();
+                return;
             }
+
+            NpcList_[Target]++;
+            Target.Data.Attr.ApplyModify(Modify_);
         }
 
-        private void OnNpcExit(BaseNpc Target, List<BaseBuff> BuffList)
+        private void OnNpcExit(BaseNpc Target)
         {
-            foreach (var Buff in BuffList)
+            if (!IsRefund_)
             {
-                Buff.Detach();
+                return;
+            }
+
+            for (var Index = 0; Index < NpcList_[Target]; ++Index)
+            {
+                Target.Data.Attr.RestoreModify(Modify_);
             }
         }
     }

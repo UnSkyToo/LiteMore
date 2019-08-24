@@ -1,7 +1,7 @@
 MaxHp`100
 AddHp`1
 MaxMp`100
-AddMp`1220
+AddMp`1250
 Gem`2091
 Wave`1
 BulletDamageLevel`1

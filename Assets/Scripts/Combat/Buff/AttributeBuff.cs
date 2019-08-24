@@ -5,37 +5,31 @@ namespace LiteMore.Combat.Buff
 {
     public class AttributeBuffDescriptor : BaseBuffDescriptor
     {
-        public uint TargetID { get; }
-        public List<NpcAttrModifyInfo> ModifyList { get; }
+        public NpcAttrModifyInfo Modify { get; }
         public int MaxTriggerCount { get; }
-        public bool IsRefund { get; }
 
-        public AttributeBuffDescriptor(string Name, float Duration, float Interval, float WaitTime, uint TargetID, List<NpcAttrModifyInfo> ModifyList, int MaxTriggerCount, bool IsRefund)
-            : base(Name, Duration, Interval, WaitTime)
+        public AttributeBuffDescriptor(string Name, float Duration, float Interval, float WaitTime, bool IsRefund, NpcAttrModifyInfo Modify, int MaxTriggerCount)
+            : base(Name, Duration, Interval, WaitTime, IsRefund)
         {
-            this.TargetID = TargetID;
-            this.ModifyList = ModifyList;
+            this.Modify = Modify;
             this.MaxTriggerCount = MaxTriggerCount;
-            this.IsRefund = IsRefund;
         }
     }
 
     public class AttributeBuff : BaseBuff
     {
         private readonly uint TargetID_;
-        private readonly List<NpcAttrModifyInfo> ModifyList_;
-        private readonly int MaxTriggerCount_;
-        private readonly bool IsRefund_;
-        private int TotalTriggerCount_;
+        private readonly NpcAttrModifyInfo Modify_;
+        protected readonly int MaxTriggerCount_;
+        protected int CurTriggerCount_;
 
-        public AttributeBuff(AttributeBuffDescriptor Desc)
+        public AttributeBuff(AttributeBuffDescriptor Desc, uint TargetID)
             : base(BuffType.Attribute, Desc)
         {
-            this.TargetID_ = Desc.TargetID;
-            this.ModifyList_ = Desc.ModifyList;
+            this.TargetID_ = TargetID;
+            this.Modify_ = Desc.Modify;
             this.MaxTriggerCount_ = Desc.MaxTriggerCount;
-            this.IsRefund_ = Desc.IsRefund;
-            this.TotalTriggerCount_ = 0;
+            this.CurTriggerCount_ = 0;
         }
 
         protected override void OnAttach()
@@ -44,21 +38,20 @@ namespace LiteMore.Combat.Buff
 
         protected override void OnDetach()
         {
-            if (IsRefund_)
+            if (!IsRefund_)
             {
-                var Master = NpcManager.FindNpc(TargetID_);
-                if (Master == null || !Master.IsValid())
-                {
-                    return;
-                }
+                return;
+            }
 
-                for (var Index = 0; Index < TotalTriggerCount_; ++Index)
-                {
-                    foreach (var Modify in ModifyList_)
-                    {
-                        Master.Data.Attr.RestoreModify(Modify);
-                    }
-                }
+            var Master = NpcManager.FindNpc(TargetID_);
+            if (Master == null || !Master.IsValid())
+            {
+                return;
+            }
+
+            for (var Index = 0; Index < CurTriggerCount_; ++Index)
+            {
+                Master.Data.Attr.RestoreModify(Modify_);
             }
         }
 
@@ -70,16 +63,13 @@ namespace LiteMore.Combat.Buff
                 return;
             }
 
-            if (MaxTriggerCount_ > 0 && TotalTriggerCount_ >= MaxTriggerCount_)
+            if (MaxTriggerCount_ > 0 && CurTriggerCount_ >= MaxTriggerCount_)
             {
                 return;
             }
 
-            TotalTriggerCount_++;
-            foreach (var Modify in ModifyList_)
-            {
-                Master.Data.Attr.ApplyModify(Modify);
-            }
+            CurTriggerCount_++;
+            Master.Data.Attr.ApplyModify(Modify_);
         }
     }
 }
