@@ -65,10 +65,6 @@ namespace LiteMore.Core
             }
         }
 
-        public override void Tick(float DeltaTime)
-        {
-        }
-
         public T AddComponent<T>() where T : Component
         {
             return Transform_.gameObject.AddComponent<T>();

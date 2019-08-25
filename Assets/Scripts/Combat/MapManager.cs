@@ -42,7 +42,7 @@ namespace LiteMore.Combat
 
         public static void Shutdown()
         {
-            Object.Destroy(MapRoot_);
+            Object.Destroy(MapRoot_.gameObject);
 
             /*var Map = GameObject.Find("Map");
             for (var Index = Map.transform.childCount - 1; Index >=0; --Index)
@@ -55,6 +55,15 @@ namespace LiteMore.Combat
         {
         }
 
+        private static void SetSortingOrder(Transform Entity, int Order)
+        {
+            var Re = Entity.GetComponent<Renderer>();
+            if (Re != null)
+            {
+                Re.sortingOrder = Order;
+            }
+        }
+
         public static Transform AddToGroundLayer(Transform Entity)
         {
             if (Entity == null)
@@ -63,7 +72,7 @@ namespace LiteMore.Combat
             }
 
             Entity.SetParent(GroundRoot_, false);
-            Entity.GetComponent<SpriteRenderer>().sortingOrder = Configure.GroundOrder;
+            SetSortingOrder(Entity, Configure.GroundOrder);
             return Entity;
         }
 
@@ -75,7 +84,7 @@ namespace LiteMore.Combat
             }
 
             Entity.SetParent(NpcRoot_, false);
-            Entity.GetComponent<SpriteRenderer>().sortingOrder = Configure.NpcOrder;
+            SetSortingOrder(Entity, Configure.NpcOrder);
             return Entity;
         }
 
@@ -87,7 +96,7 @@ namespace LiteMore.Combat
             }
 
             Entity.SetParent(SkyRoot_, false);
-            Entity.GetComponent<SpriteRenderer>().sortingOrder = Configure.SkyOrder;
+            SetSortingOrder(Entity, Configure.SkyOrder);
             return Entity;
         }
 
@@ -99,13 +108,7 @@ namespace LiteMore.Combat
             }
 
             Entity.SetParent(SkyRoot_, false);
-
-            var SR = Entity.GetComponent<SpriteRenderer>();
-            if (SR != null)
-            {
-                SR.sortingOrder = Configure.TopOrder;
-            }
-
+            SetSortingOrder(Entity, Configure.TopOrder);
             return Entity;
         }
     }

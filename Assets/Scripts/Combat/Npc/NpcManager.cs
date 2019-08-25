@@ -109,18 +109,29 @@ namespace LiteMore.Combat.Npc
             };
         }
 
-        public static AINpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float[] InitAttr)
+        public static AINpc AddNpc(string Name, Vector2 Position, CombatTeam Team, float Scale, float[] InitAttr)
         {
-            var Obj = AssetManager.CreatePrefabSync("prefabs/npc/r2/r2.prefab");
+            // temp code, r1 or r2 role
+            var AtkRange = InitAttr[(int) NpcAttrIndex.AtkRange];
+
+            var Obj = AssetManager.CreatePrefabSync(AtkRange > 100 ? "prefabs/npc/r1/r1.prefab" : "prefabs/npc/r2/r2.prefab");
             MapManager.AddToNpcLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 
             var Entity = new AINpc(Name, Obj.transform, Team, InitAttr);
             NpcList_[(int)Team].Add(Entity);
             Entity.Position = Position;
+            Entity.Scale = new Vector2(Scale, Scale);
             Entity.GetBar().SetScale(0.5f);
 
-            Entity.Skill.AddNpcSkill(1001).Radius = CombatHelper.GetNpcAtkRange(Entity);
+            if (AtkRange > 100)
+            {
+                Entity.Skill.AddNpcSkill(1002).Radius = CombatHelper.GetNpcAtkRange(Entity);
+            }
+            else
+            {
+                Entity.Skill.AddNpcSkill(1001).Radius = CombatHelper.GetNpcAtkRange(Entity);
+            }
 
             EventManager.Send(new NpcAddEvent(Entity));
             return Entity;

@@ -51,7 +51,7 @@ namespace LiteMore.Combat.Npc
             this.Bar_.SetMaxMp(CalcFinalAttr(NpcAttrIndex.MaxMp));
             this.HitSfxInterval_ = 0;
 
-            Actor.RegisterMsg("Attack", 0.25f, CombatMsgCode.Atk);
+            Actor.RegisterMsg("Attack", 0.75f, CombatMsgCode.Atk);
             Actor.ChangeToIdleState();
         }
 
@@ -74,7 +74,6 @@ namespace LiteMore.Combat.Npc
 
             HitSfxInterval_--;
             Bar_.Tick(DeltaTime);
-            base.Tick(DeltaTime);
         }
 
         public override void Dispose()

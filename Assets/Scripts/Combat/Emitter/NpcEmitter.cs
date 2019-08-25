@@ -52,7 +52,7 @@ namespace LiteMore.Combat.Emitter
         {
             var Pos = Position + OffsetAttr.Get();
             var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, 0, 0, DamageAttr.Get(), GemAttr.Get(), 30, 30);
-            var Entity = NpcManager.AddNpc(Name, Pos, Team, InitAttr);
+            var Entity = NpcManager.AddNpc(Name, Pos, Team, 1, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
         }
     }
@@ -104,7 +104,7 @@ namespace LiteMore.Combat.Emitter
             var Pos = Position + new Vector2(Mathf.Sin(Angle) * Radius, Mathf.Cos(Angle) * Radius);
 
             var InitAttr = NpcManager.GenerateInitAttr(SpeedAttr.Get(), HpAttr.Get(), 0, 0, 0, DamageAttr.Get(), GemAttr.Get(), 30, 30);
-            var Entity = NpcManager.AddNpc(Name, Pos, Team, InitAttr);
+            var Entity = NpcManager.AddNpc(Name, Pos, Team, 1, InitAttr);
             //Entity.MoveTo(Configure.CoreBasePosition);
         }
     }

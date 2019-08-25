@@ -9,6 +9,7 @@ namespace LiteMore
     public class Main : MonoBehaviour
     {
         private GUIStyle Style_;
+        private GameLogic Logic_;
 
         void Awake()
         {
@@ -17,9 +18,11 @@ namespace LiteMore
 
             try
             {
+                Logic_ = new GameLogic();
+
                 LiteManager.Startup(this, () =>
                 {
-                    LogicManager.Attach(new GameLogic());
+                    LogicManager.Attach(Logic_);
                 });
             }
             catch (System.Exception Ex)
@@ -104,6 +107,11 @@ namespace LiteMore
             {
                 LiteManager.OnEnterForeground();
             }
+        }
+
+        void OnGUI()
+        {
+            Logic_?.OnGUI();
         }
 
 #if UNITY_EDITOR

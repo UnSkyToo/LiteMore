@@ -3,10 +3,14 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Label
 {
-    public class BaseLabel : GameEntity
+    public abstract class BaseLabel : GameEntity
     {
-        public BaseLabel(string Name, Transform Trans)
+        protected BaseLabel(string Name, Transform Trans)
             : base(Name, Trans)
+        {
+        }
+
+        public override void Tick(float DeltaTime)
         {
         }
     }

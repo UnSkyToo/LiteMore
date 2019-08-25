@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LiteFramework.Helper;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -107,12 +108,24 @@ namespace LiteFramework.Game.UI
 
         public override void OnPointerEnter(PointerEventData EventData)
         {
+            // 穿透问题
+            if (EventData.rawPointerPress != null && gameObject != EventData.rawPointerPress)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.Enter]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.Enter]?.Invoke();
         }
 
         public override void OnPointerExit(PointerEventData EventData)
         {
+            // 穿透问题
+            if (EventData.rawPointerPress != null && gameObject != EventData.rawPointerPress)
+            {
+                return;
+            }
+
             EventCallback_[(int)UIEventType.Exit]?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
             EventCallbackEx_[(int)UIEventType.Exit]?.Invoke();
         }

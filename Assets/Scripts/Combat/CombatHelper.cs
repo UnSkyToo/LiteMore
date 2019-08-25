@@ -33,7 +33,14 @@ namespace LiteMore.Combat
         /// </summary>
         public static float GetNpcAtkRange(BaseNpc Master)
         {
-            return Master.CalcFinalAttr(NpcAttrIndex.AtkRange) * Master.Scale.x;
+            var AtkRange = Master.CalcFinalAttr(NpcAttrIndex.AtkRange);
+
+            if (AtkRange < 50)
+            {
+                return AtkRange * Master.Scale.x;
+            }
+
+            return AtkRange;
         }
 
         /// <summary>

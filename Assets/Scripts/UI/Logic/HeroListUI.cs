@@ -101,7 +101,11 @@ namespace LiteMore.UI.Logic
                     AssetManager.CreateAssetSync<Sprite>("textures/build.png");
             }
 
-            UIHelper.AddEvent(Obj.transform, () => { SetCurrent(Npc); });
+            //UIHelper.AddEvent(Obj.transform, () => { SetCurrent(Npc); });
+            Obj.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                SetCurrent(Npc);
+            });
 
             return Obj;
         }
@@ -110,7 +114,11 @@ namespace LiteMore.UI.Logic
         {
             if (Current_ != null)
             {
-                if (Current_.ID == PlayerManager.Master.ID)
+                if (Current_.ID == Npc.ID)
+                {
+                    return;
+                }
+                else if (Current_.ID == PlayerManager.Master.ID)
                 {
                     UIManager.CloseUI<MainOperatorUI>();
                 }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteMore.Combat.Npc;
-using LiteMore.Combat.Skill;
 
 namespace LiteMore.Combat.AI.Filter
 {
     public static class FilterTeam
     {
-        private static readonly Dictionary<FilterTeamType, Func<BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<FilterTeamType, Func<BaseSkill, List<BaseNpc>>>
+        private static readonly Dictionary<FilterTeamType, Func<FilterArgs, List<BaseNpc>>> FuncList_ = new Dictionary<FilterTeamType, Func<FilterArgs, List<BaseNpc>>>
         {
             {FilterTeamType.Self, Find_Self},
             {FilterTeamType.Team, Find_Team},
@@ -17,9 +16,9 @@ namespace LiteMore.Combat.AI.Filter
             {FilterTeamType.Attacker, Find_Attacker},
         };
 
-        public static List<BaseNpc> Find(BaseSkill Skill, FilterTeamType Type)
+        public static List<BaseNpc> Find(FilterTeamType Type, FilterArgs Args)
         {
-            var NpcList = FuncList_[Type].Invoke(Skill);
+            var NpcList = FuncList_[Type].Invoke(Args);
             var Result = new List<BaseNpc>();
 
             foreach (var Npc in NpcList)
@@ -33,44 +32,44 @@ namespace LiteMore.Combat.AI.Filter
             return Result;
         }
 
-        private static List<BaseNpc> Find_Self(BaseSkill Skill)
+        private static List<BaseNpc> Find_Self(FilterArgs Args)
         {
             return new List<BaseNpc>
             {
-                Skill.Master
+                Args.Master
             };
         }
 
-        private static List<BaseNpc> Find_Team(BaseSkill Skill)
+        private static List<BaseNpc> Find_Team(FilterArgs Args)
         {
-            return NpcManager.GetNpcList(Skill.Master.Team);
+            return NpcManager.GetNpcList(Args.Team);
         }
 
-        private static List<BaseNpc> Find_TeamExceptSelf(BaseSkill Skill)
+        private static List<BaseNpc> Find_TeamExceptSelf(FilterArgs Args)
         {
-            var Result = Find_Team(Skill);
-            Result.Remove(Skill.Master);
+            var Result = Find_Team(Args);
+            Result.Remove(Args.Master);
             return Result;
         }
 
-        private static List<BaseNpc> Find_Enemy(BaseSkill Skill)
+        private static List<BaseNpc> Find_Enemy(FilterArgs Args)
         {
-            return NpcManager.GetNpcList(Skill.Master.Team.Opposite());
+            return NpcManager.GetNpcList(Args.Team.Opposite());
         }
 
-        private static List<BaseNpc> Find_All(BaseSkill Skill)
+        private static List<BaseNpc> Find_All(FilterArgs Args)
         {
-            var Result = Find_Team(Skill);
-            Result.AddRange(Find_Enemy(Skill));
+            var Result = Find_Team(Args);
+            Result.AddRange(Find_Enemy(Args));
             return Result;
         }
 
-        private static List<BaseNpc> Find_Attacker(BaseSkill Skill)
+        private static List<BaseNpc> Find_Attacker(FilterArgs Args)
         {
             var Result = new List<BaseNpc>();
-            if (Skill.Master.Action.IsValidAttacker())
+            if (Args.Master.Action.IsValidAttacker())
             {
-                Result.Add(Skill.Master);
+                Result.Add(Args.Master);
             }
             return Result;
         }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteMore.Combat.Npc;
-using LiteMore.Combat.Skill;
 using UnityEngine;
 
 namespace LiteMore.Combat.AI.Filter
 {
     public static class FilterNpc
     {
-        private static readonly Dictionary<FilterNpcType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>> FuncList_ = new Dictionary<FilterNpcType, Func<List<BaseNpc>, BaseSkill, List<BaseNpc>>>
+        private static readonly Dictionary<FilterNpcType, Func<List<BaseNpc>, FilterArgs, List<BaseNpc>>> FuncList_ = new Dictionary<FilterNpcType, Func<List<BaseNpc>, FilterArgs, List<BaseNpc>>>
         {
             {FilterNpcType.All, Find_All},
             {FilterNpcType.Nearest, Find_Nearest},
@@ -23,24 +22,24 @@ namespace LiteMore.Combat.AI.Filter
             {FilterNpcType.Random, Find_Random},
         };
 
-        public static List<BaseNpc> Find(List<BaseNpc> List, BaseSkill Skill, FilterNpcType Type)
+        public static List<BaseNpc> Find(List<BaseNpc> List, FilterNpcType Type, FilterArgs Args)
         {
-            return FuncList_[Type].Invoke(List, Skill);
+            return FuncList_[Type].Invoke(List, Args);
         }
 
-        private static List<BaseNpc> Find_All(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_All(List<BaseNpc> List, FilterArgs Args)
         {
             return List;
         }
 
-        private static List<BaseNpc> Find_Nearest(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_Nearest(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
 
             foreach (var Npc in List)
             {
-                var Dist = Vector2.Distance(Skill.Master.Position, Npc.Position);
+                var Dist = Vector2.Distance(Args.Position, Npc.Position);
                 if (Dist < Value)
                 {
                     Value = Dist;
@@ -51,7 +50,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> {Target};
         }
 
-        private static List<BaseNpc> Find_CurHpMinimum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_CurHpMinimum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -69,7 +68,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_CurHpMaximum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_CurHpMaximum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -87,7 +86,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_MaxHpMinimum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_MaxHpMinimum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -105,7 +104,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_MaxHpMaximum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_MaxHpMaximum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -123,7 +122,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_HpPercentMinimum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_HpPercentMinimum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -141,7 +140,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_HpPercentMaximum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_HpPercentMaximum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -159,7 +158,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_DamageMinimum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_DamageMinimum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MaxValue;
             BaseNpc Target = null;
@@ -177,7 +176,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_DamageMaximum(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_DamageMaximum(List<BaseNpc> List, FilterArgs Args)
         {
             var Value = float.MinValue;
             BaseNpc Target = null;
@@ -195,7 +194,7 @@ namespace LiteMore.Combat.AI.Filter
             return Target == null ? new List<BaseNpc>() : new List<BaseNpc> { Target };
         }
 
-        private static List<BaseNpc> Find_Random(List<BaseNpc> List, BaseSkill Skill)
+        private static List<BaseNpc> Find_Random(List<BaseNpc> List, FilterArgs Args)
         {
             if (List.Count == 0)
             {

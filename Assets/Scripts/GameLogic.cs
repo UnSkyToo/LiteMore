@@ -1,10 +1,14 @@
 ﻿using LiteFramework;
+using LiteFramework.Core.Async.Timer;
 using LiteFramework.Core.Log;
 using LiteFramework.Game.Audio;
 using LiteFramework.Game.Logic;
 using LiteFramework.Game.UI;
+using LiteFramework.Helper;
 using LiteMore.Cache;
 using LiteMore.Combat;
+using LiteMore.Combat.AI.Filter;
+using LiteMore.Combat.Bullet;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
 using LiteMore.Combat.Wave;
@@ -69,7 +73,11 @@ namespace LiteMore
             PlayerManager.Tick(DeltaTime);
         }
 
-        private static void TestSkill()
+        public void OnGUI()
+        {
+        }
+
+        private void TestSkill()
         {
             PlayerManager.Master.Skill.AddNpcSkill(2001);
             PlayerManager.Master.Skill.AddNpcSkill(2002);
@@ -79,11 +87,10 @@ namespace LiteMore
             PlayerManager.Master.Skill.AddNpcSkill(2006);
             PlayerManager.Master.Skill.AddNpcSkill(2007);
             PlayerManager.Master.Skill.AddNpcSkill(2008);
-
-            NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2, 0), CombatTeam.B,
-                NpcManager.GenerateInitAttr(100, 10000, 10, 0, 0, 100, 1, 30, 30)).Scale = new Vector2(3, 3);
-
+            PlayerManager.Master.Skill.AddNpcSkill(2012);
             PlayerManager.Master.Skill.AddPassiveSkill(3005, -1, true);
+
+            NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2.0f, 0), CombatTeam.B, 3, NpcManager.GenerateInitAttr(50, 1000, 10, 0, 0, 5, 1, 30, 30));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using LiteFramework.Core.Base;
+using UnityEngine;
 
 namespace LiteFramework.Core.Async.Timer
 {
@@ -40,6 +41,12 @@ namespace LiteFramework.Core.Async.Timer
             return NewTimer;
         }
 
+        public static TimerEntity AddTimer(float Interval, Action OnTick, float TotalTime)
+        {
+            Interval = Mathf.Max(Interval, 0.0001f);
+            return AddTimer(Interval, OnTick, (int)(TotalTime / Interval));
+        }
+
         public static TimerEntity AddTimer(float Interval, Action OnTick, Action OnEnd, int Count = -1)
         {
             var NewTimer = new TimerEntity(Interval, Count);
@@ -49,9 +56,27 @@ namespace LiteFramework.Core.Async.Timer
             return NewTimer;
         }
 
+        public static TimerEntity AddTimer(float Interval, Action OnTick, Action OnEnd, float TotalTime)
+        {
+            Interval = Mathf.Max(Interval, 0.0001f);
+            return AddTimer(Interval, OnTick, OnEnd, (int)(TotalTime / Interval));
+        }
+
         public static void StopTimer(TimerEntity Entity)
         {
             Entity?.Stop();
+        }
+
+        public static void StopTimer(uint ID)
+        {
+            foreach (var Entity in TimerList_)
+            {
+                if (Entity.ID == ID)
+                {
+                    StopTimer(Entity);
+                    return;
+                }
+            }
         }
     }
 }

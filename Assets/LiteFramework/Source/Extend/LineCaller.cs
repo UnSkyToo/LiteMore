@@ -12,14 +12,14 @@ namespace LiteFramework.Extend
         {
             this.Position = Position;
             this.Color = Color.white;
-            this.Width = 1.0f;
+            this.Width = 0.01f;
         }
 
         public LineCallerPoint(Vector2 Position, Color Color)
         {
             this.Position = Position;
             this.Color = Color;
-            this.Width = 1.0f;
+            this.Width = 0.01f;
         }
 
         public LineCallerPoint(Vector2 Position, Color Color, float Width)

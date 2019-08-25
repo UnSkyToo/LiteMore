@@ -17,7 +17,7 @@ namespace LiteMore.Combat.Bullet
             BulletPool_.Add(BulletType.Laser, ObjectPoolManager.CreateGameObjectPool("LaserBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletLaser.prefab")));
             BulletPool_.Add(BulletType.Bomb, ObjectPoolManager.CreateGameObjectPool("BombBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletBomb.prefab")));
             BulletPool_.Add(BulletType.Back, ObjectPoolManager.CreateGameObjectPool("BackBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletBack.prefab")));
-            BulletPool_.Add(BulletType.Trigger, ObjectPoolManager.CreateGameObjectPool("TriggerBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletTrigger.prefab")));
+            BulletPool_.Add(BulletType.Arrow, ObjectPoolManager.CreateGameObjectPool("ArrowBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletArrow.prefab")));
 
             BulletList_.Clear();
 
@@ -103,6 +103,16 @@ namespace LiteMore.Combat.Bullet
             var Obj = CreateBullet(BulletType.Back, Desc.BaseBulletDesc.Position);
 
             var Entity = new BackBullet(Obj.transform, Desc);
+            BulletList_.Add(Entity);
+
+            return Entity;
+        }
+
+        public static ArrowBullet AddArrowBullet(ArrowBulletDescriptor Desc)
+        {
+            var Obj = CreateBullet(BulletType.Arrow, Desc.BaseBulletDesc.Position);
+
+            var Entity = new ArrowBullet(Obj.transform, Desc);
             BulletList_.Add(Entity);
 
             return Entity;

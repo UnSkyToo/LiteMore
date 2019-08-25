@@ -3,15 +3,6 @@ using UnityEngine;
 
 namespace LiteMore.Combat.Bullet
 {
-    public enum BulletType : byte
-    {
-        Track,
-        Laser,
-        Bomb,
-        Back,
-        Trigger,
-    }
-
     public struct BaseBulletDescriptor
     {
         public string Name { get; }
@@ -51,6 +42,10 @@ namespace LiteMore.Combat.Bullet
         public override void Dispose()
         {
             BulletManager.DisposeBullet(this);
+        }
+
+        public override void Tick(float DeltaTime)
+        {
         }
     }
 }

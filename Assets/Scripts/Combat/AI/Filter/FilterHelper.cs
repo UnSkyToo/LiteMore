@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteMore.Combat.Npc;
+using LiteMore.Combat.Shape;
 using LiteMore.Combat.Skill;
 using UnityEngine;
 
@@ -23,13 +24,23 @@ namespace LiteMore.Combat.AI.Filter
         public static readonly FilterRule Nearest = new FilterRule(FilterTeamType.Enemy, FilterRangeType.All, FilterNpcType.Nearest);
     }
 
+    public class FilterArgs
+    {
+        public BaseNpc Master { get; set; }
+        public CombatTeam Team { get; set; }
+        public Vector2 Position { get; set; }
+        public float Radius { get; set; }
+        public BaseShape Shape { get; set; }
+        public Quaternion Rotation { get; set; }
+    }
+
     public static class FilterHelper
     {
-        public static List<BaseNpc> Find(BaseSkill Skill, FilterRule Rule)
+        public static List<BaseNpc> Find(FilterRule Rule, FilterArgs Args)
         {
-            var List = FilterTeam.Find(Skill, Rule.TeamType);
-            List = FilterRange.Find(List, Skill, Rule.RangeType);
-            return FilterNpc.Find(List, Skill, Rule.NpcType);
+            var List = FilterTeam.Find(Rule.TeamType, Args);
+            List = FilterRange.Find(List, Rule.RangeType, Args);
+            return FilterNpc.Find(List, Rule.NpcType, Args);
         }
 
         public static BaseNpc FindNearest(BaseNpc Master)

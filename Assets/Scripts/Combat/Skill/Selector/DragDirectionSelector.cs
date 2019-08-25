@@ -22,7 +22,7 @@ namespace LiteMore.Combat.Skill.Selector
         protected override void OnBindCarrier()
         {
             base.OnBindCarrier();
-            Master_ = Args_.Skill.Master;
+            Master_ = Args_.Master;
         }
 
         public override void Tick(float DeltaTime)

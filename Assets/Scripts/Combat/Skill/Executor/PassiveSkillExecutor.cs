@@ -32,7 +32,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         private void OnNpcDamageEvent(NpcDamageEvent Event)
         {
-            if (Event.Master.ID != Args_.Skill.Master.ID)
+            if (Event.Master.ID != Args_.Master.ID)
             {
                 return;
             }
@@ -43,8 +43,8 @@ namespace LiteMore.Combat.Skill.Executor
                 return;
             }
 
-            var Level = Args_.Skill.Master.Skill.GetSkillLevel(Args_.Skill.SkillID);
-            Attacker.OnHitDamage(Args_.Skill.Master, Args_.Skill.Name, Event.RealValue * Level * 0.5f);
+            var Level = Args_.Master.Skill.GetSkillLevel(Args_.Skill.SkillID);
+            Attacker.OnHitDamage(Args_.Master, Args_.Skill.Name, Event.RealValue * Level * 0.5f);
         }
     }
 
@@ -57,7 +57,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Handler_ = new SkillExecutor3002_NpcHandler(100, Args.Skill.SkillID, Args.Skill.Master);
+            Handler_ = new SkillExecutor3002_NpcHandler(100, Args.Skill.SkillID, Args.Master);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
@@ -101,7 +101,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Handler_ = new SkillExecutor3003_NpcHandler(0, Args.Skill.SkillID, Args.Skill.Master);
+            Handler_ = new SkillExecutor3003_NpcHandler(0, Args.Skill.SkillID, Args.Master);
             PlayerManager.Master.RegisterHandler(Handler_);
             return true;
         }
@@ -146,7 +146,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args.Skill.Master;
+            Master_ = Args.Master;
             SkillID_ = Args.Skill.SkillID;
             var Level = Master_.Skill.GetSkillLevel(SkillID_);
             Master_.Data.Attr.ApplyBase(NpcAttrIndex.AddHp, Level * 10);
@@ -170,7 +170,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args.Skill.Master;
+            Master_ = Args.Master;
             SkillID_ = Args.Skill.SkillID;
             var Level = Master_.Skill.GetSkillLevel(SkillID_);
             Master_.Data.Attr.ApplyBase(NpcAttrIndex.AddMp, Level * 10);
@@ -194,7 +194,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args.Skill.Master;
+            Master_ = Args.Master;
             SkillID_ = Args.Skill.SkillID;
             EventManager.Register<NpcSkillEvent>(OnNpcSkillEvent);
             return true;
@@ -230,7 +230,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Master_ = Args.Skill.Master;
+            Master_ = Args.Master;
             SkillID_ = Args.Skill.SkillID;
             EventManager.Register<NpcSkillEvent>(OnNpcSkillEvent);
             return true;
@@ -260,7 +260,7 @@ namespace LiteMore.Combat.Skill.Executor
 
         public override bool Execute(SkillArgs Args)
         {
-            Level_ = Args.Skill.Master.Skill.GetSkillLevel(Args.Skill.SkillID);
+            Level_ = Args.Master.Skill.GetSkillLevel(Args.Skill.SkillID);
             CombatManager.Calculator.AddGlobalPercent(0.05f * Level_);
             return true;
         }

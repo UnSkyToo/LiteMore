@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Async.Timer;
 using LiteFramework.Helper;
 using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Buff;
@@ -101,7 +102,7 @@ namespace LiteMore.Combat.Skill.Executor
         public override bool Execute(SkillArgs Args)
         {
             var BulletDesc = new BackBulletDescriptor(
-                new BaseBulletDescriptor(Args.Skill.Name, Args.Skill.Master.Position, CombatTeam.A, 1),
+                new BaseBulletDescriptor(Args.Skill.Name, Args.Master.Position, CombatTeam.A, 1),
                 Args.Direction, Configure.WindowWidth,
                 new Vector2(400, 82),
                 200);
@@ -119,7 +120,8 @@ namespace LiteMore.Combat.Skill.Executor
         public override bool Execute(SkillArgs Args)
         {
             BuffManager.AddBuff(new TriggerBuff(new TriggerBuffDescriptor(Args.Skill.Name, 5, 0.5f, 0, true,
-                    new NpcAttrModifyInfo(NpcAttrIndex.Speed, 0.5f, 0), Args.Skill.Radius, 1), Args.Position, Args.Skill.Master.Team.Opposite()));
+                new NpcAttrModifyInfo(NpcAttrIndex.Speed, 0.5f, 0), Args.Skill.Radius, 1),
+                Args.Position, Args.Master.Team.Opposite()));
 
             return true;
         }
@@ -132,9 +134,10 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition, CombatTeam.A,
-                NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 50, 0, 30, 30));
-            Npc.Scale = new Vector2(2, 2);
+            var Offset = UnityHelper.RandVec2(100);
+
+            var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition + Offset, CombatTeam.A, 2,
+                NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 10, 0, 30, 30));
             Npc.Skill.AddNpcSkill(2006); // 减速陷阱-主动
             Npc.Skill.AddNpcSkill(2009); // 嘲讽-主动
             Npc.Skill.AddNpcSkill(2010); // 分身-主动
@@ -172,13 +175,22 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var Master = Args.Skill.Master;
+            var Master = Args.Master;
             if (Master == null)
             {
                 return false;
             }
 
-            var TargetList = FilterHelper.Find(Args.Skill, Args.LockRule);
+            var TargetList = FilterHelper.Find(Args.LockRule, new FilterArgs()
+            {
+                Master = Master,
+                Team = Master.Team,
+                Position = Master.Position,
+                Radius = Args.Skill.Radius,
+                Rotation = Master.Rotation,
+                Shape = Args.Skill.Shape
+            });
+
             foreach (var Target in TargetList)
             {
                 if (!Target.IsValid())
@@ -200,15 +212,52 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var Master = Args.Skill.Master;
+            var Master = Args.Master;
             if (Master == null)
             {
                 return false;
             }
 
-            var Slave = NpcManager.AddNpc($"{Master.Name}_clone", Master.Position + UnityHelper.RandVec2(100), Master.Team, Master.Data.Attr.GetValues());
-            Slave.Scale = Master.Scale;
+            var Slave = NpcManager.AddNpc($"{Master.Name}_clone", Master.Position + UnityHelper.RandVec2(100), Master.Team, Master.Scale.x, Master.Data.Attr.GetValues());
             Slave.Actor.SetDirection(Master.Actor.Direction);
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// 箭雨
+    /// </summary>
+    public class SkillExecutor_2011 : BaseExecutor
+    {
+        public override bool Execute(SkillArgs Args)
+        {
+            var Level = Args.Master.Skill.GetSkillLevel(Args.Skill.SkillID);
+
+            TimerManager.AddTimer(0.05f, () =>
+            {
+                var Pos = Args.Position + UnityHelper.RandVec2(Args.Skill.Radius);
+                BulletManager.AddArrowBullet(
+                    new ArrowBulletDescriptor(
+                        new BaseBulletDescriptor(Args.Skill.Name, Args.Master.Position, Args.Master.Team, Level),
+                        Pos, 1000, new Color(0.5f, 0.3f, 0.4f)));
+            }, 5.0f);
+
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// 召唤弓箭手
+    /// </summary>
+    public class SkillExecutor_2012 : BaseExecutor
+    {
+        public override bool Execute(SkillArgs Args)
+        {
+            var Offset = UnityHelper.RandVec2(100);
+
+            var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition + Offset, CombatTeam.A, 2,
+                NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 1, 0, 500, 30));
+            //Npc.Skill.AddNpcSkill(2011); // 箭雨-主动
             return true;
         }
     }
