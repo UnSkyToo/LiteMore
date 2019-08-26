@@ -46,7 +46,7 @@ namespace LiteMore.Combat.Skill
             SkillList_.Clear();
 
             Add(1001, SkillType.Attack, "近战普攻", "attack1", 0.5f, 0, 0, 0, new FilterRule(FilterTeamType.Enemy, FilterRangeType.InDistance, FilterNpcType.Nearest), new SkillExecutor_1001(), new ClickSelector());
-            Add(1002, SkillType.Attack, "弓箭普攻", "attack1", 0.5f, 0, 0, 0, new FilterRule(FilterTeamType.Enemy, FilterRangeType.InDistance, FilterNpcType.Nearest), new SkillExecutor_1002(), new ClickSelector());
+            Add(1002, SkillType.Attack, "弓箭普攻", "attack2", 0.5f, 0, 0, 0, new FilterRule(FilterTeamType.Enemy, FilterRangeType.InDistance, FilterNpcType.Nearest), new SkillExecutor_1002(), new ClickSelector());
 
 
             Add(2001, SkillType.Normal, "镭射激光", "skill1", 5, 30, 0, 1, FilterRule.All, new SkillExecutor_2001(), new ClickSelector());
@@ -59,8 +59,8 @@ namespace LiteMore.Combat.Skill
             Add(2008, SkillType.Normal, "持续子弹", "skill8", 0.1f, 2, 0, 1, FilterRule.Nearest, new SkillExecutor_2008(), new PressedSelector());
             Add(2009, SkillType.Normal, "嘲讽", "skill9", 5, 30, 300, 1, new FilterRule(FilterTeamType.Enemy, FilterRangeType.InDistance, FilterNpcType.All), new SkillExecutor_2009(), new ClickSelector());
             Add(2010, SkillType.Normal, "影分身", "skill10", 10, 30, 0, 2, FilterRule.All, new SkillExecutor_2010(), new ClickSelector());
-            Add(2011, SkillType.Normal, "箭雨", "skill1", 10, 30, 100, 1, FilterRule.All, new SkillExecutor_2011(), new DragPositionSelector("prefabs/bv0.prefab"));
-            Add(2012, SkillType.Normal, "召唤弓箭手", "skill1", 1, 10, 0, 1, FilterRule.All, new SkillExecutor_2012(), new ClickSelector());
+            Add(2011, SkillType.Normal, "箭雨", "skill11", 10, 30, 100, 1, FilterRule.All, new SkillExecutor_2011(), new DragPositionSelector("prefabs/bv0.prefab"));
+            Add(2012, SkillType.Normal, "召唤弓箭手", "skill12", 1, 10, 0, 1, FilterRule.All, new SkillExecutor_2012(), new ClickSelector());
 
             AddPassive(3001, "荆棘", FilterRule.Self, new SkillExecutor_3001());
             AddPassive(3002, "铠甲", FilterRule.Self, new SkillExecutor_3002());

@@ -126,6 +126,11 @@ namespace LiteMore.UI.Logic
                 {
                     UIManager.CloseUI<JoystickUI>();
                 }
+
+                if (Current_ is AINpc AIO)
+                {
+                    AIO.EnableAI(true);
+                }
             }
 
             Current_ = Npc;
@@ -144,6 +149,12 @@ namespace LiteMore.UI.Logic
             {
                 var UI = UIManager.OpenUI<JoystickUI>();
                 UI.BindMaster(Current_);
+            }
+
+            if (Current_ is AINpc AIN)
+            {
+                AIN.EnableAI(false);
+                AIN.Actor.ChangeToIdleState();
             }
         }
     }

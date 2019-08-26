@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1577627952
+CRC: 3421061404
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 60684be7c656c6f40348504ebf9aa509
+    Hash: d19640ea8385825b04cd911de693ed1b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 51e082e0be1153ff8d14f0299448ed68
+    Hash: a726291b25a2827bab2fb53d20f5b010
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -21,19 +21,9 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 95
   Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-- Class: 114
-  Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-- Class: 115
-  Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
-  Script: {instanceID: 0}
-- Class: 222
-  Script: {instanceID: 0}
-- Class: 224
   Script: {instanceID: 0}
 - Class: 225
   Script: {instanceID: 0}
@@ -42,4 +32,3 @@ Assets:
 Dependencies:
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2.controller
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png

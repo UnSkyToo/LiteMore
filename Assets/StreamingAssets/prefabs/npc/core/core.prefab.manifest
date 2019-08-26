@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2854323061
+CRC: 798669559
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e5f4d79d43790b6afd60414cf1c50546
+    Hash: 20cb3f762c883eeeb857049a668dfce4
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9f534d51acd39c7d68c7d681985cd6ea
+    Hash: 2495b201d674e914a98a58ad8df6283a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -21,25 +21,12 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 95
   Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-- Class: 114
-  Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-- Class: 115
-  Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-- Class: 222
-  Script: {instanceID: 0}
-- Class: 224
-  Script: {instanceID: 0}
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/Core/Core.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/hpbar.prefab
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/mpbar.prefab
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core.controller
 - E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/build.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png

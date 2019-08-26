@@ -187,7 +187,7 @@ namespace LiteMore.Combat.Npc
 
         public bool IsValid()
         {
-            return IsAlive && !Actor.IsFsmState(FsmStateName.Die) && CalcFinalAttr(NpcAttrIndex.Hp) > 0;
+            return Action.CanLocked();
         }
 
         public void OnHitDamage(BaseNpc Attacker, string SourceName, float Damage)

@@ -256,8 +256,8 @@ namespace LiteMore.Combat.Skill.Executor
             var Offset = UnityHelper.RandVec2(100);
 
             var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition + Offset, CombatTeam.A, 2,
-                NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 1, 0, 500, 30));
-            //Npc.Skill.AddNpcSkill(2011); // 箭雨-主动
+                NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 2, 0, 500, 30));
+            Npc.Skill.AddNpcSkill(2011); // 箭雨-主动
             return true;
         }
     }

@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3990031833
+CRC: 2454631682
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -89,55 +89,47 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: textures/bullet.png
     Info_22:
-      Name: prefabs/bullet/bullettrigger.prefab
-      Dependencies:
-        Dependency_0: textures/bv0.png
-    Info_23:
       Name: prefabs/npc/core/core.controller
       Dependencies:
         Dependency_0: prefabs/npc/core/core_idle.anim
-    Info_24:
+    Info_23:
       Name: prefabs/npc/core/core.prefab
       Dependencies:
-        Dependency_0: prefabs/hpbar.prefab
-        Dependency_1: prefabs/mpbar.prefab
-        Dependency_2: prefabs/npc/core/core.controller
-        Dependency_3: textures/build.png
-        Dependency_4: textures/ui.png
-    Info_25:
+        Dependency_0: prefabs/npc/core/core.controller
+        Dependency_1: textures/build.png
+    Info_24:
       Name: prefabs/npc/core/core_idle.anim
       Dependencies:
         Dependency_0: textures/build.png
-    Info_26:
+    Info_25:
       Name: prefabs/npc/r2/r2.controller
       Dependencies:
         Dependency_0: prefabs/npc/r2/r2_attack.anim
         Dependency_1: prefabs/npc/r2/r2_die.anim
         Dependency_2: prefabs/npc/r2/r2_idle.anim
         Dependency_3: prefabs/npc/r2/r2_walk.anim
-    Info_27:
+    Info_26:
       Name: prefabs/npc/r2/r2.prefab
       Dependencies:
         Dependency_0: prefabs/npc/r2/r2.controller
         Dependency_1: textures/r2.png
-        Dependency_2: textures/ui.png
-    Info_28:
+    Info_27:
       Name: prefabs/npc/r2/r2_attack.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_29:
+    Info_28:
       Name: prefabs/npc/r2/r2_die.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_30:
+    Info_29:
       Name: prefabs/npc/r2/r2_idle.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_31:
+    Info_30:
       Name: prefabs/npc/r2/r2_walk.anim
       Dependencies:
         Dependency_0: textures/r2.png
-    Info_32:
+    Info_31:
       Name: prefabs/sfx/bombsfx.anim
       Dependencies:
         Dependency_0: textures/bomb/bomb_0.png
@@ -149,306 +141,306 @@ AssetBundleManifest:
         Dependency_6: textures/bomb/bomb_6.png
         Dependency_7: textures/bomb/bomb_7.png
         Dependency_8: textures/bomb/bomb_8.png
-    Info_33:
+    Info_32:
       Name: prefabs/sfx/bombsfx.controller
       Dependencies:
         Dependency_0: prefabs/sfx/bombsfx.anim
-    Info_34:
+    Info_33:
       Name: prefabs/sfx/bombsfx.prefab
       Dependencies:
         Dependency_0: prefabs/sfx/bombsfx.controller
         Dependency_1: textures/bomb/bomb_0.png
-    Info_35:
+    Info_34:
       Name: prefabs/sfx/goldsfx.anim
       Dependencies:
         Dependency_0: textures/item.png
-    Info_36:
+    Info_35:
       Name: prefabs/sfx/goldsfx.controller
       Dependencies:
         Dependency_0: prefabs/sfx/goldsfx.anim
-    Info_37:
+    Info_36:
       Name: prefabs/sfx/goldsfx.prefab
       Dependencies:
         Dependency_0: prefabs/sfx/goldsfx.controller
         Dependency_1: textures/item.png
-    Info_38:
+    Info_37:
       Name: prefabs/sfx/hitsfx.anim
       Dependencies:
         Dependency_0: textures/sfx.png
-    Info_39:
+    Info_38:
       Name: prefabs/sfx/hitsfx.controller
       Dependencies:
         Dependency_0: prefabs/sfx/hitsfx.anim
-    Info_40:
+    Info_39:
       Name: prefabs/sfx/hitsfx.prefab
       Dependencies:
         Dependency_0: prefabs/sfx/hitsfx.controller
         Dependency_1: textures/sfx.png
-    Info_41:
+    Info_40:
       Name: textures/backbullet.png
       Dependencies: {}
-    Info_42:
+    Info_41:
       Name: textures/bossair1.png
       Dependencies: {}
-    Info_43:
+    Info_42:
       Name: textures/build.png
       Dependencies: {}
-    Info_44:
+    Info_43:
       Name: textures/bullet.png
       Dependencies: {}
-    Info_45:
+    Info_44:
       Name: textures/button.png
       Dependencies: {}
-    Info_46:
+    Info_45:
       Name: textures/bv0.png
       Dependencies: {}
-    Info_47:
+    Info_46:
       Name: textures/bv1.png
       Dependencies: {}
-    Info_48:
+    Info_47:
       Name: textures/item.png
       Dependencies: {}
-    Info_49:
+    Info_48:
       Name: textures/joystick_bg.png
       Dependencies: {}
-    Info_50:
+    Info_49:
       Name: textures/joystick_gab.png
       Dependencies: {}
-    Info_51:
+    Info_50:
       Name: textures/m.png
       Dependencies: {}
-    Info_52:
+    Info_51:
       Name: textures/r2.png
       Dependencies: {}
-    Info_53:
+    Info_52:
       Name: textures/sfx.png
       Dependencies: {}
-    Info_54:
+    Info_53:
       Name: textures/ui.png
       Dependencies: {}
-    Info_55:
+    Info_54:
       Name: textures/atals/frm_pinzhi_bai.png
       Dependencies: {}
-    Info_56:
+    Info_55:
       Name: textures/atals/frm_pinzhi_cheng.png
       Dependencies: {}
-    Info_57:
+    Info_56:
       Name: textures/atals/frm_pinzhi_di_bai.png
       Dependencies: {}
-    Info_58:
+    Info_57:
       Name: textures/atals/frm_pinzhi_di_cheng.png
       Dependencies: {}
-    Info_59:
+    Info_58:
       Name: textures/atals/frm_pinzhi_di_lan.png
       Dependencies: {}
-    Info_60:
+    Info_59:
       Name: textures/atals/frm_pinzhi_di_lv.png
       Dependencies: {}
-    Info_61:
+    Info_60:
       Name: textures/atals/frm_pinzhi_di_tongyong.png
       Dependencies: {}
-    Info_62:
+    Info_61:
       Name: textures/atals/frm_pinzhi_di_zi.png
       Dependencies: {}
-    Info_63:
+    Info_62:
       Name: textures/atals/frm_pinzhi_lan.png
       Dependencies: {}
-    Info_64:
+    Info_63:
       Name: textures/atals/frm_pinzhi_lv.png
       Dependencies: {}
-    Info_65:
+    Info_64:
       Name: textures/atals/frm_pinzhi_tongyong.png
       Dependencies: {}
-    Info_66:
+    Info_65:
       Name: textures/atals/frm_pinzhi_yuanxing_baisedi.png
       Dependencies: {}
-    Info_67:
+    Info_66:
       Name: textures/atals/frm_pinzhi_yuanxing_baisekuang.png
       Dependencies: {}
-    Info_68:
+    Info_67:
       Name: textures/atals/frm_pinzhi_yuanxing_chengsedi.png
       Dependencies: {}
-    Info_69:
+    Info_68:
       Name: textures/atals/frm_pinzhi_yuanxing_chengsekuang.png
       Dependencies: {}
-    Info_70:
+    Info_69:
       Name: textures/atals/frm_pinzhi_yuanxing_lansedi.png
       Dependencies: {}
-    Info_71:
+    Info_70:
       Name: textures/atals/frm_pinzhi_yuanxing_lansekuang.png
       Dependencies: {}
-    Info_72:
+    Info_71:
       Name: textures/atals/frm_pinzhi_yuanxing_lvsedi.png
       Dependencies: {}
-    Info_73:
+    Info_72:
       Name: textures/atals/frm_pinzhi_yuanxing_lvsekuang.png
       Dependencies: {}
-    Info_74:
+    Info_73:
       Name: textures/atals/frm_pinzhi_yuanxing_wupingzhidi.png
       Dependencies: {}
-    Info_75:
+    Info_74:
       Name: textures/atals/frm_pinzhi_yuanxing_wupinzhikuang.png
       Dependencies: {}
-    Info_76:
+    Info_75:
       Name: textures/atals/frm_pinzhi_yuanxing_zise.png
       Dependencies: {}
-    Info_77:
+    Info_76:
       Name: textures/atals/frm_pinzhi_yuanxing_zisekuang.png
       Dependencies: {}
-    Info_78:
+    Info_77:
       Name: textures/atals/frm_pinzhi_zi.png
       Dependencies: {}
-    Info_79:
+    Info_78:
       Name: textures/atals/pic_jia.png
       Dependencies: {}
-    Info_80:
+    Info_79:
       Name: textures/atals/pic_shengjie_chengse.png
       Dependencies: {}
-    Info_81:
+    Info_80:
       Name: textures/atals/pic_shengjie_lan.png
       Dependencies: {}
-    Info_82:
+    Info_81:
       Name: textures/atals/pic_shengjie_lv.png
       Dependencies: {}
-    Info_83:
+    Info_82:
       Name: textures/atals/pic_shengjie_zi.png
       Dependencies: {}
-    Info_84:
+    Info_83:
       Name: textures/atals/pic_xinxidi01.png
       Dependencies: {}
-    Info_85:
+    Info_84:
       Name: textures/atals/pic_xuanzhongkuang_bian.png
       Dependencies: {}
-    Info_86:
+    Info_85:
       Name: textures/atals/tips.png
       Dependencies: {}
-    Info_87:
+    Info_86:
       Name: textures/bomb/bomb_0.png
       Dependencies: {}
-    Info_88:
+    Info_87:
       Name: textures/bomb/bomb_1.png
       Dependencies: {}
-    Info_89:
+    Info_88:
       Name: textures/bomb/bomb_2.png
       Dependencies: {}
-    Info_90:
+    Info_89:
       Name: textures/bomb/bomb_3.png
       Dependencies: {}
-    Info_91:
+    Info_90:
       Name: textures/bomb/bomb_4.png
       Dependencies: {}
-    Info_92:
+    Info_91:
       Name: textures/bomb/bomb_5.png
       Dependencies: {}
-    Info_93:
+    Info_92:
       Name: textures/bomb/bomb_6.png
       Dependencies: {}
-    Info_94:
+    Info_93:
       Name: textures/bomb/bomb_7.png
       Dependencies: {}
-    Info_95:
+    Info_94:
       Name: textures/bomb/bomb_8.png
       Dependencies: {}
-    Info_96:
+    Info_95:
       Name: textures/icon/b1_metal.png
       Dependencies: {}
-    Info_97:
+    Info_96:
       Name: textures/icon/b2_wood.png
       Dependencies: {}
-    Info_98:
+    Info_97:
       Name: textures/icon/b3_water.png
       Dependencies: {}
-    Info_99:
+    Info_98:
       Name: textures/icon/b4_fire.png
       Dependencies: {}
-    Info_100:
+    Info_99:
       Name: textures/icon/b5_earth.png
       Dependencies: {}
-    Info_101:
+    Info_100:
       Name: textures/icon/skill1.png
       Dependencies: {}
-    Info_102:
+    Info_101:
       Name: textures/icon/skill2.png
       Dependencies: {}
-    Info_103:
+    Info_102:
       Name: textures/icon/skill3.png
       Dependencies: {}
-    Info_104:
+    Info_103:
       Name: textures/icon/skill4.png
       Dependencies: {}
-    Info_105:
+    Info_104:
       Name: textures/icon/skill5.png
       Dependencies: {}
-    Info_106:
+    Info_105:
       Name: textures/icon/skill6.png
       Dependencies: {}
-    Info_107:
+    Info_106:
       Name: textures/icon/skill7.png
       Dependencies: {}
-    Info_108:
+    Info_107:
       Name: textures/icon/skill8.png
       Dependencies: {}
-    Info_109:
+    Info_108:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_dong.png
       Dependencies: {}
-    Info_110:
+    Info_109:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_gongsun.png
       Dependencies: {}
-    Info_111:
+    Info_110:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_huang.png
       Dependencies: {}
-    Info_112:
+    Info_111:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_kong.png
       Dependencies: {}
-    Info_113:
+    Info_112:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_liu.png
       Dependencies: {}
-    Info_114:
+    Info_113:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_ma.png
       Dependencies: {}
-    Info_115:
+    Info_114:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_shi.png
       Dependencies: {}
-    Info_116:
+    Info_115:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_shu.png
       Dependencies: {}
-    Info_117:
+    Info_116:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_tao.png
       Dependencies: {}
-    Info_118:
+    Info_117:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_wei.png
       Dependencies: {}
-    Info_119:
+    Info_118:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_wu.png
       Dependencies: {}
-    Info_120:
+    Info_119:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_yuan.png
       Dependencies: {}
-    Info_121:
+    Info_120:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_zhang.png
       Dependencies: {}
-    Info_122:
+    Info_121:
       Name: textures/temp/pic_shijie_chengchicaidan_vs_zhongli.png
       Dependencies: {}
-    Info_123:
+    Info_122:
       Name: ui/dpsui.prefab
       Dependencies: {}
-    Info_124:
+    Info_123:
       Name: ui/gameoverui.prefab
       Dependencies: {}
-    Info_125:
+    Info_124:
       Name: ui/joystickui.prefab
       Dependencies:
         Dependency_0: textures/joystick_bg.png
         Dependency_1: textures/joystick_gab.png
-    Info_126:
+    Info_125:
       Name: ui/mainui.prefab
       Dependencies:
         Dependency_0: textures/atals/pic_jia.png
         Dependency_1: textures/atals/pic_shengjie_chengse.png
         Dependency_2: textures/atals/pic_shengjie_lv.png
         Dependency_3: textures/atals/pic_shengjie_zi.png
-    Info_127:
+    Info_126:
       Name: ui/quickcontrolui.prefab
       Dependencies:
         Dependency_0: textures/atals/frm_pinzhi_bai.png
@@ -458,63 +450,63 @@ AssetBundleManifest:
         Dependency_4: textures/icon/b4_fire.png
         Dependency_5: textures/icon/b5_earth.png
         Dependency_6: textures/icon/skill1.png
-    Info_128:
+    Info_127:
       Name: ui/tipsui.prefab
       Dependencies:
         Dependency_0: textures/atals/tips.png
-    Info_129:
+    Info_128:
       Name: ui/toastui.prefab
       Dependencies: {}
-    Info_130:
+    Info_129:
       Name: prefabs/heroitem.prefab
       Dependencies:
         Dependency_0: textures/r2.png
         Dependency_1: textures/atals/frm_pinzhi_di_tongyong.png
         Dependency_2: textures/atals/frm_pinzhi_tongyong.png
         Dependency_3: textures/atals/pic_xuanzhongkuang_bian.png
-    Info_131:
+    Info_130:
       Name: textures/icon/attack1.png
       Dependencies: {}
-    Info_132:
+    Info_131:
       Name: textures/icon/skill10.png
       Dependencies: {}
-    Info_133:
+    Info_132:
       Name: textures/icon/skill9.png
       Dependencies: {}
-    Info_134:
+    Info_133:
       Name: ui/herolistui.prefab
       Dependencies: {}
-    Info_135:
+    Info_134:
       Name: ui/mainoperatorui.prefab
       Dependencies: {}
-    Info_136:
+    Info_135:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@attack1.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
-    Info_137:
+    Info_136:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@idle.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
-    Info_138:
+    Info_137:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@run.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
-    Info_139:
+    Info_138:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/characters/2handed.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/materials/2handed.mat
-    Info_140:
+    Info_139:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/materials/2handed.mat
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/textures/2handed.psd
-    Info_141:
+    Info_140:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
         warrior animation controller.controller
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@attack1.fbx
         Dependency_1: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@idle.fbx
         Dependency_2: warrior pack bundle 2 free/2handed warrior mecanim animation/animations/2handed@run.fbx
-    Info_142:
+    Info_141:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
         warrior.prefab
       Dependencies:
@@ -522,46 +514,46 @@ AssetBundleManifest:
         Dependency_1: warrior pack bundle 2 free/2handed warrior mecanim animation/materials/2handed.mat
         Dependency_2: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
           warrior animation controller.controller
-    Info_143:
+    Info_142:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/scenes/2handed.unity
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/2handed warrior mecanim animation/prefabs/2handed
           warrior.prefab
-    Info_144:
+    Info_143:
       Name: warrior pack bundle 2 free/2handed warrior mecanim animation/textures/2handed.psd
       Dependencies: {}
-    Info_145:
+    Info_144:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/animations/archer@attack1.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/characters/archer.fbx
         Dependency_1: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/prefabs/archer warrior.prefab
-    Info_146:
+    Info_145:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/animations/archer@idle.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/characters/archer.fbx
-    Info_147:
+    Info_146:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/animations/archer@run.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/characters/archer.fbx
-    Info_148:
+    Info_147:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/characters/archer-arrow.fbx
       Dependencies: {}
-    Info_149:
+    Info_148:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/characters/archer-bow.fbx
       Dependencies: {}
-    Info_150:
+    Info_149:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/characters/archer.fbx
       Dependencies: {}
-    Info_151:
+    Info_150:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/materials/archer.mat
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/textures/archer.psd
-    Info_152:
+    Info_151:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/prefabs/archer
         warrior animation controller.controller
       Dependencies:
@@ -571,7 +563,7 @@ AssetBundleManifest:
           pack/animations/archer@idle.fbx
         Dependency_2: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/animations/archer@run.fbx
-    Info_153:
+    Info_152:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/prefabs/archer
         warrior.prefab
       Dependencies:
@@ -583,40 +575,40 @@ AssetBundleManifest:
           pack/materials/archer.mat
         Dependency_3: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/prefabs/archer warrior animation controller.controller
-    Info_154:
+    Info_153:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/scenes/archer.unity
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/archer warrior mecanim animation
           pack/prefabs/archer warrior.prefab
-    Info_155:
+    Info_154:
       Name: warrior pack bundle 2 free/archer warrior mecanim animation pack/textures/archer.psd
       Dependencies: {}
-    Info_156:
+    Info_155:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/animations/knight@attack1.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/characters/knight.fbx
-    Info_157:
+    Info_156:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/animations/knight@idle.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/characters/knight.fbx
-    Info_158:
+    Info_157:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/animations/knight@run.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/characters/knight.fbx
-    Info_159:
+    Info_158:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/characters/knight.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/materials/knight.mat
-    Info_160:
+    Info_159:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/materials/knight.mat
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/textures/knight.psd
-    Info_161:
+    Info_160:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/prefabs/knight
         warrior animation controller.controller
       Dependencies:
@@ -626,7 +618,7 @@ AssetBundleManifest:
           pack/animations/knight@idle.fbx
         Dependency_2: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/animations/knight@run.fbx
-    Info_162:
+    Info_161:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/prefabs/knight
         warrior.prefab
       Dependencies:
@@ -636,41 +628,41 @@ AssetBundleManifest:
           pack/materials/knight.mat
         Dependency_2: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/prefabs/knight warrior animation controller.controller
-    Info_163:
+    Info_162:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/scenes/knight.unity
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/knight warrior mecanim animation
           pack/prefabs/knight warrior.prefab
-    Info_164:
+    Info_163:
       Name: warrior pack bundle 2 free/knight warrior mecanim animation pack/textures/knight.psd
       Dependencies: {}
-    Info_165:
+    Info_164:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@attack1.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
-    Info_166:
+    Info_165:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@idle.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
-    Info_167:
+    Info_166:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@run.fbx
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
-    Info_168:
+    Info_167:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/characters/mage.fbx
       Dependencies: {}
-    Info_169:
+    Info_168:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/materials/mage.mat
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/textures/mage.psd
-    Info_170:
+    Info_169:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
         warrior animation controller.controller
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@attack1.fbx
         Dependency_1: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@idle.fbx
         Dependency_2: warrior pack bundle 2 free/mage warrior mecanim animation pack/animations/mage@run.fbx
-    Info_171:
+    Info_170:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
         warrior.prefab
       Dependencies:
@@ -678,11 +670,58 @@ AssetBundleManifest:
         Dependency_1: warrior pack bundle 2 free/mage warrior mecanim animation pack/materials/mage.mat
         Dependency_2: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
           warrior animation controller.controller
-    Info_172:
+    Info_171:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/scenes/mage.unity
       Dependencies:
         Dependency_0: warrior pack bundle 2 free/mage warrior mecanim animation pack/prefabs/mage
           warrior.prefab
-    Info_173:
+    Info_172:
       Name: warrior pack bundle 2 free/mage warrior mecanim animation pack/textures/mage.psd
+      Dependencies: {}
+    Info_173:
+      Name: prefabs/bullet/bulletarrow.prefab
+      Dependencies:
+        Dependency_0: textures/arrow.png
+    Info_174:
+      Name: prefabs/npc/r1/r1.controller
+      Dependencies:
+        Dependency_0: prefabs/npc/r1/r1_attack.anim
+        Dependency_1: prefabs/npc/r1/r1_die.anim
+        Dependency_2: prefabs/npc/r1/r1_idle.anim
+        Dependency_3: prefabs/npc/r1/r1_walk.anim
+    Info_175:
+      Name: prefabs/npc/r1/r1.prefab
+      Dependencies:
+        Dependency_0: prefabs/npc/r1/r1.controller
+        Dependency_1: textures/r1.png
+    Info_176:
+      Name: prefabs/npc/r1/r1_attack.anim
+      Dependencies:
+        Dependency_0: textures/r1.png
+    Info_177:
+      Name: prefabs/npc/r1/r1_die.anim
+      Dependencies:
+        Dependency_0: textures/r1.png
+    Info_178:
+      Name: prefabs/npc/r1/r1_idle.anim
+      Dependencies:
+        Dependency_0: textures/r1.png
+    Info_179:
+      Name: prefabs/npc/r1/r1_walk.anim
+      Dependencies:
+        Dependency_0: textures/r1.png
+    Info_180:
+      Name: textures/arrow.png
+      Dependencies: {}
+    Info_181:
+      Name: textures/r1.png
+      Dependencies: {}
+    Info_182:
+      Name: textures/icon/attack2.png
+      Dependencies: {}
+    Info_183:
+      Name: textures/icon/skill11.png
+      Dependencies: {}
+    Info_184:
+      Name: textures/icon/skill12.png
       Dependencies: {}

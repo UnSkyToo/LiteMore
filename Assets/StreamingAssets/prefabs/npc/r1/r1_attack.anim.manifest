@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 1986538173
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 81e915f9bda46e4e50e7a63224637932
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 25f4086c7b856bc267ee41cfe02c02df
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/Prefabs/Npc/R1/R1_attack.anim
+Dependencies:
+- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r1.png

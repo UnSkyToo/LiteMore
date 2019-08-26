@@ -53,7 +53,7 @@ namespace LiteMore
 
             TestSkill();
             //PlayerManager.CreateMainEmitter();
-            //WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
+            WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
 
             return true;
         }
@@ -86,11 +86,10 @@ namespace LiteMore
             PlayerManager.Master.Skill.AddNpcSkill(2005);
             PlayerManager.Master.Skill.AddNpcSkill(2006);
             PlayerManager.Master.Skill.AddNpcSkill(2007);
-            PlayerManager.Master.Skill.AddNpcSkill(2008);
             PlayerManager.Master.Skill.AddNpcSkill(2012);
             PlayerManager.Master.Skill.AddPassiveSkill(3005, -1, true);
 
-            NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2.0f, 0), CombatTeam.B, 3, NpcManager.GenerateInitAttr(50, 1000, 10, 0, 0, 5, 1, 30, 30));
+            //NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2.0f, 0), CombatTeam.B, 3, NpcManager.GenerateInitAttr(50, 1000, 10, 0, 0, 5, 1, 30, 30));
         }
     }
 }
