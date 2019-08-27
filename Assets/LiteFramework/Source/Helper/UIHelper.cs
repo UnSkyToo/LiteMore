@@ -49,7 +49,7 @@ namespace LiteFramework.Helper
                 return;
             }
 
-            UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
+            UIEventListener.AddCallback(Obj, Type, Callback);
         }
 
         public static void AddEvent(Transform Obj, Action Callback, UIEventType Type = UIEventType.Click)
@@ -59,7 +59,7 @@ namespace LiteFramework.Helper
                 return;
             }
 
-            UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
+            UIEventListener.AddCallback(Obj, Type, Callback);
         }
 
         public static void RemoveEvent(Transform Obj, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
@@ -69,7 +69,7 @@ namespace LiteFramework.Helper
                 return;
             }
 
-            UIEventTriggerListener.Get(Obj).RemoveCallback(Type, Callback);
+            UIEventListener.RemoveCallback(Obj, Type, Callback);
         }
 
         public static void RemoveEvent(Transform Obj, Action Callback, UIEventType Type = UIEventType.Click)
@@ -79,7 +79,7 @@ namespace LiteFramework.Helper
                 return;
             }
 
-            UIEventTriggerListener.Get(Obj).RemoveCallback(Type, Callback);
+            UIEventListener.RemoveCallback(Obj, Type, Callback);
         }
 
         public static void AddEventToChild(Transform Parent, string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
@@ -87,7 +87,7 @@ namespace LiteFramework.Helper
             var Obj = FindChild(Parent, ChildPath);
             if (Obj != null)
             {
-                UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
+                UIEventListener.AddCallback(Obj, Type, Callback);
             }
         }
 
@@ -96,7 +96,7 @@ namespace LiteFramework.Helper
             var Obj = FindChild(Parent, ChildPath);
             if (Obj != null)
             {
-                UIEventTriggerListener.Get(Obj).AddCallback(Type, Callback);
+                UIEventListener.AddCallback(Obj, Type, Callback);
             }
         }
 
@@ -105,7 +105,7 @@ namespace LiteFramework.Helper
             var Obj = FindChild(Parent, ChildPath);
             if (Obj != null)
             {
-                UIEventTriggerListener.Get(Obj).RemoveCallback(Type, Callback);
+                UIEventListener.RemoveCallback(Obj, Type, Callback);
             }
         }
 
@@ -114,7 +114,7 @@ namespace LiteFramework.Helper
             var Obj = FindChild(Parent, ChildPath);
             if (Obj != null)
             {
-                UIEventTriggerListener.Get(Obj).RemoveCallback(Type, Callback);
+                UIEventListener.RemoveCallback(Obj, Type, Callback);
             }
         }
 
@@ -143,19 +143,19 @@ namespace LiteFramework.Helper
                 return;
             }
 
-            var Listener = Target.GetComponent<UIEventTriggerListener>();
+            var Listener = Target.GetComponent<UnityEngine.UI.Graphic>();
             if (Listener != null)
             {
-                Listener.enabled = Enabled;
+                Listener.raycastTarget = Enabled;
             }
         }
 
         public static void EnableTouched(Transform Parent, string ChildPath, bool Enabled)
         {
-            var Listener = FindComponent<UIEventTriggerListener>(Parent, ChildPath);
+            var Listener = FindComponent<UnityEngine.UI.Graphic>(Parent, ChildPath);
             if (Listener != null)
             {
-                Listener.enabled = Enabled;
+                Listener.raycastTarget = Enabled;
             }
         }
 
@@ -166,7 +166,7 @@ namespace LiteFramework.Helper
                 return;
             }
 
-            UIEventTriggerListener.Remove(Parent);
+            UIEventListener.ClearCallback(Parent);
 
             if (!Recursively)
             {

@@ -11,6 +11,5 @@
         BeginDrag = 6,
         EndDrag = 7,
         Cancel = 8,
-        Count = 9,
     }
 }

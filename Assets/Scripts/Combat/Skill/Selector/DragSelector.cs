@@ -29,16 +29,16 @@ namespace LiteMore.Combat.Skill.Selector
             DragCancelObj_ = Args_.CancelObj;
             var CancelPos = UnityHelper.WorldPosToCanvasPos(DragCancelObj_.position);
             DragCancelRect_ = new Rect(CancelPos - DragCancelObj_.sizeDelta / 2, DragCancelObj_.sizeDelta);
-            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.BeginDrag, BeginDrag);
-            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Drag, Drag);
-            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.EndDrag, EndDrag);
+            UIEventListener.AddCallback(Carrier_, UIEventType.BeginDrag, BeginDrag);
+            UIEventListener.AddCallback(Carrier_, UIEventType.Drag, Drag);
+            UIEventListener.AddCallback(Carrier_, UIEventType.EndDrag, EndDrag);
         }
 
         public override void Dispose()
         {
-            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.BeginDrag, BeginDrag);
-            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.Drag, Drag);
-            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.EndDrag, EndDrag);
+            UIEventListener.RemoveCallback(Carrier_, UIEventType.BeginDrag, BeginDrag);
+            UIEventListener.RemoveCallback(Carrier_, UIEventType.Drag, Drag);
+            UIEventListener.RemoveCallback(Carrier_, UIEventType.EndDrag, EndDrag);
             DestroyDragObject();
         }
 

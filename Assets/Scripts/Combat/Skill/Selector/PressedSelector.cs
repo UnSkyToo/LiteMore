@@ -19,13 +19,14 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnBindCarrier()
         {
-            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Down, () => { IsPressed_ = true; });
-            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Up, () => { IsPressed_ = false; });
+            UIEventListener.AddCallback(Carrier_, UIEventType.Down, OnPointerDown);
+            UIEventListener.AddCallback(Carrier_, UIEventType.Up, OnPointerUp);
         }
 
         public override void Dispose()
         {
-            UIEventTriggerListener.Remove(Carrier_);
+            UIEventListener.RemoveCallback(Carrier_, UIEventType.Down, OnPointerDown);
+            UIEventListener.RemoveCallback(Carrier_, UIEventType.Up, OnPointerUp);
         }
 
         public override void Tick(float DeltaTime)
@@ -42,6 +43,16 @@ namespace LiteMore.Combat.Skill.Selector
 
                 Used();
             }
+        }
+
+        private void OnPointerDown()
+        {
+            IsPressed_ = true;
+        }
+
+        private void OnPointerUp()
+        {
+            IsPressed_ = false;
         }
     }
 }

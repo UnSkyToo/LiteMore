@@ -51,6 +51,27 @@ namespace LiteFramework.Helper
 #endif
         }
 
+        public static T GetOrAddComponent<T>(this GameObject Master) where T : Component
+        {
+            return GetOrAddComponentSafe<T>(Master);
+        }
+
+        public static T GetOrAddComponentSafe<T>(GameObject Master) where T : Component
+        {
+            if (Master == null)
+            {
+                return null;
+            }
+
+            var ConT = Master.GetComponent<T>();
+            if (ConT == null)
+            {
+                ConT = Master.AddComponent<T>();
+            }
+
+            return ConT;
+        }
+
         public static Vector2 ScreenPosToCanvasPos(Vector2 ScreenPos)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(UIManager.CanvasNormalRectTransform, ScreenPos, Camera.main, out Vector2 Pos);

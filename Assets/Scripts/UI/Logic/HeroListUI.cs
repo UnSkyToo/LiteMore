@@ -101,11 +101,11 @@ namespace LiteMore.UI.Logic
                     AssetManager.CreateAssetSync<Sprite>("textures/build.png");
             }
 
-            //UIHelper.AddEvent(Obj.transform, () => { SetCurrent(Npc); });
-            Obj.GetComponent<Button>().onClick.AddListener(() =>
+            UIHelper.AddEvent(Obj.transform, () => { SetCurrent(Npc); });
+            /*Obj.GetComponent<Button>().onClick.AddListener(() =>
             {
                 SetCurrent(Npc);
-            });
+            });*/
 
             return Obj;
         }

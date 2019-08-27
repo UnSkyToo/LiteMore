@@ -121,8 +121,8 @@ namespace LiteMore.Player
                 ResName = "Red",
             }) as BulletCircleEmitter;
 
-            UIEventTriggerListener.Remove(GameObject.Find("Touch").transform);
-            UIEventTriggerListener.Get(GameObject.Find("Touch").transform).AddCallback(UIEventType.Click, () =>
+            UIEventListener.ClearCallback(GameObject.Find("Touch").transform);
+            UIEventListener.AddCallback(GameObject.Find("Touch").transform, UIEventType.Click, () =>
             {
                 var Target = FilterHelper.FindNearest(Master);
                 if (Target != null)

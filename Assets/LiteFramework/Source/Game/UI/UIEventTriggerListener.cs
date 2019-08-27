@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using LiteFramework.Helper;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace LiteFramework.Game.UI
 {
-    public class UIEventTriggerListener : EventTrigger
+    /*public class UIEventTriggerListener : EventTrigger
     {
         private bool OriginRaycastTarget_ = false;
         private readonly Action<GameObject, Vector2>[] EventCallback_ = new Action<GameObject, Vector2>[(int)UIEventType.Count];
@@ -153,5 +152,5 @@ namespace LiteFramework.Game.UI
             EventCallback_[(int)UIEventType.Cancel]?.Invoke(gameObject, Vector2.zero);
             EventCallbackEx_[(int)UIEventType.Cancel]?.Invoke();
         }
-    }
+    }*/
 }

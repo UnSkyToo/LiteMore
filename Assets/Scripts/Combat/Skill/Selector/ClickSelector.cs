@@ -16,12 +16,12 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnBindCarrier()
         {
-            UIEventTriggerListener.Get(Carrier_).AddCallback(UIEventType.Click, OnClick);
+            UIEventListener.AddCallback(Carrier_, UIEventType.Click, OnClick);
         }
 
         public override void Dispose()
         {
-            UIEventTriggerListener.Get(Carrier_).RemoveCallback(UIEventType.Click, OnClick);
+            UIEventListener.RemoveCallback(Carrier_, UIEventType.Click, OnClick);
         }
 
         private void OnClick()
