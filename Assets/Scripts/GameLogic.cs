@@ -90,6 +90,15 @@ namespace LiteMore
             PlayerManager.Master.Skill.AddPassiveSkill(3005, -1, true);
 
             //NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2.0f, 0), CombatTeam.B, 3, NpcManager.GenerateInitAttr(50, 1000, 10, 0, 0, 5, 1, 30, 30));
+
+
+            for (var Index = 0; Index < 10; ++Index)
+            {
+                var Npc = NpcManager.AddNpc($"Archer{Index + 1}",
+                    new Vector2(Screen.width / 2.0f - 100, Mathf.Lerp(-Screen.height / 2.0f + 50, Screen.height / 2.0f - 50, (float)Index / 9.0f)), CombatTeam.A, 2,
+                    NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 1, 0, 1500, 30));
+                Npc.Skill.AddNpcSkill(2011); // 箭雨-主动
+            }
         }
     }
 }

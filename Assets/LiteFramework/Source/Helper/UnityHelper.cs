@@ -97,5 +97,14 @@ namespace LiteFramework.Helper
         {
             return new Vector2(Random.Range(-Radius, Radius), Random.Range(-Radius, Radius));
         }
+
+        public static Vector2 RandCircle(float Radius)
+        {
+            var Dist = Random.Range(1, Radius);
+            var Angle = Random.Range(0, 360);
+            var Rotation = Quaternion.AngleAxis(Angle, Vector3.forward);
+            var Dir = Rotation * Vector3.up;
+            return Dir.normalized * Dist;
+        }
     }
 }

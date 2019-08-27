@@ -235,7 +235,7 @@ namespace LiteMore.Combat.Skill.Executor
 
             TimerManager.AddTimer(0.05f, () =>
             {
-                var Pos = Args.Position + UnityHelper.RandVec2(Args.Skill.Radius);
+                var Pos = Args.Position + UnityHelper.RandCircle(Args.Skill.Radius);
                 BulletManager.AddArrowBullet(
                     new ArrowBulletDescriptor(
                         new BaseBulletDescriptor(Args.Skill.Name, Args.Master.Position, Args.Master.Team, Level),
