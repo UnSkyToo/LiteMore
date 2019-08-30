@@ -4,6 +4,7 @@ using LiteFramework.Core.Log;
 using LiteFramework.Extend.Debug;
 using LiteFramework.Game;
 using LiteFramework.Helper;
+using LiteFramework.Interface;
 using UnityEngine;
 
 namespace LiteFramework
@@ -17,15 +18,12 @@ namespace LiteFramework
         private static MonoBehaviour MonoBehaviourInstance { get; set; }
         private static float EnterBackgroundTime_ = 0.0f;
 
-        private static System.Action StartupCallback { get; set; }
-
-        public static bool Startup(MonoBehaviour Instance, System.Action Callback)
+        public static bool Startup(MonoBehaviour Instance, ILogic Logic)
         {
             IsPause = true;
             IsRestart = false;
             TimeScale = 1.0f;
             MonoBehaviourInstance = Instance;
-            StartupCallback = Callback;
 
             LiteConfigure.UIDescList.Clear();
 
@@ -43,14 +41,13 @@ namespace LiteFramework
                 return false;
             }
 
-            if (!LiteGameManager.Startup())
+            if (!LiteGameManager.Startup(Logic))
             {
                 return false;
             }
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             IsPause = false;
-            StartupCallback?.Invoke();
             return true;
         }
 
@@ -101,7 +98,7 @@ namespace LiteFramework
             IsRestart = false;
             UnityHelper.ClearLog();
             Shutdown();
-            IsPause = !Startup(MonoBehaviourInstance, StartupCallback);
+            IsPause = !Startup(MonoBehaviourInstance, LiteGameManager.MainLogic);
         }
 
         public static T Attach<T>(GameObject Root) where T : MonoBehaviour

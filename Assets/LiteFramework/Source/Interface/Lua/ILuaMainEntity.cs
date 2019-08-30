@@ -1,4 +1,4 @@
-﻿namespace LiteFramework.Game.Lua.Interface
+﻿namespace LiteFramework.Interface.Lua
 {
     public interface ILuaMainEntity
     {

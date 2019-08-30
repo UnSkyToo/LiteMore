@@ -1,6 +1,6 @@
 ﻿using LiteFramework;
 using LiteFramework.Core.Log;
-using LiteFramework.Game.Logic;
+using LiteFramework.Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +9,7 @@ namespace LiteMore
     public class Main : MonoBehaviour
     {
         private GUIStyle Style_;
-        private GameLogic Logic_;
+        private ILogic Logic_;
 
         void Awake()
         {
@@ -19,11 +19,8 @@ namespace LiteMore
             try
             {
                 Logic_ = new GameLogic();
-
-                LiteManager.Startup(this, () =>
-                {
-                    LogicManager.Attach(Logic_);
-                });
+                //Logic_ = new TestLogic();
+                LiteManager.Startup(this, Logic_);
             }
             catch (System.Exception Ex)
             {
@@ -111,7 +108,7 @@ namespace LiteMore
 
         void OnGUI()
         {
-            Logic_?.OnGUI();
+            //Logic_?.OnGUI();
         }
 
 #if UNITY_EDITOR

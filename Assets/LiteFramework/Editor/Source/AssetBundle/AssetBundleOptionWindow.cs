@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LiteFramework.Helper;
+using UnityEngine;
 using UnityEditor;
 
 namespace LiteFramework.Editor.AssetBundle
@@ -28,6 +29,11 @@ namespace LiteFramework.Editor.AssetBundle
             if (GUILayout.Button("Clean All AssetBundle"))
             {
                 AssetBundleBuilder.CleanAllBundle();
+            }
+
+            if (GUILayout.Button("Generate FilesInfo File"))
+            {
+                AssetHelper.GenerateFilesInfoFile();
             }
         }
 

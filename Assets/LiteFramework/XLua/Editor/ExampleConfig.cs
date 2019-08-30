@@ -276,7 +276,7 @@ public static class ExampleConfig
         typeof(Action<GameObject>),
         typeof(Action<LuaTable>),
         typeof(Action<LuaTable, float>),
-        typeof(LiteFramework.Game.Lua.Interface.ILuaMainEntity),
+        typeof(LiteFramework.Interface.Lua.ILuaMainEntity),
     };
 
     [GCOptimize]

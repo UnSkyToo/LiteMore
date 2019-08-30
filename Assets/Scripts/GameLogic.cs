@@ -2,9 +2,9 @@
 using LiteFramework.Core.Async.Timer;
 using LiteFramework.Core.Log;
 using LiteFramework.Game.Audio;
-using LiteFramework.Game.Logic;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
+using LiteFramework.Interface;
 using LiteMore.Cache;
 using LiteMore.Combat;
 using LiteMore.Combat.AI.Filter;
@@ -35,7 +35,6 @@ namespace LiteMore
             Lang.Load();
 
             AudioManager.Root = Configure.AudioRoot;
-
             AudioManager.MuteAllAudio(true);
 
             foreach (var Entity in UIConfigure.UIList)
@@ -43,8 +42,7 @@ namespace LiteMore
                 LiteConfigure.UIDescList.Add(Entity.Key, Entity.Value);
             }
 
-            if (!CombatManager.Startup()
-                || !PlayerManager.Startup())
+            if (!CombatManager.Startup() || !PlayerManager.Startup())
             {
                 return false;
             }
@@ -90,7 +88,6 @@ namespace LiteMore
             PlayerManager.Master.Skill.AddPassiveSkill(3005, -1, true);
 
             //NpcManager.AddNpc("boss", new Vector2(-Screen.width / 2.0f, 0), CombatTeam.B, 3, NpcManager.GenerateInitAttr(50, 1000, 10, 0, 0, 5, 1, 30, 30));
-
 
             for (var Index = 0; Index < 10; ++Index)
             {

@@ -2,8 +2,8 @@
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
-using LiteFramework.Game.Lua.Interface;
 using LiteFramework.Game.UI;
+using LiteFramework.Interface.Lua;
 using XLua;
 
 namespace LiteFramework.Game.Lua
@@ -18,25 +18,10 @@ namespace LiteFramework.Game.Lua
             LuaEnv_ = new LuaEnv();
             LuaEnv_.AddLoader(StandaloneLuaLoader);
 
-            LuaEnv_.DoString($"_lite_main_entity_ = require '{LiteConfigure.LuaEntryFileName}'", LiteConfigure.LuaEntryFileName);
-
-            MainEntity_ = LuaEnv_.Global.GetInPath<ILuaMainEntity>("_lite_main_entity_");
-            if (MainEntity_ == null)
-            {
-                LLogger.LWarning($"can't load {LiteConfigure.LuaEntryFileName}.lua file");
-                return false;
-            }
-
-            var State = MainEntity_.Startup();
-            if (!State)
-            {
-                LLogger.LWarning("lua main entity start failed");
-            }
-
             EventManager.Register<EnterForegroundEvent>(OnEnterForegroundEvent);
             EventManager.Register<EnterBackgroundEvent>(OnEnterBackgroundEvent);
 
-            return State;
+            return true;
         }
 
         public static void Shutdown()
@@ -54,6 +39,27 @@ namespace LiteFramework.Game.Lua
         public static void Tick(float DeltaTime)
         {
             MainEntity_?.Tick(DeltaTime);
+        }
+
+        public static bool ExecuteMainLuaFile(string FileName)
+        {
+            LuaEnv_.DoString($"_lite_main_entity_ = require '{FileName}'", FileName);
+
+            MainEntity_ = LuaEnv_.Global.GetInPath<ILuaMainEntity>("_lite_main_entity_");
+            if (MainEntity_ == null)
+            {
+                LLogger.LWarning($"can't load {FileName}.lua file");
+                return false;
+            }
+
+            var State = MainEntity_.Startup();
+            if (!State)
+            {
+                LLogger.LWarning("lua main entity start failed");
+                return false;
+            }
+
+            return true;
         }
 
         private static byte[] StandaloneLuaLoader(ref string LuaPath)

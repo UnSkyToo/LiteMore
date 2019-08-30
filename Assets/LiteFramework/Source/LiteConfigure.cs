@@ -8,13 +8,9 @@ namespace LiteFramework
     {
         public const string LiteFrameworkVersion = "19.8.15.1";
         public const float EnterBackgroundMaxTime = 90.0f;
-        public const string AssetBundleManifestName = "StreamingAssets";
+        public const string AssetBundleManifestName = "StreamingAssets.lite";
         public const string StandaloneAssetsName = "StandaloneAssets";
-
         public const string CanvasNormalName = "Canvas-Normal";
-        // use lua module
-        // #define LITE_USE_LUA_MODULE
-        public const string LuaEntryFileName = "main";
 
         public static readonly Dictionary<Type, UIDescriptor> UIDescList = new Dictionary<Type, UIDescriptor>();
     }

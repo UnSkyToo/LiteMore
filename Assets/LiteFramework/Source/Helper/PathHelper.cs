@@ -1,4 +1,7 @@
-﻿using LiteFramework.Core.Log;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using LiteFramework.Core.Log;
 using UnityEngine;
 
 namespace LiteFramework.Helper
@@ -107,6 +110,70 @@ namespace LiteFramework.Helper
 #endif
 
             return GetStreamingAssetsPath(Path);
+        }
+
+        public static List<string> GetFileList(string DirectoryPath, Func<string, bool> Filter = null)
+        {
+            var FileList = new List<string>();
+            DirectoryPath = UnifyPath(DirectoryPath);
+
+            var DirectoryAttrs = File.GetAttributes(DirectoryPath);
+            if (((DirectoryAttrs & FileAttributes.Hidden) != 0) || ((DirectoryAttrs & FileAttributes.System) != 0) ||
+                (((DirectoryAttrs & FileAttributes.Directory) == 0)))
+            {
+                return null;
+            }
+
+            var Files = Directory.GetFiles(DirectoryPath);
+            var Directories = Directory.GetDirectories(DirectoryPath);
+
+            if (Files != null && Files.Length > 0)
+            {
+                foreach (var SubFile in Files)
+                {
+                    var Attrs = File.GetAttributes(SubFile);
+                    if (((Attrs & FileAttributes.Hidden) != 0) || ((Attrs & FileAttributes.System) != 0))
+                    {
+                        continue;
+                    }
+
+                    if (Filter != null && !Filter.Invoke(SubFile))
+                    {
+                        continue;
+                    }
+
+                    FileList.Add(UnifyPath(SubFile));
+                }
+            }
+
+            if (Directories != null && Directories.Length > 0)
+            {
+                foreach (var SubDirectoryPath in Directories)
+                {
+                    var SubFileList = GetFileList(SubDirectoryPath, Filter);
+                    if (SubFileList != null)
+                    {
+                        FileList.AddRange(SubFileList);
+                    }
+                }
+            }
+
+            return FileList;
+        }
+
+        public static bool CreateDirectory(string DirectoryPath)
+        {
+            DirectoryPath = UnifyPath(DirectoryPath);
+            if (!Directory.Exists(DirectoryPath))
+            {
+                if (!Directory.CreateDirectory(DirectoryPath).Exists)
+                {
+                    LLogger.LWarning($"can't create directory : {DirectoryPath}");
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

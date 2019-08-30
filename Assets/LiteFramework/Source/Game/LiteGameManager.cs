@@ -1,16 +1,20 @@
 ﻿using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
 using LiteFramework.Game.Audio;
-using LiteFramework.Game.Logic;
 using LiteFramework.Game.Lua;
 using LiteFramework.Game.UI;
+using LiteFramework.Interface;
 
 namespace LiteFramework.Game
 {
     public static class LiteGameManager
     {
-        public static bool Startup()
+        public static ILogic MainLogic { get; private set; }
+
+        public static bool Startup(ILogic Logic)
         {
+            MainLogic = Logic;
+
             LLogger.LInfo($"{nameof(AssetManager)} Startup");
             if (!AssetManager.Startup())
             {
@@ -32,13 +36,6 @@ namespace LiteFramework.Game
                 return false;
             }
 
-            LLogger.LInfo($"{nameof(LogicManager)} Startup");
-            if (!LogicManager.Startup())
-            {
-                LLogger.LError($"{nameof(LogicManager)} Startup Failed");
-                return false;
-            }
-
 #if LITE_USE_LUA_MODULE
             LLogger.LInfo($"{nameof(LuaRuntime)} Startup");
             if (!LuaRuntime.Startup())
@@ -48,15 +45,21 @@ namespace LiteFramework.Game
             }
 #endif
 
+            if (MainLogic == null || !MainLogic.Startup())
+            {
+                LLogger.LError($"Logic Startup Failed");
+                return false;
+            }
+
             return true;
         }
 
         public static void Shutdown()
         {
+            MainLogic?.Shutdown();
 #if LITE_USE_LUA_MODULE
             LuaRuntime.Shutdown();
 #endif
-            LogicManager.Shutdown();
             UIManager.Shutdown();
             AudioManager.Shutdown();
             AssetManager.Shutdown();
@@ -67,10 +70,10 @@ namespace LiteFramework.Game
             AssetManager.Tick(DeltaTime);
             AudioManager.Tick(DeltaTime);
             UIManager.Tick(DeltaTime);
-            LogicManager.Tick(DeltaTime);
 #if LITE_USE_LUA_MODULE
             LuaRuntime.Tick(DeltaTime);
 #endif
+            MainLogic?.Tick(DeltaTime);
         }
     }
 }

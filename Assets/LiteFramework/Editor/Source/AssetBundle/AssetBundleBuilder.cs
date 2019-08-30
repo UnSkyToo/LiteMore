@@ -43,6 +43,10 @@ namespace LiteFramework.Editor.AssetBundle
 
             // Start Build
             BuildPipeline.BuildAssetBundles(Application.streamingAssetsPath, Options, Target);
+            File.Copy(
+                Path.Combine(Application.streamingAssetsPath, "StreamingAssets"),
+                Path.Combine(Application.streamingAssetsPath, LiteConfigure.AssetBundleManifestName));
+            File.Delete(Path.Combine(Application.streamingAssetsPath, "StreamingAssets"));
 
             if (IsCollectInfo)
             {

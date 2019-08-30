@@ -1,4 +1,4 @@
-﻿namespace LiteMore.Interface
+﻿namespace LiteFramework.Interface
 {
     public interface ITick
     {

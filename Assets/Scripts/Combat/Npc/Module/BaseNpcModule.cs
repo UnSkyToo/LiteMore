@@ -1,5 +1,5 @@
 ﻿using System;
-using LiteMore.Interface;
+using LiteFramework.Interface;
 
 namespace LiteMore.Combat.Npc.Module
 {
