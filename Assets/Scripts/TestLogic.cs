@@ -1,6 +1,10 @@
-﻿using LiteFramework.Core.Log;
+﻿using LiteFramework.Core.Event;
+using LiteFramework.Core.Log;
+using LiteFramework.Game.Lua;
 using LiteFramework.Helper;
 using LiteFramework.Interface;
+using LiteMore.Combat;
+using LiteMore.UI;
 
 namespace LiteMore
 {
@@ -8,10 +12,9 @@ namespace LiteMore
     {
         public bool Startup()
         {
-            AssetHelper.CacheStreamingAssets((Err, Suc, Total) =>
-            {
-                LLogger.LWarning($"{Err} - {Suc} - {Total}");
-            });
+            LuaRuntime.ExecuteMainLuaFile("main");
+
+            EventManager.Send(new NpcAttrChangedEvent(null, NpcAttrIndex.AddHp, -1, 1));
             return true;
         }
 

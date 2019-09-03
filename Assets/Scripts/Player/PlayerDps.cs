@@ -77,6 +77,21 @@ namespace LiteMore.Player
                 Chunks.Add(new PlayerDpsChunk(Chunk.Key, Chunk.Value, Chunk.Value / TotalValue_));
             }
 
+            Chunks.Sort((A, B) =>
+            {
+                if (A.Percent < B.Percent)
+                {
+                    return 1;
+                }
+
+                if (A.Percent > B.Percent)
+                {
+                    return -1;
+                }
+
+                return 0;
+            });
+
             return Chunks;
         }
     }

@@ -52,20 +52,6 @@ namespace LiteMore.UI.Logic
         private void Refresh()
         {
             var Chunks = PlayerManager.Dps.GetChunks();
-            Chunks.Sort((A, B) =>
-            {
-                if (A.Percent < B.Percent)
-                {
-                    return 1;
-                }
-
-                if (A.Percent > B.Percent)
-                {
-                    return -1;
-                }
-
-                return 0;
-            });
 
             for (var Index = 0; Index < ContentRoot_.childCount; ++Index)
             {

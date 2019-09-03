@@ -1,0 +1,11 @@
+MotionCallback = CS.LiteFramework.Core.Motion.MotionCallback
+MotionFade = CS.LiteFramework.Core.Motion.MotionFade
+MotionFadeIn = CS.LiteFramework.Core.Motion.MotionFadeIn
+MotionFadeOut = CS.LiteFramework.Core.Motion.MotionFadeOut
+MotionMove = CS.LiteFramework.Core.Motion.MotionMove
+MotionParallel = CS.LiteFramework.Core.Motion.MotionParallel
+MotionRepeatSequence = CS.LiteFramework.Core.Motion.MotionRepeatSequence
+MotionScale = CS.LiteFramework.Core.Motion.MotionScale
+MotionSequence = CS.LiteFramework.Core.Motion.MotionSequence
+MotionWaitTime = CS.LiteFramework.Core.Motion.MotionWaitTime
+MotionManager = CS.LiteFramework.Core.Motion.MotionManager

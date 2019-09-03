@@ -59,6 +59,7 @@ namespace LiteFramework.Game.Asset
                 case ".prefab":
                     return AssetCacheType.Prefab;
                 case ".bytes":
+                case ".lua":
                     return AssetCacheType.Data;
                 default:
                     return AssetCacheType.Asset;

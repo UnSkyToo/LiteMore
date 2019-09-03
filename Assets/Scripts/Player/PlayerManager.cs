@@ -40,7 +40,7 @@ namespace LiteMore.Player
             EventManager.Register<NpcAttrChangedEvent>(OnCoreAttrChanged);
 
             UIManager.OpenUI<MainUI>();
-            UIManager.OpenUI<DpsUI>();
+            //UIManager.OpenUI<DpsUI>();
             UIManager.OpenUI<HeroListUI>();
             //UIManager.OpenUI<QuickControlUI>();
 
@@ -60,7 +60,7 @@ namespace LiteMore.Player
 
             //UIManager.CloseUI<QuickControlUI>();
             UIManager.CloseUI<HeroListUI>();
-            UIManager.CloseUI<DpsUI>();
+            //UIManager.CloseUI<DpsUI>();
             UIManager.CloseUI<MainUI>();
         }
 

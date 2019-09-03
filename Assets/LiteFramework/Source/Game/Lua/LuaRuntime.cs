@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
@@ -18,6 +20,7 @@ namespace LiteFramework.Game.Lua
             LuaEnv_ = new LuaEnv();
             LuaEnv_.AddLoader(StandaloneLuaLoader);
 
+            EventManager.OnSend += OnLuaEvent;
             EventManager.Register<EnterForegroundEvent>(OnEnterForegroundEvent);
             EventManager.Register<EnterBackgroundEvent>(OnEnterBackgroundEvent);
 
@@ -26,8 +29,10 @@ namespace LiteFramework.Game.Lua
 
         public static void Shutdown()
         {
+            EventList_.Clear();
             EventManager.UnRegister<EnterForegroundEvent>(OnEnterForegroundEvent);
             EventManager.UnRegister<EnterBackgroundEvent>(OnEnterBackgroundEvent);
+            EventManager.OnSend -= OnLuaEvent;
 
             MainEntity_?.Shutdown();
             MainEntity_ = null;
@@ -101,6 +106,70 @@ namespace LiteFramework.Game.Lua
         private static void OnEnterBackgroundEvent(EnterBackgroundEvent Msg)
         {
             MainEntity_?.EnterBackground();
+        }
+
+        private static readonly Dictionary<string, Dictionary<LuaTable, Action<LuaTable, LuaTable>>> EventList_ = new Dictionary<string, Dictionary<LuaTable, Action<LuaTable, LuaTable>>>();
+        public static void RegisterEvent(string EventName, LuaTable LuaEntity, Action<LuaTable, LuaTable> Callback)
+        {
+            if (!EventList_.ContainsKey(EventName))
+            {
+                EventList_.Add(EventName, new Dictionary<LuaTable, Action<LuaTable, LuaTable>>());
+            }
+
+            if (!EventList_[EventName].ContainsKey(LuaEntity))
+            {
+                EventList_[EventName].Add(LuaEntity, Callback);
+            }
+        }
+
+        public static void UnRegisterEvent(string EventName, LuaTable LuaEntity)
+        {
+            if (EventList_.ContainsKey(EventName))
+            {
+                EventList_[EventName][LuaEntity] = null;
+                EventList_[EventName].Remove(LuaEntity);
+                if (EventList_[EventName].Count == 0)
+                {
+                    EventList_.Remove(EventName);
+                }
+            }
+        }
+
+        public static void UnRegisterAllEvent(LuaTable LuaEntity)
+        {
+            foreach (var Events in EventList_)
+            {
+                foreach (var Evt in Events.Value)
+                {
+                    if (Equals(Evt.Key, LuaEntity))
+                    {
+                        Events.Value[LuaEntity] = null;
+                        Events.Value.Remove(LuaEntity);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static void OnLuaEvent(BaseEvent Event)
+        {
+            if (!EventList_.ContainsKey(Event.EventName))
+            {
+                return;
+            }
+
+            var Properties = Event.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var Table = LuaEnv_.NewTable();
+
+            foreach (var Property in Properties)
+            {
+                Table.SetInPath(Property.Name, Property.GetValue(Event));
+            }
+
+            foreach (var Evt in EventList_[Event.EventName])
+            {
+                Evt.Value.Invoke(Evt.Key, Table);
+            }
         }
     }
 }

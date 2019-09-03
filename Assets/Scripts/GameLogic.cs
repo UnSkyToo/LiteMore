@@ -2,6 +2,7 @@
 using LiteFramework.Core.Async.Timer;
 using LiteFramework.Core.Log;
 using LiteFramework.Game.Audio;
+using LiteFramework.Game.Lua;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
 using LiteFramework.Interface;
@@ -53,6 +54,7 @@ namespace LiteMore
             //PlayerManager.CreateMainEmitter();
             WaveManager.LoadWave((uint)PlayerManager.Player.Wave);
 
+            LuaRuntime.ExecuteMainLuaFile("main");
             return true;
         }
 

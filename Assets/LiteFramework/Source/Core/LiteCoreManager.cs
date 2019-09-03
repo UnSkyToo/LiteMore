@@ -69,7 +69,6 @@ namespace LiteFramework.Core
 
         public static void Tick(float DeltaTime)
         {
-            EventManager.Tick(DeltaTime);
             ObjectPoolManager.Tick(DeltaTime);
             TaskManager.Tick(DeltaTime);
             TimerManager.Tick(DeltaTime);

@@ -35,13 +35,23 @@ namespace LiteFramework.Core.Log
             AppenderList_.Remove(Appender);
         }
 
-        public void Write(LogLevel Level, string Format, params object[] Args)
+        public void Write(LogLevel Level, string Msg)
         {
-            var Event = new LogEvent(Level, string.Format(Format, Args));
+            var Event = new LogEvent(Level, Msg);
             foreach (var Appender in AppenderList_)
             {
                 Appender.Append(Event);
             }
+        }
+
+        public void Write(LogLevel Level, string Format, params object[] Args)
+        {
+            Write(Level, string.Format(Format, Args));
+        }
+
+        public void Info(string Msg)
+        {
+            Write(LogLevel.Info, Msg);
         }
 
         public void Info(string Format, params object[] Args)
@@ -49,14 +59,29 @@ namespace LiteFramework.Core.Log
             Write(LogLevel.Info, Format, Args);
         }
 
+        public void Warning(string Msg)
+        {
+            Write(LogLevel.Warning, Msg);
+        }
+
         public void Warning(string Format, params object[] Args)
         {
             Write(LogLevel.Warning, Format, Args);
         }
 
+        public void Error(string Msg)
+        {
+            Write(LogLevel.Error, Msg);
+        }
+
         public void Error(string Format, params object[] Args)
         {
             Write(LogLevel.Error, Format, Args);
+        }
+
+        public void Fatal(string Msg)
+        {
+            Write(LogLevel.Fatal, Msg);
         }
 
         public void Fatal(string Format, params object[] Args)
@@ -111,9 +136,19 @@ namespace LiteFramework.Core.Log
             return new LLogger(Name);
         }
 
+        public static void LInfo(string Msg)
+        {
+            Default_.Info(Msg);
+        }
+
         public static void LInfo(string Format, params object[] Args)
         {
             Default_.Info(Format, Args);
+        }
+
+        public static void LWarning(string Msg)
+        {
+            Default_.Warning(Msg);
         }
 
         public static void LWarning(string Format, params object[] Args)
@@ -121,9 +156,19 @@ namespace LiteFramework.Core.Log
             Default_.Warning(Format, Args);
         }
 
+        public static void LError(string Msg)
+        {
+            Default_.Error(Msg);
+        }
+
         public static void LError(string Format, params object[] Args)
         {
             Default_.Error(Format, Args);
+        }
+
+        public static void LFatal(string Msg)
+        {
+            Default_.Fatal(Msg);
         }
 
         public static void LFatal(string Format, params object[] Args)

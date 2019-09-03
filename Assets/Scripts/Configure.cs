@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using XLua;
 
 namespace LiteMore
 {
@@ -35,5 +38,30 @@ namespace LiteMore
 
         public static readonly Vector2 CoreBasePosition = new Vector2(WindowRight - 262.0f / 2.0f, 0);
         public static readonly Vector2 CoreTopPosition = new Vector2(WindowRight - 262.0f / 2.0f, 233.0f / 2.0f - 20);
+
+
+
+#if LITE_USE_LUA_MODULE
+        [LuaCallCSharp]
+        public static IEnumerable<Type> LuaCallCSharpList = new List<Type>()
+        {
+            typeof(LiteMore.Combat.NpcAttrIndex),
+            typeof(LiteMore.Combat.Npc.BaseNpc),
+
+            typeof(LiteMore.Player.PlayerDps),
+            typeof(LiteMore.Player.PlayerManager),
+        };
+
+        [CSharpCallLua]
+        public static IEnumerable<Type> CSharpCallLuaList = new List<Type>()
+        {
+        };
+
+        [GCOptimize]
+        public static IEnumerable<Type> OptimizeList = new List<Type>()
+        {
+            typeof(LiteMore.Combat.NpcAttrIndex),
+        };
     }
+#endif
 }

@@ -6,6 +6,8 @@ namespace LiteFramework.Core.Event
 {
     public static class EventManager
     {
+        public static event Action<BaseEvent> OnSend; 
+
         private abstract class EventListener
         {
             public abstract void Trigger(BaseEvent Msg);
@@ -56,18 +58,21 @@ namespace LiteFramework.Core.Event
                 EventEntity.Value.Check();
             }
 #endif
+
+            OnSend = null;
         }
 
-        public static void Tick(float DeltaTime)
+        private static string GetEventName<T>()
         {
+            return typeof(T).Name;
         }
 
         public static void Send<T>(T Event) where T : BaseEvent
         {
-            var EventName = typeof(T).FullName;
-            if (EventList_.ContainsKey(EventName))
+            if (EventList_.ContainsKey(Event.EventName))
             {
-                ((EventListenerImpl<T>)EventList_[EventName]).Trigger(Event);
+                ((EventListenerImpl<T>)EventList_[Event.EventName]).Trigger(Event);
+                OnSend?.Invoke(Event);
             }
         }
 
@@ -79,7 +84,7 @@ namespace LiteFramework.Core.Event
 
         public static void Register<T>(Action<T> Callback) where T : BaseEvent
         {
-            var EventName = typeof(T).FullName;
+            var EventName = GetEventName<T>();
             if (!EventList_.ContainsKey(EventName))
             {
                 EventList_.Add(EventName, new EventListenerImpl<T>());
@@ -90,7 +95,7 @@ namespace LiteFramework.Core.Event
 
         public static void UnRegister<T>(Action<T> Callback) where T : BaseEvent
         {
-            var EventName = typeof(T).FullName;
+            var EventName = GetEventName<T>();
             if (EventList_.ContainsKey(EventName))
             {
                 ((EventListenerImpl<T>)EventList_[EventName]).OnEvent -= Callback;
