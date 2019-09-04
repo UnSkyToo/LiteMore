@@ -42,7 +42,7 @@ namespace LiteFramework.Core.Net
 
         private static readonly Random Rand_ = new Random();
         private static readonly Dictionary<uint, string> MsgId2Name_ = new Dictionary<uint, string>();
-        private static readonly Dictionary<uint, MsgListerner> MsgHandlerDic_ = new Dictionary<uint, MsgListerner>();
+        private static readonly Dictionary<uint, MsgListener> MsgHandlerDic_ = new Dictionary<uint, MsgListener>();
         private static float LastSendTime_ = 0.0f;
 
         private static int ConnectedStateCode_ = (int) ConnectedCode.None;
@@ -54,18 +54,22 @@ namespace LiteFramework.Core.Net
 
         public static void Shutdown()
         {
-#if UNITY_EDITOR
             foreach (var MsgEntity in MsgHandlerDic_)
             {
+                MsgEntity.Value.Dispose();
+#if UNITY_EDITOR
                 MsgEntity.Value.Check();
-            }
 #endif
+            }
 
             WriteStream_.Dispose();
             ReadStream_.Dispose();
             DisConnect();
             MsgId2Name_.Clear();
             MsgHandlerDic_.Clear();
+
+            OnServerConnectSucceeded = null;
+            OnServerConnectFailed = null;
         }
 
         public static bool GetMsgNameById(uint MsgId, out string MsgName)
@@ -81,10 +85,10 @@ namespace LiteFramework.Core.Net
 
             if (!MsgHandlerDic_.ContainsKey(MsgId))
             {
-                MsgHandlerDic_.Add(MsgId, new MsgListnerImpl<T>());
+                MsgHandlerDic_.Add(MsgId, new MsgListenerImpl<T>());
             }
 
-            ((MsgListnerImpl<T>) MsgHandlerDic_[MsgId]).OnEvent += Callback;
+            ((MsgListenerImpl<T>) MsgHandlerDic_[MsgId]).OnEvent += Callback;
         }
 
         public static void UnRegisterMsgHandler<T>(Action<T> Callback) where T : BaseNetMsg
@@ -93,7 +97,7 @@ namespace LiteFramework.Core.Net
             uint MsgId = Crc32.Calculate(MsgName);
             if (MsgHandlerDic_.ContainsKey(MsgId))
             {
-                ((MsgListnerImpl<T>) MsgHandlerDic_[MsgId]).OnEvent -= Callback;
+                ((MsgListenerImpl<T>) MsgHandlerDic_[MsgId]).OnEvent -= Callback;
             }
         }
 
@@ -101,9 +105,9 @@ namespace LiteFramework.Core.Net
         {
             var MsgName = Msg.GetType().FullName;
             var MsgId = Crc32.Calculate(MsgName);
-            if (MsgHandlerDic_.TryGetValue(MsgId, out var MsgListern))
+            if (MsgHandlerDic_.TryGetValue(MsgId, out var MsgListener))
             {
-                MsgListern.Trigger(Msg);
+                MsgListener.Trigger(Msg);
             }
         }
 
@@ -312,14 +316,15 @@ namespace LiteFramework.Core.Net
             }
         }
 
-        private abstract class MsgListerner
+        private abstract class MsgListener : IDisposable
         {
             public abstract void Trigger(object Msg);
 
             public abstract void Check();
+            public abstract void Dispose();
         }
 
-        private class MsgListnerImpl<T> : MsgListerner
+        private class MsgListenerImpl<T> : MsgListener
         {
             public event Action<T> OnEvent = null;
 
@@ -339,6 +344,11 @@ namespace LiteFramework.Core.Net
                         LLogger.LWarning($"{Callback.Method.ReflectedType.Name} : {Callback.Method.Name} UnRegister");
                     }
                 }
+            }
+
+            public override void Dispose()
+            {
+                OnEvent = null;
             }
         }
     }

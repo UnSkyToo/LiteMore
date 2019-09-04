@@ -4,7 +4,7 @@ namespace LiteFramework.Core.Motion
 {
     public class CallbackMotion : BaseMotion
     {
-        private readonly Action Callback_;
+        private Action Callback_;
 
         public CallbackMotion(Action Callback)
             : base()
@@ -20,6 +20,7 @@ namespace LiteFramework.Core.Motion
 
         public override void Exit()
         {
+            Callback_ = null;
         }
 
         public override void Tick(float DeltaTime)

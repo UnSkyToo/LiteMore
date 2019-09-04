@@ -63,7 +63,7 @@ function DpsUI:Refresh()
         UIHelper.FindComponent(Child, "Value", UISlider).value = Chunks[i].Percent
     end
 
-    DpsText_.text = "Dps:" .. string.format("%0.12", CS.LiteMore.Player.PlayerManager.Dps.Dps)
+    DpsText_.text = "Dps:" .. string.format("%0.2f", CS.LiteMore.Player.PlayerManager.Dps.Dps)
 end
 
 function DpsUI:CreateItem()

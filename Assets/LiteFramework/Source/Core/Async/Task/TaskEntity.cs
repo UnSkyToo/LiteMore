@@ -4,13 +4,13 @@ using LiteFramework.Core.Base;
 
 namespace LiteFramework.Core.Async.Task
 {
-    public class TaskEntity : BaseObject
+    public class TaskEntity : BaseObject, IDisposable
     {
         public bool IsPause { get; set; }
         public bool IsEnd { get; private set; }
 
         private readonly IEnumerator TaskEntity_;
-        private readonly Action Callback_;
+        private Action Callback_;
 
         public TaskEntity(IEnumerator Entity, Action Callback)
             : base()
@@ -20,6 +20,11 @@ namespace LiteFramework.Core.Async.Task
 
             TaskEntity_ = Entity;
             Callback_ = Callback;
+        }
+
+        public void Dispose()
+        {
+            Callback_ = null;
         }
 
         public void Start()

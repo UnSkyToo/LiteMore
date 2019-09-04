@@ -65,6 +65,11 @@ namespace LiteFramework.Core.ObjectPool
             ObjectCacheList_.Clear();
             UsedCount = 0;
             IdleCount = 0;
+
+            CreateFunc_ = null;
+            SpawnFunc_ = null;
+            RecycleFunc_ = null;
+            DisposeFunc_ = null;
         }
 
         public void DestroyUnusedObjects()

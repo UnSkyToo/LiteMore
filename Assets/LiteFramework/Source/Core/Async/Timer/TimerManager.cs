@@ -16,6 +16,10 @@ namespace LiteFramework.Core.Async.Timer
 
         public static void Shutdown()
         {
+            foreach (var Entity in TimerList_)
+            {
+                Entity.Dispose();
+            }
             TimerList_.Clear();
         }
 
@@ -27,6 +31,7 @@ namespace LiteFramework.Core.Async.Timer
 
                 if (Entity.IsEnd)
                 {
+                    Entity.Dispose();
                     TimerList_.Remove(Entity);
                 }
             }

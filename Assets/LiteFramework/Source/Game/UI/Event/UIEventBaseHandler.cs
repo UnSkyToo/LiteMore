@@ -3,10 +3,16 @@ using UnityEngine;
 
 namespace LiteFramework.Game.UI.Event
 {
-    public abstract class UIEventBaseHandler : MonoBehaviour
+    public abstract class UIEventBaseHandler : MonoBehaviour, IDisposable
     {
         protected Action<GameObject, Vector2> EventCallback_;
         protected Action EventCallbackEx_;
+
+        public void Dispose()
+        {
+            EventCallback_ = null;
+            EventCallbackEx_ = null;
+        }
 
         public void AddCallback(Action<GameObject, Vector2> Callback)
         {

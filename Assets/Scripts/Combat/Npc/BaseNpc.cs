@@ -88,6 +88,7 @@ namespace LiteMore.Combat.Npc
                 Module.Dispose();
             }
 
+            Bar_.Dispose();
             base.Dispose();
         }
 

@@ -3,7 +3,7 @@ using LiteFramework.Core.Base;
 
 namespace LiteFramework.Core.Async.Timer
 {
-    public class TimerEntity : BaseObject
+    public class TimerEntity : BaseObject, IDisposable
     {
         public event Action OnTick;
         public event Action OnEnd;
@@ -22,6 +22,12 @@ namespace LiteFramework.Core.Async.Timer
             Time_ = 0.0f;
             Count_ = Count;
             IsPause_ = false;
+        }
+
+        public void Dispose()
+        {
+            OnTick = null;
+            OnEnd = null;
         }
 
         public void Start()

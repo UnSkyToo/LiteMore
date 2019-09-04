@@ -43,11 +43,17 @@ namespace LiteFramework.Game.UI
 
         public static void ClearCallback(Transform Master)
         {
+            if (Master.GetComponent(typeof(UIEventBaseHandler)) == null)
+            {
+                return;
+            }
+
             for (var Index = 0; Index < EnumEx.Count<UIEventType>(); ++Index)
             {
-                var Handler = Master.GetComponent(EventHandlerList_[(UIEventType)Index]);
+                var Handler = Master.GetComponent(EventHandlerList_[(UIEventType)Index]) as UIEventBaseHandler;
                 if (Handler != null)
                 {
+                    Handler.Dispose();
                     UnityEngine.Object.Destroy(Handler);
                 }
             }

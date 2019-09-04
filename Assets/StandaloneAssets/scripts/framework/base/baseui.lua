@@ -3,7 +3,6 @@ BaseUI = {}
 --local _UIHelper = CS.Lite.Framework.UIHelper
 
 function BaseUI:FindChild(path)
-	print(type(self._CSEntity_))
 	return self._CSEntity_:FindChild(path)
 end
 

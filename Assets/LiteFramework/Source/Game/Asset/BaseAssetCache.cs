@@ -25,6 +25,11 @@ namespace LiteFramework.Game.Asset
             this.DependenciesCache_ = new List<BaseAssetCache>();
         }
 
+        public override string ToString()
+        {
+            return $"{AssetPath} - {AssetType}";
+        }
+
         public abstract string[] GetAllDependencies();
 
         public abstract IEnumerator LoadAsync();

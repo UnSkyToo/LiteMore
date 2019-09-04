@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace LiteFramework.Core.Async.Job
 {
-    public abstract class JobSystem<TEntity>
+    public abstract class JobSystem<TEntity> : IDisposable
     {
         private readonly TEntity[] Entities_;
         private readonly Job<TEntity>[] Jobs_;
@@ -33,6 +33,11 @@ namespace LiteFramework.Core.Async.Job
                 Jobs_[Index] = new Job<TEntity>();
                 Jobs_[Index].Set(Entities_, From, To);
             }
+        }
+
+        public void Dispose()
+        {
+            OnCompleted = null;
         }
 
         public void Execute()

@@ -33,6 +33,7 @@ namespace LiteMore.UI.Logic
 
         protected override void OnClose()
         {
+            UIHelper.RemoveAllChildren(ListContent_);
             EventManager.UnRegister<NpcAddEvent>(OnNpcAddEvent);
             EventManager.UnRegister<NpcDieEvent>(OnNpcDieEvent);
 
