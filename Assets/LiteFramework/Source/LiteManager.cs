@@ -27,10 +27,7 @@ namespace LiteFramework
 
             LiteConfigure.UIDescList.Clear();
 
-            if (Debug.isDebugBuild ||
-                Application.platform == RuntimePlatform.WindowsEditor ||
-                Application.platform == RuntimePlatform.OSXEditor ||
-                Application.platform == RuntimePlatform.LinuxEditor)
+            if (Debug.isDebugBuild || Application.isEditor)
             {
                 Attach<Debugger>(MonoBehaviourInstance.gameObject);
             }
@@ -56,10 +53,7 @@ namespace LiteFramework
             LiteGameManager.Shutdown();
             LiteCoreManager.Shutdown();
 
-            if (Debug.isDebugBuild ||
-                Application.platform == RuntimePlatform.WindowsEditor ||
-                Application.platform == RuntimePlatform.OSXEditor ||
-                Application.platform == RuntimePlatform.LinuxEditor)
+            if (Debug.isDebugBuild || Application.isEditor)
             {
                 Detach<Debugger>(MonoBehaviourInstance.gameObject);
             }

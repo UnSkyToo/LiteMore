@@ -98,6 +98,13 @@ namespace LiteMore
                     NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 1, 0, 1500, 30));
                 Npc.Skill.AddNpcSkill(2011); // 箭雨-主动
             }*/
+
+            var Archer = NpcManager.AddNpc("Archer", new Vector2(Screen.width / 2 - 100, 0), CombatTeam.A, 1,
+                NpcManager.GenerateInitAttr(200, 100, 0, 100, 10, 1, 0, 30, 30));
+            Archer.EnableAI(false);
+
+            var UI = UIManager.OpenUI<JoystickUI>();
+            UI.BindMaster(Archer);
         }
     }
 }

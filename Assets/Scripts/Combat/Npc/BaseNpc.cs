@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
+using LiteFramework.Helper;
 using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc.Handler;
 using LiteMore.Combat.Npc.Module;
@@ -125,20 +126,7 @@ namespace LiteMore.Combat.Npc
 
             Handler.Master = this;
             HandlerList_.Add(Handler);
-            HandlerList_.Sort((A, B) =>
-            {
-                if (A.Priority > B.Priority)
-                {
-                    return -1;
-                }
-
-                if (A.Priority < B.Priority)
-                {
-                    return 1;
-                }
-
-                return 0;
-            });
+            HandlerList_.SortPriority();
         }
 
         public void UnRegisterHandler(BaseNpcHandler Handler)

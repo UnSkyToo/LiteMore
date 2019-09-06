@@ -1,14 +1,13 @@
-﻿using LiteMore.Combat;
-using LiteMore.Combat.Npc;
+﻿using LiteFramework.Interface;
 
 namespace LiteMore.Combat.Npc.Handler
 {
-    public class BaseNpcHandler
+    public class BaseNpcHandler : IPriority
     {
-        public uint Priority { get; }
+        public int Priority { get; }
         public BaseNpc Master { get; set; }
 
-        public BaseNpcHandler(uint Priority)
+        public BaseNpcHandler(int Priority)
         {
             this.Priority = Priority;
         }

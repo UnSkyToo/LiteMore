@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace Lite.Framework.AppUpdate.Stage
+namespace LiteFramework.AppUpdate.Stage
 {
     public class CopyResInfoToDocStage : IStage
     {

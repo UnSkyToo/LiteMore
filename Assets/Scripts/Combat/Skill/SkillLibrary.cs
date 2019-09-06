@@ -15,13 +15,13 @@ namespace LiteMore.Combat.Skill
         public float CD { get; }
         public int Cost { get; }
         public float Radius { get; }
-        public uint Priority { get; }
+        public int Priority { get; }
         public BaseShape Shape { get; }
         public FilterRule Rule { get; }
         public BaseExecutor Executor { get; }
         public BaseSelector Selector { get; }
 
-        public SkillDescriptor(uint SkillID, SkillType Type, string Name, string Icon, float CD, int Cost, float Radius, uint Priority, FilterRule Rule, BaseExecutor Executor, BaseSelector Selector)
+        public SkillDescriptor(uint SkillID, SkillType Type, string Name, string Icon, float CD, int Cost, float Radius, int Priority, FilterRule Rule, BaseExecutor Executor, BaseSelector Selector)
         {
             this.SkillID = SkillID;
             this.Type = Type;
@@ -94,7 +94,7 @@ namespace LiteMore.Combat.Skill
             return null;
         }
 
-        private static void Add(uint SkillID, SkillType Type, string Name, string Icon, float CD, int Cost, float Radius, uint Priority, FilterRule Rule, BaseExecutor Executor, BaseSelector Selector)
+        private static void Add(uint SkillID, SkillType Type, string Name, string Icon, float CD, int Cost, float Radius, int Priority, FilterRule Rule, BaseExecutor Executor, BaseSelector Selector)
         {
             if (SkillList_.ContainsKey(SkillID))
             {

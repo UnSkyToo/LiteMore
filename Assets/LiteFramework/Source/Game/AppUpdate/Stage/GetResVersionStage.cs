@@ -1,4 +1,4 @@
-﻿namespace Lite.Framework.AppUpdate.Stage
+﻿namespace LiteFramework.AppUpdate.Stage
 {
     public class GetResVersionStage : IStage
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Lite.Framework.AppUpdate.Stage;
+using LiteFramework.AppUpdate.Stage;
 
-namespace Lite.Framework.AppUpdate
+namespace LiteFramework.AppUpdate
 {
     public class Pipline
     {

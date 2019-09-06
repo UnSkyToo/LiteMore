@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 
-namespace Lite.Framework.AppUpdate
+namespace LiteFramework.AppUpdate
 {
     public enum StageID
     {

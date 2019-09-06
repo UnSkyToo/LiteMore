@@ -62,6 +62,6 @@ namespace LiteMore
         {
             typeof(LiteMore.Combat.NpcAttrIndex),
         };
-    }
 #endif
+    }
 }

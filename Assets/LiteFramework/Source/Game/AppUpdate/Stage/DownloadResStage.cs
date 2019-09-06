@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Lite.Framework.AppUpdate.Stage
+namespace LiteFramework.AppUpdate.Stage
 {
     public class DownloadResStage : IStage
     {

@@ -1,4 +1,4 @@
-﻿namespace Lite.Framework.AppUpdate
+﻿namespace LiteFramework.AppUpdate
 {
     public class Updater
     {

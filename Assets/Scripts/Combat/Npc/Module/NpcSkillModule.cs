@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
+using LiteFramework.Helper;
 using LiteMore.Combat.Skill;
 
 namespace LiteMore.Combat.Npc.Module
@@ -73,20 +74,7 @@ namespace LiteMore.Combat.Npc.Module
             }
 
             SkillList_.Add(Skill);
-            SkillList_.Sort((A, B) =>
-            {
-                if (A.Priority > B.Priority)
-                {
-                    return -1;
-                }
-
-                if (A.Priority < B.Priority)
-                {
-                    return 1;
-                }
-
-                return 0;
-            });
+            SkillList_.SortPriority();
 
             if (Notify)
             {

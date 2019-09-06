@@ -1,4 +1,5 @@
-﻿using LiteMore.Combat.AI.Filter;
+﻿using LiteFramework.Interface;
+using LiteMore.Combat.AI.Filter;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Shape;
 using LiteMore.Combat.Skill.Executor;
@@ -6,7 +7,7 @@ using LiteMore.Core;
 
 namespace LiteMore.Combat.Skill
 {
-    public abstract class BaseSkill : BaseEntity
+    public abstract class BaseSkill : BaseEntity, IPriority
     {
         public BaseNpc Master { get; }
         public uint SkillID { get; }
@@ -15,7 +16,7 @@ namespace LiteMore.Combat.Skill
         public float CD { get; set; }
         public int Cost { get; set; }
         public float Radius { get; set; }
-        public uint Priority { get; }
+        public int Priority { get; }
         public BaseShape Shape { get; }
         public FilterRule Rule { get; }
         public float Time { get; protected set; }

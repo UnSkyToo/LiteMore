@@ -72,7 +72,7 @@ namespace LiteMore.Combat.Skill.Executor
             private readonly uint SkillID_;
             private readonly BaseNpc Master_;
 
-            public SkillExecutor3002_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
+            public SkillExecutor3002_NpcHandler(int Priority, uint SkillID, BaseNpc Master)
                 : base(Priority)
             {
                 SkillID_ = SkillID;
@@ -116,7 +116,7 @@ namespace LiteMore.Combat.Skill.Executor
             private readonly uint SkillID_;
             private readonly BaseNpc Master_;
 
-            public SkillExecutor3003_NpcHandler(uint Priority, uint SkillID, BaseNpc Master)
+            public SkillExecutor3003_NpcHandler(int Priority, uint SkillID, BaseNpc Master)
                 : base(Priority)
             {
                 SkillID_ = SkillID;

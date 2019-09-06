@@ -3,7 +3,7 @@ using LiteFramework.Helper;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Lite.Framework.AppUpdate
+namespace LiteFramework.AppUpdate
 {
     public class UpdateUI
     {

@@ -60,6 +60,6 @@ namespace LiteFramework
             typeof(LiteFramework.Game.UI.UIDepthMode),
             typeof(LiteFramework.Game.UI.UIEventType),
         };
-    }
 #endif
+    }
 }

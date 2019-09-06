@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using LiteFramework.Core.Base;
 
-namespace Lite.Framework.AppUpdate
+namespace LiteFramework.AppUpdate
 {
     public enum DownloadState
     {

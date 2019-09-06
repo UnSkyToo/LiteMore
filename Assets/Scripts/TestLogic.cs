@@ -12,9 +12,6 @@ namespace LiteMore
     {
         public bool Startup()
         {
-            LuaRuntime.ExecuteMainLuaFile("main");
-
-            EventManager.Send(new NpcAttrChangedEvent(null, NpcAttrIndex.AddHp, -1, 1));
             return true;
         }
 
