@@ -5,6 +5,7 @@ namespace LiteMore.Combat.Buff
     public static class BuffManager
     {
         private static readonly ListEx<BaseBuff> BuffList_ = new ListEx<BaseBuff>();
+        private static float DeltaTime_ = 0;
 
         public static bool Startup()
         {
@@ -23,17 +24,17 @@ namespace LiteMore.Combat.Buff
 
         public static void Tick(float DeltaTime)
         {
-            foreach (var Buff in BuffList_)
+            DeltaTime_ = DeltaTime;
+            BuffList_.Foreach((Entity) =>
             {
-                Buff.Tick(DeltaTime);
+                Entity.Tick(DeltaTime_);
 
-                if (!Buff.IsAlive)
+                if (!Entity.IsAlive)
                 {
-                    Buff.Dispose();
-                    BuffList_.Remove(Buff);
+                    Entity.Dispose();
+                    BuffList_.Remove(Entity);
                 }
-            }
-            BuffList_.Flush();
+            });
         }
 
         public static BaseBuff AddBuff(BaseBuff Buff)

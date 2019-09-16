@@ -28,15 +28,14 @@ namespace LiteFramework.Core.Async.Task
 
         public static void Tick(float DeltaTime)
         {
-            foreach (var Entity in TaskList_)
+            TaskList_.Foreach((Entity) =>
             {
                 if (Entity.IsEnd)
                 {
                     Entity.Dispose();
                     TaskList_.Remove(Entity);
                 }
-            }
-            TaskList_.Flush();
+            });
         }
 
         public static TaskEntity AddTask(IEnumerator TaskFunc, Action Callback = null)

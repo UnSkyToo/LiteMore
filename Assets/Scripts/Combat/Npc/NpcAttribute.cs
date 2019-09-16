@@ -131,7 +131,13 @@ namespace LiteMore.Combat.Npc
                 return;
             }
 
-            EventManager.Send(new NpcAttrChangedEvent(Master_, Index, OldValue, CalcFinalValue(Index)));
+            var NewValue = CalcFinalValue(Index);
+            if (UnityEngine.Mathf.Approximately(OldValue, NewValue))
+            {
+                return;
+            }
+
+            EventManager.Send(new NpcAttrChangedEvent(Master_, Index, OldValue, NewValue));
         }
     }
 }

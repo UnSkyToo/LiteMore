@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace LiteFramework.Core.Base
@@ -41,6 +42,15 @@ namespace LiteFramework.Core.Base
             Values_.Clear();
         }
 
+        public void Foreach(Action<T> TickFunc)
+        {
+            foreach (var Item in Values_)
+            {
+                TickFunc?.Invoke(Item);
+            }
+            Flush();
+        }
+
         public void Flush()
         {
             if (Dirty_)
@@ -61,19 +71,21 @@ namespace LiteFramework.Core.Base
             }
         }
 
+        // GC Alloc 40B
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            foreach (var Item in Values_)
+            for (var Index = 0; Index < Values_.Count; ++Index)
             {
-                yield return Item;
+                yield return Values_[Index];
             }
         }
 
+        // GC Alloc 40B
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var Item in Values_)
+            for (var Index = 0; Index < Values_.Count; ++Index)
             {
-                yield return Item;
+                yield return Values_[Index];
             }
         }
     }

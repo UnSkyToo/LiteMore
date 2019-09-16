@@ -10,6 +10,7 @@ namespace LiteMore.Combat.Bullet
     {
         private static readonly Dictionary<BulletType, GameObjectPool> BulletPool_ = new Dictionary<BulletType, GameObjectPool>();
         private static readonly ListEx<BaseBullet> BulletList_ = new ListEx<BaseBullet>();
+        private static float DeltaTime_ = 0;
 
         public static bool Startup()
         {
@@ -41,17 +42,17 @@ namespace LiteMore.Combat.Bullet
 
         public static void Tick(float DeltaTime)
         {
-            foreach (var Entity in BulletList_)
+            DeltaTime_ = DeltaTime;
+            BulletList_.Foreach((Entity) =>
             {
-                Entity.Tick(DeltaTime);
+                Entity.Tick(DeltaTime_);
 
                 if (!Entity.IsAlive)
                 {
                     Entity.Dispose();
                     BulletList_.Remove(Entity);
                 }
-            }
-            BulletList_.Flush();
+            });
         }
 
         public static void DisposeBullet(BaseBullet Bullet)
