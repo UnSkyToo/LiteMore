@@ -60,8 +60,8 @@ namespace LiteMore
 
         public void Shutdown()
         {
-            PlayerManager.Shutdown();
             CombatManager.Shutdown();
+            PlayerManager.Shutdown();
 
             PlayerManager.SaveToArchive();
             LocalCache.SaveCache();

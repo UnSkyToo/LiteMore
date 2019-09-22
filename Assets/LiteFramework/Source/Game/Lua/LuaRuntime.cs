@@ -10,6 +10,7 @@ using XLua;
 
 namespace LiteFramework.Game.Lua
 {
+#if LITE_USE_LUA_MODULE
     public static class LuaRuntime
     {
         private static LuaEnv LuaEnv_ = null;
@@ -172,4 +173,5 @@ namespace LiteFramework.Game.Lua
             }
         }
     }
+#endif
 }

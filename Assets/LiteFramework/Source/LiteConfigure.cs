@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using LiteFramework.Game.UI;
-using UnityEngine;
-using XLua;
+﻿using System.Collections.Generic;
 
 namespace LiteFramework
 {
@@ -14,12 +10,12 @@ namespace LiteFramework
         public const string StandaloneAssetsName = "StandaloneAssets";
         public const string CanvasNormalName = "Canvas-Normal";
 
-        public static readonly Dictionary<Type, UIDescriptor> UIDescList = new Dictionary<Type, UIDescriptor>();
+        public static readonly Dictionary<System.Type, LiteFramework.Game.UI.UIDescriptor> UIDescList = new Dictionary<System.Type, LiteFramework.Game.UI.UIDescriptor>();
 
 
 #if LITE_USE_LUA_MODULE
-        [LuaCallCSharp]
-        public static IEnumerable<Type> LuaCallCSharpList = new List<Type>()
+        [XLua.LuaCallCSharp]
+        public static IEnumerable<System.Type> LuaCallCSharpList = new List<System.Type>()
         {
             typeof(LiteFramework.Game.UI.BaseUI),
             typeof(LiteFramework.Game.UI.UIDepthMode),
@@ -41,21 +37,21 @@ namespace LiteFramework
             typeof(LiteFramework.Core.Motion.MotionManager),
         };
 
-        [CSharpCallLua]
-        public static IEnumerable<Type> CSharpCallLuaList = new List<Type>()
+        [XLua.CSharpCallLua]
+        public static IEnumerable<System.Type> CSharpCallLuaList = new List<System.Type>()
         {
-            typeof(Action),
-            typeof(Action<float>),
-            typeof(Action<GameObject>),
-            typeof(Action<GameObject, Vector2>),
-            typeof(Action<LuaTable>),
-            typeof(Action<LuaTable, LuaTable>),
-            typeof(Action<LuaTable, float>),
+            typeof(System.Action),
+            typeof(System.Action<float>),
+            typeof(System.Action<UnityEngine.GameObject>),
+            typeof(System.Action<UnityEngine.GameObject, UnityEngine.Vector2>),
+            typeof(System.Action<XLua.LuaTable>),
+            typeof(System.Action<XLua.LuaTable, XLua.LuaTable>),
+            typeof(System.Action<XLua.LuaTable, float>),
             typeof(LiteFramework.Interface.Lua.ILuaMainEntity),
         };
 
-        [GCOptimize]
-        public static IEnumerable<Type> OptimizeList = new List<Type>()
+        [XLua.GCOptimize]
+        public static IEnumerable<System.Type> OptimizeList = new List<System.Type>()
         {
             typeof(LiteFramework.Game.UI.UIDepthMode),
             typeof(LiteFramework.Game.UI.UIEventType),
