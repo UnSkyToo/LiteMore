@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 4120302240
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 116dd9ed28df7328ad954a5a0e506487
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/StandaloneAssets/scripts/framework/base/eventdefined.lua.bytes
+Dependencies: []

@@ -11,6 +11,7 @@ namespace LiteFramework.Helper
     {
         public const int StatisticsCount = 60;
 
+        private readonly string FullPath_;
         private readonly string ElementType_;
         private readonly double[] ElapsedTime_;
         private int Index_;
@@ -23,8 +24,9 @@ namespace LiteFramework.Helper
 
         private readonly Dictionary<string, ProfilerElement> ChildList_;
 
-        public ProfilerElement(string ElementType)
+        public ProfilerElement(string FullPath, string ElementType)
         {
+            FullPath_ = FullPath;
             ElementType_ = ElementType;
             ElapsedTime_ = new double[StatisticsCount];
             Index_ = 0;
@@ -36,6 +38,11 @@ namespace LiteFramework.Helper
             IsEnd_ = false;
 
             ChildList_ = new Dictionary<string, ProfilerElement>();
+        }
+
+        public string GetFullPath()
+        {
+            return FullPath_;
         }
 
         public string GetElementType()
@@ -96,11 +103,11 @@ namespace LiteFramework.Helper
             return null;
         }
 
-        public ProfilerElement AddChild(string Type)
+        public ProfilerElement AddChild(string Full, string Type)
         {
             if (!ChildList_.ContainsKey(Type))
             {
-                ChildList_.Add(Type, new ProfilerElement(Type));
+                ChildList_.Add(Type, new ProfilerElement(Full, Type));
             }
 
             return ChildList_[Type];
@@ -168,7 +175,7 @@ namespace LiteFramework.Helper
 
             foreach (var Ele in ChildList_)
             {
-                Ele.Value.DisplayMsg();
+                Ele.Value.Display();
             }
         }
 
@@ -176,7 +183,7 @@ namespace LiteFramework.Helper
         {
             if (IsValid())
             {
-                var Msg = $"[Profiler] {ElementType_}  ({GetTotalTime():0.000}s)";
+                var Msg = $"[Profiler] {FullPath_}  ({GetTotalTime():0.000}s)";
                 LLogger.LInfo(Msg);
             }
         }
@@ -196,16 +203,16 @@ namespace LiteFramework.Helper
 
         public static void Clear()
         {
-            Root_ = new ProfilerElement("Root");
+            Root_ = new ProfilerElement("Root", "Root");
         }
 
-        public static ProfilerElement Get(string Name)
+        public static ProfilerElement Get(string Path)
         {
-            var Path = Name.Split('/');
+            var Names = Path.Split('/');
             var Current = Root_;
-            for (var Index = 0; Index < Path.Length; ++Index)
+            for (var Index = 0; Index < Names.Length; ++Index)
             {
-                Current = Current.AddChild(Path[Index]);
+                Current = Current.AddChild(Path, Names[Index]);
             }
 
             return Current;
