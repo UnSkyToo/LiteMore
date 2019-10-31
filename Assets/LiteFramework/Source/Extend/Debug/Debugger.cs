@@ -48,6 +48,8 @@ namespace LiteFramework.Extend.Debug
             RootGroup_.Register("Profiler/Memory/ScriptableObject", new DebuggerProfiler.MemoryInfoItem<UnityEngine.ScriptableObject>());
 
             RootGroup_.Register("Profiler/Object Pool", new DebuggerProfiler.ObjectPoolItem());
+
+            ResetLayout();
         }
 
         void OnDestroy()
@@ -88,7 +90,7 @@ namespace LiteFramework.Extend.Debug
 
         public static void ResetLayout()
         {
-            Scale = 1.0f;
+            Scale = Mathf.Max((float)Screen.width / 720.0f, 1);
             MiniBounds = new Rect(10, 10, 100, 60);
             NormalBounds = new Rect(10, 10, 640, 480);
         }

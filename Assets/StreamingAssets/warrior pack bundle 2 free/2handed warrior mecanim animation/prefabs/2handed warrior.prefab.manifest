@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 801993765
+CRC: 21111989
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 34da74a52bc376fa9de3ee63ed8d5877
+    Hash: 44b24bd0fe772c832fdfeddeb75e71b2
   TypeTreeHash:
     serializedVersion: 2
     Hash: 502a54e9133084a5288f4f2310977a44
@@ -35,9 +35,9 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Prefabs/2Handed
   Warrior.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
-  warrior mecanim animation/characters/2handed.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
-  warrior mecanim animation/materials/2handed.mat
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
-  warrior mecanim animation/prefabs/2handed warrior animation controller.controller
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed warrior
+  mecanim animation/materials/2handed.mat
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed warrior
+  mecanim animation/characters/2handed.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed warrior
+  mecanim animation/prefabs/2handed warrior animation controller.controller

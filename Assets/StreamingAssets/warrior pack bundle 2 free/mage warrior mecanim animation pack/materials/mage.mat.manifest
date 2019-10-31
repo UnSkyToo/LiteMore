@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1735400502
+CRC: 1551094563
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c6dab3a79d8b7e001f6eea74ee19f2e9
+    Hash: bbab258d7288c4fa4a5b0f80129bd201
   TypeTreeHash:
     serializedVersion: 2
     Hash: fe397485c3cec1106b49e9ff95e8f8a2
@@ -19,5 +19,5 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Mage Warrior Mecanim Animation
   Pack/Materials/Mage.mat
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
-  warrior mecanim animation pack/textures/mage.psd
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage warrior
+  mecanim animation pack/textures/mage.psd

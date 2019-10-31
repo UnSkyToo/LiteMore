@@ -4,7 +4,7 @@ namespace LiteFramework.Game.Data
 {
     public class DataLine
     {
-        private Dictionary<string, BaseDataEntity> DataList_ = null;
+        private readonly Dictionary<string, BaseDataEntity> DataList_ = null;
 
         public DataLine()
         {

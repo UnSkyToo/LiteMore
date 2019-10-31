@@ -32,69 +32,39 @@ namespace LiteFramework.Game.Asset
             return Loader_.AssetCacheExisted(AssetPath);
         }
 
-        public static void PreloadAsset<T>(string AssetPath) where T : UnityEngine.Object
+        public static void PreloadedAsset<T>(string AssetPath, Action<bool> Callback) where T : UnityEngine.Object
         {
-            Loader_.PreloadAsset<T>(AssetPath);
+            Loader_.PreloadedAsset<T>(AssetPath, Callback);
         }
 
-        public static void CreateAssetAsync<T>(string BundlePath, string AssetName, Action<T> Callback = null) where T : UnityEngine.Object
+        public static void CreateAssetAsync<T>(AssetUri Uri, Action<T> Callback = null) where T : UnityEngine.Object
         {
-            Loader_.CreateAssetAsync<T>(BundlePath, AssetName, Callback);
+            Loader_.CreateAssetAsync<T>(Uri, Callback);
         }
 
-        public static void CreateAssetAsync<T>(string BundlePath, Action<T> Callback = null) where T : UnityEngine.Object
+        public static T CreateAssetSync<T>(AssetUri Uri) where T : UnityEngine.Object
         {
-            Loader_.CreateAssetAsync(BundlePath, Callback);
+            return Loader_.CreateAssetSync<T>(Uri);
         }
 
-        public static T CreateAssetSync<T>(string BundlePath, string AssetName) where T : UnityEngine.Object
+        public static void CreatePrefabAsync(AssetUri Uri, Action<GameObject> Callback = null)
         {
-            return Loader_.CreateAssetSync<T>(BundlePath, AssetName);
+            Loader_.CreatePrefabAsync(Uri, Callback);
         }
 
-        public static T CreateAssetSync<T>(string BundlePath) where T : UnityEngine.Object
+        public static GameObject CreatePrefabSync(AssetUri Uri)
         {
-            return Loader_.CreateAssetSync<T>(BundlePath);
+            return Loader_.CreatePrefabSync(Uri);
         }
 
-        public static void CreatePrefabAsync(string BundlePath, string AssetName, Action<GameObject> Callback = null)
+        public static void CreateDataAsync(AssetUri Uri, Action<byte[]> Callback = null)
         {
-            Loader_.CreatePrefabAsync(BundlePath, AssetName, Callback);
+            Loader_.CreateDataAsync(Uri, Callback);
         }
 
-        public static void CreatePrefabAsync(string BundlePath, Action<GameObject> Callback = null)
+        public static byte[] CreateDataSync(AssetUri Uri)
         {
-            Loader_.CreatePrefabAsync(BundlePath, Callback);
-        }
-
-        public static GameObject CreatePrefabSync(string BundlePath, string AssetName)
-        {
-            return Loader_.CreatePrefabSync(BundlePath, AssetName);
-        }
-
-        public static GameObject CreatePrefabSync(string BundlePath)
-        {
-            return Loader_.CreatePrefabSync(BundlePath);
-        }
-
-        public static void CreateDataAsync(string BundlePath, string AssetName, Action<byte[]> Callback = null)
-        {
-            Loader_.CreateDataAsync(BundlePath, AssetName, Callback);
-        }
-
-        public static void CreateDataAsync(string BundlePath, Action<byte[]> Callback = null)
-        {
-            Loader_.CreateDataAsync(BundlePath, Callback);
-        }
-
-        public static byte[] CreateDataSync(string BundlePath, string AssetName)
-        {
-            return Loader_.CreateDataSync(BundlePath, AssetName);
-        }
-
-        public static byte[] CreateDataSync(string BundlePath)
-        {
-            return Loader_.CreateDataSync(BundlePath);
+            return Loader_.CreateDataSync(Uri);
         }
 
         public static void DeleteAsset<T>(T Asset) where T : UnityEngine.Object

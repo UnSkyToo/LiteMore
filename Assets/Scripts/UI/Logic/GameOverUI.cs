@@ -6,10 +6,8 @@ namespace LiteMore.UI.Logic
     public class GameOverUI : BaseUI
     {
         public GameOverUI()
-            : base()
+            : base(UIDepthMode.Top, 1)
         {
-            DepthMode = UIDepthMode.Top;
-            DepthIndex = 1000;
         }
 
         protected override void OnOpen(params object[] Params)

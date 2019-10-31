@@ -114,7 +114,7 @@ namespace LiteMore.Combat.Npc
             // temp code, r1 or r2 role
             var AtkRange = InitAttr[(int) NpcAttrIndex.AtkRange];
 
-            var Obj = AssetManager.CreatePrefabSync(AtkRange > 100 ? "prefabs/npc/r1/r1.prefab" : "prefabs/npc/r2/r2.prefab");
+            var Obj = AssetManager.CreatePrefabSync(new AssetUri(AtkRange > 100 ? "prefabs/npc/r1/r1.prefab" : "prefabs/npc/r2/r2.prefab"));
             MapManager.AddToNpcLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 
@@ -144,7 +144,7 @@ namespace LiteMore.Combat.Npc
                 return CoreNpc_;
             }
 
-            var Obj = AssetManager.CreatePrefabSync("prefabs/npc/core/core.prefab");
+            var Obj = AssetManager.CreatePrefabSync(new AssetUri("prefabs/npc/core/core.prefab"));
             MapManager.AddToNpcLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 

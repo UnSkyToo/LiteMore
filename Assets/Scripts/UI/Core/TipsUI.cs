@@ -10,15 +10,13 @@ namespace LiteMore.UI.Core
         private RectTransform TextRectTransform_;
 
         public TipsUI()
-            : base()
+            : base(UIDepthMode.Top, 5)
         {
-            DepthMode = UIDepthMode.Top;
-            DepthIndex = 100;
         }
 
         protected override void OnOpen(params object[] Params)
         {
-            Text_ = FindComponent<Text>("Text");
+            Text_ = GetComponent<Text>("Text");
             Text_.text = string.Empty;
 
             TextRectTransform_ = Text_.gameObject.GetComponent<RectTransform>();

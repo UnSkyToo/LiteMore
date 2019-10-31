@@ -36,6 +36,12 @@ namespace LiteFramework.Helper
             MotionList_ = new List<BaseMotion>();
         }
 
+        public MotionContainer Motion(BaseMotion Motion)
+        {
+            MotionList_.Add(Motion);
+            return this;
+        }
+
         public MotionContainer Wait(float Time)
         {
             MotionList_.Add(new WaitTimeMotion(Time));
@@ -51,6 +57,12 @@ namespace LiteFramework.Helper
         public MotionContainer Scale(float Time, Vector3 Scale, bool IsRelative)
         {
             MotionList_.Add(new ScaleMotion(Time, Scale, IsRelative));
+            return this;
+        }
+
+        public MotionContainer Rotate(float Time, Quaternion Rotate)
+        {
+            MotionList_.Add(new RotateMotion(Time, Rotate));
             return this;
         }
 
@@ -75,6 +87,24 @@ namespace LiteFramework.Helper
         public MotionContainer Callback(Action Callback)
         {
             MotionList_.Add(new CallbackMotion(Callback));
+            return this;
+        }
+
+        public MotionContainer Callback<T>(Action<T> Callback, T Param)
+        {
+            MotionList_.Add(new CallbackMotion<T>(Callback, Param));
+            return this;
+        }
+
+        public MotionContainer Active(bool Value)
+        {
+            MotionList_.Add(new ActiveMotion(Value));
+            return this;
+        }
+
+        public MotionContainer Destroy()
+        {
+            MotionList_.Add(new DestroyMotion());
             return this;
         }
 

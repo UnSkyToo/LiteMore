@@ -10,7 +10,7 @@ namespace LiteFramework.Game.Asset
     internal abstract class BaseAssetLoader : IAssetLoader
     {
         protected Dictionary<string, BaseAssetCache> AssetCacheList_ = new Dictionary<string, BaseAssetCache>();
-        protected Dictionary<string, List<Action>> AssetLoadCallbackList_ = new Dictionary<string, List<Action>>();
+        protected Dictionary<string, List<Action<bool>>> AssetLoadCallbackList_ = new Dictionary<string, List<Action<bool>>>();
         protected Dictionary<int, string> AssetPathCacheList_ = new Dictionary<int, string>();
 
         protected BaseAssetLoader()
@@ -50,7 +50,7 @@ namespace LiteFramework.Game.Asset
         {
         }
 
-        protected AssetCacheType GetAssetTypeWithName(string AssetPath)
+        protected AssetCacheType GetAssetTypeWithName<T>(string AssetPath)
         {
             var Ext = PathHelper.GetFileExt(AssetPath);
 
@@ -61,6 +61,18 @@ namespace LiteFramework.Game.Asset
                 case ".bytes":
                 case ".lua":
                     return AssetCacheType.Data;
+                case "":
+                    if (typeof(T) == typeof(UnityEngine.GameObject))
+                    {
+                        return AssetCacheType.Prefab;
+                    }
+
+                    if (typeof(T) == typeof(UnityEngine.TextAsset))
+                    {
+                        return AssetCacheType.Data;
+                    }
+
+                    return AssetCacheType.Asset;
                 default:
                     return AssetCacheType.Asset;
             }
@@ -80,30 +92,30 @@ namespace LiteFramework.Game.Asset
             return false;
         }
 
-        public void PreloadAsset<T>(string AssetPath) where T : UnityEngine.Object
+        public void PreloadedAsset<T>(string AssetPath, Action<bool> Callback) where T : UnityEngine.Object
         {
-            var AssetType = GetAssetTypeWithName(AssetPath);
-            LoadAssetSync<T>(AssetType, AssetPath);
+            var AssetType = GetAssetTypeWithName<T>(AssetPath);
+            LoadAssetAsync<T>(AssetType, AssetPath, Callback);
         }
 
-        protected virtual bool LoadAssetAsync<T>(AssetCacheType AssetType, string AssetPath, Action Callback = null) where T : UnityEngine.Object
+        protected virtual void LoadAssetAsync<T>(AssetCacheType AssetType, string AssetPath, Action<bool> Callback = null) where T : UnityEngine.Object
         {
             AssetPath = AssetPath.ToLower();
             if (AssetCacheExisted(AssetPath))
             {
-                Callback?.Invoke();
-                return true;
+                Callback?.Invoke(true);
+                return;
             }
 
             if (!AssetLoadCallbackList_.ContainsKey(AssetPath))
             {
-                AssetLoadCallbackList_.Add(AssetPath, new List<Action> {Callback});
+                AssetLoadCallbackList_.Add(AssetPath, new List<Action<bool>> {Callback});
 
-                return LoadAssetCacheCompletedAsync<T>(AssetType, AssetPath, () =>
+                LoadAssetCacheCompletedAsync<T>(AssetType, AssetPath, (IsLoaded) =>
                 {
                     foreach (var LoadCallback in AssetLoadCallbackList_[AssetPath])
                     {
-                        LoadCallback?.Invoke();
+                        LoadCallback?.Invoke(IsLoaded);
                     }
 
                     AssetLoadCallbackList_.Remove(AssetPath);
@@ -113,8 +125,6 @@ namespace LiteFramework.Game.Asset
             {
                 AssetLoadCallbackList_[AssetPath].Add(Callback);
             }
-
-            return true;
         }
 
         protected virtual BaseAssetCache LoadAssetSync<T>(AssetCacheType AssetType, string AssetPath) where T : UnityEngine.Object
@@ -128,19 +138,26 @@ namespace LiteFramework.Game.Asset
             return LoadAssetCacheCompletedSync<T>(AssetType, AssetPath);
         }
 
-        private bool LoadAssetCacheCompletedAsync<T>(AssetCacheType AssetType, string AssetPath, Action Callback = null) where T : UnityEngine.Object
+        private void LoadAssetCacheCompletedAsync<T>(AssetCacheType AssetType, string AssetPath, Action<bool> Callback = null) where T : UnityEngine.Object
         {
             var Cache = CreateAssetCache<T>(AssetType, AssetPath);
             if (Cache == null)
             {
-                Callback?.Invoke();
-                return false;
+                Callback?.Invoke(false);
+                return;
             }
 
             AssetCacheList_.Add(AssetPath, Cache);
-            LoadAssetCacheDependenciesAsync<T>(Cache, () => { TaskManager.AddTask(LoadAssetCacheAsync<T>(Cache), () => { Callback?.Invoke(); }); });
+            LoadAssetCacheDependenciesAsync<T>(Cache, (IsLoaded) =>
+            {
+                if (!IsLoaded)
+                {
+                    Callback?.Invoke(false);
+                    return;
+                }
 
-            return true;
+                TaskManager.AddTask(LoadAssetCacheAsync<T>(Cache), () => { Callback?.Invoke(true); });
+            });
         }
 
         private BaseAssetCache LoadAssetCacheCompletedSync<T>(AssetCacheType AssetType, string AssetPath) where T : UnityEngine.Object
@@ -189,29 +206,35 @@ namespace LiteFramework.Game.Asset
             return Cache;
         }
 
-        private void LoadAssetCacheDependenciesAsync<T>(BaseAssetCache Cache, Action Callback = null) where T : UnityEngine.Object
+        private void LoadAssetCacheDependenciesAsync<T>(BaseAssetCache Cache, Action<bool> Callback = null) where T : UnityEngine.Object
         {
             var LoadCompletedCount = 0;
             var Dependencies = Cache.GetAllDependencies();
 
             if (Dependencies == null || Dependencies.Length == 0)
             {
-                Callback?.Invoke();
+                Callback?.Invoke(true);
                 return;
             }
 
             foreach (var Dependency in Dependencies)
             {
                 var AssetPath = Dependency;
-                var AssetType = GetAssetTypeWithName(AssetPath);
-                LoadAssetAsync<T>(AssetType, AssetPath, () =>
+                var AssetType = GetAssetTypeWithName<T>(AssetPath);
+                LoadAssetAsync<T>(AssetType, AssetPath, (IsLoaded) =>
                 {
+                    if (!IsLoaded)
+                    {
+                        Callback?.Invoke(false);
+                        return;
+                    }
+
                     Cache.AddDependencyCache(AssetCacheList_[AssetPath]);
                     LoadCompletedCount++;
 
                     if (LoadCompletedCount >= Dependencies.Length)
                     {
-                        Callback?.Invoke();
+                        Callback?.Invoke(true);
                     }
                 });
             }
@@ -229,7 +252,7 @@ namespace LiteFramework.Game.Asset
             foreach (var Dependency in Dependencies)
             {
                 var AssetPath = Dependency;
-                var AssetType = GetAssetTypeWithName(AssetPath);
+                var AssetType = GetAssetTypeWithName<T>(AssetPath);
 
                 var DependencyAsset = LoadAssetSync<T>(AssetType, AssetPath);
                 if (DependencyAsset != null)
@@ -239,42 +262,40 @@ namespace LiteFramework.Game.Asset
             }
         }
 
-        public void CreateAssetAsync<T>(string AssetPath, string AssetName, Action<T> Callback = null) where T : UnityEngine.Object
+        public void CreateAssetAsync<T>(AssetUri Uri, Action<T> Callback = null) where T : UnityEngine.Object
         {
-            var IsLoaded = LoadAssetAsync<T>(AssetCacheType.Asset, AssetPath, () => { Callback?.Invoke(CreateAssetSync<T>(AssetPath, AssetName)); });
-
-            if (!IsLoaded)
+            LoadAssetAsync<T>(AssetCacheType.Asset, Uri.AssetPath, (IsLoaded) =>
             {
-                Callback?.Invoke(null);
-            }
+                if (!IsLoaded)
+                {
+                    Callback?.Invoke(null);
+                    return;
+                }
+
+                Callback?.Invoke(CreateAssetSync<T>(Uri));
+            });
         }
 
-        public void CreateAssetAsync<T>(string AssetPath, Action<T> Callback = null) where T : UnityEngine.Object
+        public T CreateAssetSync<T>(AssetUri Uri) where T : UnityEngine.Object
         {
-            var AssetName = PathHelper.GetFileNameWithoutExt(AssetPath);
-            CreateAssetAsync<T>(AssetPath, AssetName, Callback);
-        }
-
-        public T CreateAssetSync<T>(string AssetPath, string AssetName) where T : UnityEngine.Object
-        {
-            var AssetType = GetAssetTypeWithName(AssetPath);
+            var AssetType = GetAssetTypeWithName<T>(Uri.AssetPath);
 
             T Asset = null;
-            AssetPath = AssetPath.ToLower();
 
+            var AssetName = Uri.AssetName;
             if (AssetType == AssetCacheType.Asset)
             {
-                AssetName = $"{AssetName.ToLower()}_{typeof(T).Name.ToLower()}";
+                AssetName = $"{AssetName}_{typeof(T).Name.ToLower()}";
             }
 
             BaseAssetCache Cache = null;
-            if (!AssetCacheList_.ContainsKey(AssetPath))
+            if (!AssetCacheList_.ContainsKey(Uri.AssetPath))
             {
-                Cache = LoadAssetSync<UnityEngine.Object>(AssetType, AssetPath);
+                Cache = LoadAssetSync<UnityEngine.Object>(AssetType, Uri.AssetPath);
             }
             else
             {
-                Cache = AssetCacheList_[AssetPath];
+                Cache = AssetCacheList_[Uri.AssetPath];
             }
 
             if (Cache != null)
@@ -285,80 +306,60 @@ namespace LiteFramework.Game.Asset
                 {
                     if (!AssetPathCacheList_.ContainsKey(Asset.GetInstanceID()))
                     {
-                        AssetPathCacheList_.Add(Asset.GetInstanceID(), AssetPath);
+                        AssetPathCacheList_.Add(Asset.GetInstanceID(), Uri.AssetPath);
                     }
                 }
                 else
                 {
-                    LLogger.LWarning($"Can't Create Asset : {AssetPath} - {AssetName}");
+                    LLogger.LWarning($"Can't Create Asset : {Uri}");
                 }
             }
 
             return Asset;
         }
 
-        public T CreateAssetSync<T>(string AssetPath) where T : UnityEngine.Object
+        public void CreatePrefabAsync(AssetUri Uri, Action<UnityEngine.GameObject> Callback = null)
         {
-            var AssetName = PathHelper.GetFileNameWithoutExt(AssetPath);
-            return CreateAssetSync<T>(AssetPath, AssetName);
-        }
-
-        public void CreatePrefabAsync(string AssetPath, string AssetName, Action<UnityEngine.GameObject> Callback = null)
-        {
-            var IsLoaded = LoadAssetAsync<UnityEngine.Object>(AssetCacheType.Prefab, AssetPath,
-                () => { Callback?.Invoke(CreatePrefabSync(AssetPath, AssetName)); });
-
-            if (!IsLoaded)
+            LoadAssetAsync<UnityEngine.GameObject>(AssetCacheType.Prefab, Uri.AssetPath, (IsLoaded) =>
             {
-                Callback?.Invoke(null);
-            }
+                if (!IsLoaded)
+                {
+                    Callback?.Invoke(null);
+                    return;
+                }
+
+                Callback?.Invoke(CreatePrefabSync(Uri));
+            });
         }
 
-        public void CreatePrefabAsync(string AssetPath, Action<UnityEngine.GameObject> Callback = null)
+        public UnityEngine.GameObject CreatePrefabSync(AssetUri Uri)
         {
-            var AssetName = PathHelper.GetFileNameWithoutExt(AssetPath);
-            CreatePrefabAsync(AssetPath, AssetName, Callback);
+            return CreateAssetSync<UnityEngine.GameObject>(Uri);
         }
 
-        public UnityEngine.GameObject CreatePrefabSync(string AssetPath, string AssetName)
+        public void CreateDataAsync(AssetUri Uri, Action<byte[]> Callback = null)
         {
-            return CreateAssetSync<UnityEngine.GameObject>(AssetPath, AssetName);
-        }
-
-        public UnityEngine.GameObject CreatePrefabSync(string AssetPath)
-        {
-            var AssetName = PathHelper.GetFileNameWithoutExt(AssetPath);
-            return CreatePrefabSync(AssetPath, AssetName);
-        }
-
-        public void CreateDataAsync(string AssetPath, string AssetName, Action<byte[]> Callback = null)
-        {
-            var IsLoaded = LoadAssetAsync<UnityEngine.TextAsset>(AssetCacheType.Data, AssetPath,
-                () => { Callback?.Invoke(CreateDataSync(AssetPath, AssetName)); });
-
-            if (!IsLoaded)
+            LoadAssetAsync<UnityEngine.TextAsset>(AssetCacheType.Data, Uri.AssetPath, (IsLoaded) =>
             {
-                Callback?.Invoke(null);
-            }
+                if (!IsLoaded)
+                {
+                    Callback?.Invoke(null);
+                    return;
+                }
+
+                Callback?.Invoke(CreateDataSync(Uri));
+            });
         }
 
-        public void CreateDataAsync(string AssetPath, Action<byte[]> Callback = null)
+        public byte[] CreateDataSync(AssetUri Uri)
         {
-            var AssetName = PathHelper.GetFileNameWithoutExt(AssetPath);
-            CreateDataAsync(AssetPath, AssetName, Callback);
-        }
-
-        public byte[] CreateDataSync(string AssetPath, string AssetName)
-        {
-            UnityEngine.TextAsset Asset = CreateAssetSync<UnityEngine.TextAsset>(AssetPath, AssetName);
+            var Asset = CreateAssetSync<UnityEngine.TextAsset>(Uri);
+#if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
+            return (Asset as AssetInternalLoader.AssetInternalTextAsset)?.InternalBytes;
+#endif
             return Asset?.bytes;
         }
 
-        public byte[] CreateDataSync(string AssetPath)
-        {
-            var AssetName = PathHelper.GetFileNameWithoutExt(AssetPath);
-            return CreateDataSync(AssetPath, AssetName);
-        }
 
         public void DeleteAsset<T>(T Asset) where T : UnityEngine.Object
         {

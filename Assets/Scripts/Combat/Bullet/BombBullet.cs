@@ -49,7 +49,7 @@ namespace LiteMore.Combat.Bullet
             MaxTime_ = Vector2.Distance(OriginPos_, TargetPos_) / Speed_;
             IsBomb_ = false;
 
-            RadiusObj_ = AssetManager.CreatePrefabSync("prefabs/bv0.prefab");
+            RadiusObj_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/bv0.prefab"));
             MapManager.AddToGroundLayer(RadiusObj_.transform);
             RadiusObj_.transform.localPosition = TargetPos_;
             var SR = RadiusObj_.GetComponent<SpriteRenderer>();

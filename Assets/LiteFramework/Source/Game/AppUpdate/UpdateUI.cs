@@ -30,9 +30,9 @@ namespace LiteFramework.AppUpdate
             Rect.localScale = Vector3.one;
             Rect.sizeDelta = Vector2.zero;
 
-            ProgressBar_ = UIHelper.FindComponent<Scrollbar>(UIRoot_.transform, "ProgressBar");
-            LabelProgress_ = UIHelper.FindComponent<Text>(UIRoot_.transform, "LabelProgress");
-            LabelContent_ = UIHelper.FindComponent<Text>(UIRoot_.transform, "LabelContent");
+            ProgressBar_ = UIHelper.GetComponent<Scrollbar>(UIRoot_.transform, "ProgressBar");
+            LabelProgress_ = UIHelper.GetComponent<Text>(UIRoot_.transform, "LabelProgress");
+            LabelContent_ = UIHelper.GetComponent<Text>(UIRoot_.transform, "LabelContent");
 
             ProgressBar_.value = 0;
             LabelProgress_.text = string.Empty;

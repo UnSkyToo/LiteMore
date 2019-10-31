@@ -76,13 +76,13 @@ namespace LiteFramework.Game.Lua
             var FullPath = $"scripts/{LuaPath.Replace('.', '/')}.lua.bytes";
 #endif
             //LuaPath = Helper.PathHelper.GetAssetFullPath(FullPath);
-            return AssetManager.CreateDataSync(FullPath);
+            return AssetManager.CreateDataSync(new AssetUri(FullPath));
         }
 
         public static void OpenLuaUI(LuaTable Desc, LuaTable LuaEntity)
         {
             var UIDesc = new UIDescriptor(
-                Desc.GetInPath<string>("PrefabName"),
+                new AssetUri(Desc.GetInPath<string>("PrefabName")),
                 Desc.GetInPath<bool>("OpenMore"),
                 Desc.GetInPath<bool>("Cached"));
 

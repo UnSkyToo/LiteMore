@@ -40,7 +40,7 @@ namespace LiteFramework.Game.Asset
         {
             if (RefCount_ > 0)
             {
-                LLogger.LWarning($"{AssetPath} : RefCount > 0");
+                LLogger.LWarning($"{AssetPath} : RefCount {RefCount_}");
             }
 
             OnUnload();

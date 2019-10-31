@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3282073921
+CRC: 3358231623
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 30040b23096200aa14a4b02bc6fce995
+    Hash: 3a47b972890f6a2edb4c042b8164b34c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 5dd554922b924a5d8c8745385565dd74
+    Hash: 91ac16919bcd67d7c0a0235c34775d67
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -38,6 +38,6 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/NewSkillIcon.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_yuanxing_lansedi.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_yuanxing_lansekuang.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_yuanxing_lansekuang.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_yuanxing_lansedi.png

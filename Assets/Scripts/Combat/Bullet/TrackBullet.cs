@@ -1,4 +1,5 @@
-﻿using LiteFramework.Helper;
+﻿using LiteFramework.Game.Asset;
+using LiteFramework.Helper;
 using LiteMore.Combat.Label;
 using LiteMore.Combat.Npc;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace LiteMore.Combat.Bullet
             Trans.GetComponent<Animator>().SetTrigger(Desc.ResName);
 
             Attack(Desc.Target);
-            LiteFramework.Game.Audio.AudioManager.PlaySound("audio/tf_paodan_attack.mp3");
+            LiteFramework.Game.Audio.AudioManager.PlaySound(new AssetUri("audio/tf_paodan_attack.mp3"));
         }
 
         public override void Tick(float DeltaTime)
@@ -80,7 +81,7 @@ namespace LiteMore.Combat.Bullet
                 IsMove = false;
 
                 Target_.Action.OnBulletHit(this);
-                LiteFramework.Game.Audio.AudioManager.PlaySound("audio/tf_paodan_hit.mp3");
+                LiteFramework.Game.Audio.AudioManager.PlaySound(new AssetUri("audio/tf_paodan_hit.mp3"));
                 //LabelManager.AddNumberLabel(Target_.Position, NumberLabelType.Float, Damage);
                 IsAlive = false;
             }

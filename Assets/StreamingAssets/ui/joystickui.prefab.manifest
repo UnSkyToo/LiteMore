@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 596840364
+CRC: 2342136548
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b5ccb69a1beccfd290d09e71302c798e
+    Hash: 1c3f502b3e1048828f781071ab7008bb
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 7bc891bdb5f894865b7f505e913c5315
+    Hash: 8e9cb352fcb6201585648b598cbd3cd3
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -36,5 +36,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/UI/JoystickUI.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/joystick_bg.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/joystick_gab.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/joystick_gab.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/joystick_bg.png

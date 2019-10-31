@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3288350807
+CRC: 2809496262
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 034305e73ab15566c7940ba0a8b62b2c
+    Hash: e869763c7c8bfbff92b554ef9e3f99fa
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -17,9 +17,9 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
   Pack/Prefabs/Archer Warrior Animation Controller.controller
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/animations/archer@attack1.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/animations/archer@idle.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/animations/archer@run.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/animations/archer@run.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/animations/archer@idle.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/animations/archer@attack1.fbx

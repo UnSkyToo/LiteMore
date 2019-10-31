@@ -11,10 +11,29 @@ namespace LiteFramework.Editor.AssetBundle
 
         private int CurrentSelectIndex_ = 0;
 
+        private void OnEnable()
+        {
+            switch (EditorUserBuildSettings.activeBuildTarget)
+            {
+                case BuildTarget.Android:
+                    CurrentSelectIndex_ = 3;
+                    break;
+                case BuildTarget.iOS:
+                    CurrentSelectIndex_ = 2;
+                    break;
+                case BuildTarget.StandaloneOSX:
+                    CurrentSelectIndex_ = 1;
+                    break;
+                default:
+                    CurrentSelectIndex_ = 0;
+                    break;
+            }
+        }
+
         private void OnGUI()
         {
             GUILayout.Label("Platform");
-            CurrentSelectIndex_ = GUILayout.SelectionGrid(CurrentSelectIndex_, new[] {"Windows", "iOS", "Android"}, 3);
+            CurrentSelectIndex_ = GUILayout.SelectionGrid(CurrentSelectIndex_, new[] {"Windows", "Mac", "iOS", "Android"}, 4);
 
             if (GUILayout.Button("Start Build"))
             {
@@ -31,6 +50,11 @@ namespace LiteFramework.Editor.AssetBundle
                 AssetBundleBuilder.CleanAllBundle();
             }
 
+            if (GUILayout.Button("Delete Streaming Assets"))
+            {
+                AssetBundleBuilder.DeleteStreamingAssets();
+            }
+
             if (GUILayout.Button("Generate FilesInfo File"))
             {
                 AssetHelper.GenerateFilesInfoFile();
@@ -44,8 +68,10 @@ namespace LiteFramework.Editor.AssetBundle
                 case 0:
                     return BuildTarget.StandaloneWindows;
                 case 1:
-                    return BuildTarget.iOS;
+                    return BuildTarget.StandaloneOSX;
                 case 2:
+                    return BuildTarget.iOS;
+                case 3:
                     return BuildTarget.Android;
                 default:
                     break;

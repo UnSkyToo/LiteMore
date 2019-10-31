@@ -65,7 +65,7 @@ namespace LiteMore.Combat.Buff
         protected override void OnAttach()
         {
             // temp sfx
-            Obj_ = AssetManager.CreatePrefabSync("prefabs/bv0.prefab").transform;
+            Obj_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/bv0.prefab")).transform;
             MapManager.AddToGroundLayer(Obj_);
             Obj_.localPosition = Position;
             var SR = Obj_.GetComponent<SpriteRenderer>();

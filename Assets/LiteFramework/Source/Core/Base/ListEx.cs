@@ -13,6 +13,7 @@ namespace LiteFramework.Core.Base
         private readonly List<T> RemoveList_;
 
         public int Count => Values_.Count;
+        public int RealCount => AddList_.Count + Values_.Count + RemoveList_.Count;
 
         public ListEx()
         {
@@ -44,11 +45,11 @@ namespace LiteFramework.Core.Base
 
         public void Foreach(Action<T> TickFunc)
         {
+            Flush();
             foreach (var Item in Values_)
             {
                 TickFunc?.Invoke(Item);
             }
-            Flush();
         }
 
         public void Flush()
@@ -69,6 +70,37 @@ namespace LiteFramework.Core.Base
 
                 AddList_.Clear();
             }
+        }
+
+        public T Where(Func<T, bool> ConditionFunc)
+        {
+            Flush();
+
+            foreach (var Item in Values_)
+            {
+                if (ConditionFunc?.Invoke(Item) == true)
+                {
+                    return Item;
+                }
+            }
+
+            return default;
+        }
+
+        public List<T> All(Func<T, bool> ConditionFunc)
+        {
+            Flush();
+            var Result = new List<T>();
+
+            foreach (var Item in Values_)
+            {
+                if (ConditionFunc?.Invoke(Item) == true)
+                {
+                    Result.Add(Item);
+                }
+            }
+
+            return Result;
         }
 
         // GC Alloc 40B

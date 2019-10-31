@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1013080287
+CRC: 4200932978
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 823b8bfb6a728ed753533e57b1896d82
+    Hash: c10bd8dbafee6b3d6480bf0cb66eb47b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0a293a9773ec887eff131012b15cce1a
@@ -49,5 +49,5 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
   Pack/Scenes/Archer.unity
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/prefabs/archer warrior.prefab
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/prefabs/archer warrior.prefab

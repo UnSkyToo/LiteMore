@@ -203,7 +203,7 @@ namespace LiteFramework.Helper
 
         public static void Clear()
         {
-            Root_ = new ProfilerElement("Root", "Root");
+            Root_ = new ProfilerElement("Game", "Game");
         }
 
         public static ProfilerElement Get(string Path)
@@ -218,6 +218,11 @@ namespace LiteFramework.Helper
             return Current;
         }
 
+        public static void Begin()
+        {
+            Root_.Begin();
+        }
+
         public static void Begin(string Name)
         {
             if (!Enable)
@@ -226,6 +231,11 @@ namespace LiteFramework.Helper
             }
 
             Get(Name).Begin();
+        }
+
+        public static void End()
+        {
+            Root_.End();
         }
 
         public static void End(string Name)
@@ -310,7 +320,7 @@ namespace LiteFramework.Helper
 
             ScrollPos_ = EditorGUILayout.BeginScrollView(ScrollPos_);
 
-            var TotalTime = Mathf.Clamp((float)ProfilerHelper.GetTotalTime("Loading"), 0.01f, float.MaxValue);
+            var TotalTime = Mathf.Clamp((float)ProfilerHelper.SumTotalTime(), 0.01f, float.MaxValue);
             EditorGUILayout.LabelField($"Total Time : {TotalTime:0.000}s");
 
             foreach (var Ele in Elements)

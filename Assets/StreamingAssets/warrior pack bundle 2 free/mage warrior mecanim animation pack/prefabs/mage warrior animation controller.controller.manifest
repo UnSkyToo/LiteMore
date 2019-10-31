@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2306886816
+CRC: 1040681388
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 12ee473e29863998433d4c3b145bee4f
+    Hash: 6da5c05c81011c650b36ca8714c01d59
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -17,9 +17,9 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Mage Warrior Mecanim Animation
   Pack/Prefabs/Mage Warrior Animation Controller.controller
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
-  warrior mecanim animation pack/animations/mage@attack1.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
-  warrior mecanim animation pack/animations/mage@idle.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage
-  warrior mecanim animation pack/animations/mage@run.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage warrior
+  mecanim animation pack/animations/mage@idle.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage warrior
+  mecanim animation pack/animations/mage@run.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/mage warrior
+  mecanim animation pack/animations/mage@attack1.fbx

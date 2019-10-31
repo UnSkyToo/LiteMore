@@ -14,7 +14,7 @@ namespace LiteFramework.Game.Lua
         private Action<LuaTable, float> OnTick_;
 
         public LuaBaseUI(LuaTable LuaEntity)
-            : base()
+            : base(UIDepthMode.Normal, 0)
         {
             Entity_ = LuaEntity;
             Entity_.SetInPath("_CSEntity_", this);

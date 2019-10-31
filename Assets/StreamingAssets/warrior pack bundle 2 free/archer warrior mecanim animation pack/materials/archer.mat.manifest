@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2520201993
+CRC: 229606528
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7d176b6ac516179c194207e8a4787765
+    Hash: 12ee7f714d7c3949f5aedaab876d86b8
   TypeTreeHash:
     serializedVersion: 2
     Hash: fe397485c3cec1106b49e9ff95e8f8a2
@@ -19,5 +19,5 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
   Pack/Materials/Archer.mat
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/textures/archer.psd
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/textures/archer.psd

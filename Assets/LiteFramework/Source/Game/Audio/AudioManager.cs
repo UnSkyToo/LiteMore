@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
 using UnityEngine;
 
@@ -6,15 +7,22 @@ namespace LiteFramework.Game.Audio
 {
     public static class AudioManager
     {
-        public static Transform Root { get; set; }
-
         private static bool MuteSound = false;
         private static bool MuteMusic = false;
         private static readonly Dictionary<uint, AudioEntity> AudioList_ = new Dictionary<uint, AudioEntity>();
         private static readonly List<AudioEntity> RemoveList_ = new List<AudioEntity>();
+        private static Transform Root_ = null;
 
         public static bool Startup()
         {
+            if (Root_ == null)
+            {
+                Root_ = new GameObject("Audio").transform;
+                Root_.localPosition = Vector3.zero;
+                Root_.localRotation = Quaternion.identity;
+                Root_.localScale = Vector3.one;
+            }
+
             AudioList_.Clear();
             RemoveList_.Clear();
             MuteSound = false;
@@ -37,6 +45,12 @@ namespace LiteFramework.Game.Audio
                 Entity.Value.UnloadAudio();
             }
             AudioList_.Clear();
+
+            if (Root_ != null)
+            {
+                Object.DestroyImmediate(Root_.gameObject);
+                Root_ = null;
+            }
         }
 
         public static void Tick(float DeltaTime)
@@ -60,20 +74,26 @@ namespace LiteFramework.Game.Audio
             }
         }
 
-        public static uint PlayAudio(AudioType Type, Transform Parent, string AudioPath, bool IsLoop = false, float Volumn = 1.0f)
+        private static uint PlayAudio(AudioType Type, Transform Parent, AssetUri Uri, bool IsLoop = false, float Volume = 1.0f)
         {
+            if (Uri == null)
+            {
+                return 0;
+            }
+
             var Entity = new AudioEntity(Type);
             AudioList_.Add(Entity.ID, Entity);
 
-            AssetManager.CreateAssetAsync<AudioClip>(AudioPath, (Clip) =>
+            AssetManager.CreateAssetAsync<AudioClip>(Uri, (Clip) =>
             {
                 if (Clip == null)
                 {
+                    LLogger.LWarning($"can't play audio : {Uri}");
                     RemoveList_.Add(Entity);
                     return;
                 }
 
-                Entity.LoadAudio(Parent, Clip, IsLoop, Volumn, false);
+                Entity.LoadAudio(Parent, Clip, IsLoop, Volume, false);
 
                 switch (Type)
                 {
@@ -99,19 +119,19 @@ namespace LiteFramework.Game.Audio
             return Entity.ID;
         }
 
-        public static uint PlaySound(string AudioPath, bool IsLoop = false, float Volume = 1.0f)
+        public static uint PlaySound(AssetUri Uri, bool IsLoop = false, float Volume = 1.0f)
         {
-            return PlayAudio(AudioType.Sound, Root, AudioPath, IsLoop, Volume);
+            return PlayAudio(AudioType.Sound, Root_, Uri, IsLoop, Volume);
         }
 
-        public static uint PlayMusic(string AudioPath, bool IsLoop = true, float Volume = 1.0f, bool IsOnly = true)
+        public static uint PlayMusic(AssetUri Uri, bool IsLoop = true, float Volume = 1.0f, bool IsOnly = true)
         {
             if (IsOnly)
             {
                 StopAllMusic();
             }
 
-            return PlayAudio(AudioType.Music, Root, AudioPath, IsLoop, Volume);
+            return PlayAudio(AudioType.Music, Root_, Uri, IsLoop, Volume);
         }
 
         public static void StopAudio(uint ID)

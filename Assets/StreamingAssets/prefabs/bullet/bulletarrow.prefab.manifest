@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1522279549
+CRC: 3858240057
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ef6d346ea4e997f18d391f1d60384848
+    Hash: 349afbd42533367b51c57267e59a1bf0
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -24,4 +24,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Bullet/BulletArrow.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/arrow.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/arrow.png

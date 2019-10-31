@@ -16,14 +16,14 @@ namespace LiteMore.UI.Logic
         private List<SkillIconItem> SkillIconList_;
 
         public MainOperatorUI()
-            : base()
+            : base(UIDepthMode.Normal, 0)
         {
         }
 
         protected override void OnOpen(params object[] Params)
         {
             SkillListObj_ = FindChild("SkillList");
-            CancelObj_ = FindComponent<RectTransform>("Cancel");
+            CancelObj_ = GetComponent<RectTransform>("Cancel");
             CancelObj_.gameObject.SetActive(false);
             SkillIconList_ = new List<SkillIconItem>();
             EventManager.Register<NpcSkillChangedEvent>(OnNpcSkillChangedEvent);

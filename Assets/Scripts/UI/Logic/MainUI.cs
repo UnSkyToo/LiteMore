@@ -20,10 +20,8 @@ namespace LiteMore.UI.Logic
         private int TimeScale_ = 1;
 
         public MainUI()
-            : base()
+            : base(UIDepthMode.Normal, 0)
         {
-            DepthMode = UIDepthMode.Normal;
-            DepthIndex = 0;
         }
 
         protected override void OnOpen(params object[] Params)
@@ -58,7 +56,7 @@ namespace LiteMore.UI.Logic
                 }
 
                 LiteManager.TimeScale = TimeScale_;
-                FindComponent<Text>("BtnSpeed/Text").text = $"x{TimeScale_}";
+                GetComponent<Text>("BtnSpeed/Text").text = $"x{TimeScale_}";
             });
         }
 
@@ -80,9 +78,9 @@ namespace LiteMore.UI.Logic
             {
                 Trans_ = Trans.GetComponent<RectTransform>();
 
-                HpText_ =  UIHelper.FindComponent<Text>(Trans, "Hp");
-                MpText_ =  UIHelper.FindComponent<Text>(Trans, "Mp");
-                GemText_ = UIHelper.FindComponent<Text>(Trans, "Gem");
+                HpText_ =  UIHelper.GetComponent<Text>(Trans, "Hp");
+                MpText_ =  UIHelper.GetComponent<Text>(Trans, "Mp");
+                GemText_ = UIHelper.GetComponent<Text>(Trans, "Gem");
 
                 var TipsMsg = $"<color=red><size=30>Hp归零游戏结束</size></color>\n" +
                               "<color=green><size=30>Mp用于释放技能</size></color>\n" +
@@ -130,14 +128,14 @@ namespace LiteMore.UI.Logic
             {
                 Trans_ = Trans.GetComponent<RectTransform>();
 
-                WaveText_ = UIHelper.FindComponent<Text>(Trans, "List/Wave");
-                RemainingNumText_ = UIHelper.FindComponent<Text>(Trans, "List/RemainingNum");
-                IntervalText_ = UIHelper.FindComponent<Text>(Trans, "List/Interval");
-                SpeedText_ = UIHelper.FindComponent<Text>(Trans, "List/Speed");
-                HpText_ = UIHelper.FindComponent<Text>(Trans, "List/Hp");
-                DamageText_ = UIHelper.FindComponent<Text>(Trans, "List/Damage");
-                GemText_ = UIHelper.FindComponent<Text>(Trans, "List/Gem");
-                NewWaveText_ = UIHelper.FindComponent<Text>(Trans, "NewWave");
+                WaveText_ = UIHelper.GetComponent<Text>(Trans, "List/Wave");
+                RemainingNumText_ = UIHelper.GetComponent<Text>(Trans, "List/RemainingNum");
+                IntervalText_ = UIHelper.GetComponent<Text>(Trans, "List/Interval");
+                SpeedText_ = UIHelper.GetComponent<Text>(Trans, "List/Speed");
+                HpText_ = UIHelper.GetComponent<Text>(Trans, "List/Hp");
+                DamageText_ = UIHelper.GetComponent<Text>(Trans, "List/Damage");
+                GemText_ = UIHelper.GetComponent<Text>(Trans, "List/Gem");
+                NewWaveText_ = UIHelper.GetComponent<Text>(Trans, "NewWave");
                 NewWaveText_.gameObject.SetActive(false);
                 BtnNextWaveObj_ = UIHelper.FindChild(Trans, "BtnNextWave").gameObject;
 
@@ -206,13 +204,13 @@ namespace LiteMore.UI.Logic
 
             internal CoreUpPart(Transform Trans)
             {
-                BulletDamageText_ = UIHelper.FindComponent<Text>(Trans, "MainBullet/Damage/Text");
+                BulletDamageText_ = UIHelper.GetComponent<Text>(Trans, "MainBullet/Damage/Text");
                 UIHelper.AddEventToChild(Trans, "MainBullet/Damage/BtnAdd", OnBulletDamageBtnAdd);
 
-                BulletIntervalText_ = UIHelper.FindComponent<Text>(Trans, "MainBullet/Interval/Text");
+                BulletIntervalText_ = UIHelper.GetComponent<Text>(Trans, "MainBullet/Interval/Text");
                 UIHelper.AddEventToChild(Trans, "MainBullet/Interval/BtnAdd", OnBulletIntervalBtnAdd);
 
-                BulletCountText_ = UIHelper.FindComponent<Text>(Trans, "MainBullet/Count/Text");
+                BulletCountText_ = UIHelper.GetComponent<Text>(Trans, "MainBullet/Count/Text");
                 UIHelper.AddEventToChild(Trans, "MainBullet/Count/BtnAdd", OnBulletCountBtnAdd);
 
                 Refresh();

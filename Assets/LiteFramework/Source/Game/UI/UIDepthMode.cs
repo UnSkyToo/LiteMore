@@ -4,6 +4,6 @@
     {
         Bottom = 0,
         Normal = 5000,
-        Top = 10000
+        Top = 10000,
     }
 }

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1525353068
+CRC: 3400217527
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ec86651ff1db1e350279251074ef83b3
+    Hash: 2da5aa65de29ef7d88c0d68088a0de63
   TypeTreeHash:
     serializedVersion: 2
     Hash: de5b6614feb6f94b0a6e2f2cfc56359c
@@ -18,5 +18,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Animations/2Handed@Run.FBX
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
-  warrior mecanim animation/characters/2handed.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed warrior
+  mecanim animation/characters/2handed.fbx

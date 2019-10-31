@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 189171468
+CRC: 1068464679
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8b407868bbed9376cfc3373eedcd2885
+    Hash: 4c774454b4ec0501ec11698b437cfe70
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -24,4 +24,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/bv0.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bv0.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/bv0.png

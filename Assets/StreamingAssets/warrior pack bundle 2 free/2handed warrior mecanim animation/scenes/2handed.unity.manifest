@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1625481460
+CRC: 1476279873
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: dc0d8b3c16411ff6f2694291fd59ca2d
+    Hash: a490901fdf4ea7d8632d071dc0102748
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0a293a9773ec887eff131012b15cce1a
@@ -48,5 +48,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/2Handed Warrior Mecanim Animation/Scenes/2Handed.unity
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed
-  warrior mecanim animation/prefabs/2handed warrior.prefab
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/2handed warrior
+  mecanim animation/prefabs/2handed warrior.prefab

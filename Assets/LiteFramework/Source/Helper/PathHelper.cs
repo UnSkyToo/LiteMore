@@ -86,7 +86,7 @@ namespace LiteFramework.Helper
             return $"{Application.streamingAssetsPath}/{Path}";
         }
 
-#if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
+#if UNITY_EDITOR || LITE_USE_INTERNAL_ASSET
         public static string GetStandaloneAssetsPath(string Path)
         {
             return $"{Application.dataPath}/{LiteConfigure.StandaloneAssetsName}/{Path}";

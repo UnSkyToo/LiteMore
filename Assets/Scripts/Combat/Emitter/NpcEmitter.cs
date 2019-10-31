@@ -32,7 +32,7 @@ namespace LiteMore.Combat.Emitter
 
         public override void CreateDebugLine()
         {
-            ObjOuter_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
+            ObjOuter_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/line.prefab")).transform;
             ObjOuter_.name = $"NpcRectOuter<{ID}>";
             MapManager.AddToGroundLayer(ObjOuter_);
             ObjOuter_.localPosition = Vector3.zero;
@@ -74,7 +74,7 @@ namespace LiteMore.Combat.Emitter
 
         public override void CreateDebugLine()
         {
-            ObjInner_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
+            ObjInner_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/line.prefab")).transform;
             ObjInner_.name = $"NpcNormalInner<{ID}>";
             MapManager.AddToGroundLayer(ObjInner_);
             ObjInner_.localPosition = Vector3.zero;
@@ -82,7 +82,7 @@ namespace LiteMore.Combat.Emitter
             CallerInner_ = new LineCaller(ObjInner_.GetComponent<LineRenderer>());
             CallerInner_.DrawCircle(new LineCallerPoint(Position, Color.red), RadiusAttr.Min);
 
-            ObjOuter_ = AssetManager.CreatePrefabSync("prefabs/line.prefab").transform;
+            ObjOuter_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/line.prefab")).transform;
             ObjOuter_.name = $"NpcNormalOuter<{ID}>";
             MapManager.AddToGroundLayer(ObjOuter_);
             ObjOuter_.localPosition = Vector3.zero;

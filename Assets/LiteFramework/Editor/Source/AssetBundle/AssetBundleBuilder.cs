@@ -11,7 +11,8 @@ namespace LiteFramework.Editor.AssetBundle
     {
         private static readonly List<string> LuaFileList_ = new List<string>();
 
-        [MenuItem("Lite/AssetBundle Builder")]
+        // % Ctrl & Alt # Shift
+        [MenuItem("Lite/AssetBundle/Builder %#L", false, 1)]
         private static void BuildAssets()
         {
             if (BuildPipeline.isBuildingPlayer)
@@ -21,6 +22,33 @@ namespace LiteFramework.Editor.AssetBundle
             }
 
             AssetBundleOptionWindow.ShowWindow();
+        }
+
+        [MenuItem("Lite/AssetBundle/BuilderNoCollect %#K", false, 2)]
+        private static void BuildAssetsNoCollect()
+        {
+            if (BuildPipeline.isBuildingPlayer)
+            {
+                EditorUtility.DisplayDialog("Lite", "building is running", "Ok");
+                return;
+            }
+
+            BuildAsset(EditorUserBuildSettings.activeBuildTarget, BuildAssetBundleOptions.None, false);
+        }
+
+        [MenuItem("Lite/AssetBundle/Collect")]
+        private static void CollectBundleInfo()
+        {
+            foreach (var ID in Selection.assetGUIDs)
+            {
+                var Path = AssetDatabase.GUIDToAssetPath(ID);
+                if (Directory.Exists(Path))
+                {
+                    var FullPath = PathHelper.UnifyPath($"{Application.dataPath}{Path.Substring("Assets".Length)}");
+                    var AssetsList = CollectAllAssetBundlePath($"{Application.dataPath}/{LiteConfigure.StandaloneAssetsName}/", FullPath);
+                    ConfigurationAssetBundle(AssetsList);
+                }
+            }
         }
 
         public static void BuildAsset(BuildTarget Target, BuildAssetBundleOptions Options, bool IsCollectInfo)
@@ -43,6 +71,7 @@ namespace LiteFramework.Editor.AssetBundle
 
             // Start Build
             BuildPipeline.BuildAssetBundles(Application.streamingAssetsPath, Options, Target);
+            File.Delete(Path.Combine(Application.streamingAssetsPath, LiteConfigure.AssetBundleManifestName));
             File.Copy(
                 Path.Combine(Application.streamingAssetsPath, "StreamingAssets"),
                 Path.Combine(Application.streamingAssetsPath, LiteConfigure.AssetBundleManifestName));
@@ -191,6 +220,14 @@ namespace LiteFramework.Editor.AssetBundle
             AssetDatabase.RemoveUnusedAssetBundleNames();
             AssetDatabase.Refresh();
             LLogger.LWarning("StreamingAssets Clean");
+        }
+
+        public static void DeleteStreamingAssets()
+        {
+            Directory.Delete(Application.streamingAssetsPath, true);
+            Directory.CreateDirectory(Application.streamingAssetsPath);
+            AssetDatabase.Refresh();
+            LLogger.LWarning("StreamingAssets Remove");
         }
     }
 }

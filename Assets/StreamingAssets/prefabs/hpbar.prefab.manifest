@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2202404451
+CRC: 742057414
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 18fb163945698ee8fa7caac58e0868b8
+    Hash: 65e231df9dfcb5ce47b8f54ccbf5b1dc
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 7ae14fe94a027e241fc5b0cce1b06d42
+    Hash: b68f8549395330d9fdb2db457bf77f1b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -26,4 +26,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/HpBar.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/ui.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/ui.png

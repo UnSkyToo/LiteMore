@@ -1,6 +1,7 @@
 ﻿using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
 using LiteFramework.Game.Audio;
+using LiteFramework.Game.Data;
 using LiteFramework.Game.Lua;
 using LiteFramework.Game.UI;
 using LiteFramework.Interface;
@@ -14,6 +15,12 @@ namespace LiteFramework.Game
         public static bool Startup(ILogic Logic)
         {
             MainLogic = Logic;
+			LLogger.LInfo($"{nameof(DataManager)} Startup");
+            if (!DataManager.Startup())
+            {
+                LLogger.LError($"{nameof(DataManager)} Startup Failed");
+                return false;
+            }
 
             LLogger.LInfo($"{nameof(AssetManager)} Startup");
             if (!AssetManager.Startup())
@@ -63,6 +70,7 @@ namespace LiteFramework.Game
             UIManager.Shutdown();
             AudioManager.Shutdown();
             AssetManager.Shutdown();
+            DataManager.Shutdown();
         }
 
         public static void Tick(float DeltaTime)

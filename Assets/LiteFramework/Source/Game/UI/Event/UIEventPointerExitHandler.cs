@@ -1,5 +1,4 @@
-﻿using LiteFramework.Helper;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
 namespace LiteFramework.Game.UI.Event
 {
@@ -13,7 +12,7 @@ namespace LiteFramework.Game.UI.Event
                 return;
             }
 
-            EventCallback_?.Invoke(EventData.pointerPress, UnityHelper.ScreenPosToCanvasPos(EventData.position));
+            EventCallback_?.Invoke(EventData.pointerPress, EventData.position);
             EventCallbackEx_?.Invoke();
         }
     }

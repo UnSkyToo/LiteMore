@@ -21,11 +21,8 @@ namespace LiteMore.UI.Logic
         private BaseSkill CurrentSkill_;
 
         public QuickControlUI()
-            : base()
+            : base(UIDepthMode.Normal, 0)
         {
-            DepthMode = UIDepthMode.Normal;
-            DepthIndex = 0;
-
             Controller_ = new QuickController();
             SkillLibrary.PatchQuickController(Controller_);
         }
@@ -40,8 +37,8 @@ namespace LiteMore.UI.Logic
 
             ProbeObj_ = FindChild("Probe").gameObject;
             ProbeObj_.SetActive(false);
-            ProbeIcon_ = FindComponent<Image>("Probe/Icon");
-            ProbeName_ = FindComponent<Text>("Probe/Name");
+            ProbeIcon_ = GetComponent<Image>("Probe/Icon");
+            ProbeName_ = GetComponent<Text>("Probe/Name");
 
             InputList_ = FindChild("Input");
             InputObj_ = FindChild("InputItem").gameObject;
@@ -60,7 +57,7 @@ namespace LiteMore.UI.Logic
 
         private void ResetQuickState()
         {
-            UIHelper.RemoveAllChildren(InputList_);
+            UIHelper.RemoveAllChildren(InputList_, true);
             ProbeObj_.SetActive(false);
         }
 
@@ -74,19 +71,19 @@ namespace LiteMore.UI.Logic
             switch (Code)
             {
                 case QuickCode.Metal:
-                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b1_metal.png");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/icon/b1_metal.png"));
                     break;
                 case QuickCode.Wood:
-                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b2_wood.png");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/icon/b2_wood.png"));
                     break;
                 case QuickCode.Water:
-                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b3_water.png");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/icon/b3_water.png"));
                     break;
                 case QuickCode.Fire:
-                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b4_fire.png");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/icon/b4_fire.png"));
                     break;
                 case QuickCode.Earth:
-                    Img.sprite = AssetManager.CreateAssetSync<Sprite>("textures/icon/b5_earth.png");
+                    Img.sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/icon/b5_earth.png"));
                     break;
                 default:
                     break;
@@ -98,7 +95,7 @@ namespace LiteMore.UI.Logic
             if (Node != null)
             {
                 ProbeObj_.SetActive(true);
-                ProbeIcon_.sprite = AssetManager.CreateAssetSync<Sprite>(SkillLibrary.Get(Node.ID).Icon);
+                ProbeIcon_.sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri(SkillLibrary.Get(Node.ID).Icon));
                 ProbeName_.text = SkillLibrary.Get(Node.ID).Name;
             }
             else

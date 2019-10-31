@@ -17,7 +17,6 @@ namespace LiteMore
         public const int UIOrder = 50;
 
         public static readonly Transform CanvasRoot = GameObject.Find("Canvas").transform;
-        public static readonly Transform AudioRoot = CanvasRoot.Find("Audio").transform;
         public static readonly Transform UIRoot = CanvasRoot.Find("UI").transform;
 
 #if UNITY_EDITOR

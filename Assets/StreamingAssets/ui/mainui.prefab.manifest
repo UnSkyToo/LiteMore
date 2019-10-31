@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2998538846
+CRC: 3308025443
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 087c059562bae5c54733e18f111e0ba9
+    Hash: badb4ed0ef341dd8a07b12ac254c81aa
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3ad7e96259f78d6b7832352b6f4b8589
+    Hash: af391efc6a2f4804d52d13e687de492b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -42,7 +42,7 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/UI/MainUI.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_jia.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_chengse.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_lv.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_zi.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_zi.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_chengse.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/pic_jia.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/pic_shengjie_lv.png

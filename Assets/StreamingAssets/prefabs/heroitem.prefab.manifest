@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3799530094
+CRC: 188598208
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f666f03045582b4c7b97411e97804e72
+    Hash: 15922f73426db447095f29f97f47216f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: b51938c2f2587d19fae663a9d8e308cc
+    Hash: 2f9adf9c42c2925546fb3ac5c15b9cee
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -38,7 +38,7 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/HeroItem.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_di_tongyong.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_tongyong.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/pic_xuanzhongkuang_bian.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_di_tongyong.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/pic_xuanzhongkuang_bian.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/r2.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_tongyong.png

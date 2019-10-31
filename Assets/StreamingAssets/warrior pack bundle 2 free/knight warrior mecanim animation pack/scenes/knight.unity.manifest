@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 8922957
+CRC: 2806730200
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 54398269d9017b6e847254b6352074e7
+    Hash: 6b8c457585da513b1e0012976c8bc5ca
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0a293a9773ec887eff131012b15cce1a
@@ -49,5 +49,5 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Knight Warrior Mecanim Animation
   Pack/Scenes/Knight.unity
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/knight
-  warrior mecanim animation pack/prefabs/knight warrior.prefab
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/knight warrior
+  mecanim animation pack/prefabs/knight warrior.prefab

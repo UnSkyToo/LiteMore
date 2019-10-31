@@ -1,4 +1,5 @@
-﻿using LiteFramework.Core.Async.Task;
+﻿using LiteFramework.Core.Async.Group;
+using LiteFramework.Core.Async.Task;
 using LiteFramework.Core.Async.Timer;
 using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
@@ -23,6 +24,13 @@ namespace LiteFramework.Core
             if (!ObjectPoolManager.Startup())
             {
                 LLogger.LError($"{nameof(ObjectPoolManager)} Startup Failed");
+                return false;
+            }
+
+            LLogger.LInfo($"{nameof(GroupManager)} Startup");
+            if (!GroupManager.Startup())
+            {
+                LLogger.LError($"{nameof(GroupManager)} Startup Failed");
                 return false;
             }
 
@@ -63,6 +71,7 @@ namespace LiteFramework.Core
             MotionManager.Shutdown();
             TimerManager.Shutdown();
             TaskManager.Shutdown();
+            GroupManager.Shutdown();
             ObjectPoolManager.Shutdown();
             EventManager.Shutdown();
         }
@@ -70,6 +79,7 @@ namespace LiteFramework.Core
         public static void Tick(float DeltaTime)
         {
             ObjectPoolManager.Tick(DeltaTime);
+            GroupManager.Tick(DeltaTime);
             TaskManager.Tick(DeltaTime);
             TimerManager.Tick(DeltaTime);
             MotionManager.Tick(DeltaTime);

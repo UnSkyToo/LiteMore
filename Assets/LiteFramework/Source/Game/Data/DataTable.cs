@@ -4,12 +4,15 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using LiteFramework.Core.Log;
+using LiteFramework.Helper;
 
 namespace LiteFramework.Game.Data
 {
     public class DataTable
     {
         public string Name { get; }
+        public int LineCount => IsLoaded ? DataLines_.Count : 0;
+
         public bool IsLoaded { get; private set; }
 
         private int Index_;
@@ -28,6 +31,11 @@ namespace LiteFramework.Game.Data
 
         public bool Parse(byte[] Buffer)
         {
+            if (Buffer == null || Buffer.Length == 0)
+            {
+                return false;
+            }
+
             try
             {
                 IsLoaded = false;
@@ -76,7 +84,7 @@ namespace LiteFramework.Game.Data
                                 Line.Add(Keys_[Index], new DataEntity<string>(ReadString2()));
                                 break;
                             case DataType.BigInt:
-                                Line.Add(Keys_[Index], new DataEntity<BigInteger>(BigInteger.Parse(ReadString())));
+                                Line.Add(Keys_[Index], new DataEntity<BigInteger>(BigNumHelper.ToBigInt(ReadString())));
                                 break;
                             default:
                                 break;
@@ -96,7 +104,7 @@ namespace LiteFramework.Game.Data
             }
         }
 
-        public DataLine GetLine(int ID)
+        public DataLine Line(int ID)
         {
             if (DataLines_.ContainsKey(ID))
             {
@@ -106,12 +114,12 @@ namespace LiteFramework.Game.Data
             return null;
         }
 
-        public int[] GetKeys()
+        public int[] Keys()
         {
             return DataLines_.Keys.ToArray();
         }
 
-        public T Get<T>(int ID, string Key)
+        public T Value<T>(int ID, string Key)
         {
             if (DataLines_.ContainsKey(ID))
             {
@@ -121,6 +129,7 @@ namespace LiteFramework.Game.Data
             return default(T);
         }
 
+        #region Data Reader
         private bool CanRead()
         {
             return Index_ < Buffer_.Length;
@@ -196,5 +205,6 @@ namespace LiteFramework.Game.Data
             var Value = Encoding.UTF8.GetString(Data);
             return Value;
         }
+        #endregion
     }
 }

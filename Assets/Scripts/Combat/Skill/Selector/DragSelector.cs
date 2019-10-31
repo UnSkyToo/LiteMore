@@ -27,7 +27,7 @@ namespace LiteMore.Combat.Skill.Selector
         {
             DragRadius_ = Args_.Skill.Radius;
             DragCancelObj_ = Args_.CancelObj;
-            var CancelPos = UnityHelper.WorldPosToCanvasPos(DragCancelObj_.position);
+            var CancelPos = UnityHelper.WorldPosToScreenPos(DragCancelObj_.position);
             DragCancelRect_ = new Rect(CancelPos - DragCancelObj_.sizeDelta / 2, DragCancelObj_.sizeDelta);
             UIEventListener.AddCallback(Carrier_, UIEventType.BeginDrag, BeginDrag);
             UIEventListener.AddCallback(Carrier_, UIEventType.Drag, Drag);
@@ -49,7 +49,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            DragObj_ = AssetManager.CreatePrefabSync(DragResName_).transform;
+            DragObj_ = AssetManager.CreatePrefabSync(new AssetUri(DragResName_)).transform;
             MapManager.AddToGroundLayer(DragObj_);
             DragObj_.localPosition = Vector3.zero;
             DragObjRender_ = DragObj_.GetComponent<SpriteRenderer>();
@@ -79,7 +79,7 @@ namespace LiteMore.Combat.Skill.Selector
             CreateDragObject();
 
             DragCancelObj_.gameObject.SetActive(true);
-            OnBeginDrag(Pos);
+            OnBeginDrag(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
         }
 
         protected abstract void OnBeginDrag(Vector2 Pos);
@@ -100,7 +100,7 @@ namespace LiteMore.Combat.Skill.Selector
                 DragObjRender_.color = Color.green;
             }
 
-            OnDrag(Pos);
+            OnDrag(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
         }
 
         protected abstract void OnDrag(Vector2 Pos);
@@ -108,7 +108,7 @@ namespace LiteMore.Combat.Skill.Selector
         private void EndDrag(GameObject Sender, Vector2 Pos)
         {
             IsDrag_ = false;
-            OnEndDrag(Pos);
+            OnEndDrag(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
             DragCancelObj_.gameObject.SetActive(false);
             DestroyDragObject();
 
@@ -122,7 +122,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            OnDragSpell(Pos);
+            OnDragSpell(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
         }
 
         protected abstract void OnEndDrag(Vector2 Pos);

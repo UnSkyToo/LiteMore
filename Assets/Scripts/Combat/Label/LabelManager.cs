@@ -40,7 +40,7 @@ namespace LiteMore.Combat.Label
 
         public static NumberLabel AddNumberLabel(Vector2 Position, NumberLabelType Type, float Value)
         {
-            var Obj = AssetManager.CreatePrefabSync("prefabs/num.prefab");
+            var Obj = AssetManager.CreatePrefabSync(new AssetUri("prefabs/num.prefab"));
             MapManager.AddToTopLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 
@@ -53,7 +53,7 @@ namespace LiteMore.Combat.Label
 
         public static StringLabel AddStringLabel(Vector2 Position, string Value, Color TextColor, int FontSize = 20)
         {
-            var Obj = AssetManager.CreatePrefabSync("prefabs/num.prefab");
+            var Obj = AssetManager.CreatePrefabSync(new AssetUri("prefabs/num.prefab"));
             MapManager.AddToTopLayer(Obj.transform);
             Obj.transform.localPosition = Position;
 

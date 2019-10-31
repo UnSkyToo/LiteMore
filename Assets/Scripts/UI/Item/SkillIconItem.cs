@@ -21,10 +21,10 @@ namespace LiteMore.UI.Item
         {
             this.Skill = Skill;
 
-            IconTransform = AssetManager.CreatePrefabSync(IsRect ? "prefabs/skillicon.prefab" : "prefabs/newskillIcon.prefab").transform;
+            IconTransform = AssetManager.CreatePrefabSync(new AssetUri(IsRect ? "prefabs/skillicon.prefab" : "prefabs/newskillIcon.prefab")).transform;
             IconTransform.SetParent(Parent, false);
-            UIHelper.FindComponent<Image>(IconTransform, "BG/Icon").sprite = AssetManager.CreateAssetSync<Sprite>(Skill.Icon);
-            UIHelper.FindComponent<Image>(IconTransform, "BG/Mask").sprite = AssetManager.CreateAssetSync<Sprite>(Skill.Icon);
+            UIHelper.GetComponent<Image>(IconTransform, "BG/Icon").sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri(Skill.Icon));
+            UIHelper.GetComponent<Image>(IconTransform, "BG/Mask").sprite = AssetManager.CreateAssetSync<Sprite>(new AssetUri(Skill.Icon));
 
             Mask_ = IconTransform.Find("BG/Mask").GetComponent<Image>();
             Mask_.fillAmount = 1;

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1757969624
+CRC: 3434417634
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 45443d2d75e0fc831f98784b4753323b
+    Hash: fdb3f0ff09dbf29261bb2f90d441f282
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2495b201d674e914a98a58ad8df6283a
@@ -28,5 +28,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Sfx/HitSfx.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/sfx/hitsfx.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/sfx.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/sfx.png
+- D:/Private/LiteMore/Assets/StreamingAssets/prefabs/sfx/hitsfx.controller

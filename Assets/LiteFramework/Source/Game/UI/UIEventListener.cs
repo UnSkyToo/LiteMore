@@ -21,6 +21,8 @@ namespace LiteFramework.Game.UI
             {UIEventType.Cancel, typeof(UIEventCancelHandler)},
         };
 
+        private static readonly int EventTypeCount_ = EnumEx.Count<UIEventType>();
+
         public static void AddCallback(Transform Master, UIEventType Type, Action<GameObject, Vector2> Callback)
         {
             GetOrCreateHandler(Master.gameObject, Type).AddCallback(Callback);
@@ -48,7 +50,7 @@ namespace LiteFramework.Game.UI
                 return;
             }
 
-            for (var Index = 0; Index < EnumEx.Count<UIEventType>(); ++Index)
+            for (var Index = 0; Index < EventTypeCount_; ++Index)
             {
                 var Handler = Master.GetComponent(EventHandlerList_[(UIEventType)Index]) as UIEventBaseHandler;
                 if (Handler != null)

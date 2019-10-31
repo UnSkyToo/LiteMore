@@ -22,16 +22,17 @@ namespace LiteMore.UI.Logic
         private readonly SkillIconItem[] SkillIconList_;
 
         public JoystickUI()
+            : base(UIDepthMode.Normal, 0)
         {
             SkillIconList_ = new SkillIconItem[4];
         }
 
         protected override void OnOpen(params object[] Params)
         {
-            Slider_ = FindComponent<RectTransform>("Tray/Gab");
-            TraySize_ = FindComponent<RectTransform>("Tray").sizeDelta.x / 2.0f - MinimumTouchDistance;
+            Slider_ = GetComponent<RectTransform>("Tray/Gab");
+            TraySize_ = GetComponent<RectTransform>("Tray").sizeDelta.x / 2.0f - MinimumTouchDistance;
 
-            CancelObj_ = FindComponent<RectTransform>("Skill/Cancel");
+            CancelObj_ = GetComponent<RectTransform>("Skill/Cancel");
             CancelObj_.gameObject.SetActive(false);
 
             AddEventToChild("Tray", OnTrayBeginDrag, UIEventType.BeginDrag);
@@ -99,7 +100,7 @@ namespace LiteMore.UI.Logic
 
             UnBindSkill(Index);
             SkillIconList_[Index] = new SkillIconItem(FindChild($"Skill/Skill{Index+1}"), Skill, CancelObj_, false);
-            SkillIconList_[Index].SetScaleToSize(FindComponent<RectTransform>($"Skill/Skill{Index+1}").sizeDelta);
+            SkillIconList_[Index].SetScaleToSize(GetComponent<RectTransform>($"Skill/Skill{Index+1}").sizeDelta);
         }
 
         private void UnBindSkill(uint Index)

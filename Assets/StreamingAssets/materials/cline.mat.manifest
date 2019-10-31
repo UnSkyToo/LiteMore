@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 456770759
+CRC: 2080793870
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 60acb53a83c2a56ea5bc8fd0a86b7c3a
+    Hash: dfe7b3138798984e8c2bbfa1f4756581
   TypeTreeHash:
     serializedVersion: 2
     Hash: 51a16e16d5113854a16091e54ae5bb0d
@@ -16,5 +16,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Materials/CLine.mat
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/materials/cline.shader
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/m.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/m.png
+- D:/Private/LiteMore/Assets/StreamingAssets/materials/cline.shader

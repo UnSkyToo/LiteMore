@@ -1,12 +1,14 @@
 ﻿using System;
 using LiteFramework.Core.Base;
 using LiteFramework.Core.Motion;
+using LiteFramework.Game.Asset;
 using LiteFramework.Helper;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LiteFramework.Game.UI
 {
-    public class BaseUI : BaseObject
+    public abstract class BaseUI : BaseObject
     {
         public string Name { get; set; }
         public string Path { get; set; }
@@ -17,27 +19,42 @@ namespace LiteFramework.Game.UI
         public UIDepthMode DepthMode { get; protected set; }
         public bool IsClosed { get; private set; }
 
-        public int SortOrder => DepthIndex + (int)DepthMode;
+        private Canvas UICanvas_;
+        public Canvas UICanvas
+        {
+            get
+            {
+                if (UICanvas_ != null)
+                {
+                    return UICanvas_;
+                }
 
-        public BaseUI()
+                UICanvas_ = UnityHelper.GetOrAddComponentSafe<Canvas>(UITransform.gameObject);
+                UICanvas_.overrideSorting = true;
+                UITransform.gameObject.AddComponent<GraphicRaycaster>();
+                return UICanvas_;
+            }
+        }
+
+        protected BaseUI(UIDepthMode Mode, int Index)
         {
             Name = GetType().Name;
             Cached = true;
             UITransform = null;
             UIRectTransform = null;
-            DepthIndex = 0;
-            DepthMode = UIDepthMode.Normal;
+            DepthMode = Mode;
+            DepthIndex = Index;
             IsClosed = false;
         }
 
-        public void Open(params object[] Params)
+        public virtual void Open(params object[] Params)
         {
             IsClosed = false;
             OnOpen(Params);
             Show();
         }
 
-        public void Close()
+        public virtual void Close()
         {
             IsClosed = true;
             Hide();
@@ -45,7 +62,7 @@ namespace LiteFramework.Game.UI
             OnClose();
         }
 
-        public void Show()
+        public virtual void Show()
         {
             OnShow();
             if (UITransform != null)
@@ -54,7 +71,7 @@ namespace LiteFramework.Game.UI
             }
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             OnHide();
             if (UITransform != null)
@@ -73,19 +90,19 @@ namespace LiteFramework.Game.UI
             return UIHelper.FindChild(UITransform, ChildPath);
         }
 
-        public T FindComponent<T>(string ChildPath) where T : Component
+        public T GetComponent<T>(string ChildPath) where T : Component
         {
-            return UIHelper.FindComponent<T>(UITransform, ChildPath);
+            return UIHelper.GetComponent<T>(UITransform, ChildPath);
         }
 
-        public Component FindComponent(string ChildParent, Type CType)
+        public Component GetComponent(string ChildParent, Type CType)
         {
-            return UIHelper.FindComponent(UITransform, ChildParent, CType);
+            return UIHelper.GetComponent(UITransform, ChildParent, CType);
         }
 
-        public Component FindComponent(string ChildParent, string CType)
+        public Component GetComponent(string ChildParent, string CType)
         {
-            return UIHelper.FindComponent(UITransform, ChildParent, CType);
+            return UIHelper.GetComponent(UITransform, ChildParent, CType);
         }
 
         public void AddEvent(Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
@@ -96,6 +113,11 @@ namespace LiteFramework.Game.UI
         public void AddEvent(Action Callback, UIEventType Type = UIEventType.Click)
         {
             UIHelper.AddEvent(UITransform, Callback, Type);
+        }
+
+        public void AddClickEvent(Action Callback, AssetUri AudioUri)
+        {
+            UIHelper.AddClickEvent(UITransform, Callback, AudioUri);
         }
 
         public void RemoveEvent(Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
@@ -118,6 +140,11 @@ namespace LiteFramework.Game.UI
             UIHelper.AddEventToChild(UITransform, ChildPath, Callback, Type);
         }
 
+        public void AddClickEventToChild(string ChildPath, Action Callback, AssetUri AudioUri)
+        {
+            UIHelper.AddClickEventToChild(UITransform, ChildPath, Callback, AudioUri);
+        }
+
         public void RemoveEventFromChild(string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
         {
             UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
@@ -128,14 +155,9 @@ namespace LiteFramework.Game.UI
             UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
         }
 
-        public void ShowChild(string ChildPath)
+        public void SetActive(string ChildPath, bool Value)
         {
-            UIHelper.ShowChild(UITransform, ChildPath);
-        }
-
-        public void HideChild(string ChildPath)
-        {
-            UIHelper.HideChild(UITransform, ChildPath);
+            UIHelper.SetActive(UITransform, ChildPath, Value);
         }
 
         public void EnableTouched(bool Enabled)

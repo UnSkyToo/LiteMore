@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 200145175
+CRC: 1273663780
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 80b950544e076ce687790c0a8e17f454
+    Hash: b9182552d45b4db9ad83e8dbb9980701
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R1/R1_walk.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/r1.png

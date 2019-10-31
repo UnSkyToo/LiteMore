@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3421061404
+CRC: 1633564381
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d19640ea8385825b04cd911de693ed1b
+    Hash: 905bf8cec0b44a457d7f7e7e1abac021
   TypeTreeHash:
     serializedVersion: 2
     Hash: a726291b25a2827bab2fb53d20f5b010
@@ -30,5 +30,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R2/R2.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r2.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/r2.png
+- D:/Private/LiteMore/Assets/StreamingAssets/prefabs/npc/r2/r2.controller

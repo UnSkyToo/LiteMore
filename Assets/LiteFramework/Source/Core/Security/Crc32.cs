@@ -10,7 +10,18 @@
 
         public static uint Calculate(byte[] Buffer)
         {
-            var Index = 0;
+            return Calculate(Buffer, 0, Buffer.Length);
+        }
+
+        public static uint Calculate(byte[] Buffer, int Start, int Length)
+        {
+            if (Start < 0 || Length < 0 || Start + Length > Buffer.Length)
+            {
+                return 0;
+            }
+
+            var Index = Start;
+            var End = Start + Length;
             var Result = (uint)(Buffer[Index++]) << 24;
 
             if (Buffer[Index] != 0)
@@ -26,7 +37,7 @@
                 }
             }
             Result = ~Result;
-            while (Index < Buffer.Length)
+            while (Index < End)
             {
                 Result = (Result << 8 | Buffer[Index]) ^ Crc32Table[Result >> 24];
                 Index++;

@@ -20,7 +20,7 @@ function DpsUI:OnOpen()
     ItemObj_:SetActive(false)
 
     ContentRoot_ = self:FindChild("List/Viewport/Content")
-    DpsText_ = self:FindComponent("Dps", UIText);
+    DpsText_ = self:GetComponent("Dps", UIText);
 
     self:AddEventToChild("BtnClear", function()
         CS.LiteMore.Player.PlayerManager.Dps:Clear()
@@ -58,9 +58,9 @@ function DpsUI:Refresh()
         end
 
         Child.gameObject:SetActive(true);
-        UIHelper.FindComponent(Child, "Name", UIText).text = Chunks[i].SourceName
-        UIHelper.FindComponent(Child, "Text", UIText).text = string.format("%0.2f", Chunks[i].Value) .. "(" .. string.format("%0.2f", Chunks[i].Percent*100) .. "%)"
-        UIHelper.FindComponent(Child, "Value", UISlider).value = Chunks[i].Percent
+        UIHelper.GetComponent(Child, "Name", UIText).text = Chunks[i].SourceName
+        UIHelper.GetComponent(Child, "Text", UIText).text = string.format("%0.2f", Chunks[i].Value) .. "(" .. string.format("%0.2f", Chunks[i].Percent*100) .. "%)"
+        UIHelper.GetComponent(Child, "Value", UISlider).value = Chunks[i].Percent
     end
 
     DpsText_.text = "Dps:" .. string.format("%0.2f", CS.LiteMore.Player.PlayerManager.Dps.Dps)
@@ -69,7 +69,7 @@ end
 function DpsUI:CreateItem()
     local Obj = CS.UnityEngine.Object.Instantiate(ItemObj_)
     Obj.transform:SetParent(ContentRoot_, false)
-    UIHelper.FindComponent(Obj.transform, "Value/Fill Area/Fill", UIImage).color = CS.UnityEngine.Color(CS.UnityEngine.Random.value, 0.8, CS.UnityEngine.Random.value)
+    UIHelper.GetComponent(Obj.transform, "Value/Fill Area/Fill", UIImage).color = CS.UnityEngine.Color(CS.UnityEngine.Random.value, 0.8, CS.UnityEngine.Random.value)
     return Obj.transform
 end
 

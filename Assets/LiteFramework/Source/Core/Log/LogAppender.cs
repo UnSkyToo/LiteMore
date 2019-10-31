@@ -67,4 +67,27 @@ namespace LiteFramework.Core.Log
             }
         }
     }
+
+    public class LogAppenderUnityEditor : LogAppenderBase
+    {
+        public LogAppenderUnityEditor(ILogFormatter Formatter)
+            : base("UnityEditor", Formatter)
+        {
+        }
+
+        public override void Append(LogEvent Event)
+        {
+            switch (Event.Level)
+            {
+                case LogLevel.Error:
+                case LogLevel.Fatal:
+#if UNITY_EDITOR
+                    LiteFramework.Helper.UnityHelper.ShowEditorNotification(LogFormatter.Format(Event));
+#endif
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

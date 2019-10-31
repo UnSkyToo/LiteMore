@@ -68,6 +68,11 @@ namespace LiteFramework.Core.Async.Timer
             return AddTimer(Interval, OnTick, OnEnd, (int)(TotalTime / Interval));
         }
 
+        public static TimerEntity AddTimerWithFrame(int FrameCount, Action OnTick)
+        {
+            return AddTimer(FrameCount * 0.016f, OnTick, 1);
+        }
+
         public static void StopTimer(TimerEntity Entity)
         {
             Entity?.Stop();

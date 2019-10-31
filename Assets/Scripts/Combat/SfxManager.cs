@@ -77,7 +77,7 @@ namespace LiteMore.Combat
 
         private static BaseSfx CreateSfx(string ResName)
         {
-            var Obj = AssetManager.CreatePrefabSync(ResName);
+            var Obj = AssetManager.CreatePrefabSync(new AssetUri(ResName));
             var Entity = new BaseSfx(ResName, Obj.transform);
             SfxList_.Add(Entity);
             return Entity;

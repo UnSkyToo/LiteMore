@@ -42,6 +42,11 @@ namespace LiteFramework.Core.Async.Timer
 
         public void Stop()
         {
+            if (IsEnd)
+            {
+                return;
+            }
+
             Pause();
             Count_ = 0;
             TriggerEndEvent();

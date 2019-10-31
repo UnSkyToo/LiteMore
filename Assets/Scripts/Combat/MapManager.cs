@@ -24,7 +24,7 @@ namespace LiteMore.Combat
             SkyRoot_ = MiscHelper.CreateCanvasLayer(MapRoot_, "SkyRoot", Configure.SkyOrder);
             TopRoot_ = MiscHelper.CreateCanvasLayer(MapRoot_, "TopRoot", Configure.TopOrder);
 
-            var Tex = AssetManager.CreateAssetSync<Sprite>("textures/m.png");
+            var Tex = AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/m.png"));
             for (var Y = -2; Y <= 2; ++Y)
             {
                 for (var X = -3; X <= 3; ++X)

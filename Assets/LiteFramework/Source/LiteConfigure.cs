@@ -5,12 +5,15 @@ namespace LiteFramework
     public static class LiteConfigure
     {
         public const string LiteFrameworkVersion = "19.8.15.1";
+        public const bool EnterBackgroundAutoRestart = false;
         public const float EnterBackgroundMaxTime = 90.0f;
         public const string AssetBundleManifestName = "StreamingAssets.lite";
         public const string StandaloneAssetsName = "StandaloneAssets";
+        public const string CanvasBottomName = "Canvas-Bottom";
         public const string CanvasNormalName = "Canvas-Normal";
+        public const string CanvasTopName = "Canvas-Top";
 
-        public static readonly Dictionary<System.Type, LiteFramework.Game.UI.UIDescriptor> UIDescList = new Dictionary<System.Type, LiteFramework.Game.UI.UIDescriptor>();
+        public static readonly Dictionary<System.Type, Game.UI.UIDescriptor> UIDescList = new Dictionary<System.Type, Game.UI.UIDescriptor>();
 
 
 #if LITE_USE_LUA_MODULE

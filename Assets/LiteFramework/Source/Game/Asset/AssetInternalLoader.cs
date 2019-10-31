@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Text;
 using LiteFramework.Helper;
 using LiteFramework.Core.Log;
-using LiteFramework.Core.ObjectPool;
 using UnityEditor;
 
 namespace LiteFramework.Game.Asset
@@ -66,6 +65,7 @@ namespace LiteFramework.Game.Asset
                         Result.Add(Obj);
                     }
                 }
+
                 return Result.ToArray();
             }
         }
@@ -89,6 +89,17 @@ namespace LiteFramework.Game.Asset
 
             public void Reset()
             {
+            }
+        }
+
+        internal class AssetInternalTextAsset : UnityEngine.TextAsset
+        {
+            public byte[] InternalBytes { get; }
+
+            public AssetInternalTextAsset(byte[] Buffer)
+                : base("Internal Text Asset")
+            {
+                this.InternalBytes = Buffer;
             }
         }
 
@@ -178,8 +189,8 @@ namespace LiteFramework.Game.Asset
             private readonly Dictionary<string, T> AssetList_ = null;
             private readonly List<int> AssetInstanceIDList_ = null;
 
-            public AssetInternalCache(AssetCacheType BundleType, string BundlePath)
-                : base(BundleType, BundlePath)
+            public AssetInternalCache(AssetCacheType BundleType, string AssetPath)
+                : base(BundleType, AssetPath)
             {
                 AssetList_ = new Dictionary<string, T>();
                 AssetInstanceIDList_ = new List<int>();
@@ -247,8 +258,8 @@ namespace LiteFramework.Game.Asset
             private readonly Dictionary<string, UnityEngine.GameObject> AssetList_ = null;
             private readonly List<int> AssetInstanceIDList_ = null;
 
-            public PrefabAssetInternalCache(AssetCacheType BundleType, string BundlePath)
-                : base(BundleType, BundlePath)
+            public PrefabAssetInternalCache(AssetCacheType BundleType, string AssetPath)
+                : base(BundleType, AssetPath)
             {
                 AssetList_ = new Dictionary<string, UnityEngine.GameObject>();
                 AssetInstanceIDList_ = new List<int>();
@@ -315,10 +326,10 @@ namespace LiteFramework.Game.Asset
         private class DataAssetInternalCache : BaseAssetInternalCache
         {
             public byte[] Buffer { get; private set; }
-            private UnityEngine.TextAsset Asset_;
+            private AssetInternalTextAsset Asset_;
 
-            public DataAssetInternalCache(AssetCacheType BundleType, string BundlePath)
-                : base(BundleType, BundlePath)
+            public DataAssetInternalCache(AssetCacheType BundleType, string AssetPath)
+                : base(BundleType, AssetPath)
             {
                 Buffer = null;
                 Asset_ = null;
@@ -338,7 +349,7 @@ namespace LiteFramework.Game.Asset
                     RefCount_ = 0;
                     IsLoad = true;
                     Buffer = File.ReadAllBytes(FullPath);
-                    Asset_ = new UnityEngine.TextAsset(Encoding.ASCII.GetString(Buffer));
+                    Asset_ = new AssetInternalTextAsset(Buffer);
                 }
             }
 

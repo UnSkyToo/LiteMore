@@ -16,10 +16,8 @@ namespace LiteMore.UI.Logic
         private float Time_;
 
         public DpsUI()
-            : base()
+            : base(UIDepthMode.Normal, 2)
         {
-            DepthMode = UIDepthMode.Normal;
-            DepthIndex = 100;
         }
 
         protected override void OnOpen(params object[] Params)
@@ -29,12 +27,12 @@ namespace LiteMore.UI.Logic
 
             ContentRoot_ = FindChild("List/Viewport/Content");
 
-            DpsText_ = FindComponent<Text>("Dps");
+            DpsText_ = GetComponent<Text>("Dps");
 
             AddEventToChild("BtnClear", () =>
             {
                 PlayerManager.Dps.Clear();
-                UIHelper.RemoveAllChildren(ContentRoot_);
+                UIHelper.RemoveAllChildren(ContentRoot_, true);
             });
         }
 
@@ -63,9 +61,9 @@ namespace LiteMore.UI.Logic
                 var Child = Index >= ContentRoot_.childCount ? CreateItem() : ContentRoot_.GetChild(Index);
 
                 Child.gameObject.SetActive(true);
-                UIHelper.FindComponent<Text>(Child, "Name").text = Chunks[Index].SourceName;
-                UIHelper.FindComponent<Text>(Child, "Text").text = $"{Chunks[Index].Value:0.0}({Chunks[Index].Percent*100:0.00}%)";
-                UIHelper.FindComponent<Slider>(Child, "Value").value = Chunks[Index].Percent;
+                UIHelper.GetComponent<Text>(Child, "Name").text = Chunks[Index].SourceName;
+                UIHelper.GetComponent<Text>(Child, "Text").text = $"{Chunks[Index].Value:0.0}({Chunks[Index].Percent*100:0.00}%)";
+                UIHelper.GetComponent<Slider>(Child, "Value").value = Chunks[Index].Percent;
             }
 
             DpsText_.text = $"Dps:{PlayerManager.Dps.Dps}";
@@ -75,7 +73,7 @@ namespace LiteMore.UI.Logic
         {
             var Obj = Object.Instantiate(ItemObj_);
             Obj.transform.SetParent(ContentRoot_, false);
-            UIHelper.FindComponent<Image>(Obj.transform, "Value/Fill Area/Fill").color = new Color(Random.value, 0.8f, Random.value);
+            UIHelper.GetComponent<Image>(Obj.transform, "Value/Fill Area/Fill").color = new Color(Random.value, 0.8f, Random.value);
             return Obj.transform;
         }
     }

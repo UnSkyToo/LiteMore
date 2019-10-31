@@ -12,15 +12,13 @@ namespace LiteMore.UI.Core
         private Action Callback_;
 
         public ToastUI()
-            : base()
+            : base(UIDepthMode.Top, 5)
         {
-            DepthMode = UIDepthMode.Top;
-            DepthIndex = 200;
         }
 
         protected override void OnOpen(params object[] Params)
         {
-            var Msg = FindComponent<Text>("Value");
+            var Msg = GetComponent<Text>("Value");
             Msg.text = (string)Params[0];
             Msg.color = (Color)Params[1];
             Callback_ = Params.Length > 2 ? (Action)Params[2] : null;

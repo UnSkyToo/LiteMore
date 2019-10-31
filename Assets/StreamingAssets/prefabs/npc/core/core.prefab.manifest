@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 798669559
+CRC: 406587847
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 20cb3f762c883eeeb857049a668dfce4
+    Hash: 3ca85297b5b5450201592cce8067b39e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2495b201d674e914a98a58ad8df6283a
@@ -28,5 +28,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/Core/Core.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/build.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/build.png
+- D:/Private/LiteMore/Assets/StreamingAssets/prefabs/npc/core/core.controller

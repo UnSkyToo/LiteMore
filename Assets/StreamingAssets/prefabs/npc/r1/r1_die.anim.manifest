@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1962262608
+CRC: 3588519651
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6b518893fbe3b75c639df8b8892be540
+    Hash: 5d11cf67034eca093e97b2df3bd14442
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R1/R1_die.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/r1.png

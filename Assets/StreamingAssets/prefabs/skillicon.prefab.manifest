@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3166208594
+CRC: 1164303289
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fd1116894d0c06b55d4de3046c96f628
+    Hash: 6057d7bdd93a50ddec244a9554441f61
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 5dd554922b924a5d8c8745385565dd74
+    Hash: 91ac16919bcd67d7c0a0235c34775d67
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -38,6 +38,6 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/SkillIcon.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_di_lan.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_lan.png
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/icon/skill1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_di_lan.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/atals/frm_pinzhi_lan.png

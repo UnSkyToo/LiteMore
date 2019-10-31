@@ -64,4 +64,21 @@ namespace LiteFramework.Core.Async.Task
             Callback_?.Invoke();
         }
     }
+
+    public class MainThreadTaskEntity : BaseObject
+    {
+        private readonly Action<object> Func_;
+        private readonly object Param_;
+
+        public MainThreadTaskEntity(Action<object> Func, object Param)
+        {
+            this.Func_ = Func;
+            this.Param_ = Param;
+        }
+
+        public void Invoke()
+        {
+            Func_?.Invoke(Param_);
+        }
+    }
 }

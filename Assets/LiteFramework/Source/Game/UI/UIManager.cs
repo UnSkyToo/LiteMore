@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using LiteFramework.Core.Base;
 using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
 using UnityEngine;
@@ -8,6 +8,22 @@ namespace LiteFramework.Game.UI
 {
     public static class UIManager
     {
+        public const int OrderStep = 100;
+
+        private static Transform CanvasBottomTransform_ = null;
+        public static Transform CanvasBottomTransform
+        {
+            get
+            {
+                if (CanvasBottomTransform_ == null)
+                {
+                    CanvasBottomTransform_ = GameObject.Find(LiteConfigure.CanvasBottomName).transform;
+                }
+
+                return CanvasBottomTransform_;
+            }
+        }
+
         private static Transform CanvasNormalTransform_ = null;
         public static Transform CanvasNormalTransform
         {
@@ -22,34 +38,36 @@ namespace LiteFramework.Game.UI
             }
         }
 
-        private static RectTransform CanvasNormalRectTransform_ = null;
-        public static RectTransform CanvasNormalRectTransform
+        private static Transform CanvasTopTransform_ = null;
+        public static Transform CanvasTopTransform
         {
             get
             {
-                if (CanvasNormalRectTransform_ == null)
+                if (CanvasTopTransform_ == null)
                 {
-                    CanvasNormalRectTransform_ = CanvasNormalTransform.GetComponent<RectTransform>();
+                    CanvasTopTransform_ = GameObject.Find(LiteConfigure.CanvasTopName).transform;
                 }
 
-                return CanvasNormalRectTransform_;
+                return CanvasTopTransform_;
             }
         }
 
-        private static readonly Dictionary<uint, BaseUI> UIList_ = new Dictionary<uint, BaseUI>();
+        private static readonly ListEx<BaseUI> UIList_ = new ListEx<BaseUI>();
+        private static readonly Dictionary<UIDepthMode, int> UIDepthCount_ = new Dictionary<UIDepthMode, int>();
         private static readonly Dictionary<string, Transform> CacheList_ = new Dictionary<string, Transform>();
-        private static readonly List<BaseUI> OpenList_ = new List<BaseUI>();
-        private static readonly List<BaseUI> CloseList_ = new List<BaseUI>();
+        private static float DeltaTime_;
 
         public static bool Startup()
         {
-            CanvasNormalRectTransform_ = null;
-            CanvasNormalRectTransform_ = null;
+            CanvasNormalTransform_ = null;
 
             UIList_.Clear();
             CacheList_.Clear();
-            OpenList_.Clear();
-            CloseList_.Clear();
+
+            UIDepthCount_.Clear();
+            UIDepthCount_.Add(UIDepthMode.Bottom, 0);
+            UIDepthCount_.Add(UIDepthMode.Normal, 0);
+            UIDepthCount_.Add(UIDepthMode.Top, 0);
 
             return true;
         }
@@ -58,58 +76,39 @@ namespace LiteFramework.Game.UI
         {
             CloseAllUI();
 
-            var ChildCount = CanvasNormalTransform.childCount;
+            var ChildCount = CanvasBottomTransform.childCount;
+            for (var Index = 0; Index < ChildCount; ++Index)
+            {
+                var Child = CanvasBottomTransform.GetChild(Index);
+                AssetManager.DeleteAsset(Child.gameObject);
+            }
+
+            ChildCount = CanvasNormalTransform.childCount;
             for (var Index = 0; Index < ChildCount; ++Index)
             {
                 var Child = CanvasNormalTransform.GetChild(Index);
                 AssetManager.DeleteAsset(Child.gameObject);
             }
 
+            ChildCount = CanvasTopTransform.childCount;
+            for (var Index = 0; Index < ChildCount; ++Index)
+            {
+                var Child = CanvasTopTransform.GetChild(Index);
+                AssetManager.DeleteAsset(Child.gameObject);
+            }
+
             UIList_.Clear();
+            UIDepthCount_.Clear();
             CacheList_.Clear();
-            OpenList_.Clear();
-            CloseList_.Clear();
         }
 
         public static void Tick(float DeltaTime)
         {
-            if (OpenList_.Count > 0)
+            DeltaTime_ = DeltaTime;
+            UIList_.Foreach((Entity) =>
             {
-                foreach (var UI in OpenList_)
-                {
-                    UIList_.Add(UI.ID, UI);
-                }
-
-                OpenList_.Clear();
-                ResortUIList();
-            }
-
-            if (UIList_.Count > 0)
-            {
-                foreach (var UI in UIList_)
-                {
-                    UI.Value.Tick(DeltaTime);
-                }
-            }
-
-            if (CloseList_.Count > 0)
-            {
-                foreach (var UI in CloseList_)
-                {
-                    UIList_.Remove(UI.ID);
-
-                    if (UI.Cached && !CacheList_.ContainsKey(UI.Path))
-                    {
-                        CacheList_.Add(UI.Path, UI.UITransform);
-                    }
-                    else
-                    {
-                        AssetManager.DeleteAsset(UI.UIRectTransform.gameObject);
-                    }
-                }
-
-                CloseList_.Clear();
-            }
+                Entity.Tick(DeltaTime_);
+            });
         }
 
         public static T OpenUI<T>(params object[] Params) where T : BaseUI, new()
@@ -173,30 +172,23 @@ namespace LiteFramework.Game.UI
             }
 
             UI.Close();
-            CloseList_.Add(UI);
+            UIList_.Remove(UI);
+            UIDepthCount_[UI.DepthMode]--;
+
+            if (UI.Cached && !CacheList_.ContainsKey(UI.Path))
+            {
+                CacheList_.Add(UI.Path, UI.UITransform);
+            }
+            else
+            {
+                AssetManager.DeleteAsset(UI.UIRectTransform.gameObject);
+            }
         }
 
         public static void CloseAllUI()
         {
-            if (UIList_.Count > 0)
-            {
-                foreach (var UI in UIList_)
-                {
-                    CloseUI(UI.Value);
-                }
-
-                UIList_.Clear();
-            }
-
-            if (OpenList_.Count > 0)
-            {
-                foreach (var UI in OpenList_)
-                {
-                    CloseUI(UI);
-                }
-
-                OpenList_.Clear();
-            }
+            UIList_.Foreach(CloseUI);
+            UIList_.Clear();
         }
 
         public static void DeleteUnusedUI()
@@ -212,54 +204,19 @@ namespace LiteFramework.Game.UI
         public static T FindUI<T>() where T : BaseUI
         {
             var ScriptType = typeof(T);
-
-            foreach (var Data in UIList_)
-            {
-                if (Data.Value.Name == ScriptType.Name)
-                {
-                    return Data.Value as T;
-                }
-            }
-
-            foreach (var Data in OpenList_)
-            {
-                if (Data.Name == ScriptType.Name)
-                {
-                    return Data as T;
-                }
-            }
-
-            return null;
+            return UIList_.Where((Entity) => Entity.Name == ScriptType.Name) as T;
         }
 
         public static List<T> FindAllUI<T>() where T : BaseUI
         {
             var ScriptType = typeof(T);
-            var Result = new List<T>();
-
-            foreach (var Data in UIList_)
-            {
-                if (Data.Value.Name == ScriptType.Name)
-                {
-                    Result.Add(Data.Value as T);
-                }
-            }
-
-            foreach (var Data in OpenList_)
-            {
-                if (Data.Name == ScriptType.Name)
-                {
-                    Result.Add(Data as T);
-                }
-            }
-
-            return Result;
+            return UIList_.All((Entity) => Entity.Name == ScriptType.Name) as List<T>;
         }
 
         public static bool IsOpened<T>() where T : BaseUI
         {
             var UI = FindUI<T>();
-            if (UI == null)
+            if (UI == null || UI.IsClosed)
             {
                 return false;
             }
@@ -270,7 +227,7 @@ namespace LiteFramework.Game.UI
         public static bool IsClosed<T>() where T : BaseUI
         {
             var UI = FindUI<T>();
-            if (UI == null)
+            if (UI == null || UI.IsClosed)
             {
                 return true;
             }
@@ -280,18 +237,17 @@ namespace LiteFramework.Game.UI
 
         private static Transform GetOrCreateGameObject(UIDescriptor Desc)
         {
-            if (CacheList_.ContainsKey(Desc.PrefabName) && !Desc.OpenMore)
+            if (CacheList_.ContainsKey(Desc.Uri) && !Desc.OpenMore)
             {
-                var UIObj = CacheList_[Desc.PrefabName];
-                CacheList_.Remove(Desc.PrefabName);
+                var UIObj = CacheList_[Desc.Uri];
+                CacheList_.Remove(Desc.Uri);
                 return UIObj;
             }
 
-            var UIPath = $"{Desc.PrefabName}.prefab";
-            var Obj = AssetManager.CreatePrefabSync(UIPath);
+            var Obj = AssetManager.CreatePrefabSync(Desc.Uri);
             if (Obj == null)
             {
-                LLogger.LError($"Can't Create UI : {Desc.PrefabName}");
+                LLogger.LError($"Can't Create UI : {Desc.Uri}");
                 return null;
             }
 
@@ -310,91 +266,35 @@ namespace LiteFramework.Game.UI
 
         public static T CreateUI<T>(Transform Obj, T Script, UIDescriptor Desc, params object[] Params) where T : BaseUI
         {
-            Obj.name = $"{Desc.PrefabName}<{Script.ID}>";
-            Obj.SetParent(CanvasNormalTransform, false);
+            Obj.name = $"{Desc.Uri.AssetName}<{Script.ID}>";
+            Obj.localRotation = Quaternion.identity;
 
-            Script.Path = Desc.PrefabName;
+            switch (Script.DepthMode)
+            {
+                case UIDepthMode.Bottom:
+                    Obj.SetParent(CanvasBottomTransform, false);
+                    break;
+                case UIDepthMode.Normal:
+                    Obj.SetParent(CanvasNormalTransform, false);
+                    break;
+                case UIDepthMode.Top:
+                    Obj.SetParent(CanvasTopTransform, false);
+                    break;
+                default:
+                    break;
+            }
+
+            Script.Path = Desc.Uri;
             Script.Cached = Desc.Cached;
             Script.UITransform = Obj;
             Script.UIRectTransform = Obj.GetComponent<RectTransform>();
-            Script.UIRectTransform.SetSiblingIndex(Script.SortOrder + UIList_.Count + CacheList_.Count);
+            Script.UIRectTransform.SetSiblingIndex(Script.DepthIndex + UIDepthCount_[Script.DepthMode]);
+            Script.UICanvas.sortingOrder = (int)Script.DepthMode + (Script.DepthIndex + UIDepthCount_[Script.DepthMode]) * OrderStep;
 
-            OpenList_.Add(Script);
+            UIDepthCount_[Script.DepthMode]++;
+            UIList_.Add(Script);
             Script.Open(Params);
             return Script;
-        }
-
-        private static void ResortUIList()
-        {
-            var CountInfo = GetUICountInfo();
-            RebuildUIList();
-
-            var BottomIndex = CacheList_.Count;
-            var NormalIndex = BottomIndex + CountInfo[UIDepthMode.Bottom];
-            var TopIndex = NormalIndex + CountInfo[UIDepthMode.Normal];
-
-            foreach (var UI in UIList_)
-            {
-                var NewIndex = UI.Value.UIRectTransform.GetSiblingIndex();
-                switch (UI.Value.DepthMode)
-                {
-                    case UIDepthMode.Bottom:
-                        NewIndex += BottomIndex++;
-                        break;
-                    case UIDepthMode.Normal:
-                        NewIndex += NormalIndex++;
-                        break;
-                    case UIDepthMode.Top:
-                        NewIndex += TopIndex++;
-                        break;
-                    default:
-                        break;
-                }
-
-                UI.Value.UIRectTransform.SetSiblingIndex(NewIndex);
-            }
-        }
-
-        private static Dictionary<UIDepthMode, int> GetUICountInfo()
-        {
-            var Result = new Dictionary<UIDepthMode, int>
-            {
-                {UIDepthMode.Bottom, 0},
-                {UIDepthMode.Normal, 0},
-                {UIDepthMode.Top, 0}
-            };
-
-            foreach (var UI in UIList_)
-            {
-                Result[UI.Value.DepthMode]++;
-            }
-
-            return Result;
-        }
-
-        private static void RebuildUIList()
-        {
-            var NewList = new List<BaseUI>(UIList_.Values);
-            NewList.Sort((X, Y) =>
-            {
-                if (X.UIRectTransform.GetSiblingIndex() + X.SortOrder < Y.UIRectTransform.GetSiblingIndex() + Y.SortOrder)
-                {
-                    return -1;
-                }
-
-                if (X.UIRectTransform.GetSiblingIndex() + X.SortOrder > Y.UIRectTransform.GetSiblingIndex() + Y.SortOrder)
-                {
-                    return 1;
-                }
-
-                return 0;
-            });
-
-            UIList_.Clear();
-            foreach (var UI in NewList)
-            {
-                UIList_.Add(UI.ID, UI);
-            }
         }
     }
 }

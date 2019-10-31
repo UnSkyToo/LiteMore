@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3122463483
+CRC: 93145391
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: af6a2fdc5090f75995f9dc28a170def9
+    Hash: 367a36f5aa4ed281c3107fcefa45f21e
   TypeTreeHash:
     serializedVersion: 2
     Hash: de5b6614feb6f94b0a6e2f2cfc56359c
@@ -19,5 +19,5 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
   Pack/Animations/Archer@Run.FBX
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/characters/archer.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/characters/archer.fbx

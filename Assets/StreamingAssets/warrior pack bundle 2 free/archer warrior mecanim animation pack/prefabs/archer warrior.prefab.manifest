@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 868775304
+CRC: 1868879362
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b3c61448e66c428ca69c9b72c0efa542
+    Hash: de88e912951da9deb75cd46333db6091
   TypeTreeHash:
     serializedVersion: 2
     Hash: 502a54e9133084a5288f4f2310977a44
@@ -35,11 +35,11 @@ Assets:
 - Assets/StandaloneAssets/Warrior Pack Bundle 2 FREE/Archer Warrior Mecanim Animation
   Pack/Prefabs/Archer Warrior.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/characters/archer-bow.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/characters/archer.fbx
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/materials/archer.mat
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer
-  warrior mecanim animation pack/prefabs/archer warrior animation controller.controller
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/materials/archer.mat
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/characters/archer.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/characters/archer-bow.fbx
+- D:/Private/LiteMore/Assets/StreamingAssets/warrior pack bundle 2 free/archer warrior
+  mecanim animation pack/prefabs/archer warrior animation controller.controller

@@ -6,8 +6,8 @@ function BaseUI:FindChild(path)
 	return self._CSEntity_:FindChild(path)
 end
 
-function BaseUI:FindComponent(path, ctype)
-	return self._CSEntity_:FindComponent(path, ctype)
+function BaseUI:GetComponent(path, ctype)
+	return self._CSEntity_:GetComponent(path, ctype)
 end
 
 function BaseUI:AddEvent(func, etype)
@@ -30,12 +30,8 @@ function BaseUI:RemoveEventFromChild(path, func, etype)
 	self._CSEntity_:RemoveEventFromChild(path, func, etype)
 end
 
-function BaseUI:ShowChild(path)
-	self._CSEntity_:ShowChild(path)
-end
-
-function BaseUI:HideChild(path)
-	self._CSEntity_:HideChild(path)
+function BaseUI:SetActive(path, value)
+	self._CSEntity_:SetActive(path, value)
 end
 
 function BaseUI:EnableTouched(enabled)

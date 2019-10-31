@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2176693723
+CRC: 3014581266
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2872073e4fbd2b14200725821fcddc90
+    Hash: 62c844699a5a61acdaf7385975ec45ae
   TypeTreeHash:
     serializedVersion: 2
     Hash: 25f4086c7b856bc267ee41cfe02c02df
@@ -16,4 +16,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Npc/R1/R1_idle.anim
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/r1.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/r1.png

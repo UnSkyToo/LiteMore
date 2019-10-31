@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2704027004
+CRC: 1351384784
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: febc52ecd32b7627733c149b7382d592
+    Hash: 7908cd6052460b1dc4e3b3b487399780
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2495b201d674e914a98a58ad8df6283a
@@ -28,5 +28,5 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Bullet/Bullet.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/prefabs/bullet/bullet.controller
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/bullet.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/bullet.png
+- D:/Private/LiteMore/Assets/StreamingAssets/prefabs/bullet/bullet.controller

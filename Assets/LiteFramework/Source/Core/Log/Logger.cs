@@ -124,6 +124,9 @@ namespace LiteFramework.Core.Log
             if (Enabled_)
             {
                 Default_.AttachAppender(new LogAppenderConsole(new LogFormatterNormal()));
+#if UNITY_EDITOR
+                Default_.AttachAppender(new LogAppenderUnityEditor(new LogFormatterNormal()));
+#endif
             }
             else
             {

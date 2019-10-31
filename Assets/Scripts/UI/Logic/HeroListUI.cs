@@ -16,7 +16,7 @@ namespace LiteMore.UI.Logic
         private BaseNpc Current_;
 
         public HeroListUI()
-            : base()
+            : base(UIDepthMode.Normal, 0)
         {
         }
 
@@ -33,7 +33,7 @@ namespace LiteMore.UI.Logic
 
         protected override void OnClose()
         {
-            UIHelper.RemoveAllChildren(ListContent_);
+            UIHelper.RemoveAllChildren(ListContent_, true);
             EventManager.UnRegister<NpcAddEvent>(OnNpcAddEvent);
             EventManager.UnRegister<NpcDieEvent>(OnNpcDieEvent);
 
@@ -43,7 +43,7 @@ namespace LiteMore.UI.Logic
 
         private void Refresh()
         {
-            UIHelper.RemoveAllChildren(ListContent_);
+            UIHelper.RemoveAllChildren(ListContent_, true);
             var NpcList = NpcManager.GetNpcList(CombatTeam.A);
 
             foreach (var Npc in NpcList)
@@ -81,25 +81,25 @@ namespace LiteMore.UI.Logic
 
         private GameObject CreateHeroItem(BaseNpc Npc)
         {
-            var Obj = AssetManager.CreatePrefabSync("prefabs/heroitem.prefab");
+            var Obj = AssetManager.CreatePrefabSync(new AssetUri("prefabs/heroitem.prefab"));
             Obj.transform.SetParent(ListContent_, false);
 
             if (Current_ != null && Current_.ID == Npc.ID)
             {
-                UIHelper.ShowChild(Obj.transform, "Selected");
+                UIHelper.SetActive(Obj.transform, "Selected", true);
             }
             else
             {
-                UIHelper.HideChild(Obj.transform, "Selected");
+                UIHelper.SetActive(Obj.transform, "Selected", false);
             }
 
-            UIHelper.FindComponent<Text>(Obj.transform, "Name").text = Npc.Name;
+            UIHelper.GetComponent<Text>(Obj.transform, "Name").text = Npc.Name;
 
             // temp head icon
             if (Npc.ID == PlayerManager.Master.ID)
             {
-                UIHelper.FindComponent<Image>(Obj.transform, "Icon").sprite =
-                    AssetManager.CreateAssetSync<Sprite>("textures/build.png");
+                UIHelper.GetComponent<Image>(Obj.transform, "Icon").sprite =
+                    AssetManager.CreateAssetSync<Sprite>(new AssetUri("textures/build.png"));
             }
 
             UIHelper.AddEvent(Obj.transform, () => { SetCurrent(Npc); });

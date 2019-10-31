@@ -5,7 +5,7 @@ local main = {}
 function main:Startup()
 	print('main start')
 	Framework_Startup()
-	self.lo = UIManager:OpenUI('dpsui', 'ui/dpsui')
+	self.lo = UIManager:OpenUI('dpsui', 'ui/dpsui.prefab')
 	return true
 end
 

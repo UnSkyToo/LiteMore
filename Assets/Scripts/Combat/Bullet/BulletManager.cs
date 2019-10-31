@@ -14,11 +14,11 @@ namespace LiteMore.Combat.Bullet
 
         public static bool Startup()
         {
-            BulletPool_.Add(BulletType.Track, ObjectPoolManager.CreateGameObjectPool("TrackBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/Bullet.prefab")));
-            BulletPool_.Add(BulletType.Laser, ObjectPoolManager.CreateGameObjectPool("LaserBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletLaser.prefab")));
-            BulletPool_.Add(BulletType.Bomb, ObjectPoolManager.CreateGameObjectPool("BombBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletBomb.prefab")));
-            BulletPool_.Add(BulletType.Back, ObjectPoolManager.CreateGameObjectPool("BackBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletBack.prefab")));
-            BulletPool_.Add(BulletType.Arrow, ObjectPoolManager.CreateGameObjectPool("ArrowBullet", AssetManager.CreatePrefabSync("Prefabs/Bullet/BulletArrow.prefab")));
+            BulletPool_.Add(BulletType.Track, ObjectPoolManager.CreateGameObjectPool("TrackBullet", AssetManager.CreatePrefabSync(new AssetUri("Prefabs/Bullet/Bullet.prefab"))));
+            BulletPool_.Add(BulletType.Laser, ObjectPoolManager.CreateGameObjectPool("LaserBullet", AssetManager.CreatePrefabSync(new AssetUri("Prefabs/Bullet/BulletLaser.prefab"))));
+            BulletPool_.Add(BulletType.Bomb, ObjectPoolManager.CreateGameObjectPool("BombBullet", AssetManager.CreatePrefabSync  (new AssetUri("Prefabs/Bullet/BulletBomb.prefab"))));
+            BulletPool_.Add(BulletType.Back, ObjectPoolManager.CreateGameObjectPool("BackBullet", AssetManager.CreatePrefabSync  (new AssetUri("Prefabs/Bullet/BulletBack.prefab"))));
+            BulletPool_.Add(BulletType.Arrow, ObjectPoolManager.CreateGameObjectPool("ArrowBullet", AssetManager.CreatePrefabSync(new AssetUri("Prefabs/Bullet/BulletArrow.prefab"))));
 
             BulletList_.Clear();
 

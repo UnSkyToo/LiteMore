@@ -1,4 +1,5 @@
-﻿using LiteFramework.Core.Base;
+﻿using System.Collections.Generic;
+using LiteFramework.Core.Base;
 using UnityEngine;
 
 namespace LiteFramework.Core.Motion
@@ -24,7 +25,11 @@ namespace LiteFramework.Core.Motion
             DeltaTime_ = DeltaTime;
             MotionList_.Foreach((Entity) =>
             {
-                if (Entity.IsEnd)
+                if (Entity.Master == null)
+                {
+                    MotionList_.Remove(Entity);
+                }
+                else if (Entity.IsEnd)
                 {
                     Entity.Exit();
                     MotionList_.Remove(Entity);
@@ -49,6 +54,21 @@ namespace LiteFramework.Core.Motion
             return Motion;
         }
 
+        public static List<BaseMotion> GetMotion(Transform Master)
+        {
+            var Result = new List<BaseMotion>();
+
+            foreach (var Motion in MotionList_)
+            {
+                if (!Motion.IsEnd && Motion.Master == Master)
+                {
+                    Result.Add(Motion);
+                }
+            }
+
+            return Result;
+        }
+
         public static void Abandon(BaseMotion Motion)
         {
             Motion?.Stop();
@@ -61,18 +81,31 @@ namespace LiteFramework.Core.Motion
                 return;
             }
 
-            foreach (var Motion in MotionList_)
+            var MotionList = GetMotion(Master);
+            foreach (var Motion in MotionList)
             {
-                if (Motion.Master == Master)
-                {
-                    Abandon(Motion);
-                }
+                Abandon(Motion);
             }
         }
 
         public static BaseMotion ExecuteMotion(this Transform Master, BaseMotion Motion)
         {
             return Execute(Master, Motion);
+        }
+
+        public static void AbandonMotion(this Transform Master)
+        {
+            Abandon(Master);
+        }
+
+        public static bool IsExecute(Transform Master)
+        {
+            return GetMotion(Master).Count > 0;
+        }
+
+        public static bool HasExecuteMotion(this Transform Master)
+        {
+            return IsExecute(Master);
         }
     }
 }

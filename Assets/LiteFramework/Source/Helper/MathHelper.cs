@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-using UnityEngine;
-using Vector3 = UnityEngine.Vector3;
+﻿using UnityEngine;
 
 namespace LiteFramework.Helper
 {
@@ -48,6 +46,11 @@ namespace LiteFramework.Helper
             }
 
             return Yaw;
+        }
+
+        public static bool Intersect(Rect Rect1, Rect Rect2)
+        {
+            return !(Rect1.xMin > Rect2.xMax || Rect1.xMax < Rect2.xMin || Rect1.yMin > Rect2.yMax || Rect1.yMax < Rect2.yMin);
         }
     }
 }

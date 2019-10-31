@@ -29,7 +29,7 @@ namespace LiteFramework
 
             if (Debug.isDebugBuild || Application.isEditor)
             {
-                Attach<Debugger>(MonoBehaviourInstance.gameObject);
+                Attach<Debugger>();
             }
 
             LLogger.LInfo("Lite Framework Startup");
@@ -55,13 +55,15 @@ namespace LiteFramework
 
             if (Debug.isDebugBuild || Application.isEditor)
             {
-                Detach<Debugger>(MonoBehaviourInstance.gameObject);
+                Detach<Debugger>();
             }
 
             PlayerPrefs.Save();
             Resources.UnloadUnusedAssets();
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
+
+            LLogger.LInfo("Lite Framework Shutdown");
         }
 
         public static void Tick(float DeltaTime)
@@ -95,21 +97,21 @@ namespace LiteFramework
             IsPause = !Startup(MonoBehaviourInstance, LiteGameManager.MainLogic);
         }
 
-        public static T Attach<T>(GameObject Root) where T : MonoBehaviour
+        public static T Attach<T>() where T : MonoBehaviour
         {
-            var Component = Root.GetComponent<T>();
+            var Component = MonoBehaviourInstance.gameObject.GetComponent<T>();
 
             if (Component != null)
             {
                 return Component;
             }
 
-            return Root.AddComponent<T>();
+            return MonoBehaviourInstance.gameObject.AddComponent<T>();
         }
 
-        public static void Detach<T>(GameObject Root) where T : MonoBehaviour
+        public static void Detach<T>() where T : MonoBehaviour
         {
-            var Component = Root.GetComponent<T>();
+            var Component = MonoBehaviourInstance.gameObject.GetComponent<T>();
 
             if (Component != null)
             {
@@ -119,9 +121,15 @@ namespace LiteFramework
 
         public static void OnEnterForeground()
         {
+            if (!IsPause)
+            {
+                return;
+            }
+
+            LLogger.LWarning("OnEnterForeground");
             EventManager.Send<EnterForegroundEvent>();
 
-            if (Time.realtimeSinceStartup - EnterBackgroundTime_ >= LiteConfigure.EnterBackgroundMaxTime)
+            if (LiteConfigure.EnterBackgroundAutoRestart && Time.realtimeSinceStartup - EnterBackgroundTime_ >= LiteConfigure.EnterBackgroundMaxTime)
             {
                 Restart();
                 return;
@@ -133,6 +141,12 @@ namespace LiteFramework
 
         public static void OnEnterBackground()
         {
+            if (IsPause)
+            {
+                return;
+            }
+
+            LLogger.LWarning("OnEnterBackground");
             EventManager.Send<EnterBackgroundEvent>();
             EnterBackgroundTime_ = Time.realtimeSinceStartup;
             IsPause = true;

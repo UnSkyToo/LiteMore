@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3548801428
+CRC: 232902868
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a8ffc754cd496e32bc983ebb2257d77b
+    Hash: 43ab827975e96904243591387fd861f0
   TypeTreeHash:
     serializedVersion: 2
     Hash: c14c144446a0d5e7633ca1d79f4d7b01
@@ -24,4 +24,4 @@ ClassTypes:
 Assets:
 - Assets/StandaloneAssets/Prefabs/Bullet/BulletBack.prefab
 Dependencies:
-- E:/Projects/Unity/LiteMore/Assets/StreamingAssets/textures/backbullet.png
+- D:/Private/LiteMore/Assets/StreamingAssets/textures/backbullet.png

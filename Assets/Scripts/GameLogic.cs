@@ -1,6 +1,7 @@
 ﻿using LiteFramework;
 using LiteFramework.Core.Async.Timer;
 using LiteFramework.Core.Log;
+using LiteFramework.Game.Asset;
 using LiteFramework.Game.Audio;
 using LiteFramework.Game.Lua;
 using LiteFramework.Game.UI;
@@ -35,7 +36,6 @@ namespace LiteMore
             LocalData.Generate();
             Lang.Load();
 
-            AudioManager.Root = Configure.AudioRoot;
             AudioManager.MuteAllAudio(true);
 
             foreach (var Entity in UIConfigure.UIList)
@@ -48,7 +48,7 @@ namespace LiteMore
                 return false;
             }
 
-            AudioManager.PlayMusic("audio/bgm_titan.mp3", true, 0.5f);
+            AudioManager.PlayMusic(new AssetUri("audio/bgm_titan.mp3"), true, 0.5f);
 
             TestSkill();
             //PlayerManager.CreateMainEmitter();

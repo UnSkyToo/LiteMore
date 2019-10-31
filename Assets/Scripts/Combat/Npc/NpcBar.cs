@@ -23,9 +23,9 @@ namespace LiteMore.Combat.Npc
             Root_.transform.localPosition = Position;
             Root_.transform.localScale = new Vector3(Scale, Scale, Scale);
             
-            HpBarObj_ = AssetManager.CreatePrefabSync("prefabs/hpbar.prefab");
+            HpBarObj_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/hpbar.prefab"));
             HpBarObj_.transform.SetParent(Root_, false);
-            MpBarObj_ = AssetManager.CreatePrefabSync("prefabs/mpbar.prefab");
+            MpBarObj_ = AssetManager.CreatePrefabSync(new AssetUri("prefabs/mpbar.prefab"));
             MpBarObj_.transform.SetParent(Root_, false);
             MpBarObj_.transform.localPosition = new Vector3(0, -12, 0);
 
