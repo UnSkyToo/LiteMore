@@ -52,6 +52,15 @@ namespace LiteFramework.Core.Base
             }
         }
 
+        public void Foreach<P>(Action<T, P> TickFunc, P Param)
+        {
+            Flush();
+            foreach (var Item in Values_)
+            {
+                TickFunc?.Invoke(Item, Param);
+            }
+        }
+
         public void Flush()
         {
             if (Dirty_)

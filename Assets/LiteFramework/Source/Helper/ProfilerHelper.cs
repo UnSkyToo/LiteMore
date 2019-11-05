@@ -253,6 +253,11 @@ namespace LiteFramework.Helper
             return Get(Name).GetAverageTime();
         }
 
+        public static double GetTotalTime()
+        {
+            return Root_.GetTotalTime();
+        }
+
         public static double GetTotalTime(string Name)
         {
             return Get(Name).GetTotalTime();
@@ -320,7 +325,7 @@ namespace LiteFramework.Helper
 
             ScrollPos_ = EditorGUILayout.BeginScrollView(ScrollPos_);
 
-            var TotalTime = Mathf.Clamp((float)ProfilerHelper.SumTotalTime(), 0.01f, float.MaxValue);
+            var TotalTime = Mathf.Clamp((float)ProfilerHelper.GetTotalTime(), 0.01f, float.MaxValue);
             EditorGUILayout.LabelField($"Total Time : {TotalTime:0.000}s");
 
             foreach (var Ele in Elements)

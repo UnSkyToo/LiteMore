@@ -7,7 +7,6 @@ namespace LiteFramework.Core.Motion
     public static class MotionManager
     {
         private static readonly ListEx<BaseMotion> MotionList_ = new ListEx<BaseMotion>();
-        private static float DeltaTime_ = 0;
 
         public static bool Startup()
         {
@@ -22,8 +21,7 @@ namespace LiteFramework.Core.Motion
 
         public static void Tick(float DeltaTime)
         {
-            DeltaTime_ = DeltaTime;
-            MotionList_.Foreach((Entity) =>
+            MotionList_.Foreach((Entity, Time) =>
             {
                 if (Entity.Master == null)
                 {
@@ -36,9 +34,9 @@ namespace LiteFramework.Core.Motion
                 }
                 else
                 {
-                    Entity.Tick(DeltaTime_);
+                    Entity.Tick(Time);
                 }
-            });
+            }, DeltaTime);
         }
 
         public static BaseMotion Execute(Transform Master, BaseMotion Motion)

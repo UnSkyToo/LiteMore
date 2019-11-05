@@ -31,7 +31,7 @@ namespace LiteFramework.Game.UI
 
                 UICanvas_ = UnityHelper.GetOrAddComponentSafe<Canvas>(UITransform.gameObject);
                 UICanvas_.overrideSorting = true;
-                UITransform.gameObject.AddComponent<GraphicRaycaster>();
+                UnityHelper.GetOrAddComponentSafe<GraphicRaycaster>(UITransform.gameObject);
                 return UICanvas_;
             }
         }
@@ -153,6 +153,11 @@ namespace LiteFramework.Game.UI
         public void RemoveEventFromChild(string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
         {
             UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
+        }
+
+        public void SetActive(bool Value)
+        {
+            UITransform.gameObject.SetActive(Value);
         }
 
         public void SetActive(string ChildPath, bool Value)

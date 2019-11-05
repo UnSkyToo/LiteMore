@@ -6,7 +6,7 @@ namespace LiteFramework.Core.Event
 {
     public static class EventManager
     {
-        public static event Action<BaseEvent> OnSend; 
+        //public static event Action<BaseEvent> OnSend; 
 
         private abstract class EventListener
         {
@@ -59,7 +59,7 @@ namespace LiteFramework.Core.Event
             }
 #endif
 
-            OnSend = null;
+            //OnSend = null;
         }
 
         private static string GetEventName<T>()
@@ -72,7 +72,7 @@ namespace LiteFramework.Core.Event
             if (EventList_.ContainsKey(Event.EventName))
             {
                 ((EventListenerImpl<T>)EventList_[Event.EventName]).Trigger(Event);
-                OnSend?.Invoke(Event);
+                //OnSend?.Invoke(Event);
             }
         }
 

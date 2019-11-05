@@ -7,7 +7,6 @@ namespace LiteFramework.Core.Async.Timer
     public static class TimerManager
     {
         private static readonly ListEx<TimerEntity> TimerList_ = new ListEx<TimerEntity>();
-        private static float DeltaTime_ = 0;
 
         public static bool Startup()
         {
@@ -26,17 +25,16 @@ namespace LiteFramework.Core.Async.Timer
 
         public static void Tick(float DeltaTime)
         {
-            DeltaTime_ = DeltaTime;
-            TimerList_.Foreach((Entity) =>
+            TimerList_.Foreach((Entity, Time) =>
             {
-                Entity.Tick(DeltaTime_);
+                Entity.Tick(Time);
 
                 if (Entity.IsEnd)
                 {
                     Entity.Dispose();
                     TimerList_.Remove(Entity);
                 }
-            });
+            }, DeltaTime);
         }
 
         public static TimerEntity AddTimer(float Interval, Action OnTick, int Count = -1)

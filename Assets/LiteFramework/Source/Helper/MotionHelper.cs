@@ -27,6 +27,8 @@ namespace LiteFramework.Helper
             Parallel,
         }
 
+        public MotionContainer Parent { get; set; }
+        
         private readonly MotionContainerType ContainerType_;
         private readonly List<BaseMotion> MotionList_;
 
@@ -34,6 +36,42 @@ namespace LiteFramework.Helper
         {
             ContainerType_ = ContainerType;
             MotionList_ = new List<BaseMotion>();
+        }
+
+        public MotionContainer BeginSequence(bool IsRepeat = false)
+        {
+            var Container = MotionHelper.Sequence(IsRepeat);
+            Container.Parent = this;
+            return Container;
+        }
+
+        public MotionContainer EndSequence()
+        {
+            if (Parent == null)
+            {
+                return null;
+            }
+
+            Parent.Motion(Flush());
+            return Parent;
+        }
+
+        public MotionContainer BeginParallel()
+        {
+            var Container = MotionHelper.Parallel();
+            Container.Parent = this;
+            return Container;
+        }
+
+        public MotionContainer EndParallel()
+        {
+            if (Parent == null)
+            {
+                return null;
+            }
+
+            Parent.Motion(Flush());
+            return Parent;
         }
 
         public MotionContainer Motion(BaseMotion Motion)
@@ -105,6 +143,24 @@ namespace LiteFramework.Helper
         public MotionContainer Destroy()
         {
             MotionList_.Add(new DestroyMotion());
+            return this;
+        }
+
+        public MotionContainer UpdateTransform(Vector2 Position)
+        {
+            MotionList_.Add(new UpdateTransformMotion(Position));
+            return this;
+        }
+
+        public MotionContainer UpdateTransform(Vector2 Position, Vector2 Scale)
+        {
+            MotionList_.Add(new UpdateTransformMotion(Position, Scale));
+            return this;
+        }
+
+        public MotionContainer UpdateTransform(Vector2 Position, Vector2 Scale, Quaternion Rotation)
+        {
+            MotionList_.Add(new UpdateTransformMotion(Position, Scale, Rotation));
             return this;
         }
 

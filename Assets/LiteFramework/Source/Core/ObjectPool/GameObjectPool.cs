@@ -1,12 +1,13 @@
 ﻿using LiteFramework.Game.Asset;
+using UnityEngine;
 
 namespace LiteFramework.Core.ObjectPool
 {
-    public class GameObjectPool : ObjectPoolEntity<UnityEngine.GameObject>
+    public class GameObjectPool : ObjectPoolEntity<GameObject>
     {
-        private readonly UnityEngine.GameObject Prefab_;
+        private readonly GameObject Prefab_;
 
-        public GameObjectPool(string PoolName, UnityEngine.GameObject Prefab)
+        public GameObjectPool(string PoolName, GameObject Prefab)
             : base(PoolName, null, null, null, null)
         {
             this.Prefab_ = Prefab;
@@ -24,31 +25,28 @@ namespace LiteFramework.Core.ObjectPool
             AssetManager.DeleteAsset(Prefab_);
         }
 
-        private UnityEngine.GameObject OnCreate()
+        private GameObject OnCreate()
         {
-            if (Prefab_ == null)
-            {
-                return new UnityEngine.GameObject();
-            }
-            else
-            {
-                return UnityEngine.Object.Instantiate(Prefab_);
-            }
+            var Obj = Prefab_ == null ? new GameObject() : Object.Instantiate(Prefab_);
+            Obj.transform.localPosition = Vector3.zero;
+            Obj.transform.localRotation = Quaternion.identity;
+            Obj.transform.localScale = Vector3.one;
+            return Obj;
         }
 
-        private void OnSpawn(UnityEngine.GameObject Entity)
+        private void OnSpawn(GameObject Entity)
         {
             Entity.SetActive(true);
         }
 
-        private void OnRecycle(UnityEngine.GameObject Entity)
+        private void OnRecycle(GameObject Entity)
         {
             Entity.SetActive(false);
         }
 
-        private void OnDispose(UnityEngine.GameObject Entity)
+        private void OnDispose(GameObject Entity)
         {
-            UnityEngine.Object.Destroy(Entity);
+            Object.Destroy(Entity);
         }
     }
 }

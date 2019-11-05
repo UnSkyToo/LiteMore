@@ -13,6 +13,7 @@ namespace LiteFramework
     {
         public static bool IsPause { get; set; } = false;
         public static bool IsRestart { get; private set; } = false;
+        public static bool IsFocus { get; private set; } = true;
         public static float TimeScale { get; set; } = 1.0f;
 
         private static MonoBehaviour MonoBehaviourInstance { get; set; }
@@ -22,12 +23,14 @@ namespace LiteFramework
         {
             IsPause = true;
             IsRestart = false;
+            IsFocus = true;
             TimeScale = 1.0f;
             MonoBehaviourInstance = Instance;
+            LLogger.Enabled = LiteConfigure.IsDebugMode;
 
             LiteConfigure.UIDescList.Clear();
 
-            if (Debug.isDebugBuild || Application.isEditor)
+            if (LiteConfigure.IsDebugMode)
             {
                 Attach<Debugger>();
             }
@@ -50,10 +53,11 @@ namespace LiteFramework
 
         public static void Shutdown()
         {
+            OnEnterBackground();
             LiteGameManager.Shutdown();
             LiteCoreManager.Shutdown();
 
-            if (Debug.isDebugBuild || Application.isEditor)
+            if (LiteConfigure.IsDebugMode)
             {
                 Detach<Debugger>();
             }
@@ -121,10 +125,13 @@ namespace LiteFramework
 
         public static void OnEnterForeground()
         {
-            if (!IsPause)
+            if (IsFocus)
             {
                 return;
             }
+
+            IsPause = false;
+            IsFocus = true;
 
             LLogger.LWarning("OnEnterForeground");
             EventManager.Send<EnterForegroundEvent>();
@@ -136,20 +143,20 @@ namespace LiteFramework
             }
 
             EnterBackgroundTime_ = Time.realtimeSinceStartup;
-            IsPause = false;
         }
 
         public static void OnEnterBackground()
         {
-            if (IsPause)
+            if (!IsFocus)
             {
                 return;
             }
+            IsPause = true;
+            IsFocus = false;
 
             LLogger.LWarning("OnEnterBackground");
             EventManager.Send<EnterBackgroundEvent>();
             EnterBackgroundTime_ = Time.realtimeSinceStartup;
-            IsPause = true;
         }
     }
 }

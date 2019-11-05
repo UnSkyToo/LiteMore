@@ -55,7 +55,6 @@ namespace LiteFramework.Game.UI
         private static readonly ListEx<BaseUI> UIList_ = new ListEx<BaseUI>();
         private static readonly Dictionary<UIDepthMode, int> UIDepthCount_ = new Dictionary<UIDepthMode, int>();
         private static readonly Dictionary<string, Transform> CacheList_ = new Dictionary<string, Transform>();
-        private static float DeltaTime_;
 
         public static bool Startup()
         {
@@ -104,11 +103,10 @@ namespace LiteFramework.Game.UI
 
         public static void Tick(float DeltaTime)
         {
-            DeltaTime_ = DeltaTime;
-            UIList_.Foreach((Entity) =>
+            UIList_.Foreach((Entity, Time) =>
             {
-                Entity.Tick(DeltaTime_);
-            });
+                Entity.Tick(Time);
+            }, DeltaTime);
         }
 
         public static T OpenUI<T>(params object[] Params) where T : BaseUI, new()

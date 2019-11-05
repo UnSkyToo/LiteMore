@@ -6,7 +6,7 @@ namespace LiteFramework.Extend
     {
         public static int Count<T>()
         {
-            return Enum.GetValues(typeof(T)).Length;
+            return Enum.GetNames(typeof(T)).Length;
         }
     }
 }
