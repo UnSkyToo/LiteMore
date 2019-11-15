@@ -29,14 +29,18 @@ namespace LiteFramework.Game.Base
 
         private Transform Transform_;
         //public Transform Entity => Transform_;
-
+        private readonly bool NotDeleteAsset_;
+        private readonly bool KeepName_;
         private bool HasMotion_;
 
-        protected GameEntity(string Name, Transform Trans, bool KeepName)
+        protected GameEntity(string Name, Transform Trans, bool NotDeleteAsset, bool KeepName)
             : base(Name)
         {
             Transform_ = Trans;
-            if (!KeepName)
+            NotDeleteAsset_ = NotDeleteAsset;
+
+            KeepName_ = KeepName;
+            if (!KeepName_)
             {
                 Transform_.name = $"{Name}<{ID}>";
             }
@@ -54,7 +58,10 @@ namespace LiteFramework.Game.Base
             if (Transform_ != null)
             {
                 AbandonMotion();
-                AssetManager.DeleteAsset(Transform_.gameObject);
+                if (!NotDeleteAsset_)
+                {
+                    AssetManager.DeleteAsset(Transform_.gameObject);
+                }
                 Transform_ = null;
             }
         }
@@ -64,9 +71,13 @@ namespace LiteFramework.Game.Base
             return Transform_;
         }
 
-        public void SetName(string Name)
+        public void SetName(string NewName)
         {
-            Transform_.name = Name;
+            Name = NewName;
+            if (!KeepName_)
+            {
+                Transform_.name = NewName;
+            }
         }
 
         public void SetActive(bool Value)
@@ -141,7 +152,7 @@ namespace LiteFramework.Game.Base
 
         public T GetComponent<T>(string Path)
         {
-            var Child = Transform_.Find(Path);
+            var Child = Transform_?.Find(Path);
             return Child != null ? Child.GetComponent<T>() : default;
         }
 

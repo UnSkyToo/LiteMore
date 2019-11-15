@@ -134,7 +134,7 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var Offset = UnityHelper.RandVec2(100);
+            var Offset = MathHelper.RandVec2(100);
 
             var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition + Offset, CombatTeam.A, 2,
                 NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 10, 0, 30, 30));
@@ -218,7 +218,7 @@ namespace LiteMore.Combat.Skill.Executor
                 return false;
             }
 
-            var Slave = NpcManager.AddNpc($"{Master.Name}_clone", Master.Position + UnityHelper.RandVec2(100), Master.Team, Master.Scale.x, Master.Data.Attr.GetValues());
+            var Slave = NpcManager.AddNpc($"{Master.Name}_clone", Master.Position + MathHelper.RandVec2(100), Master.Team, Master.Scale.x, Master.Data.Attr.GetValues());
             Slave.Actor.SetDirection(Master.Actor.Direction);
             return true;
         }
@@ -235,7 +235,7 @@ namespace LiteMore.Combat.Skill.Executor
 
             TimerManager.AddTimer(0.05f, () =>
             {
-                var Pos = Args.Position + UnityHelper.RandCircle(Args.Skill.Radius);
+                var Pos = Args.Position + MathHelper.RandCircle(Args.Skill.Radius);
                 BulletManager.AddArrowBullet(
                     new ArrowBulletDescriptor(
                         new BaseBulletDescriptor(Args.Skill.Name, Args.Master.Position, Args.Master.Team, Level),
@@ -253,7 +253,7 @@ namespace LiteMore.Combat.Skill.Executor
     {
         public override bool Execute(SkillArgs Args)
         {
-            var Offset = UnityHelper.RandVec2(100);
+            var Offset = MathHelper.RandVec2(100);
 
             var Npc = NpcManager.AddNpc(Args.Skill.Name, Configure.CoreBasePosition + Offset, CombatTeam.A, 2,
                 NpcManager.GenerateInitAttr(200, 200, 0, 100, 10, 2, 0, 500, 30));

@@ -1,5 +1,5 @@
 UIHelper = CS.LiteFramework.Helper.UIHelper
-UIEventType = CS.LiteFramework.Game.UI.UIEventType
+EventSystemType = CS.LiteFramework.Game.EventSystem.EventSystemType
 UIDepthMode = CS.LiteFramework.Game.UI.UIDepthMode
 
 UIButton = typeof(CS.UnityEngine.UI.Button)

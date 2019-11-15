@@ -96,14 +96,14 @@ namespace LiteFramework.Helper
         public static string GetAssetFullPath(string Path)
         {
             var FullPath = GetPersistentDataPath(Path);
-            if (System.IO.File.Exists(FullPath))
+            if (File.Exists(FullPath))
             {
                 return FullPath;
             }
 
 #if UNITY_EDITOR && LITE_USE_INTERNAL_ASSET
             FullPath = GetStandaloneAssetsPath(Path);
-            if (System.IO.File.Exists(FullPath))
+            if (File.Exists(FullPath))
             {
                 return FullPath;
             }
@@ -127,7 +127,7 @@ namespace LiteFramework.Helper
             var Files = Directory.GetFiles(DirectoryPath);
             var Directories = Directory.GetDirectories(DirectoryPath);
 
-            if (Files != null && Files.Length > 0)
+            if (Files.Length > 0)
             {
                 foreach (var SubFile in Files)
                 {
@@ -146,7 +146,7 @@ namespace LiteFramework.Helper
                 }
             }
 
-            if (Directories != null && Directories.Length > 0)
+            if (Directories.Length > 0)
             {
                 foreach (var SubDirectoryPath in Directories)
                 {

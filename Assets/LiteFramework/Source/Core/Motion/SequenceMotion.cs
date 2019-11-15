@@ -70,6 +70,11 @@
             {
                 Current_.Master = Master;
                 Current_?.Enter();
+
+                if (Current_?.IsEnd == true)
+                {
+                    ActiveNextMotion();
+                }
             }
         }
     }

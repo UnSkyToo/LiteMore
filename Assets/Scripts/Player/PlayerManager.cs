@@ -1,6 +1,7 @@
 ﻿using LiteFramework;
 using LiteFramework.Core.Event;
 using LiteFramework.Game.UI;
+using LiteFramework.Helper;
 using LiteMore.Cache;
 using LiteMore.Combat;
 using LiteMore.Combat.AI.Filter;
@@ -121,8 +122,8 @@ namespace LiteMore.Player
                 ResName = "Red",
             }) as BulletCircleEmitter;
 
-            UIEventListener.ClearCallback(GameObject.Find("Touch").transform);
-            UIEventListener.AddCallback(GameObject.Find("Touch").transform, UIEventType.Click, () =>
+            EventHelper.RemoveAllEvent(GameObject.Find("Touch").transform, true);
+            EventHelper.AddEvent(GameObject.Find("Touch").transform, () =>
             {
                 var Target = FilterHelper.FindNearest(Master);
                 if (Target != null)

@@ -12,10 +12,7 @@ namespace LiteMore.UI.Logic
 
         protected override void OnOpen(params object[] Params)
         {
-            AddEventToChild("BtnRestart", (Obj, Pos) =>
-            {
-                LiteManager.Restart();
-            });
+            AddEventToChild("BtnRestart", LiteManager.Restart);
         }
     }
 }

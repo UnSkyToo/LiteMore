@@ -1,4 +1,6 @@
-﻿using LiteFramework.Game.UI;
+﻿using LiteFramework.Game.EventSystem;
+using LiteFramework.Game.UI;
+using LiteFramework.Helper;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -16,12 +18,12 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnBindCarrier()
         {
-            UIEventListener.AddCallback(Carrier_, UIEventType.Click, OnClick);
+            EventHelper.AddEvent(Carrier_, OnClick);
         }
 
         public override void Dispose()
         {
-            UIEventListener.RemoveCallback(Carrier_, UIEventType.Click, OnClick);
+            EventHelper.RemoveEvent(Carrier_, OnClick);
         }
 
         private void OnClick()

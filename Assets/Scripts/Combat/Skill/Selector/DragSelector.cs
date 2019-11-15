@@ -1,4 +1,5 @@
 ﻿using LiteFramework.Game.Asset;
+using LiteFramework.Game.EventSystem;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
 using UnityEngine;
@@ -27,18 +28,18 @@ namespace LiteMore.Combat.Skill.Selector
         {
             DragRadius_ = Args_.Skill.Radius;
             DragCancelObj_ = Args_.CancelObj;
-            var CancelPos = UnityHelper.WorldPosToScreenPos(DragCancelObj_.position);
+            var CancelPos = UIHelper.WorldPosToScreenPos(DragCancelObj_.position);
             DragCancelRect_ = new Rect(CancelPos - DragCancelObj_.sizeDelta / 2, DragCancelObj_.sizeDelta);
-            UIEventListener.AddCallback(Carrier_, UIEventType.BeginDrag, BeginDrag);
-            UIEventListener.AddCallback(Carrier_, UIEventType.Drag, Drag);
-            UIEventListener.AddCallback(Carrier_, UIEventType.EndDrag, EndDrag);
+            EventHelper.AddEvent(Carrier_, BeginDrag, EventSystemType.BeginDrag);
+            EventHelper.AddEvent(Carrier_, Drag, EventSystemType.Drag);
+            EventHelper.AddEvent(Carrier_, EndDrag, EventSystemType.EndDrag);
         }
 
         public override void Dispose()
         {
-            UIEventListener.RemoveCallback(Carrier_, UIEventType.BeginDrag, BeginDrag);
-            UIEventListener.RemoveCallback(Carrier_, UIEventType.Drag, Drag);
-            UIEventListener.RemoveCallback(Carrier_, UIEventType.EndDrag, EndDrag);
+            EventHelper.RemoveEvent(Carrier_, BeginDrag, EventSystemType.BeginDrag);
+            EventHelper.RemoveEvent(Carrier_, Drag, EventSystemType.Drag);
+            EventHelper.RemoveEvent(Carrier_, EndDrag, EventSystemType.EndDrag);
             DestroyDragObject();
         }
 
@@ -68,7 +69,7 @@ namespace LiteMore.Combat.Skill.Selector
             DragObj_ = null;
         }
 
-        private void BeginDrag(GameObject Sender, Vector2 Pos)
+        private void BeginDrag(EventSystemData Data)
         {
             if (!CanUse())
             {
@@ -79,19 +80,19 @@ namespace LiteMore.Combat.Skill.Selector
             CreateDragObject();
 
             DragCancelObj_.gameObject.SetActive(true);
-            OnBeginDrag(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
+            OnBeginDrag(UIHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Data.Location));
         }
 
         protected abstract void OnBeginDrag(Vector2 Pos);
 
-        private void Drag(GameObject Sender, Vector2 Pos)
+        private void Drag(EventSystemData Data)
         {
             if (!IsDrag_)
             {
                 return;
             }
 
-            if (DragCancelRect_.Contains(Pos))
+            if (DragCancelRect_.Contains(Data.Location))
             {
                 DragObjRender_.color = Color.red;
             }
@@ -100,19 +101,19 @@ namespace LiteMore.Combat.Skill.Selector
                 DragObjRender_.color = Color.green;
             }
 
-            OnDrag(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
+            OnDrag(UIHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Data.Location));
         }
 
         protected abstract void OnDrag(Vector2 Pos);
 
-        private void EndDrag(GameObject Sender, Vector2 Pos)
+        private void EndDrag(EventSystemData Data)
         {
             IsDrag_ = false;
-            OnEndDrag(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
+            OnEndDrag(UIHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Data.Location));
             DragCancelObj_.gameObject.SetActive(false);
             DestroyDragObject();
 
-            if (DragCancelRect_.Contains(Pos))
+            if (DragCancelRect_.Contains(Data.Location))
             {
                 return;
             }
@@ -122,7 +123,7 @@ namespace LiteMore.Combat.Skill.Selector
                 return;
             }
 
-            OnDragSpell(UnityHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Pos));
+            OnDragSpell(UIHelper.ScreenPosToCanvasPos(Configure.CanvasRoot, Data.Location));
         }
 
         protected abstract void OnEndDrag(Vector2 Pos);

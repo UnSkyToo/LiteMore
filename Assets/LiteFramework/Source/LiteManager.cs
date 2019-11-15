@@ -3,7 +3,6 @@ using LiteFramework.Core.Event;
 using LiteFramework.Core.Log;
 using LiteFramework.Extend.Debug;
 using LiteFramework.Game;
-using LiteFramework.Helper;
 using LiteFramework.Interface;
 using UnityEngine;
 
@@ -11,10 +10,15 @@ namespace LiteFramework
 {
     public static class LiteManager
     {
-        public static bool IsPause { get; set; } = false;
-        public static bool IsRestart { get; private set; } = false;
-        public static bool IsFocus { get; private set; } = true;
-        public static float TimeScale { get; set; } = 1.0f;
+        public static bool IsPause { get; set; }
+        public static bool IsRestart { get; private set; }
+        public static bool IsFocus { get; private set; }
+
+        public static float TimeScale
+        {
+            get => Time.timeScale;
+            set => Time.timeScale = value;
+        }
 
         private static MonoBehaviour MonoBehaviourInstance { get; set; }
         private static float EnterBackgroundTime_ = 0.0f;
@@ -83,7 +87,7 @@ namespace LiteFramework
                 return;
             }
 
-            var Dt = DeltaTime * TimeScale;
+            var Dt = DeltaTime/* * TimeScale*/;
             LiteCoreManager.Tick(Dt);
             LiteGameManager.Tick(Dt);
         }
@@ -96,7 +100,7 @@ namespace LiteFramework
         private static void RestartGameManager()
         {
             IsRestart = false;
-            UnityHelper.ClearLog();
+            Debug.ClearDeveloperConsole();
             Shutdown();
             IsPause = !Startup(MonoBehaviourInstance, LiteGameManager.MainLogic);
         }

@@ -27,10 +27,9 @@ namespace LiteFramework.Helper
             Parallel,
         }
 
-        public MotionContainer Parent { get; set; }
-        
         private readonly MotionContainerType ContainerType_;
         private readonly List<BaseMotion> MotionList_;
+        private MotionContainer Parent_;
 
         public MotionContainer(MotionContainerType ContainerType)
         {
@@ -41,37 +40,37 @@ namespace LiteFramework.Helper
         public MotionContainer BeginSequence(bool IsRepeat = false)
         {
             var Container = MotionHelper.Sequence(IsRepeat);
-            Container.Parent = this;
+            Container.Parent_ = this;
             return Container;
         }
 
         public MotionContainer EndSequence()
         {
-            if (Parent == null)
+            if (Parent_ == null)
             {
                 return null;
             }
 
-            Parent.Motion(Flush());
-            return Parent;
+            Parent_.Motion(Flush());
+            return Parent_;
         }
 
         public MotionContainer BeginParallel()
         {
             var Container = MotionHelper.Parallel();
-            Container.Parent = this;
+            Container.Parent_ = this;
             return Container;
         }
 
         public MotionContainer EndParallel()
         {
-            if (Parent == null)
+            if (Parent_ == null)
             {
                 return null;
             }
 
-            Parent.Motion(Flush());
-            return Parent;
+            Parent_.Motion(Flush());
+            return Parent_;
         }
 
         public MotionContainer Motion(BaseMotion Motion)
@@ -146,21 +145,27 @@ namespace LiteFramework.Helper
             return this;
         }
 
-        public MotionContainer UpdateTransform(Vector2 Position)
+        public MotionContainer SetPosition(Vector2 Position)
         {
-            MotionList_.Add(new UpdateTransformMotion(Position));
+            MotionList_.Add(new SetPositionMotion(Position));
             return this;
         }
 
-        public MotionContainer UpdateTransform(Vector2 Position, Vector2 Scale)
+        public MotionContainer SetScale(Vector2 Scale)
         {
-            MotionList_.Add(new UpdateTransformMotion(Position, Scale));
+            MotionList_.Add(new SetScaleMotion(Scale));
             return this;
         }
 
-        public MotionContainer UpdateTransform(Vector2 Position, Vector2 Scale, Quaternion Rotation)
+        public MotionContainer SetRotation(Quaternion Rotation)
         {
-            MotionList_.Add(new UpdateTransformMotion(Position, Scale, Rotation));
+            MotionList_.Add(new SetRotationMotion(Rotation));
+            return this;
+        }
+
+        public MotionContainer SetAlpha(float Alpha)
+        {
+            MotionList_.Add(new SetAlphaMotion(Alpha));
             return this;
         }
 

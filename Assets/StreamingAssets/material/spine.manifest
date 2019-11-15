@@ -1,0 +1,39 @@
+ManifestFileVersion: 0
+CRC: 1900346053
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6c822defb3f0574260b49d1b2383798a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 46037e54a89f8d5a296aae951bd255e7
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 12b0b98acbcda44468a7ae4e35000abe, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/Utility/HiddenPass.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Modules/SkeletonGraphic/Shaders/SkeletonGraphicDefault.mat
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Modules/SkeletonGraphic/Shaders/SkeletonGraphicTintBlack.mat
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/SkeletonPMAAdditive.mat
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Modules/SkeletonGraphic/Shaders/Spine-SkeletonGraphic-TintBlack.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/SkeletonPMAMultiply.mat
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/Spine-Skeleton-PMA-Screen.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/Default
+  BlendModeMaterials.asset
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/Utility/Hidden-Spine-Bones.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/Spine-Skeleton-PMA-Additive.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/Utility/HiddenPass.mat
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/Spine-Skeleton-TintBlack.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Modules/SkeletonGraphic/Shaders/Spine-SkeletonGraphic.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/Spine-Skeleton.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/SkeletonPMAScreen.mat
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/BlendModes/Spine-Skeleton-PMA-Multiply.shader
+- Assets/LiteFramework/Thrid/Spine/Runtime/spine-unity/Shaders/Spine-SkeletonLit.shader
+Dependencies: []

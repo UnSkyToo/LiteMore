@@ -1,5 +1,6 @@
 ﻿using System;
 using LiteFramework.Core.Async.Timer;
+using LiteFramework.Game.EventSystem;
 using LiteFramework.Game.UI;
 using LiteFramework.Helper;
 using LiteMore.Combat.Skill;
@@ -27,7 +28,7 @@ namespace LiteMore.Helper
             TimerEntity Timer = null;
             var BeginPos = Vector2.zero;
 
-            UIHelper.AddEvent(Obj, (_, Pos) =>
+            UIHelper.AddEvent(Obj, (Data) =>
             {
                 var Msg = GetFunc?.Invoke() ?? string.Empty;
                 if (string.IsNullOrWhiteSpace(Msg))
@@ -35,36 +36,36 @@ namespace LiteMore.Helper
                     return;
                 }
 
-                BeginPos = Pos;
-                Timer = TimerManager.AddTimer(Configure.TipsHoldTime, () => { UIManager.OpenUI<TipsUI>(Msg, Pos); }, 1);
-            }, UIEventType.Down);
+                BeginPos = Data.Location;
+                Timer = TimerManager.AddTimer(Configure.TipsHoldTime, () => { UIManager.OpenUI<TipsUI>(Msg, Data.Location); }, 1);
+            }, EventSystemType.Down);
 
-            UIHelper.AddEvent(Obj, (_, Pos) =>
+            UIHelper.AddEvent(Obj, (Data) =>
             {
                 if (Timer == null)
                 {
                     return;
                 }
 
-                if (Vector2.Distance(Pos, BeginPos) > 10)
+                if (Vector2.Distance(Data.Location, BeginPos) > 10)
                 {
                     TimerManager.StopTimer(Timer);
                     Timer = null;
                 }
-            }, UIEventType.Drag);
+            }, EventSystemType.Drag);
 
-            UIHelper.AddEvent(Obj, (_, Pos) =>
+            UIHelper.AddEvent(Obj, () =>
             {
                 TimerManager.StopTimer(Timer);
                 Timer = null;
                 UIManager.CloseUI<TipsUI>();
-            }, UIEventType.Up);
+            }, EventSystemType.Up);
 
-            UIHelper.AddEvent(Obj, (_, Pos) =>
+            UIHelper.AddEvent(Obj, () =>
             {
                 TimerManager.StopTimer(Timer);
                 Timer = null;
-            }, UIEventType.Cancel);
+            }, EventSystemType.Cancel);
         }
 
         public static string Skill(SkillDescriptor Desc)

@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteFramework.Game.EventSystem;
 using LiteFramework.Game.UI;
 using LiteMore.Combat.Npc;
 using LiteMore.Combat.Skill;
@@ -35,9 +36,9 @@ namespace LiteMore.UI.Logic
             CancelObj_ = GetComponent<RectTransform>("Skill/Cancel");
             CancelObj_.gameObject.SetActive(false);
 
-            AddEventToChild("Tray", OnTrayBeginDrag, UIEventType.BeginDrag);
-            AddEventToChild("Tray", OnTrayDrag, UIEventType.Drag);
-            AddEventToChild("Tray", OnTrayEndDrag, UIEventType.EndDrag);
+            AddEventToChild("Tray", OnTrayBeginDrag, EventSystemType.BeginDrag);
+            AddEventToChild("Tray", OnTrayDrag, EventSystemType.Drag);
+            AddEventToChild("Tray", OnTrayEndDrag, EventSystemType.EndDrag);
 
             IsMove_ = false;
         }
@@ -134,31 +135,31 @@ namespace LiteMore.UI.Logic
             UnBindMove();
         }
 
-        private void OnTrayBeginDrag(GameObject Sender, Vector2 Pos)
+        private void OnTrayBeginDrag(EventSystemData Data)
         {
             IsMove_ = true;
-            TouchPosition_ = Pos;
+            TouchPosition_ = Data.Location;
             PreviousPos_ = TouchPosition_;
         }
 
-        private void OnTrayDrag(GameObject Sender, Vector2 Pos)
+        private void OnTrayDrag(EventSystemData Data)
         {
             if (!IsMove_)
             {
                 return;
             }
 
-            if (Mathf.Abs(Pos.magnitude - PreviousPos_.magnitude) >= MinimumTouchDistance)
+            if (Mathf.Abs(Data.Location.magnitude - PreviousPos_.magnitude) >= MinimumTouchDistance)
             {
-                PreviousPos_ = Pos;
-                var Offset = Pos - TouchPosition_;
+                PreviousPos_ = Data.Location;
+                var Offset = Data.Location - TouchPosition_;
                 var Len = Mathf.Clamp(Offset.magnitude, -TraySize_, TraySize_);
                 Slider_.anchoredPosition = (Offset.normalized * Len);
                 MoveCallback_?.Invoke(false, Offset.normalized, Len / TraySize_);
             }
         }
 
-        private void OnTrayEndDrag(GameObject Sender, Vector2 Pos)
+        private void OnTrayEndDrag()
         {
             Slider_.anchoredPosition = Vector2.zero;
             IsMove_ = false;

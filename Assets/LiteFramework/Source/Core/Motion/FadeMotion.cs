@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using LiteFramework.Helper;
 
 namespace LiteFramework.Core.Motion
 {
@@ -24,12 +25,7 @@ namespace LiteFramework.Core.Motion
         {
             IsEnd = false;
             CurrentTime_ = 0;
-            Group_ = Master.GetComponent<CanvasGroup>();
-            if (Group_ == null)
-            {
-                Group_ = Master.gameObject.AddComponent<CanvasGroup>();
-            }
-
+            Group_ = Master.GetOrAddComponent<CanvasGroup>();
             Group_.alpha = BeginAlpha_;
         }
 

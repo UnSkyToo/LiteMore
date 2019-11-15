@@ -11,22 +11,22 @@ function BaseUI:GetComponent(path, ctype)
 end
 
 function BaseUI:AddEvent(func, etype)
-	etype = etype or UIEventType.Click
+	etype = etype or EventSystemType.Click
 	self._CSEntity_:AddEvent(func, etype)
 end
 
 function BaseUI:RemoveEvent(func, etype)
-	etype = etype or UIEventType.Click
+	etype = etype or EventSystemType.Click
 	self._CSEntity_:RemoveEvent(func, etype)
 end
 
 function BaseUI:AddEventToChild(path, func, etype)
-	etype = etype or UIEventType.Click
+	etype = etype or EventSystemType.Click
 	self._CSEntity_:AddEventToChild(path, func, etype)
 end
 
 function BaseUI:RemoveEventFromChild(path, func, etype)
-	etype = etype or UIEventType.Click
+	etype = etype or EventSystemType.Click
 	self._CSEntity_:RemoveEventFromChild(path, func, etype)
 end
 

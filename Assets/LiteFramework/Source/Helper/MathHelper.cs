@@ -52,5 +52,24 @@ namespace LiteFramework.Helper
         {
             return !(Rect1.xMin > Rect2.xMax || Rect1.xMax < Rect2.xMin || Rect1.yMin > Rect2.yMax || Rect1.yMax < Rect2.yMin);
         }
+
+        public static Color RandColor()
+        {
+            return new Color(Random.value, Random.value, Random.value);
+        }
+
+        public static Vector2 RandVec2(float Radius)
+        {
+            return new Vector2(Random.Range(-Radius, Radius), Random.Range(-Radius, Radius));
+        }
+
+        public static Vector2 RandCircle(float Radius)
+        {
+            var Dist = Random.Range(1, Radius);
+            var Angle = Random.Range(0, 360);
+            var Rotation = Quaternion.AngleAxis(Angle, Vector3.forward);
+            var Dir = Rotation * Vector3.up;
+            return Dir.normalized * Dist;
+        }
     }
 }

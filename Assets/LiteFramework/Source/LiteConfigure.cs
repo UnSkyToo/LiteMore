@@ -4,7 +4,7 @@ namespace LiteFramework
 {
     public static class LiteConfigure
     {
-        public const string LiteFrameworkVersion = "19.10.31.0";
+        public const string LiteFrameworkVersion = "19.11.15.1";
         public const bool IsDebugMode = true;
         public const bool EnterBackgroundAutoRestart = false;
         public const float EnterBackgroundMaxTime = 90.0f;
@@ -13,6 +13,7 @@ namespace LiteFramework
         public const string CanvasBottomName = "Canvas-Bottom";
         public const string CanvasNormalName = "Canvas-Normal";
         public const string CanvasTopName = "Canvas-Top";
+        public const bool EnableButtonClick = true;
 
         public static readonly Dictionary<System.Type, Game.UI.UIDescriptor> UIDescList = new Dictionary<System.Type, Game.UI.UIDescriptor>();
 
@@ -23,7 +24,7 @@ namespace LiteFramework
         {
             typeof(LiteFramework.Game.UI.BaseUI),
             typeof(LiteFramework.Game.UI.UIDepthMode),
-            typeof(LiteFramework.Game.UI.UIEventType),
+            typeof(LiteFramework.Game.EventSystem.EventSystemType),
             typeof(LiteFramework.Game.Lua.LuaRuntime),
             typeof(LiteFramework.Helper.UIHelper),
             // Motions
@@ -46,6 +47,7 @@ namespace LiteFramework
         {
             typeof(System.Action),
             typeof(System.Action<float>),
+            typeof(UnityEngine.Events.UnityAction),
             typeof(System.Action<UnityEngine.GameObject>),
             typeof(System.Action<UnityEngine.GameObject, UnityEngine.Vector2>),
             typeof(System.Action<XLua.LuaTable>),
@@ -58,7 +60,7 @@ namespace LiteFramework
         public static IEnumerable<System.Type> OptimizeList = new List<System.Type>()
         {
             typeof(LiteFramework.Game.UI.UIDepthMode),
-            typeof(LiteFramework.Game.UI.UIEventType),
+            typeof(LiteFramework.Game.EventSystem.EventSystemType),
         };
 #endif
     }

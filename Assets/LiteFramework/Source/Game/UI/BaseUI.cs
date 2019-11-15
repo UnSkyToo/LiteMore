@@ -2,8 +2,10 @@
 using LiteFramework.Core.Base;
 using LiteFramework.Core.Motion;
 using LiteFramework.Game.Asset;
+using LiteFramework.Game.EventSystem;
 using LiteFramework.Helper;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace LiteFramework.Game.UI
@@ -29,9 +31,9 @@ namespace LiteFramework.Game.UI
                     return UICanvas_;
                 }
 
-                UICanvas_ = UnityHelper.GetOrAddComponentSafe<Canvas>(UITransform.gameObject);
+                UICanvas_ = UnityHelper.GetOrAddComponentSafe<Canvas>(UITransform);
                 UICanvas_.overrideSorting = true;
-                UnityHelper.GetOrAddComponentSafe<GraphicRaycaster>(UITransform.gameObject);
+                UnityHelper.GetOrAddComponentSafe<GraphicRaycaster>(UITransform);
                 return UICanvas_;
             }
         }
@@ -105,52 +107,52 @@ namespace LiteFramework.Game.UI
             return UIHelper.GetComponent(UITransform, ChildParent, CType);
         }
 
-        public void AddEvent(Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public void AddEvent(Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.AddEvent(UITransform, Callback, Type);
         }
 
-        public void AddEvent(Action Callback, UIEventType Type = UIEventType.Click)
+        public void AddEvent(UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.AddEvent(UITransform, Callback, Type);
         }
 
-        public void AddClickEvent(Action Callback, AssetUri AudioUri)
+        public void AddClickEvent(UnityAction Callback, AssetUri AudioUri)
         {
             UIHelper.AddClickEvent(UITransform, Callback, AudioUri);
         }
 
-        public void RemoveEvent(Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public void RemoveEvent(Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.RemoveEvent(UITransform, Callback, Type);
         }
 
-        public void RemoveEvent(Action Callback, UIEventType Type = UIEventType.Click)
+        public void RemoveEvent(UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.RemoveEvent(UITransform, Callback, Type);
         }
 
-        public void AddEventToChild(string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public void AddEventToChild(string ChildPath, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.AddEventToChild(UITransform, ChildPath, Callback, Type);
         }
 
-        public void AddEventToChild(string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
+        public void AddEventToChild(string ChildPath, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.AddEventToChild(UITransform, ChildPath, Callback, Type);
         }
 
-        public void AddClickEventToChild(string ChildPath, Action Callback, AssetUri AudioUri)
+        public void AddClickEventToChild(string ChildPath, UnityAction Callback, AssetUri AudioUri)
         {
             UIHelper.AddClickEventToChild(UITransform, ChildPath, Callback, AudioUri);
         }
 
-        public void RemoveEventFromChild(string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public void RemoveEventFromChild(string ChildPath, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
         }
 
-        public void RemoveEventFromChild(string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
+        public void RemoveEventFromChild(string ChildPath, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             UIHelper.RemoveEventFromChild(UITransform, ChildPath, Callback, Type);
         }

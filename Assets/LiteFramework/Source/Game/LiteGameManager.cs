@@ -3,6 +3,7 @@ using LiteFramework.Game.Asset;
 using LiteFramework.Game.Audio;
 using LiteFramework.Game.Data;
 using LiteFramework.Game.Lua;
+using LiteFramework.Game.Sfx;
 using LiteFramework.Game.UI;
 using LiteFramework.Interface;
 
@@ -35,6 +36,14 @@ namespace LiteFramework.Game
                 LLogger.LError($"{nameof(AudioManager)} Startup Failed");
                 return false;
             }
+			
+			LLogger.LInfo($"{nameof(SfxManager)} Startup");
+            if (!SfxManager.Startup())
+            {
+                LLogger.LError($"{nameof(SfxManager)} Startup Failed");
+                return false;
+            }
+			
 
             LLogger.LInfo($"{nameof(UIManager)} Startup");
             if (!UIManager.Startup())
@@ -68,6 +77,7 @@ namespace LiteFramework.Game
             LuaRuntime.Shutdown();
 #endif
             UIManager.Shutdown();
+			SfxManager.Shutdown();
             AudioManager.Shutdown();
             AssetManager.Shutdown();
             DataManager.Shutdown();
@@ -77,6 +87,7 @@ namespace LiteFramework.Game
         {
             AssetManager.Tick(DeltaTime);
             AudioManager.Tick(DeltaTime);
+			SfxManager.Tick(DeltaTime);
             UIManager.Tick(DeltaTime);
 #if LITE_USE_LUA_MODULE
             LuaRuntime.Tick(DeltaTime);

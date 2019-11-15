@@ -1,15 +1,51 @@
 ﻿using System;
+using LiteFramework.Core.Log;
 using LiteFramework.Game.Asset;
 using LiteFramework.Game.Audio;
 using LiteFramework.Game.Base;
-using LiteFramework.Game.UI;
+using LiteFramework.Game.EventSystem;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace LiteFramework.Helper
 {
     public static class UIHelper
     {
         private static readonly Material GrayMaterial_ = new Material(Shader.Find("Lite/GrayUI"));
+
+        public static Vector2 ScreenPosToCanvasPos(RectTransform Parent, Vector2 ScreenPos)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(Parent, ScreenPos, Camera.main, out var Pos);
+            return Pos;
+        }
+
+        public static Vector2 ScreenPosToCanvasPos(Transform Parent, Vector2 ScreenPos)
+        {
+            var RectTrans = Parent.GetComponent<RectTransform>();
+            if (RectTrans == null)
+            {
+                return Vector2.zero;
+            }
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(RectTrans, ScreenPos, Camera.main, out var Pos);
+            return Pos;
+        }
+
+        public static Vector2 WorldPosToScreenPos(Vector3 WorldPos)
+        {
+            return RectTransformUtility.WorldToScreenPoint(Camera.main, WorldPos);
+        }
+
+        public static Vector2 WorldPosToCanvasPos(RectTransform Parent, Vector3 WorldPos)
+        {
+            return ScreenPosToCanvasPos(Parent, WorldPosToScreenPos(WorldPos));
+        }
+
+        public static Vector2 WorldPosToCanvasPos(Transform Parent, Vector3 WorldPos)
+        {
+            return ScreenPosToCanvasPos(Parent, WorldPosToScreenPos(WorldPos));
+        }
 
         public static Transform FindChild(Transform Parent, string ChildPath)
         {
@@ -46,37 +82,37 @@ namespace LiteFramework.Helper
             return null;
         }
 
-        public static void AddEvent(Transform Obj, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void AddEvent(Transform Obj, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
-            if (Obj == null)
-            {
-                return;
-            }
-
-            UIEventListener.AddCallback(Obj, Type, Callback);
+            EventHelper.AddEvent(Obj, Callback, Type);
         }
 
-        public static void AddEvent(GameEntity Entity, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void AddEvent(GameEntity Entity, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            EventHelper.AddEvent(Entity, Callback, Type);
+        }
+
+        public static void AddEvent(Transform Obj, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            if (LiteConfigure.EnableButtonClick && Type == EventSystemType.Click)
+            {
+                var Btn = Obj?.GetComponent<Button>();
+                if (Btn != null)
+                {
+                    Btn.onClick.AddListener(Callback);
+                    return;
+                }
+            }
+            
+            EventHelper.AddEvent(Obj, Callback, Type);
+        }
+
+        public static void AddEvent(GameEntity Entity, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             AddEvent(Entity?.GetTransform(), Callback, Type);
         }
 
-        public static void AddEvent(Transform Obj, Action Callback, UIEventType Type = UIEventType.Click)
-        {
-            if (Obj == null)
-            {
-                return;
-            }
-
-            UIEventListener.AddCallback(Obj, Type, Callback);
-        }
-
-        public static void AddEvent(GameEntity Entity, Action Callback, UIEventType Type = UIEventType.Click)
-        {
-            AddEvent(Entity?.GetTransform(), Callback, Type);
-        }
-
-        public static void AddClickEvent(Transform Obj, Action Callback, AssetUri AudioUri)
+        public static void AddClickEvent(Transform Obj, UnityAction Callback, AssetUri AudioUri)
         {
             void OnClick()
             {
@@ -87,70 +123,72 @@ namespace LiteFramework.Helper
             AddEvent(Obj, OnClick);
         }
 
-        public static void AddClickEvent(GameEntity Entity, Action Callback, AssetUri AudioUri)
+        public static void AddClickEvent(GameEntity Entity, UnityAction Callback, AssetUri AudioUri)
         {
             AddClickEvent(Entity?.GetTransform(), Callback, AudioUri);
         }
 
-        public static void RemoveEvent(Transform Obj, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void RemoveEvent(Transform Obj, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
-            if (Obj == null)
-            {
-                return;
-            }
-
-            UIEventListener.RemoveCallback(Obj, Type, Callback);
+            EventHelper.RemoveEvent(Obj, Callback, Type);
         }
 
-        public static void RemoveEvent(GameEntity Entity, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void RemoveEvent(GameEntity Entity, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            EventHelper.RemoveEvent(Entity, Callback, Type);
+        }
+
+        public static void RemoveEvent(Transform Obj, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            if (LiteConfigure.EnableButtonClick && Type == EventSystemType.Click)
+            {
+                var Btn = Obj?.GetComponent<Button>();
+                if (Btn != null)
+                {
+                    Btn.onClick.RemoveListener(Callback);
+                    return;
+                }
+            }
+
+            EventHelper.RemoveEvent(Obj, Callback, Type);
+        }
+
+        public static void RemoveEvent(GameEntity Entity, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             RemoveEvent(Entity?.GetTransform(), Callback, Type);
         }
 
-        public static void RemoveEvent(Transform Obj, Action Callback, UIEventType Type = UIEventType.Click)
+        public static void AddEventToChild(Transform Parent, string ChildPath, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
-            if (Obj == null)
+            EventHelper.AddEventToChild(Parent, ChildPath, Callback, Type);
+        }
+
+        public static void AddEventToChild(GameEntity Entity, string ChildPath, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            EventHelper.AddEventToChild(Entity, ChildPath, Callback, Type);
+        }
+
+        public static void AddEventToChild(Transform Parent, string ChildPath, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            if (LiteConfigure.EnableButtonClick && Type == EventSystemType.Click)
             {
-                return;
+                var Btn = Parent?.Find(ChildPath)?.GetComponent<Button>();
+                if (Btn != null)
+                {
+                    Btn.onClick.AddListener(Callback);
+                    return;
+                }
             }
 
-            UIEventListener.RemoveCallback(Obj, Type, Callback);
+            EventHelper.AddEventToChild(Parent, ChildPath, Callback, Type);
         }
 
-        public static void RemoveEvent(GameEntity Entity, Action Callback, UIEventType Type = UIEventType.Click)
-        {
-            RemoveEvent(Entity?.GetTransform(), Callback, Type);
-        }
-
-        public static void AddEventToChild(Transform Parent, string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
-        {
-            var Obj = FindChild(Parent, ChildPath);
-            if (Obj != null)
-            {
-                UIEventListener.AddCallback(Obj, Type, Callback);
-            }
-        }
-
-        public static void AddEventToChild(GameEntity Entity, string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void AddEventToChild(GameEntity Entity, string ChildPath, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             AddEventToChild(Entity?.GetTransform(), ChildPath, Callback, Type);
         }
 
-        public static void AddEventToChild(Transform Parent, string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
-        {
-            var Obj = FindChild(Parent, ChildPath);
-            if (Obj != null)
-            {
-                UIEventListener.AddCallback(Obj, Type, Callback);
-            }
-        }
-
-        public static void AddEventToChild(GameEntity Entity, string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
-        {
-            AddEventToChild(Entity?.GetTransform(), ChildPath, Callback, Type);
-        }
-
-        public static void AddClickEventToChild(Transform Parent, string ChildPath, Action Callback, AssetUri AudioUri)
+        public static void AddClickEventToChild(Transform Parent, string ChildPath, UnityAction Callback, AssetUri AudioUri)
         {
             void OnClick()
             {
@@ -161,37 +199,75 @@ namespace LiteFramework.Helper
             AddEventToChild(Parent, ChildPath, OnClick);
         }
 
-        public static void AddClickEventToChild(GameEntity Entity, string ChildPath, Action Callback, AssetUri AudioUri)
+        public static void AddClickEventToChild(GameEntity Entity, string ChildPath, UnityAction Callback, AssetUri AudioUri)
         {
             AddClickEventToChild(Entity?.GetTransform(), ChildPath, Callback, AudioUri);
         }
 
-        public static void RemoveEventFromChild(Transform Parent, string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void RemoveEventFromChild(Transform Parent, string ChildPath, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
         {
-            var Obj = FindChild(Parent, ChildPath);
-            if (Obj != null)
-            {
-                UIEventListener.RemoveCallback(Obj, Type, Callback);
-            }
+            EventHelper.RemoveEventFromChild(Parent, ChildPath, Callback, Type);
         }
 
-        public static void RemoveEventFromChild(GameEntity Entity, string ChildPath, Action<GameObject, Vector2> Callback, UIEventType Type = UIEventType.Click)
+        public static void RemoveEventFromChild(GameEntity Entity, string ChildPath, Action<EventSystemData> Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            EventHelper.RemoveEventFromChild(Entity, ChildPath, Callback, Type);
+        }
+
+        public static void RemoveEventFromChild(Transform Parent, string ChildPath, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
+        {
+            if (LiteConfigure.EnableButtonClick && Type == EventSystemType.Click)
+            {
+                var Btn = Parent?.Find(ChildPath)?.GetComponent<Button>();
+                if (Btn != null)
+                {
+                    Btn.onClick.RemoveListener(Callback);
+                    return;
+                }
+            }
+
+            EventHelper.RemoveEventFromChild(Parent, ChildPath, Callback, Type);
+        }
+
+        public static void RemoveEventFromChild(GameEntity Entity, string ChildPath, UnityAction Callback, EventSystemType Type = EventSystemType.Click)
         {
             RemoveEventFromChild(Entity?.GetTransform(), ChildPath, Callback, Type);
         }
 
-        public static void RemoveEventFromChild(Transform Parent, string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
+        public static void RemoveAllEvent(Transform Parent, bool Recursively)
         {
-            var Obj = FindChild(Parent, ChildPath);
-            if (Obj != null)
+            if (Parent == null)
             {
-                UIEventListener.RemoveCallback(Obj, Type, Callback);
+                return;
+            }
+
+            if (LiteConfigure.EnableButtonClick)
+            {
+                var Btn = Parent.GetComponent<Button>();
+                if (Btn != null)
+                {
+                    Btn.onClick.RemoveAllListeners();
+                }
+            }
+
+            EventSystemListener.ClearCallback(Parent);
+
+            if (!Recursively)
+            {
+                return;
+            }
+
+            var ChildCount = Parent.childCount;
+            for (var Index = 0; Index < ChildCount; ++Index)
+            {
+                var Child = Parent.GetChild(Index);
+                RemoveAllEvent(Child, Recursively);
             }
         }
 
-        public static void RemoveEventFromChild(GameEntity Entity, string ChildPath, Action Callback, UIEventType Type = UIEventType.Click)
+        public static void RemoveAllEvent(GameEntity Entity, bool Recursively)
         {
-            RemoveEventFromChild(Entity?.GetTransform(), ChildPath, Callback, Type);
+            RemoveAllEvent(Entity?.GetTransform(), Recursively);
         }
 
         public static void SetActive(Transform Parent, string ChildPath, bool Value)
@@ -229,33 +305,6 @@ namespace LiteFramework.Helper
             {
                 Listener.raycastTarget = Value;
             }
-        }
-
-        public static void RemoveAllEvent(Transform Parent, bool Recursively)
-        {
-            if (Parent == null)
-            {
-                return;
-            }
-
-            UIEventListener.ClearCallback(Parent);
-
-            if (!Recursively)
-            {
-                return;
-            }
-
-            var ChildCount = Parent.childCount;
-            for (var Index = 0; Index < ChildCount; ++Index)
-            {
-                var Child = Parent.GetChild(Index);
-                RemoveAllEvent(Child, Recursively);
-            }
-        }
-
-        public static void RemoveAllEvent(GameEntity Entity, bool Recursively)
-        {
-            RemoveAllEvent(Entity?.GetTransform(), Recursively);
         }
 
         public static void RemoveAllChildren(Transform Parent, bool Recursively)
@@ -327,6 +376,66 @@ namespace LiteFramework.Helper
                 {
                     EnableGray(Child, Enabled, Recursively);
                 }
+            }
+        }
+
+        public static void AddCanvasLayer(Transform Master, int Order)
+        {
+            if (Master == null)
+            {
+                return;
+            }
+
+            var Canvas = Master.GetOrAddComponent<Canvas>();
+            Canvas.overrideSorting = true;
+            Canvas.sortingOrder = Order;
+            Master.GetOrAddComponent<GraphicRaycaster>();
+        }
+
+        public static void ReplaceSprite(Image Master, bool IsNativeSize, AssetUri Uri)
+        {
+            if (Master == null || Uri == null)
+            {
+                return;
+            }
+
+            AssetManager.CreateAssetAsync<Sprite>(Uri, (Spr) =>
+            {
+                if (Spr == null)
+                {
+                    LLogger.LWarning($"can't load {Uri}");
+                    return;
+                }
+
+                Master.sprite = Spr;
+
+                if (IsNativeSize)
+                {
+                    Master.SetNativeSize();
+                }
+            });
+        }
+
+        public static void ChangeColor(Transform Parent, Color NewColor, bool Recursively)
+        {
+            var Graphics = Parent?.GetComponent<Graphic>();
+            if (Graphics == null)
+            {
+                return;
+            }
+
+            Graphics.color = NewColor;
+
+            if (!Recursively)
+            {
+                return;
+            }
+
+            var ChildCount = Parent.childCount;
+            for (var Index = 0; Index < ChildCount; ++Index)
+            {
+                var Child = Parent.GetChild(Index);
+                ChangeColor(Child, NewColor, Recursively);
             }
         }
     }

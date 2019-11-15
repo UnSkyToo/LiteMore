@@ -1,4 +1,6 @@
-﻿using LiteFramework.Game.UI;
+﻿using LiteFramework.Game.EventSystem;
+using LiteFramework.Game.UI;
+using LiteFramework.Helper;
 
 namespace LiteMore.Combat.Skill.Selector
 {
@@ -19,14 +21,14 @@ namespace LiteMore.Combat.Skill.Selector
 
         protected override void OnBindCarrier()
         {
-            UIEventListener.AddCallback(Carrier_, UIEventType.Down, OnPointerDown);
-            UIEventListener.AddCallback(Carrier_, UIEventType.Up, OnPointerUp);
+            EventHelper.AddEvent(Carrier_, OnPointerDown, EventSystemType.Down);
+            EventHelper.AddEvent(Carrier_, OnPointerUp, EventSystemType.Up);
         }
 
         public override void Dispose()
         {
-            UIEventListener.RemoveCallback(Carrier_, UIEventType.Down, OnPointerDown);
-            UIEventListener.RemoveCallback(Carrier_, UIEventType.Up, OnPointerUp);
+            EventHelper.RemoveEvent(Carrier_, OnPointerDown, EventSystemType.Down);
+            EventHelper.RemoveEvent(Carrier_, OnPointerUp, EventSystemType.Up);
         }
 
         public override void Tick(float DeltaTime)

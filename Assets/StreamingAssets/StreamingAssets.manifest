@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3384484769
+CRC: 1895421179
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -684,56 +684,59 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: textures/bv1.png
     Info_171:
-      Name: scripts/main.lua.bytes
+      Name: material/spine
       Dependencies: {}
     Info_172:
-      Name: scripts/framework/init.lua.bytes
+      Name: scripts/main.lua.bytes
       Dependencies: {}
     Info_173:
-      Name: scripts/framework/base/baseclass.lua.bytes
+      Name: scripts/framework/init.lua.bytes
       Dependencies: {}
     Info_174:
-      Name: scripts/framework/base/baseevent.lua.bytes
+      Name: scripts/framework/base/baseclass.lua.bytes
       Dependencies: {}
     Info_175:
-      Name: scripts/framework/base/baseui.lua.bytes
+      Name: scripts/framework/base/baseevent.lua.bytes
       Dependencies: {}
     Info_176:
-      Name: scripts/framework/base/eventdefined.lua.bytes
+      Name: scripts/framework/base/baseui.lua.bytes
       Dependencies: {}
     Info_177:
-      Name: scripts/framework/base/motiondefined.lua.bytes
+      Name: scripts/framework/base/eventdefined.lua.bytes
       Dependencies: {}
     Info_178:
-      Name: scripts/framework/base/uidefined.lua.bytes
+      Name: scripts/framework/base/motiondefined.lua.bytes
       Dependencies: {}
     Info_179:
-      Name: scripts/framework/extend/bitex.lua.bytes
+      Name: scripts/framework/base/uidefined.lua.bytes
       Dependencies: {}
     Info_180:
-      Name: scripts/framework/extend/core.lua.bytes
+      Name: scripts/framework/extend/bitex.lua.bytes
       Dependencies: {}
     Info_181:
-      Name: scripts/framework/extend/stringex.lua.bytes
+      Name: scripts/framework/extend/core.lua.bytes
       Dependencies: {}
     Info_182:
-      Name: scripts/framework/extend/tableex.lua.bytes
+      Name: scripts/framework/extend/stringex.lua.bytes
       Dependencies: {}
     Info_183:
-      Name: scripts/framework/manager/eventmanager.lua.bytes
+      Name: scripts/framework/extend/tableex.lua.bytes
       Dependencies: {}
     Info_184:
-      Name: scripts/framework/manager/uimanager.lua.bytes
+      Name: scripts/framework/manager/eventmanager.lua.bytes
       Dependencies: {}
     Info_185:
-      Name: scripts/logic/ui/dpsui.lua.bytes
+      Name: scripts/framework/manager/uimanager.lua.bytes
       Dependencies: {}
     Info_186:
-      Name: scripts/logic/ui/loadingui.lua.bytes
+      Name: scripts/logic/ui/dpsui.lua.bytes
       Dependencies: {}
     Info_187:
-      Name: scripts/logic/ui/loginui.lua.bytes
+      Name: scripts/logic/ui/loadingui.lua.bytes
       Dependencies: {}
     Info_188:
+      Name: scripts/logic/ui/loginui.lua.bytes
+      Dependencies: {}
+    Info_189:
       Name: scripts/logic/ui/logoui.lua.bytes
       Dependencies: {}

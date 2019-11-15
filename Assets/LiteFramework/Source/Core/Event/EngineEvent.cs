@@ -15,4 +15,18 @@
         {
         }
     }
+
+    public sealed class OpenUIEvent : BaseEvent
+    {
+        public OpenUIEvent()
+        {
+        }
+    }
+
+    public sealed class CloseUIEvent : BaseEvent
+    {
+        public CloseUIEvent()
+        {
+        }
+    }
 }

@@ -4,32 +4,6 @@ namespace LiteFramework.Helper
 {
     public static class UnityHelper
     {
-        public static string GetDeviceID()
-        {
-            return SystemInfo.deviceUniqueIdentifier;
-        }
-
-        public static string GetPlatform()
-        {
-#if UNITY_IPHONE
-            return "IOS";
-#elif UNITY_ANDROID
-            return "Android";
-#else
-            return "Windows";
-#endif
-        }
-
-        public static void ClearLog()
-        {
-/*#if UNITY_EDITOR
-            var LogEntries = Type.GetType("UnityEditorInternal.LogEntries,UnityEditor.dll");
-            var ClearMethod = LogEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-            ClearMethod.Invoke(null, null);
-#endif*/
-            Debug.ClearDeveloperConsole();
-        }
-
 #if UNITY_EDITOR
         public static void SetResolution(int Width, int Height)
         {
@@ -142,6 +116,11 @@ namespace LiteFramework.Helper
             return GetOrAddComponentSafe<T>(Master);
         }
 
+        public static T GetOrAddComponent<T>(this Transform Master) where T : Component
+        {
+            return GetOrAddComponentSafe<T>(Master?.transform);
+        }
+
         public static T GetOrAddComponentSafe<T>(GameObject Master) where T : Component
         {
             if (Master == null)
@@ -158,56 +137,9 @@ namespace LiteFramework.Helper
             return ConT;
         }
 
-        public static Vector2 ScreenPosToCanvasPos(RectTransform Parent, Vector2 ScreenPos)
+        public static T GetOrAddComponentSafe<T>(Transform Master) where T : Component
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(Parent, ScreenPos, Camera.main, out var Pos);
-            return Pos;
-        }
-
-        public static Vector2 ScreenPosToCanvasPos(Transform Parent, Vector2 ScreenPos)
-        {
-            var RectTrans = Parent.GetComponent<RectTransform>();
-            if (RectTrans == null)
-            {
-                return Vector2.zero;
-            }
-
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(RectTrans, ScreenPos, Camera.main, out var Pos);
-            return Pos;
-        }
-
-        public static Vector2 WorldPosToScreenPos(Vector3 WorldPos)
-        {
-            return RectTransformUtility.WorldToScreenPoint(Camera.main, WorldPos);
-        }
-
-        public static Vector2 WorldPosToCanvasPos(RectTransform Parent, Vector3 WorldPos)
-        {
-            return ScreenPosToCanvasPos(Parent, WorldPosToScreenPos(WorldPos));
-        }
-
-        public static Vector2 WorldPosToCanvasPos(Transform Parent, Vector3 WorldPos)
-        {
-            return ScreenPosToCanvasPos(Parent, WorldPosToScreenPos(WorldPos));
-        }
-
-        public static Color RandColor()
-        {
-            return new Color(Random.value, Random.value, Random.value);
-        }
-
-        public static Vector2 RandVec2(float Radius)
-        {
-            return new Vector2(Random.Range(-Radius, Radius), Random.Range(-Radius, Radius));
-        }
-
-        public static Vector2 RandCircle(float Radius)
-        {
-            var Dist = Random.Range(1, Radius);
-            var Angle = Random.Range(0, 360);
-            var Rotation = Quaternion.AngleAxis(Angle, Vector3.forward);
-            var Dir = Rotation * Vector3.up;
-            return Dir.normalized * Dist;
+            return GetOrAddComponentSafe<T>(Master?.gameObject);
         }
     }
 }
